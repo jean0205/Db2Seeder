@@ -1,5 +1,6 @@
 ﻿using As400DataAccess;
 using Db2Seeder.API.Request;
+using ShareModels.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace Db2Seeder
     public partial class Form1 : Form
     {
         EmployeeDB2 empe = new EmployeeDB2();
+        SupportRequestType requestType=
         public Form1()
         {
             InitializeComponent();
@@ -27,9 +29,9 @@ namespace Db2Seeder
 
         async void test()
         {
-            var xx= await ApiRequest.GetSupportRequestTypes();
+            await ApiRequest.GetSupportRequestTypes();
 
-            var dd = await empe.CountEmployees();
+          
         }
     }
 }
