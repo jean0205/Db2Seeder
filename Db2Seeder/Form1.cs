@@ -4,9 +4,7 @@ using Microsoft.AppCenter.Crashes;
 using ShareModels.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -75,22 +73,22 @@ namespace Db2Seeder
 
                         if (guid.message != Guid.Empty)
                         {
-                            Document_Employee= new Document_Employee();
+                            Document_Employee = new Document_Employee();
                             Document_Employee = await ApiRequest.GetEmployeeRequest(guid);
                             //TODO
                             //pasar el objeto a as400 para que se registre el employee y recibir el NIS
                             as400Empe = new EmployeeDB2();
                             Document_Employee.dateOfBirth = DateTime.Today;
                             Document_Employee.dateOfMarriage = DateTime.Today;
-                            Document_Employee.middleName=String.Empty;
+                            Document_Employee.middleName = String.Empty;
                             Document_Employee.accountNumber = "55555";
-                            Document_Employee.nisNo= await as400Empe.InsertEmployees(Document_Employee);
-                            if (Document_Employee.nisNo==0)
+                            Document_Employee.nisNo = await as400Empe.InsertEmployees(Document_Employee);
+                            if (Document_Employee.nisNo == 0)
                             {
                                 return;
                             }
                             //el nis recibido despues de insertar
-                           
+
 
                             //TODO
                             //si se registra satisfactoriamente(recibo un nis de palacio), leer la lista de attachement para insertarla en sql server
@@ -111,7 +109,7 @@ namespace Db2Seeder
                                         {
 
                                         }
-                                       ;
+
                                     }
 
                                 }
@@ -126,7 +124,7 @@ namespace Db2Seeder
 
                 Crashes.TrackError(ex);
             }
-            finish=true;
+            finish = true;
         }
 
         //SupportRequest/FormGuid? id = 580
@@ -167,9 +165,7 @@ namespace Db2Seeder
             List<Document_MetaData> document_Meta = new List<Document_MetaData>();
             try
             {
-
                 document_Meta = await ApiRequest.GetSupportRequestAttachments(ids);
-
             }
             catch (Exception ex)
             {
@@ -181,11 +177,9 @@ namespace Db2Seeder
         //get PDF Data
         async Task<bool> GetDocument_Data(Guid guid)
         {
-           
             try
             {
-                var result= await ApiRequest.GetSupportRequestAttachmentsData(guid);
-                               
+                var result = await ApiRequest.GetSupportRequestAttachmentsData(guid);
                 return true;
             }
             catch (Exception ex)
@@ -206,7 +200,6 @@ namespace Db2Seeder
             {
                 await GetEmployeesCompleted();
             }
-
         }
     }
 }
