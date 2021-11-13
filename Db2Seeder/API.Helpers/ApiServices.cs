@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ShareModels.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -262,7 +263,14 @@ namespace Db2Seeder.API.Helpers
                 address = $"/{controller}={id}";
 
                 HttpResponseMessage response = await client.GetAsync(address);
-                string result = await response.Content.ReadAsStringAsync();
+                var result =  response.Content.ReadAsByteArrayAsync();
+                
+
+                //using (var newFile = System.IO.File.Create(@"C:\Users\jcsoto\AppData\Local\HPMyNewFile.pdf"))
+                //{
+                //    var stream = await result.ReadAsStreamAsync();
+                //    await stream.CopyToAsync(newFile);
+                //}
                 if (!response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -272,18 +280,12 @@ namespace Db2Seeder.API.Helpers
                             IsSuccess = false,
                             Message = "Not Found",
                         };
-                    }
-                    return new Response
-                    {
-                        IsSuccess = false,
-                        Message = result,
-                    };
+                    }                   
                 }
-                var element = JsonConvert.DeserializeObject<T>(result);
                 return new Response
                 {
                     IsSuccess = true,
-                    Result = element,
+                    Result = result,
                 };
             }
             catch (Exception ex)

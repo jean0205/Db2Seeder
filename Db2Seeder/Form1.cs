@@ -4,7 +4,9 @@ using Microsoft.AppCenter.Crashes;
 using ShareModels.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -105,7 +107,11 @@ namespace Db2Seeder
                                     {
                                         //TODO
                                         //BUSCAR QUE FORMATO DEVUELVE E API PARA LOS DOCUMENTOS, NO ES UN JSON
-                                        //var xx = await GetDocument_Data(item.documentImageGuid);
+                                        if (await GetDocument_Data(item.documentImageGuid))
+                                        {
+
+                                        }
+                                       ;
                                     }
 
                                 }
@@ -173,19 +179,20 @@ namespace Db2Seeder
         }
 
         //get PDF Data
-        async Task<object> GetDocument_Data(Guid guid)
+        async Task<bool> GetDocument_Data(Guid guid)
         {
            
             try
             {
-                await ApiRequest.GetSupportRequestAttachmentsData(guid);
-
+                var result= await ApiRequest.GetSupportRequestAttachmentsData(guid);
+                               
+                return true;
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-            return null;
+            return false;
         }
 
         private async void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)

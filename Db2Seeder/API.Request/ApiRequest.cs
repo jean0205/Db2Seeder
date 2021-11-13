@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Db2Seeder.API.Helpers;
 using System;
 using System.Linq;
+using System.IO;
+using System.Net.Http;
 
 namespace Db2Seeder.API.Request
 {
@@ -139,19 +141,18 @@ namespace Db2Seeder.API.Request
         }
 
         //get pdf data
-        public static async Task<object> GetSupportRequestAttachmentsData(Guid guid)
+        public static async Task<byte[]> GetSupportRequestAttachmentsData(Guid guid)
         {
             try
             {   
               
-                Response response = await ApiServices.FindAsyncByGuid<object>("Document/DownloadImage?documentImageGuid", guid);
+                Response response = await ApiServices.GetAttachmentAsync<byte[]>("Document/DownloadImage?documentImageGuid", guid);
 
                 if (!response.IsSuccess)
                 {
-
                     return null;
                 }
-                return (object)response.Result;
+                return (byte[])response.Result;
             }
             catch (Exception ex)
             {
