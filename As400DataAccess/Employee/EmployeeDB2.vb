@@ -59,9 +59,9 @@ Public Class EmployeeDB2
 
                 cmd.Parameters("@ACTV").Value = "A"
                 cmd.Parameters("@EREG").Value = NisNumber
-                cmd.Parameters("@LNAM").Value = Empe.lastName
-                cmd.Parameters("@FNAM").Value = Empe.firstName
-                cmd.Parameters("@MNAM").Value = If(Empe.middleName = Nothing, "", Empe.middleName)
+                cmd.Parameters("@LNAM").Value = Empe.lastName.ToUpper
+                cmd.Parameters("@FNAM").Value = Empe.firstName.ToUpper
+                cmd.Parameters("@MNAM").Value = If(Empe.middleName = Nothing, "", Empe.middleName.ToUpper)
 
                 'Sex
                 Select Case Empe.sex
@@ -71,9 +71,9 @@ Public Class EmployeeDB2
                         cmd.Parameters("@ESEX").Value = "F"
                 End Select
 
-                cmd.Parameters("@EADD").Value = Empe.address
-                cmd.Parameters("@ETWN").Value = Empe.town
-                cmd.Parameters("@REGN").Value = Empe.parish
+                cmd.Parameters("@EADD").Value = Empe.address.ToUpper
+                cmd.Parameters("@ETWN").Value = Empe.town.ToUpper
+                cmd.Parameters("@REGN").Value = Empe.parish.ToUpper
 
                 'Telephone #
                 cmd.Parameters("@EPCD").Value = If(Empe.homePhoneNumber = Nothing, 0, Empe.homePhoneNumber)
@@ -85,8 +85,8 @@ Public Class EmployeeDB2
                 cmd.Parameters("@PHN2").Value = If(Empe.businessPhoneNumber = Nothing, 0, Empe.businessPhoneNumber)
 
                 'Place Of Birth
-                cmd.Parameters("@PLOB").Value = "Place Of Birth"
-                cmd.Parameters("@NATL").Value = Empe.nationality
+                cmd.Parameters("@PLOB").Value = "Place Of Birth".ToUpper
+                cmd.Parameters("@NATL").Value = Empe.nationality.ToUpper
 
                 'Marital Status
                 Select Case Empe.maritalStatus
@@ -237,8 +237,8 @@ Public Class EmployeeDB2
                     nistxt = "0" + nistxt
                 End While
                 cmdINSXPORT.Parameters("@nisnum").Value = nistxt
-                cmdINSXPORT.Parameters("@fname").Value = Empe.firstName
-                cmdINSXPORT.Parameters("@lname").Value = Empe.lastName
+                cmdINSXPORT.Parameters("@fname").Value = Empe.firstName.ToUpper
+                cmdINSXPORT.Parameters("@lname").Value = Empe.lastName.ToUpper
                 'Sex
                 Select Case Empe.sex
                     Case 1
@@ -249,7 +249,7 @@ Public Class EmployeeDB2
 
                 Dim DtDOB As Date = Empe.dateOfBirth
                 cmdINSXPORT.Parameters("@dob").Value = DtDOB.Day.ToString + "/" + DtDOB.Month.ToString + "/" + DtDOB.Year.ToString
-                cmdINSXPORT.Parameters("@natl").Value = Empe.nationality
+                cmdINSXPORT.Parameters("@natl").Value = Empe.nationality.ToUpper
                 cmdINSXPORT.Parameters("@plob").Value = "Place Of Birth"
                 cmdINSXPORT.Parameters("@cardprint").Value = 0
                 cmdINSXPORT.Parameters("@lastmod").Value = ""
