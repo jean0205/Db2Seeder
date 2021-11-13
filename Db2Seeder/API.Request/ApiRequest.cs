@@ -55,11 +55,11 @@ namespace Db2Seeder.API.Request
         }
 
         //SupportRequest/FormGuid? id = 580
-        public static async Task<DocumentGuid> GetSupportRequestGUIDDocument(int id)
+        public static async Task<DocumentGuid> GetGUIDDocument(string controler,int id)
         {
             try
             {
-                Response response = await ApiServices.FindAsyncByID<DocumentGuid>("SupportRequest/FormGuid?id", id);
+                Response response = await ApiServices.FindAsyncByID<DocumentGuid>(controler, id);
 
                 if (!response.IsSuccess)
                 {
@@ -74,6 +74,27 @@ namespace Db2Seeder.API.Request
             }
             return  new DocumentGuid();
         }
+        public static async Task<List<DocumentGuid>> GetListGUIDDocument(string controler, int id)
+        {
+            try
+            {
+                Response response = await ApiServices.FindAsyncByID<List<DocumentGuid>>(controler, id);
+
+                if (!response.IsSuccess)
+                {
+
+                    return new List<DocumentGuid>();
+                }
+                return (List<DocumentGuid>)response.Result;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return new List<DocumentGuid>();
+        }
+
+        //Document/Get?id=b5a1b323-3adf-4917-b77a-c6fda5f1be5f
         public static async Task<Document_Employee> GetEmployeeRequest(DocumentGuid guid)
         {
             try
@@ -86,6 +107,26 @@ namespace Db2Seeder.API.Request
                     return null;
                 }
                 return (Document_Employee)response.Result;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return null;
+        }
+
+        public static async Task<Document_MetaData> GetSupportRequestAttachments(DocumentGuid guid)
+        {
+            try
+            {
+                Response response = await ApiServices.PostAsync<Document_MetaData>("ListMetaByDocuments", guid.message);
+
+                if (!response.IsSuccess)
+                {
+
+                    return null;
+                }
+                return (Document_MetaData)response.Result;
             }
             catch (Exception ex)
             {
