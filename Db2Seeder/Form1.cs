@@ -1,4 +1,5 @@
-﻿using Db2Seeder.API.Request;
+﻿using As400DataAccess;
+using Db2Seeder.API.Request;
 using Microsoft.AppCenter.Crashes;
 using ShareModels.Models;
 using System;
@@ -11,6 +12,10 @@ namespace Db2Seeder
 {
     public partial class Form1 : Form
     {
+        //AS400DATACCESS
+        EmployeeDB2 as400Empe;
+
+
         List<SupportRequestType> RequestTypeList;
         List<SupportRequest> RequestList;
         Document_Employee Document_Employee;
@@ -65,11 +70,19 @@ namespace Db2Seeder
 
                         if (guid.message != Guid.Empty)
                         {
-
+                            Document_Employee= new Document_Employee();
                             Document_Employee = await ApiRequest.GetEmployeeRequest(guid);
                             //TODO
                             //pasar el objeto a as400 para que se registre el employee y recibir el NIS
-
+                            as400Empe = new EmployeeDB2();
+                            Document_Employee.dateOfBirth = DateTime.Today;
+                            Document_Employee.dateOfMarriage = DateTime.Today;
+                            Document_Employee.middleName=String.Empty;
+                            Document_Employee.nisNo= await as400Empe.InsertEmployees(Document_Employee);
+                            if (Document_Employee.nisNo==0)
+                            {
+                                return;
+                            }
                             //el nis recibido despues de insertar
                             Document_Employee.nisNo = 99999;
 

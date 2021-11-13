@@ -8,7 +8,7 @@ namespace ShareModels.Models
         public int registrationType { get; set; }
         public int? nisNo { get; set; }
         public string firstName { get; set; }
-        public string middleName { get; set; }
+        public string middleName { get; set; } = String.Empty;
         public string lastName { get; set; }
         public DateTime? dateOfBirth { get; set; }
         public int sex { get; set; }

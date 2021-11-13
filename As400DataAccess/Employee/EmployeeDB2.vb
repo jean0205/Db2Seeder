@@ -76,7 +76,7 @@ Public Class EmployeeDB2
                 cmd.Parameters("@REGN").Value = Empe.parish
 
                 'Telephone #
-                cmd.Parameters("@EPCD").Value = Empe.homePhoneNumber
+                cmd.Parameters("@EPCD").Value = If(Empe.homePhoneNumber = Nothing, 0, Empe.homePhoneNumber)
                 'mobile
                 cmd.Parameters("@PDS1").Value = "mobile"
                 cmd.Parameters("@PHN1").Value = Empe.primaryMobileNumber
