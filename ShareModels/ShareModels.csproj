@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Helpers\UtilRecurrent.cs" />
     <Compile Include="Models\Document_Employee.cs" />
+    <Compile Include="Models\SuportRequest.cs" />
     <Compile Include="Models\SupportRequestType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
