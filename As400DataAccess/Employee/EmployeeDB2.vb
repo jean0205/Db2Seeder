@@ -31,6 +31,9 @@ Public Class EmployeeDB2
         End Try
 
 
+
+
+
         Return total
     End Function
 
