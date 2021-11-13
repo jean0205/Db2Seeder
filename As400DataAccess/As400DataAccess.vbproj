@@ -68,6 +68,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Employer\Class1.vb" />
     <Compile Include="Employee\EmployeeDB2.vb" />
     <Compile Include="Employee\ModHelps.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -106,9 +107,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Employer\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ShareModels\ShareModels.csproj">
       <Project>{7f847f4f-d0a0-48fb-b96b-2807b364bb5d}</Project>
