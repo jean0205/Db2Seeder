@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Db2Seeder.API.Request;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,16 @@ namespace Db2Seeder
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            test();
+        }
+
+        async void test()
+        {
+            var xx= await ApiRequest.GetSupportRequestTypes();
         }
     }
 }
