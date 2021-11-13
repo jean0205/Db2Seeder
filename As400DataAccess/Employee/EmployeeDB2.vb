@@ -1,4 +1,5 @@
 ﻿Imports IBM.Data.DB2.iSeries
+Imports ShareModels.Models
 
 Public Class EmployeeDB2
     Dim cn = DB2ConnectionS.as400
@@ -28,6 +29,8 @@ Public Class EmployeeDB2
         Catch ex As iDB2Exception
             Throw ex
         End Try
+
+
         Return total
     End Function
 
