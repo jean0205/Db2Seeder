@@ -41,12 +41,12 @@ Public Class EmployeeDB2
 
                 Dim cmd As New iDB2Command With {
                     .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".EMPE"" 
-                                        (ACTV03, EREG03, LNAM03, FNAM03, MNAM03, ESEX03, EADD03, ETWN03, REGN03, EPCD03,
-                                         PDS103, PHN103, PDS203, PHN203, PLOB03, NATL03, MRTL03, AFTN03, CENB03, DATB03,
-                                         CEND03, DATD03, CENI03, DATI03, VERB03, VERM03, PROV03, RBEN03, TREG03, ADD103,
-                                         ADD203, ADD303, ADD403, EML103, EML203, CRTB03, CRTD03, TOTC03, AFTD03)
-                                            VALUES(@ACTV, @EREG, @LNAM, @FNAM, @MNAM, @ESEX, @EADD, @ETWN, @REGN, @EPCD,
-                                              @PDS1, @PHN1, @PDS2, @PHN2, @PLOB, @NATL, @MRTL, @AFTN, @CENB, @DATB,
+                                              (ACTV03, EREG03, LNAM03, FNAM03, MNAM03, ESEX03, EADD03, ETWN03, REGN03, EPCD03,
+                                               PDS103, PHN103, PDS203, PHN203, PLOB03, NATL03, MRTL03, AFTN03, CENB03, DATB03,
+                                               CEND03, DATD03, CENI03, DATI03, VERB03, VERM03, PROV03, RBEN03, TREG03, ADD103,
+                                               ADD203, ADD303, ADD403, EML103, EML203, CRTB03, CRTD03, TOTC03, AFTD03)
+                                         VALUES(@ACTV, @EREG, @LNAM, @FNAM, @MNAM, @ESEX, @EADD, @ETWN, @REGN, @EPCD,
+                                               @PDS1, @PHN1, @PDS2, @PHN2, @PLOB, @NATL, @MRTL, @AFTN, @CENB, @DATB,
                                                @CEND, @DATD, @CENI, @DATI, @VERB, @VERM, @PROV, @RBEN, @TREG, @ADD1,
                                                @ADD2, @ADD3, @ADD4, @EML1, @EML2, @CRTB, @CRTD, @TOTC , @AFTD)",
                     .Connection = connection,
@@ -55,12 +55,10 @@ Public Class EmployeeDB2
 
                 cmd.DeriveParameters()
 
-
-                cmd.Parameters("@ACTV").Value = "A"
                 NisNumber = Await GenerarNIS()
 
+                cmd.Parameters("@ACTV").Value = "A"
                 cmd.Parameters("@EREG").Value = NisNumber
-
                 cmd.Parameters("@LNAM").Value = Empe.lastName
                 cmd.Parameters("@FNAM").Value = Empe.firstName
                 cmd.Parameters("@MNAM").Value = Empe.middleName
@@ -86,9 +84,11 @@ Public Class EmployeeDB2
                 cmd.Parameters("@PDS2").Value = "work"
                 cmd.Parameters("@PHN2").Value = Empe.businessPhoneNumber
 
+                'Place Of Birth
                 cmd.Parameters("@PLOB").Value = "Place Of Birth"
                 cmd.Parameters("@NATL").Value = Empe.nationality
 
+                'Marital Status
                 Select Case Empe.maritalStatus
                     Case 1
                         cmd.Parameters("@MRTL").Value = "S"
@@ -99,6 +99,7 @@ Public Class EmployeeDB2
                     Case 4
                         cmd.Parameters("@MRTL").Value = "W"
                 End Select
+
                 cmd.Parameters("@AFTN").Value = 0
 
                 '  Date of birth
@@ -125,17 +126,12 @@ Public Class EmployeeDB2
                 cmd.Parameters("@CENI").Value = Now.Year \ 100
                 cmd.Parameters("@DATI").Value = (Now.Year Mod 100) * 10000 + Now.Month * 100 + Now.Day
 
-
                 'pfund.Checked Then
                 cmd.Parameters("@PROV").Value = "N"
 
-
                 'Chkrbenf.Checked Then
                 cmd.Parameters("@RBEN").Value = " "
-
-
                 cmd.Parameters("@TREG").Value = 0
-
 
                 'Extra Address
                 cmd.Parameters("@ADD1").Value = ""
@@ -311,7 +307,6 @@ Public Class EmployeeDB2
                 }
 
                 cmd.DeriveParameters()
-
                 cmd.Parameters("@ACTV").Value = "A"
                 cmd.Parameters("@EMPE").Value = Nisn
                 cmd.Parameters("@CLMN").Value = "0"
@@ -327,4 +322,6 @@ Public Class EmployeeDB2
         End Try
 
     End Function
+
+
 End Class
