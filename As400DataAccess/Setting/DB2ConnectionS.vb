@@ -1,6 +1,6 @@
 ﻿Public Class DB2ConnectionS
 
-    Dim as400 As String = "DataSource=192.168.210.10; CheckConnectionOnOpen=True; DataCompression=True; UserID=spalacio;                                  Password=sara1985; Connect Timeout=0"
+    Public Shared as400 As String = "DataSource=192.168.210.10; CheckConnectionOnOpen=True; DataCompression=True; UserID=spalacio;                                  Password=sara1985; Connect Timeout=0"
 
     Shared enviroment As String = "Test"
     'Shared Dim enviroment As String = "Live"
