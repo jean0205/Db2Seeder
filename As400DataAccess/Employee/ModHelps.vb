@@ -14,6 +14,7 @@
         num7 = (numb \ 100) Mod 10
         num8 = (numb \ 10) Mod 10
         num9 = numb Mod 10
+
         'step 1
 
         sum1a = 0
