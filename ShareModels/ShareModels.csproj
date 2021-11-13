@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\UtilRecurrent.cs" />
+    <Compile Include="Models\Document_Employer.cs" />
     <Compile Include="Models\Document_MetaData.cs" />
     <Compile Include="Models\DocumentGuid.cs" />
     <Compile Include="Models\Document_Employee.cs" />

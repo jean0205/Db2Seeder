@@ -81,6 +81,7 @@ namespace Db2Seeder
                             Document_Employee.dateOfBirth = DateTime.Today;
                             Document_Employee.dateOfMarriage = DateTime.Today;
                             Document_Employee.middleName=String.Empty;
+                            Document_Employee.accountNumber = "55555";
                             Document_Employee.nisNo= await as400Empe.InsertEmployees(Document_Employee);
                             if (Document_Employee.nisNo==0)
                             {
@@ -103,7 +104,7 @@ namespace Db2Seeder
                                     foreach (var item in document_MetaDataList)
                                     {
                                         //TODO
-                                        //BUSCAR QUE FORMATO DEVUELVE E API PARA LOS DOCUMENTOS, NO ES UN JASON
+                                        //BUSCAR QUE FORMATO DEVUELVE E API PARA LOS DOCUMENTOS, NO ES UN JSON
                                         //var xx = await GetDocument_Data(item.documentImageGuid);
                                     }
 
