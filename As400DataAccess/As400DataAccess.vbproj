@@ -108,5 +108,11 @@
   <ItemGroup>
     <Folder Include="Employer\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShareModels\ShareModels.csproj">
+      <Project>{7f847f4f-d0a0-48fb-b96b-2807b364bb5d}</Project>
+      <Name>ShareModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
