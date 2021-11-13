@@ -8,11 +8,11 @@ namespace ShareModels.Models
 {
     public class Document_MetaData
     {        
-        public string documentImageGuid { get; set; }
+        public Guid documentImageGuid { get; set; }
         public string fileName { get; set; }
         public string fileType { get; set; }
         public int fileSize { get; set; }
-        public string documentGuid { get; set; }
+        public Guid documentGuid { get; set; }
         public string documentType { get; set; }
         public string code { get; set; }
         public string description { get; set; }

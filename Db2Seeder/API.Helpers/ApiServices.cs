@@ -1,6 +1,7 @@
 ﻿
 using Db2Seeder.API.Models;
 using Newtonsoft.Json;
+using ShareModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -196,11 +197,11 @@ namespace Db2Seeder.API.Helpers
             }
         }
 
-         public static async Task<Response> PostAsync<T>(string controller,Guid guid)
+         public static async Task<Response> PostAsync<T>(string controller, List<Guid> guid )
         {
             try
             {
-                string request = guid.ToString();
+                string request = JsonConvert.SerializeObject(guid);
                 StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
 
                 HttpClientHandler handler = new HttpClientHandler()

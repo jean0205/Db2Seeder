@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Db2Seeder.API.Helpers;
 using System;
+using System.Linq;
 
 namespace Db2Seeder.API.Request
 {
@@ -114,19 +115,43 @@ namespace Db2Seeder.API.Request
             }
             return null;
         }
-
-        public static async Task<Document_MetaData> GetSupportRequestAttachments(DocumentGuid guid)
+        //attachment metadatas list
+        public static async Task<List<Document_MetaData>> GetSupportRequestAttachments(List<DocumentGuid> guids)
         {
             try
             {
-                Response response = await ApiServices.PostAsync<Document_MetaData>("ListMetaByDocuments", guid.message);
+                List<Guid> attachmentGuids = new List<Guid>();
+                attachmentGuids = guids.Select(x=>x.message).ToList();
+                Response response = await ApiServices.PostAsync<List<Document_MetaData>>("Document/ListMetaByDocuments", attachmentGuids);
 
                 if (!response.IsSuccess)
                 {
 
                     return null;
                 }
-                return (Document_MetaData)response.Result;
+                return (List<Document_MetaData>)response.Result;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return null;
+        }
+
+        //get pdf data
+        public static async Task<object> GetSupportRequestAttachmentsData(Guid guid)
+        {
+            try
+            {   
+              
+                Response response = await ApiServices.FindAsyncByGuid<object>("Document/DownloadImage?documentImageGuid", guid);
+
+                if (!response.IsSuccess)
+                {
+
+                    return null;
+                }
+                return (object)response.Result;
             }
             catch (Exception ex)
             {
