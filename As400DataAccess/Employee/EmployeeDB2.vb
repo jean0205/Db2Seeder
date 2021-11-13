@@ -61,7 +61,7 @@ Public Class EmployeeDB2
                 cmd.Parameters("@EREG").Value = NisNumber
                 cmd.Parameters("@LNAM").Value = Empe.lastName
                 cmd.Parameters("@FNAM").Value = Empe.firstName
-                cmd.Parameters("@MNAM").Value = Empe.middleName
+                cmd.Parameters("@MNAM").Value = If(Empe.middleName = Nothing, "", Empe.middleName)
 
                 'Sex
                 Select Case Empe.sex
@@ -79,10 +79,10 @@ Public Class EmployeeDB2
                 cmd.Parameters("@EPCD").Value = If(Empe.homePhoneNumber = Nothing, 0, Empe.homePhoneNumber)
                 'mobile
                 cmd.Parameters("@PDS1").Value = "mobile"
-                cmd.Parameters("@PHN1").Value = Empe.primaryMobileNumber
+                cmd.Parameters("@PHN1").Value = If(Empe.primaryMobileNumber = Nothing, 0, Empe.primaryMobileNumber)
                 ' Tele work
                 cmd.Parameters("@PDS2").Value = "work"
-                cmd.Parameters("@PHN2").Value = Empe.businessPhoneNumber
+                cmd.Parameters("@PHN2").Value = If(Empe.businessPhoneNumber = Nothing, 0, Empe.businessPhoneNumber)
 
                 'Place Of Birth
                 cmd.Parameters("@PLOB").Value = "Place Of Birth"
@@ -139,7 +139,7 @@ Public Class EmployeeDB2
                 cmd.Parameters("@ADD3").Value = ""
                 cmd.Parameters("@ADD4").Value = ""
 
-                cmd.Parameters("@EML1").Value = Empe.emailAddress
+                cmd.Parameters("@EML1").Value = If(Empe.emailAddress = Nothing, "", Empe.emailAddress)
                 cmd.Parameters("@EML2").Value = ""
 
                 cmd.Parameters("@CRTB").Value = "UserID"
@@ -280,9 +280,16 @@ Public Class EmployeeDB2
                 Dim nistxt As String
                 nistxt = Nisn.ToString
                 CMDINSEAUX.Parameters("@EREG").Value = nistxt
-                Dim DtDoM As Date = Empe.dateOfMarriage
-                CMDINSEAUX.Parameters("@CENM").Value = DtDoM.Year \ 100
-                CMDINSEAUX.Parameters("@DATM").Value = (DtDoM.Year Mod 100) * 10000 + DtDoM.Month * 100 + DtDoM.Day
+
+                If Empe.dateOfMarriage Is Nothing Then
+                    CMDINSEAUX.Parameters("@CENM").Value = 0
+                    CMDINSEAUX.Parameters("@DATM").Value = 0
+                Else
+                    Dim DtDoM As Date = Empe.dateOfMarriage
+                    CMDINSEAUX.Parameters("@CENM").Value = DtDoM.Year \ 100
+                    CMDINSEAUX.Parameters("@DATM").Value = (DtDoM.Year Mod 100) * 10000 + DtDoM.Month * 100 + DtDoM.Day
+                End If
+
                 Await CMDINSEAUX.ExecuteNonQueryAsync()
                 CMDINSEAUX.Dispose()
 
