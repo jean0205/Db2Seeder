@@ -68,7 +68,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Employer\Class1.vb" />
+    <Compile Include="Employer\EmployerDB2.vb" />
     <Compile Include="Employee\EmployeeDB2.vb" />
     <Compile Include="Employee\ModHelps.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
