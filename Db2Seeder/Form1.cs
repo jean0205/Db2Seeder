@@ -19,6 +19,8 @@ namespace Db2Seeder
         List<SupportRequestType> RequestTypeList;
         List<SupportRequest> RequestList;
         Document_Employee Document_Employee;
+
+        bool finish = true;
         public Form1()
         {
             InitializeComponent();
@@ -59,6 +61,7 @@ namespace Db2Seeder
         {
             try
             {
+                finish = false;
                 RequestList = new List<SupportRequest>();
                 RequestList = await ApiRequest.GetSupportRequestTypeByState(3, 8);
                 if (RequestList.Any())
@@ -84,7 +87,7 @@ namespace Db2Seeder
                                 return;
                             }
                             //el nis recibido despues de insertar
-                            Document_Employee.nisNo = 99999;
+                           
 
                             //TODO
                             //si se registra satisfactoriamente(recibo un nis de palacio), leer la lista de attachement para insertarla en sql server
@@ -116,6 +119,7 @@ namespace Db2Seeder
 
                 Crashes.TrackError(ex);
             }
+            finish=true;
         }
 
         //SupportRequest/FormGuid? id = 580
@@ -181,6 +185,20 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
             return null;
+        }
+
+        private async void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            await GetEmployeesCompleted();
+        }
+
+        private async void timer1_Tick(object sender, EventArgs e)
+        {
+            if (finish)
+            {
+                await GetEmployeesCompleted();
+            }
+
         }
     }
 }
