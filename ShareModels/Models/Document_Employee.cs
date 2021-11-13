@@ -2,7 +2,7 @@
 
 namespace ShareModels.Models
 {
-    internal class Document_Employee
+    public class Document_Employee
     {
         public int employeeRegistrationFormId { get; set; }
         public int registrationType { get; set; }

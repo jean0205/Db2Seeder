@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\UtilRecurrent.cs" />
+    <Compile Include="Models\DocumentGuid.cs" />
     <Compile Include="Models\Document_Employee.cs" />
     <Compile Include="Models\SuportRequest.cs" />
     <Compile Include="Models\SupportRequestType.cs" />

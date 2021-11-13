@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShareModels.Models
 {
-    internal class SuportRequest
+    public class SupportRequest
     {
         public int currentWorkflowStateId { get; set; }
         public int supportRequestId { get; set; }
