@@ -45,7 +45,8 @@ Public Class EmployerDB2
                 'Employer Area
                 cmdEMPR.Parameters("@rrgn").Value = ""
                 'Employer phone
-                cmdEMPR.Parameters("@rtno").Value = Empr.mobile
+
+                cmdEMPR.Parameters("@rtno").Value = If(Empr.mobile = Nothing, 0, Empr.mobile)
                 ' Business address
                 cmdEMPR.Parameters("@badd").Value = Empr.businessAddress
                 ' Business Town
@@ -55,7 +56,7 @@ Public Class EmployerDB2
                 ' Business Area
                 cmdEMPR.Parameters("@brgn").Value = Empr.businessParish
                 ' Business phone
-                cmdEMPR.Parameters("@btno").Value = Empr.businessPhone
+                cmdEMPR.Parameters("@btno").Value = If(Empr.businessPhone = Nothing, 0, Empr.businessPhone)
 
                 'Type of Business
                 cmdEMPR.Parameters("@indc").Value = 0
@@ -65,12 +66,9 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@nofe").Value = Empr.femaleEmployee
 
                 'Entry Date
-                '  If Dtdati.CustomFormat = " " Then
-                cmdEMPR.Parameters("@ceni").Value = 0
-                cmdEMPR.Parameters("@dati").Value = 0
 
-                'cmdEMPR.Parameters("@ceni").Value = Dtdati.Value.Year \ 100
-                'cmdEMPR.Parameters("@dati").Value = (Dtdati.Value.Year Mod 100) * 10000 + Dtdati.Value.Month * 100 + Dtdati.Value.Day
+                cmdEMPR.Parameters("@ceni").Value = Now.Year \ 100
+                cmdEMPR.Parameters("@dati").Value = (Now.Year Mod 100) * 10000 + Now.Month * 100 + Now.Day
 
                 'Termination Date
                 cmdEMPR.Parameters("@tcen").Value = 0
@@ -79,6 +77,7 @@ Public Class EmployerDB2
                 'Sector
                 cmdEMPR.Parameters("@sect").Value = ""
                 cmdEMPR.Parameters("@user").Value = "USER"
+
                 'Creation date
                 cmdEMPR.Parameters("@crdt").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 
@@ -95,7 +94,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@stdt").Value = BusComm.Year * 10000 + BusComm.Month * 100 + BusComm.Day
 
                 ' Business fax
-                cmdEMPR.Parameters("@faxn").Value = Empr.fax
+                cmdEMPR.Parameters("@faxn").Value = If(Empr.fax = Nothing, 0, Empr.fax)
                 ' Dorman
                 cmdEMPR.Parameters("@dorm").Value = ""
                 'Dorman date 
@@ -107,7 +106,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@eml2").Value = ""
                 'extra phone business
                 cmdEMPR.Parameters("@pds1").Value = 0
-                cmdEMPR.Parameters("@phn1").Value = Empr.secondMobile
+                cmdEMPR.Parameters("@phn1").Value = If(Empr.secondMobile = Nothing, 0, Empr.secondMobile)
 
                 'extra phone empr
                 cmdEMPR.Parameters("@pds2").Value = 0
@@ -143,7 +142,8 @@ Public Class EmployerDB2
 
                 If EmprNo <> 0 Then
                     Await cmdEMPR.ExecuteNonQueryAsync
-
+                    Await InsertEmprExtr(EmprNo)
+                    Await InsertBankInformationEmpr(Empr, EmprNo)
                 End If
 
                 cmdEMPR.Dispose()
@@ -203,5 +203,67 @@ Public Class EmployerDB2
         End Try
 
         Return EmprNo
+    End Function
+
+    Async Function InsertBankInformationEmpr(Empr As Document_Employer, Emprn As Integer) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'insert in ni.xport for datacard
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ACCEMPR"" 
+                                                 (ACTV1, EMPR1, EMPS1, BANK1, ACCN1, ACCTYP1, VEND1)
+                                          VALUES (@ACTV, @EMPR, @EMPS, @BANK, @ACCN, @ACCTYP, @VEND)",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTV").Value = "A"
+                cmd.Parameters("@EMPR").Value = Emprn
+                cmd.Parameters("@EMPS").Value = "0"
+                cmd.Parameters("@BANK").Value = Empr.bank
+                cmd.Parameters("@ACCN").Value = Empr.accountNo
+                cmd.Parameters("@ACCTYP").Value = Empr.accountType
+                cmd.Parameters("@VEND").Value = "0"
+
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+    End Function
+
+
+    Async Function InsertEmprExtr(Emprn As Integer) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'insert in ni.xport for datacard
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".EXTR"" 
+                                               (ACT202, REG202, RSF202, REM202) VALUES  ('A', @reg2, @rsf2, @rem2)",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@reg2").Value = Emprn
+                cmd.Parameters("@rsf2").Value = "0"
+                cmd.Parameters("@rem2").Value = "E"
+
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
     End Function
 End Class
