@@ -75,7 +75,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@tdat").Value = 0
 
                 'Sector
-                cmdEMPR.Parameters("@sect").Value = ""
+                cmdEMPR.Parameters("@sect").Value = 0
                 cmdEMPR.Parameters("@user").Value = "USER"
 
                 'Creation date
