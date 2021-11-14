@@ -16,6 +16,7 @@ namespace Db2Seeder
     public partial class Form1 : Form
     {
         readonly Employee Employee= new Employee();
+        readonly Employer Employer = new Employer();
 
 
         List<SupportRequestType> RequestTypeList;
@@ -35,6 +36,10 @@ namespace Db2Seeder
         private async void button1_Click(object sender, EventArgs e)
         {
             await Employee.GetEmployeesCompleted();
+        }
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            await Employer.GetEmployerCompleted();
         }
 
         async void GetRequestType()
@@ -72,5 +77,7 @@ namespace Db2Seeder
                // await GetEmployeesCompleted();
             }
         }
+
+      
     }
 }

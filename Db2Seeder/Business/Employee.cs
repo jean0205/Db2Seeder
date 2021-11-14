@@ -81,7 +81,7 @@ namespace Db2Seeder.Business
                                         //crear el documento que voy a insertar
                                         Documents documents = new Documents();
                                         documents.ActiveCode = "A";
-                                        documents.RegistrantTypeId = Document_Employee.registrationType == 1 ? 1 :                         Document_Employee.registrationType == 2 ? 2 : 3;
+                                        documents.RegistrantTypeId = Document_Employee.registrationType == 1 ? 1 :3;
                                         documents.DocTypeId = "skc";
                                         documents.ImportId = importId;
                                         documents.NisNumber = (int)Document_Employee.nisNo;
@@ -89,7 +89,7 @@ namespace Db2Seeder.Business
                                         documents.ScannedBy = "Webportal";
                                         documents.ScanDatetime = DateTime.Now;
                                         documents.ModifiedDatetime = DateTime.Now;
-                                        await scannedDocumentsDB.InsertDocumentforEmployeeRegistration(documents);
+                                        await scannedDocumentsDB.InsertDocumentforRegistration(documents);
                                     }
                                 }
                             }

@@ -16,13 +16,13 @@ namespace Db2Seeder.Business
     public class Employer
     {
         //AS400DATACCESS
-        EmployeeDB2 as400Empe;
+        EmployerDB2 as400Empr;
 
         List<SupportRequest> RequestList;
         Document_Employer Document_Employer;
 
         //SupportRequest/GetByState/Type/5/State/14
-        public async Task GetEmployeesCompleted()
+        public async Task GetEmployerCompleted()
         {
             try
             {
@@ -41,19 +41,14 @@ namespace Db2Seeder.Business
                             Document_Employer = await GetRequestDetailsEmployer(guid);
                             //TODO
                             //pasar el objeto a as400 para que se registre el employee y recibir el NIS
-                            as400Empe = new EmployeeDB2();                          
+                            as400Empr = new EmployerDB2();
 
-                             await as400Empe.InsertEmployees(Document_Employee);
-                            if (Document_Employee.nisNo == 0)
+                            //si inserta debe retornar el numero de employer mayor que 0
+                            int employerNumber = await as400Empr.InsertEmployers(Document_Employer);
+                            if (employerNumber==0)
                             {
                                 return;
                             }
-                            //el nis recibido despues de insertar
-
-
-                            //TODO
-                            //si se registra satisfactoriamente(recibo un nis de palacio), leer la lista de attachement para insertarla en sql server
-
                             List<DocumentGuid> attachmentsGuid = await ApiRequest.GetAttachmentsGuid(request.supportRequestId);
                             if (attachmentsGuid.Any())
                             {
@@ -77,15 +72,15 @@ namespace Db2Seeder.Business
                                         //crear el documento que voy a insertar
                                         Documents documents = new Documents();
                                         documents.ActiveCode = "A";
-                                        documents.RegistrantTypeId = Document_Employee.registrationType == 1 ? 1 : Document_Employee.registrationType == 2 ? 2 : 3;
+                                        documents.RegistrantTypeId = 2;
                                         documents.DocTypeId = "skc";
                                         documents.ImportId = importId;
-                                        documents.NisNumber = (int)Document_Employee.nisNo;
+                                        documents.NisNumber = employerNumber;
                                         documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid);
                                         documents.ScannedBy = "Webportal";
                                         documents.ScanDatetime = DateTime.Now;
                                         documents.ModifiedDatetime = DateTime.Now;
-                                        await scannedDocumentsDB.InsertDocumentforEmployeeRegistration(documents);
+                                        await scannedDocumentsDB.InsertDocumentforRegistration(documents);
                                     }
                                 }
                             }
