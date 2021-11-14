@@ -52,7 +52,7 @@ Public Class EmployerDB2
                 ' Business Town
                 cmdEMPR.Parameters("@btwn").Value = Empr.businessTown
                 ' Business Postal Code
-                cmdEMPR.Parameters("@bpcd").Value = "Postal Code"
+                cmdEMPR.Parameters("@bpcd").Value = ""
                 ' Business Area
                 cmdEMPR.Parameters("@brgn").Value = Empr.businessParish
                 ' Business phone
