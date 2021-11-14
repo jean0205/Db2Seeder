@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Db2Seeder.API.Helpers;
 using System;
 using System.Linq;
-using System.IO;
-using System.Net.Http;
+
 
 namespace Db2Seeder.API.Request
 {
@@ -36,6 +35,68 @@ namespace Db2Seeder.API.Request
             return new List<SupportRequestType>();
         }
         #endregion
+
+        //SupportRequest/FormGuid? id = 580
+        public static async Task<DocumentGuid> GetRequestGUID(int id)
+        {
+            DocumentGuid guid = new DocumentGuid();
+            try
+            {
+                guid = await GetGUIDDocument("SupportRequest/FormGuid?id", id);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return guid;
+        }
+
+        //get attachements Guids
+        //SupportRequest/AttachmentGuids?id=580
+
+        public static async Task<List<DocumentGuid>> GetAttachmentsGuid(int id)
+        {
+            List<DocumentGuid> guids = new List<DocumentGuid>();
+            try
+            {
+                guids = await GetListGUIDDocument("SupportRequest/AttachmentGuids?id", id);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return guids;
+        }
+
+        //get metadata for documents lis
+        public static async Task<List<Document_MetaData>> GetDocument_MetaData(List<DocumentGuid> ids)
+        {
+            List<Document_MetaData> document_Meta = new List<Document_MetaData>();
+            try
+            {
+                document_Meta = await GetSupportRequestAttachments(ids);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return document_Meta;
+        }
+
+        //get PDF Data
+        public static async Task<byte[]> GetDocument_Data(Guid guid)
+        {
+            try
+            {
+                return await GetSupportRequestAttachmentsData(guid);
+
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            return null;
+        }
         //SupportRequest/GetByState/Type/3/State/8
         public static async Task<List<SupportRequest>> GetSupportRequestTypeByState( int type, int state)
         {
@@ -95,28 +156,7 @@ namespace Db2Seeder.API.Request
                 Crashes.TrackError(ex);
             }
             return new List<DocumentGuid>();
-        }
-
-        //Document/Get?id=b5a1b323-3adf-4917-b77a-c6fda5f1be5f
-        public static async Task<Document_Employee> GetEmployeeRequest(DocumentGuid guid)
-        {
-            try
-            {
-                Response response = await ApiServices.FindAsyncByGuid<Document_Employee>("Document/Get?id", guid.message);
-
-                if (!response.IsSuccess)
-                {
-
-                    return null;
-                }
-                return (Document_Employee)response.Result;
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-            }
-            return null;
-        }
+        }       
         //attachment metadatas list
         public static async Task<List<Document_MetaData>> GetSupportRequestAttachments(List<DocumentGuid> guids)
         {
@@ -144,8 +184,7 @@ namespace Db2Seeder.API.Request
         public static async Task<byte[]> GetSupportRequestAttachmentsData(Guid guid)
         {
             try
-            {   
-              
+            {
                 Response response = await ApiServices.GetAttachmentAsync<byte[]>("Document/DownloadImage?documentImageGuid", guid);
 
                 if (!response.IsSuccess)
@@ -160,6 +199,9 @@ namespace Db2Seeder.API.Request
             }
             return null;
         }
+       
+     
+       
 
     }
 }

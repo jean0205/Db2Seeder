@@ -263,7 +263,7 @@ namespace Db2Seeder.API.Helpers
                 address = $"/{controller}={id}";
 
                 HttpResponseMessage response = await client.GetAsync(address);
-                var result =  response.Content.ReadAsByteArrayAsync();
+                var result =  response.Content.ReadAsByteArrayAsync().Result;
                 
 
                 //using (var newFile = System.IO.File.Create(@"C:\Users\jcsoto\AppData\Local\HPMyNewFile.pdf"))

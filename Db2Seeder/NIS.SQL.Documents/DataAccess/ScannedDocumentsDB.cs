@@ -1,16 +1,15 @@
 ﻿using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
+
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.NIS.SQL.Documents.DataAccess
 {
-    public class ScannedDocuments
+    public class ScannedDocumentsDB
     {
-        private readonly scanned_documents_testContext _context;
-        public ScannedDocuments(scanned_documents_testContext context)
-        {
-            _context = context;
-        }
+        private readonly scanned_documents_testContext _context = new scanned_documents_testContext();
+       
         public async Task<bool> InsertDocumentforEmployeeRegistration(Models_ScannedDocuments.Documents document)
         {
             try
@@ -18,6 +17,19 @@ namespace Db2Seeder.NIS.SQL.Documents.DataAccess
                 _context.Documents.Add(document);
                 await _context.SaveChangesAsync();
                 return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<int> InsertImportLog(ImportLog importLog)
+        {
+            try
+            {
+                _context.ImportLog.Add(importLog);
+                await _context.SaveChangesAsync();
+                return _context.ImportLog.ToList().Last().ImportId;  
             }
             catch (Exception ex)
             {

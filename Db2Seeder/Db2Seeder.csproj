@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="API.Models\Response.cs" />
     <Compile Include="API.Request\ApiRequest.cs" />
+    <Compile Include="Business\Employee.cs" />
+    <Compile Include="Business\Employer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,7 +64,7 @@
     <Compile Include="API.Helpers\ApiServices.cs" />
     <Compile Include="API.Helpers\Settings.cs" />
     <Compile Include="API.Helpers\UtilRecurrent.cs" />
-    <Compile Include="NIS.SQL.Documents\DataAccess\ScannedDocuments.cs" />
+    <Compile Include="NIS.SQL.Documents\DataAccess\ScannedDocumentsDB.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\Documents.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\DocumentTypes.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\FailCodes.cs" />
@@ -129,5 +131,6 @@
       <Name>ShareModels</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
