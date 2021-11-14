@@ -125,6 +125,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@cml1").Value = ""
 
                 ' Contact #2 Information
+
                 'name
                 cmdEMPR.Parameters("@cnm2").Value = ""
                 cmdEMPR.Parameters("@cpt2").Value = ""
@@ -155,8 +156,6 @@ Public Class EmployerDB2
 
         Return EmprNo
     End Function
-
-
     Async Function GenerarEmployerNo() As Task(Of Integer)
         Dim EmprNo As Integer = 0
         Try
@@ -204,7 +203,6 @@ Public Class EmployerDB2
 
         Return EmprNo
     End Function
-
     Async Function InsertBankInformationEmpr(Empr As Document_Employer, Emprn As Integer) As Task
 
         Try
@@ -237,7 +235,6 @@ Public Class EmployerDB2
         End Try
 
     End Function
-
 
     Async Function InsertEmprExtr(Emprn As Integer) As Task
 
