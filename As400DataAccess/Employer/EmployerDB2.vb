@@ -31,7 +31,7 @@ Public Class EmployerDB2
                 EmprNo = Await GenerarEmployerNo()
 
                 cmdEMPR.Parameters("@rreg").Value = EmprNo
-                cmdEMPR.Parameters("@rrsf").Value = "0"
+                cmdEMPR.Parameters("@rrsf").Value = 0
                 ' Business Name
                 cmdEMPR.Parameters("@bnam").Value = Empr.firmName
                 'Employer Name
