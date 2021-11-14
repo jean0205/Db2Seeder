@@ -153,6 +153,7 @@ Public Class EmployeeDB2
                     Await InsertDataCard(Empe, NisNumber)
                     Await InsertEmpeAuxilliary(Empe, NisNumber)
                     Await InsertBankInformation(Empe, NisNumber)
+
                 End If
 
                 cmd.Dispose()
