@@ -85,7 +85,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@offr").Value = "000"
 
                 'Zone
-                cmdEMPR.Parameters("@zone").Value = ""
+                cmdEMPR.Parameters("@zone").Value = 0
                 'Grade
                 cmdEMPR.Parameters("@grad").Value = ""
 
@@ -105,11 +105,11 @@ Public Class EmployerDB2
                 'Employer Email
                 cmdEMPR.Parameters("@eml2").Value = ""
                 'extra phone business
-                cmdEMPR.Parameters("@pds1").Value = 0
+                cmdEMPR.Parameters("@pds1").Value = ""
                 cmdEMPR.Parameters("@phn1").Value = If(Empr.secondMobile = Nothing, 0, Empr.secondMobile)
 
                 'extra phone empr
-                cmdEMPR.Parameters("@pds2").Value = 0
+                cmdEMPR.Parameters("@pds2").Value = ""
                 cmdEMPR.Parameters("@phn2").Value = 0
 
                 'Contact #1 Information
