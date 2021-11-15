@@ -17,6 +17,7 @@ namespace Db2Seeder
     {
         readonly Employee Employee= new Employee();
         readonly Employer Employer = new Employer();
+        readonly Remittance Remittance = new Remittance();
 
 
         List<SupportRequestType> RequestTypeList;
@@ -62,7 +63,10 @@ namespace Db2Seeder
             }
 
         }
-
+        private async  void button3_Click(object sender, EventArgs e)
+        {
+            await Remittance.GetRemittancePendingReview();
+        }
 
 
         private async void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -78,6 +82,6 @@ namespace Db2Seeder
             }
         }
 
-      
+       
     }
 }

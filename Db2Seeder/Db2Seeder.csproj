@@ -55,6 +55,7 @@
     <Compile Include="API.Request\ApiRequest.cs" />
     <Compile Include="Business\Employee.cs" />
     <Compile Include="Business\Employer.cs" />
+    <Compile Include="Business\Remittance.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
