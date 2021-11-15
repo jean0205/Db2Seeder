@@ -49,32 +49,32 @@ namespace ShareModels.Models
     }
     public class Week1
     {
-        public bool hasWorked { get; set; }
-        public double amount { get; set; }
+        public bool? hasWorked { get; set; }
+        public double? amount { get; set; }
     }
 
     public class Week2
     {
-        public bool hasWorked { get; set; }
-        public double amount { get; set; }
+        public bool? hasWorked { get; set; }
+        public double? amount { get; set; }
     }
 
     public class Week3
     {
-        public bool hasWorked { get; set; }
-        public double amount { get; set; }
+        public bool? hasWorked { get; set; }
+        public double? amount { get; set; }
     }
 
     public class Week4
     {
-        public bool hasWorked { get; set; }
-        public double amount { get; set; }
+        public bool? hasWorked { get; set; }
+        public double? amount { get; set; }
     }
 
     public class Week5
     {
-        public bool hasWorked { get; set; }
-        public double amount { get; set; }
+        public bool? hasWorked { get; set; }
+        public double? amount { get; set; }
     }
 }
 

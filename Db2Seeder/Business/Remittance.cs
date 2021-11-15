@@ -2,11 +2,11 @@
 using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using ShareModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.Business
@@ -33,10 +33,28 @@ namespace Db2Seeder.Business
                         {
                             Document_Remittance = new Document_Remittance();
                             Document_Remittance = await GetRequestDetailsRemittance(guid);
-                            //TODO
-                            //pasar el objeto a as400 para que se registre el employee y recibir el NIS
+                            string json = JsonConvert.SerializeObject(Document_Remittance);
+                            var RemittanceCopy= JsonConvert.DeserializeObject<Document_Remittance>(json);
 
-                            
+                            var periods = Document_Remittance.employeeContributionRecords.Select
+                                (x => new { x.contributionPeriodYear, x.contributionPeriodMonth }).Distinct().ToList();
+
+                            foreach (var period in periods)
+                            {
+                                RemittanceCopy.employeeContributionRecords.Clear();
+
+                                RemittanceCopy.employeeContributionRecords= Document_Remittance.employeeContributionRecords.Where(x=>x.contributionPeriodMonth==period.contributionPeriodMonth && x.contributionPeriodYear==period.contributionPeriodYear).ToList();
+                                //toma palacio
+
+
+                            }
+
+
+
+
+
+
+
                         }
                     }
                 }
