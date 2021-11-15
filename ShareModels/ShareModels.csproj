@@ -47,6 +47,7 @@
     <Compile Include="Models\Document_MetaData.cs" />
     <Compile Include="Models\DocumentGuid.cs" />
     <Compile Include="Models\Document_Employee.cs" />
+    <Compile Include="Models\Document_Remittance.cs" />
     <Compile Include="Models\SuportRequest.cs" />
     <Compile Include="Models\SupportRequestType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
