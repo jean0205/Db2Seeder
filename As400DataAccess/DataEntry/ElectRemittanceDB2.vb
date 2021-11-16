@@ -271,11 +271,11 @@ Public Class ElectRemittanceDB2
                 CMDE.Parameters("@PWK6").Value = ""
                 CMDE.Parameters("@PAGE").Value = ""
                 CMDE.Parameters("@FREQ").Value = EmpeCntr.frequency
-                CMDE.Parameters("@ERN1").Value = EmpeCntr.week1.amount
-                CMDE.Parameters("@ERN2").Value = EmpeCntr.week2.amount
-                CMDE.Parameters("@ERN3").Value = EmpeCntr.week3.amount
-                CMDE.Parameters("@ERN4").Value = EmpeCntr.week4.amount
-                CMDE.Parameters("@ERN5").Value = EmpeCntr.week5.amount
+                CMDE.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
+                CMDE.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
+                CMDE.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
+                CMDE.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
+                CMDE.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
                 CMDE.Parameters("@ERN6").Value = "0.00"
                 CMDE.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
                 CMDE.Parameters("@USER").Value = "UserID"
