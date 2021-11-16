@@ -8,7 +8,7 @@ namespace Db2Seeder.NIS.SQL.Documents.DataAccess
 {
     public class ScannedDocumentsDB
     {
-        private readonly scanned_documents_testContext _context = new scanned_documents_testContext();
+        private readonly scanned_documents_Context _context = new scanned_documents_Context();
        
         public async Task<bool> InsertDocumentforRegistration(Models_ScannedDocuments.Documents document)
         {

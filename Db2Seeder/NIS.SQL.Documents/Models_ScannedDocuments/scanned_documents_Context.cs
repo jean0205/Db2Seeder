@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments
 {
-    public partial class scanned_documents_testContext : DbContext
+    public partial class scanned_documents_Context : DbContext
     {
-        public scanned_documents_testContext()
+        public scanned_documents_Context()
         {
         }
 
-        public scanned_documents_testContext(DbContextOptions<scanned_documents_testContext> options)
+        public scanned_documents_Context(DbContextOptions<scanned_documents_Context> options)
             : base(options)
         {
         }

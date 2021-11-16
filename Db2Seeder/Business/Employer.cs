@@ -39,7 +39,7 @@ namespace Db2Seeder.Business
                         {
                             Document_Employer = new Document_Employer();
                             Document_Employer = await GetRequestDetailsEmployer(guid);
-                            //TODO
+                            
                             //pasar el objeto a as400 para que se registre el employee y recibir el NIS
                             as400Empr = new EmployerDB2();
 
@@ -56,12 +56,13 @@ namespace Db2Seeder.Business
                                 document_MetaDataList = await ApiRequest.GetDocument_MetaData(attachmentsGuid);
                                 if (document_MetaDataList.Any())
                                 {
-                                    //crear elimport log 
-                                    //TODO
-                                    //ahi que agregar  usuario necesito cogerlo del webportal
-                                    ImportLog importLog = new ImportLog();
-                                    importLog.ImportedBy = "Webportal";
-                                    importLog.ImportDatetime = DateTime.Now;
+                                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", request.supportRequestId);
+                                    ImportLog importLog = new ImportLog
+                                    {
+                                        ImportedBy = requestHistory.Last().modifiedBy.ToUpper(),
+                                        ImportDatetime = DateTime.Now
+                                    };
                                     ScannedDocumentsDB scannedDocumentsDB = new ScannedDocumentsDB();
                                     int importId = 0;
                                     importId = await scannedDocumentsDB.InsertImportLog(importLog);
@@ -69,7 +70,7 @@ namespace Db2Seeder.Business
                                     foreach (var item in document_MetaDataList)
                                     {
                                         //TODO                                       
-                                        //crear el documento que voy a insertar
+                                        //poner el document type correcto una vez que venga del portal web
                                         Documents documents = new Documents();
                                         documents.ActiveCode = "A";
                                         documents.RegistrantTypeId = 2;
@@ -77,7 +78,7 @@ namespace Db2Seeder.Business
                                         documents.ImportId = importId;
                                         documents.NisNumber = employerNumber;
                                         documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid);
-                                        documents.ScannedBy = "Webportal";
+                                        documents.ScannedBy = importLog.ImportedBy;
                                         documents.ScanDatetime = DateTime.Now;
                                         documents.ModifiedDatetime = DateTime.Now;
                                         await scannedDocumentsDB.InsertDocumentforRegistration(documents);
@@ -104,7 +105,6 @@ namespace Db2Seeder.Business
 
                 if (!response.IsSuccess)
                 {
-
                     return null;
                 }
                 return (Document_Employer)response.Result;
@@ -112,10 +112,7 @@ namespace Db2Seeder.Business
             catch (Exception ex)
             {
                 throw ex;
-            }
-           
+            }          
         }
-
-
     }
 }

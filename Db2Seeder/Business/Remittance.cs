@@ -61,7 +61,8 @@ namespace Db2Seeder.Business
             }
             catch (Exception ex)
             {
-
+                Crashes.TrackError(ex);
+                throw ex;
             }
         }
         //Document/Get?id=b5a1b323-3adf-4917-b77a-c6fda5f1be5f
@@ -81,8 +82,8 @@ namespace Db2Seeder.Business
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return null;
         }
     }
 

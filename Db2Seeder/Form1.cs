@@ -18,6 +18,7 @@ namespace Db2Seeder
         readonly Employee Employee= new Employee();
         readonly Employer Employer = new Employer();
         readonly Remittance Remittance = new Remittance();
+        readonly ComplianceCertificate ComplianceCertificate = new ComplianceCertificate(); 
 
 
         List<SupportRequestType> RequestTypeList;
@@ -41,6 +42,10 @@ namespace Db2Seeder
         private async void button2_Click(object sender, EventArgs e)
         {
             await Employer.GetEmployerCompleted();
+        }
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            await ComplianceCertificate.GetComplianceCrtCompleted();
         }
 
         async void GetRequestType()

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="API.Models\Response.cs" />
     <Compile Include="API.Request\ApiRequest.cs" />
+    <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\Employee.cs" />
     <Compile Include="Business\Employer.cs" />
     <Compile Include="Business\Remittance.cs" />
@@ -65,6 +66,22 @@
     <Compile Include="API.Helpers\ApiServices.cs" />
     <Compile Include="API.Helpers\Settings.cs" />
     <Compile Include="API.Helpers\UtilRecurrent.cs" />
+    <Compile Include="Models_OnlineFoms\ClaimEmpe.cs" />
+    <Compile Include="Models_OnlineFoms\ClaimEmpr.cs" />
+    <Compile Include="Models_OnlineFoms\ComplianceCert.cs" />
+    <Compile Include="Models_OnlineFoms\DataAccess\OnlineFormsDB.cs" />
+    <Compile Include="Models_OnlineFoms\EmailNotification.cs" />
+    <Compile Include="Models_OnlineFoms\Employee.cs" />
+    <Compile Include="Models_OnlineFoms\EmployeeNis.cs" />
+    <Compile Include="Models_OnlineFoms\EmployeeRegist.cs" />
+    <Compile Include="Models_OnlineFoms\Employer.cs" />
+    <Compile Include="Models_OnlineFoms\EmployerRegist.cs" />
+    <Compile Include="Models_OnlineFoms\OnlineForms_Context.cs" />
+    <Compile Include="Models_OnlineFoms\SelfEmployed.cs" />
+    <Compile Include="Models_OnlineFoms\UnempEmployee.cs" />
+    <Compile Include="Models_OnlineFoms\UnempEmployer.cs" />
+    <Compile Include="Models_OnlineFoms\UnempGoverment.cs" />
+    <Compile Include="Models_OnlineFoms\UnempPayroll.cs" />
     <Compile Include="NIS.SQL.Documents\DataAccess\ScannedDocumentsDB.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\Documents.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\DocumentTypes.cs" />
@@ -72,7 +89,7 @@
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\FailedImports.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\ImportLog.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\RegistrantTypes.cs" />
-    <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\scanned_documents_testContext.cs" />
+    <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\scanned_documents_Context.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -101,6 +118,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="iTextSharp">
+      <Version>5.5.13.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter">
       <Version>4.4.0</Version>
     </PackageReference>

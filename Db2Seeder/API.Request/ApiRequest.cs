@@ -31,8 +31,9 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return new List<SupportRequestType>();
+           
         }
         #endregion
 
@@ -47,6 +48,7 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
             return guid;
         }
@@ -64,6 +66,7 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
             return guids;
         }
@@ -79,6 +82,7 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
             return document_Meta;
         }
@@ -94,8 +98,8 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return null;
         }
         //SupportRequest/GetByState/Type/3/State/8
         public static async Task<List<SupportRequest>> GetSupportRequestTypeByState( int type, int state)
@@ -114,8 +118,8 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return new List<SupportRequest>();
         }
 
         //SupportRequest/FormGuid? id = 580
@@ -135,8 +139,8 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return  new DocumentGuid();
         }
         public static async Task<List<DocumentGuid>> GetListGUIDDocument(string controler, int id)
         {
@@ -154,8 +158,8 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return new List<DocumentGuid>();
         }       
         //attachment metadatas list
         public static async Task<List<Document_MetaData>> GetSupportRequestAttachments(List<DocumentGuid> guids)
@@ -196,12 +200,31 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+                throw ex;
             }
-            return null;
         }
-       
-     
-       
+
+        public static async Task<List<RequestHistory>> GetRequestHistory(string controler, int id)
+        {
+            try
+            {
+                Response response = await ApiServices.FindAsyncByID<List<RequestHistory>>(controler, id);
+
+                if (!response.IsSuccess)
+                {
+
+                    return new List<RequestHistory>();
+                }
+                return (List<RequestHistory>)response.Result;
+            }
+             catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                throw ex;
+            }
+        }
+
+
 
     }
 }
