@@ -40,6 +40,9 @@ namespace Db2Seeder.Business
                             var periods = Document_Remittance.employeeContributionRecords.Select
                                 (x => new { x.contributionPeriodYear, x.contributionPeriodMonth }).Distinct().ToList();
 
+                            List<RequestHistory> requestHistory = new List<RequestHistory>();
+                            requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", request.supportRequestId);
+
                             foreach (var period in periods)
                             {
                                 //pasando un solo periodo a la vez
@@ -79,7 +82,6 @@ namespace Db2Seeder.Business
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="API.Models\Response.cs" />
     <Compile Include="API.Request\ApiRequest.cs" />
+    <Compile Include="Business\Benefit Claims\AgeBenefit.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\Employee.cs" />
     <Compile Include="Business\Employer.cs" />

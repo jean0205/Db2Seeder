@@ -1,6 +1,7 @@
 ﻿using As400DataAccess;
 using Db2Seeder.API.Request;
 using Db2Seeder.Business;
+using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using Microsoft.AppCenter.Crashes;
@@ -18,7 +19,8 @@ namespace Db2Seeder
         readonly Employee Employee= new Employee();
         readonly Employer Employer = new Employer();
         readonly Remittance Remittance = new Remittance();
-        readonly ComplianceCertificate ComplianceCertificate = new ComplianceCertificate(); 
+        readonly ComplianceCertificate ComplianceCertificate = new ComplianceCertificate();
+        readonly AgeBenefit AgeBenefit = new AgeBenefit();
 
 
         List<SupportRequestType> RequestTypeList;
@@ -46,6 +48,10 @@ namespace Db2Seeder
         private async void button4_Click(object sender, EventArgs e)
         {
             await ComplianceCertificate.GetComplianceCrtCompleted();
+        }
+        private async  void button5_Click(object sender, EventArgs e)
+        {
+            await AgeBenefit.GetRemittanceAgeBenefitCompleted();
         }
 
         async void GetRequestType()
