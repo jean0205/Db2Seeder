@@ -790,7 +790,6 @@ Public Class ElectRemittanceDB2
                         cmdup.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
                         cmdup.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
                         cmdup.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
-
                         cmdup.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
                         cmdup.Parameters("@USER").Value = "userID"
                         Await cmdup.ExecuteNonQueryAsync()
@@ -932,7 +931,6 @@ Public Class ElectRemittanceDB2
                             .CommandTimeout = 0
                         }
                 cmd.DeriveParameters()
-
                 cmd.Parameters("@ACTV10").Value = "A"
                 cmd.Parameters("@RREG10").Value = EmprNo
                 cmd.Parameters("@RRSF10").Value = EmprSub
@@ -1109,6 +1107,7 @@ Public Class ElectRemittanceDB2
                     Dim cmdXCONH As String = "UPDATE ""QS36F"".""" & As400_lib & ".CONH"" SET EM0127 = @EM0127, EM0227 = @EM0227, EM0327 = @EM0327, EM0427= @EM0427, EM0527 = @EM0527, EM0627 = @EM0627, EM0727 = @EM0727, EM0827 = @EM0827, EM0927 = @EM0927, EM1027 = @EM1027, EM1127 = @EM1127, EM1227 = @EM1227, LMO#27 = @LMO#27, LWK#27 = @LWK#27, FILL27 = @FILL27 Where Rreg27 = @Rreg27 And Rrsf27 = @Rrsf27 And ((Ccen27*100)+ Cony27) = @CONY And Actv27 = 'A' And Freq27 = @Freq27"
 
                     Dim cmdupX As New iDB2Command() With {
+                        .CommandText = cmdXCONH,
                        .Connection = connection,
                        .CommandTimeout = 0
                     }
@@ -1216,8 +1215,9 @@ Public Class ElectRemittanceDB2
                                                              " VALUES(@ACTV27, @RREG27, @RRSF27, @CCEN27, @CONY27, @FREQ27, @EM0127, @EM0227, @EM0327, @EM0427, @EM0527, @EM0627, @EM0727, @EM0827, @EM0927, @EM1027, @EM1127, @EM1227, @WK0127, @WK0227, @WK0327, @WK0427, @WK0527, @WK0627, @WK0727, @WK0827, @WK0927, @WK1027, @WK1127, @WK1227,@LMO#27, @LWK#27, @FILL27)"
 
                     Dim cmdCOHN As New iDB2Command() With {
-                                .Connection = connection,
-                       .CommandTimeout = 0
+                             .CommandText = CMDTCONH,
+                              .Connection = connection,
+                             .CommandTimeout = 0
                     }
                     cmdCOHN.DeriveParameters()
                     Dim Centx = Mid(period, 1, 4) \ 100
@@ -1396,7 +1396,7 @@ Public Class ElectRemittanceDB2
                             }
                         cmd.DeriveParameters()
 
-                        cmd.Parameters("@ACTV10").Value = "A"
+                        cmd.Parameters("@ACTV10").Value = "D"
                         cmd.Parameters("@RREG10").Value = EmprNo
                         cmd.Parameters("@RRSF10").Value = EmprSub
                         Dim centx = Mid(Period, 1, 4) \ 100
