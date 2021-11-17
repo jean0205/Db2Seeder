@@ -790,7 +790,7 @@ Public Class ElectRemittanceDB2
                         cmdup.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
                         cmdup.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
                         cmdup.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
-                        cmdup.Parameters("@ERN6").Value = "0.00"
+
                         cmdup.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
                         cmdup.Parameters("@USER").Value = "userID"
                         Await cmdup.ExecuteNonQueryAsync()
