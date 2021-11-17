@@ -1539,7 +1539,7 @@ Public Class ElectRemittanceDB2
                     cmdARSM.Parameters("@REG104").Value = EmprNo
                     cmdARSM.Parameters("@RSF104").Value = EmprSub
 
-                    cmdARSM.Parameters("@PRD104").Value = Period And
+                    cmdARSM.Parameters("@PRD104").Value = Period
                     cmdARSM.Parameters("@ERN104").Value = totalins
                     cmdARSM.Parameters("@CNT104").Value = totalcontrs
                     cmdARSM.Parameters("@ESE104").Value = 0.0
