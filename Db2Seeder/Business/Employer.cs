@@ -6,11 +6,9 @@ using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using Microsoft.AppCenter.Crashes;
 using ShareModels.Models;
-using ShareModels.Models.Others;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.Business
@@ -41,13 +39,13 @@ namespace Db2Seeder.Business
                         {
                             Document_Employer = new Document_Employer();
                             Document_Employer = await GetRequestDetailsEmployer(guid);
-                            
+
                             //pasar el objeto a as400 para que se registre el employee y recibir el NIS
                             as400Empr = new EmployerDB2();
 
                             //si inserta debe retornar el numero de employer mayor que 0
                             int employerNumber = await as400Empr.InsertEmployers(Document_Employer);
-                            if (employerNumber==0)
+                            if (employerNumber == 0)
                             {
                                 return;
                             }
@@ -91,7 +89,7 @@ namespace Db2Seeder.Business
 
                             //addNisMapping
                             NisMapping nisMapping = new NisMapping();
-                            nisMapping.nisNumberTypeId = 2;
+                            nisMapping.nisNumberTypeId = 1;
                             nisMapping.nisNumber = employerNumber.ToString();
                             nisMapping.userAccountId = request.ownerId;
                             if (await AddNisMapping(nisMapping))
@@ -134,7 +132,7 @@ namespace Db2Seeder.Business
             catch (Exception ex)
             {
                 throw ex;
-            }          
+            }
         }
         private async Task<bool> AddNisMapping(NisMapping nisMapping)
         {

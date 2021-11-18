@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShareModels.Models.Others
-{
-    public class AssignRoleToUserAccount
+namespace Db2Seeder.API.Models
+{ 
+    public class NisMapping
     {
         public int userAccountId { get; set; }
-        public int roleId { get; set; }
-        public int createdBy { get; set; }
+        public string nisNumber { get; set; }
+        public int nisNumberTypeId { get; set; }
     }
 }

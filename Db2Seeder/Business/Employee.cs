@@ -6,7 +6,6 @@ using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using Microsoft.AppCenter.Crashes;
 using ShareModels.Models;
-using ShareModels.Models.Others;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +97,7 @@ namespace Db2Seeder.Business
 
                             //addNisMapping
                             NisMapping nisMapping = new NisMapping();
-                            nisMapping.nisNumberTypeId = 1;
+                            nisMapping.nisNumberTypeId = 2;
                             nisMapping.nisNumber=Document_Employee.nisNo.ToString();
                             nisMapping.userAccountId = request.ownerId;
                             if (await AddNisMapping(nisMapping))

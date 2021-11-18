@@ -51,7 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API.Models\AssignRoleToUserAccount.cs" />
+    <Compile Include="API.Models\NisMapping.cs" />
     <Compile Include="API.Models\Response.cs" />
+    <Compile Include="API.Models\UserAccount.cs" />
     <Compile Include="API.Request\ApiRequest.cs" />
     <Compile Include="Business\Benefit Claims\AgeBenefit.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
