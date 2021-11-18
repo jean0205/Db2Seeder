@@ -22,12 +22,14 @@ namespace Db2Seeder.Business
         Document_Employee Document_Employee;
 
         //SupportRequest/GetByState/Type/3/State/8
-        public async Task GetEmployeesCompleted()
+        public async Task GetEmployeeRegistrationSupportRequestCompleted()
         {
             try
             {
                 RequestList = new List<SupportRequest>();
                 RequestList = await ApiRequest.GetSupportRequestTypeByState(3, 8);
+
+
                 if (RequestList.Any())
                 {
                     foreach (var request in RequestList)
@@ -39,22 +41,14 @@ namespace Db2Seeder.Business
                         {
                             Document_Employee = new Document_Employee();
                             Document_Employee = await GetRequestDetailsEmployee(guid);
-                            //TODO
-                            //pasar el objeto a as400 para que se registre el employee y recibir el NIS
-                            as400Empe = new EmployeeDB2();
-                            //Document_Employee.dateOfBirth = DateTime.Today;
-                            //Document_Employee.dateOfMarriage = DateTime.Today;
-                            //Document_Employee.middleName = String.Empty;
+                           
+                            as400Empe = new EmployeeDB2();     
 
                             Document_Employee.nisNo = await as400Empe.InsertEmployees(Document_Employee);
                             if (Document_Employee.nisNo == 0)
                             {
                                 return;
                             }
-                            //el nis recibido despues de insertar
-
-
-                            //si se registra satisfactoriamente(recibo un nis de palacio), leer la lista de attachement para insertarla en sql server
                             //TODO
                             //convertir los attachment que sean imagen en pdf
                             List<DocumentGuid> attachmentsGuid = await ApiRequest.GetAttachmentsGuid(request.supportRequestId);
@@ -123,6 +117,8 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
+
+
         //Document/Get?id=b5a1b323-3adf-4917-b77a-c6fda5f1be5f       
         static async Task<Document_Employee> GetRequestDetailsEmployee(DocumentGuid guid)
         {

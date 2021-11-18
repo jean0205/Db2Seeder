@@ -59,6 +59,7 @@
     <Compile Include="Business\Benefit Claims\AgeBenefit.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\Employee.cs" />
+    <Compile Include="Business\EmployeeRegistration.cs" />
     <Compile Include="Business\Employer.cs" />
     <Compile Include="Business\Remittance.cs" />
     <Compile Include="Form1.cs">
