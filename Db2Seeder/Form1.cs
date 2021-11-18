@@ -51,7 +51,7 @@ namespace Db2Seeder
         }
         private async  void button5_Click(object sender, EventArgs e)
         {
-            await AgeBenefit.GetRemittanceAgeBenefitCompleted();
+            await AgeBenefit.GetAgeBenefitCompleted();
         }
 
         async void GetRequestType()

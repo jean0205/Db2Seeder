@@ -4,7 +4,9 @@ using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
+using Microsoft.AppCenter.Crashes;
 using ShareModels.Models;
+using ShareModels.Models.Others;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +76,7 @@ namespace Db2Seeder.Business
                                         Documents documents = new Documents();
                                         documents.ActiveCode = "A";
                                         documents.RegistrantTypeId = 2;
-                                        documents.DocTypeId = "skc";
+                                        documents.DocTypeId = item.code;
                                         documents.ImportId = importId;
                                         documents.NisNumber = employerNumber;
                                         documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid);
@@ -85,6 +87,26 @@ namespace Db2Seeder.Business
                                     }
 
                                 }
+                            }
+
+                            //addNisMapping
+                            NisMapping nisMapping = new NisMapping();
+                            nisMapping.nisNumberTypeId = 2;
+                            nisMapping.nisNumber = employerNumber.ToString();
+                            nisMapping.userAccountId = request.ownerId;
+                            if (await AddNisMapping(nisMapping))
+                            {
+                                //se realizo con exito
+                                //assigno el rol de employee
+                                AssignRoleToUserAccount roleToUserAccount = new AssignRoleToUserAccount();
+                                roleToUserAccount.userAccountId = request.ownerId;
+                                roleToUserAccount.roleId = 6;
+                                roleToUserAccount.createdBy = 7083;
+                                if (await AssignRoleToUserAccount(roleToUserAccount))
+                                {
+                                    //se realizo con xito
+                                }
+
                             }
                         }
                     }
@@ -113,6 +135,42 @@ namespace Db2Seeder.Business
             {
                 throw ex;
             }          
+        }
+        private async Task<bool> AddNisMapping(NisMapping nisMapping)
+        {
+            try
+            {
+                Response response = await ApiServices.PostAsync("Account/AddNisMapping", nisMapping);
+
+                if (!response.IsSuccess)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                throw ex;
+            }
+        }
+        private async Task<bool> AssignRoleToUserAccount(AssignRoleToUserAccount roleToUserAccount)
+        {
+            try
+            {
+                Response response = await ApiServices.PostAsync("Account/AssignRoleToUserAccount", roleToUserAccount);
+
+                if (!response.IsSuccess)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                throw ex;
+            }
         }
     }
 }

@@ -56,7 +56,7 @@ Public Class EmployerDB2
                 ' Business Area
                 cmdEMPR.Parameters("@brgn").Value = Empr.businessParish
                 ' Business phone
-                cmdEMPR.Parameters("@btno").Value = If(Empr.businessPhone = Nothing, 0, Empr.businessPhone)
+                cmdEMPR.Parameters("@btno").Value = If(Empr.businessPhone = Nothing, 0, Val(Empr.businessPhone))
 
                 'Type of Business
                 cmdEMPR.Parameters("@indc").Value = 0
@@ -94,7 +94,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@stdt").Value = BusComm.Year * 10000 + BusComm.Month * 100 + BusComm.Day
 
                 ' Business fax
-                cmdEMPR.Parameters("@faxn").Value = If(Empr.fax = Nothing, 0, Empr.fax)
+                cmdEMPR.Parameters("@faxn").Value = If(Empr.fax = Nothing, 0, Val(Empr.fax))
                 ' Dorman
                 cmdEMPR.Parameters("@dorm").Value = ""
                 'Dorman date 
@@ -106,7 +106,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@eml2").Value = ""
                 'extra phone business
                 cmdEMPR.Parameters("@pds1").Value = ""
-                cmdEMPR.Parameters("@phn1").Value = If(Empr.secondMobile = Nothing, 0, Empr.secondMobile)
+                cmdEMPR.Parameters("@phn1").Value = If(Empr.secondMobile = Nothing, 0, Val(Empr.secondMobile))
 
                 'extra phone empr
                 cmdEMPR.Parameters("@pds2").Value = ""

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ShareModels.Models.Benefit_Claims
 {
-    public class ProvidentFundList
+    public class ProvidentFundEntity
     {
-        public string nameCountry { get; set; }
-        public string Othernis { get; set; }
+        public string address { get; set; }
         public string periodWorked { get; set; }
+        public string supervisor { get; set; }
         public bool status { get; set; }
     }
 }

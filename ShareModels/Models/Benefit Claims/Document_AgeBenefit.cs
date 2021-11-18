@@ -29,24 +29,27 @@ namespace ShareModels.Models.Benefit_Claims
         public string accountNo { get; set; }
         public string accountName { get; set; }
         public int accountType { get; set; }
-        public int? chkbxInvalidity { get; set; }
-        public int? chkbxSurvivors { get; set; }
-        public int? chkbxSickness { get; set; }
-        public int? chkbxNone { get; set; }
+        public int chkbxInvalidity { get; set; }
+        public int chkbxSurvivors { get; set; }
+        public int chkbxSickness { get; set; }
+        public object chkbxNone { get; set; }
         public int providentFund { get; set; }
-        public List<ProvidentFundList> providentFundList { get; set; }
-        public List<WorkHistoryList> workHistoryList { get; set; }
+        public string providentFundList { get; set; }
+        public string workHistoryList { get; set; }
         public int workOtherCountries { get; set; }
-        public List<WorkOtherCountryList> workOtherCountryList { get; set; }
+        public string workOtherCountryList { get; set; }
+        public List<WorkHistoryEntity> workHistoryEntity { get; set; }
+        public List<ProvidentFundEntity> providentFundEntity { get; set; }
+        public List<WorkOtherCountryEntity> workOtherCountryEntity { get; set; }
         public int documentId { get; set; }
         public string documentGuid { get; set; }
         public int documentTypeId { get; set; }
         public string documentCode { get; set; }
-        public object name { get; set; }
-        public object description { get; set; }
-        public object createdBy { get; set; }
-        public object updatedBy { get; set; }
-        public object checkInById { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string createdBy { get; set; }
+        public string updatedBy { get; set; }
+        public int? checkInById { get; set; }
         public DateTime checkInAtTime { get; set; }
         public object checkInMessage { get; set; }
         public object checkOutById { get; set; }

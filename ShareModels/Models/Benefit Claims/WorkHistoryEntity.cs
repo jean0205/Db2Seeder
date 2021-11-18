@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShareModels.Models.Benefit_Claims
 {
-    public class WorkHistoryList
+    public class WorkHistoryEntity
     {
         public string nameEmployer { get; set; }
         public string periodWorked { get; set; }

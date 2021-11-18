@@ -17,7 +17,7 @@ namespace Db2Seeder.Business.Benefit_Claims
         List<SupportRequest> RequestList;
         Document_AgeBenefit Document_AgeBenefit;
         //SupportRequest/GetByState/Type/6/State/16
-        public async Task GetRemittanceAgeBenefitCompleted()
+        public async Task GetAgeBenefitCompleted()
         {
             try
             {

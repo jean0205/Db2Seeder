@@ -44,15 +44,17 @@
   <ItemGroup>
     <Compile Include="Helpers\UtilRecurrent.cs" />
     <Compile Include="Models\Benefit Claims\Document_AgeBenefit.cs" />
-    <Compile Include="Models\Benefit Claims\ProvidentFundPeriods.cs" />
-    <Compile Include="Models\Benefit Claims\ReciprocalPeriods.cs" />
-    <Compile Include="Models\Benefit Claims\WorkHistory.cs" />
+    <Compile Include="Models\Benefit Claims\ProvidentFundEntity.cs" />
+    <Compile Include="Models\Benefit Claims\WorkOtherCountryEntity.cs" />
+    <Compile Include="Models\Benefit Claims\WorkHistoryEntity.cs" />
     <Compile Include="Models\Document_ComplianceCert.cs" />
     <Compile Include="Models\Document_Employer.cs" />
     <Compile Include="Models\Document_MetaData.cs" />
     <Compile Include="Models\DocumentGuid.cs" />
     <Compile Include="Models\Document_Employee.cs" />
     <Compile Include="Models\Document_Remittance.cs" />
+    <Compile Include="Models\Others\AssignRoleToUserAccount.cs" />
+    <Compile Include="Models\Others\NisMapping.cs" />
     <Compile Include="Models\RequestHistory.cs" />
     <Compile Include="Models\SuportRequest.cs" />
     <Compile Include="Models\SupportRequestType.cs" />
