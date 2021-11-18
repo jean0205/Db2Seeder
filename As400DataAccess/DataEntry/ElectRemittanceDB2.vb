@@ -308,7 +308,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    '******Insert ECXE AFTER POST EMPLOYEE CONTRIBUTION WORK FILE*******
+    ' Insert ECXE AFTER POST EMPLOYEE CONTRIBUTION WORK FILE
     Async Function InsertECXE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
 
         Try
@@ -396,7 +396,191 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    ' Update CNTE Employee Contribution File
+    Async Function UpdECWE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                Dim rs As iDB2DataReader
+                Dim totcontr As Integer = 0
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "Select count(*) as cant  From ""QS36F"".""" & As400_lib & ".ECWE"" " &
+                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM And LIN#09 = @LIN#",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@Rreg09").iDB2Value = EmprNo
+                cmd.Parameters("@Rrsf09").iDB2Value = EmprSub
+                cmd.Parameters("@CONY").iDB2Value = EmpeCntr.contributionPeriodYear
+                cmd.Parameters("@CONM").iDB2Value = EmpeCntr.contributionPeriodMonth
+                cmd.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
+                rs = Await cmd.ExecuteReaderAsync
+                If rs.Read Then
+                    If rs("cant") > 0 Then
+
+                        Dim cmdU As String = "UPDATE ""QS36F"".""" & As400_lib & ".ECWE"" SET Actv09 = @Actv,  CCEN09 = @CCEN, CONY09 = @CONY, CONM09 = @CONM, EREG09 = @EREG, EGIE09 = @EGIE, ECNB09= @ECNB,  PWK109 = @PWK1, PWK209 = @PWK2, PWK309 = @PWK3, PWK409 = @PWK4, PWK509 = @PWK5, FREQ09 = @FREQ,   ERN109 = @ERN1, ERN209 = @ERN2, ERN309 = @ERN3, ERN409 = @ERN4, ERN509 = @ERN5, WKSW09 = @WKSW, USER09 = @USER Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And((Ccen09*100)+ Cony09) = @CONY09 And CONM09 = @CONM09 And LIN#09 = @LIN# "
+                        Dim cmdup As New iDB2Command() With {
+                            .CommandText = cmdU,
+                            .Connection = connection,
+                            .CommandTimeout = 0
+                        }
+                        cmdup.DeriveParameters()
+                        cmdup.Parameters("@Rreg09").iDB2Value = EmprNo
+                        cmdup.Parameters("@Rrsf09").iDB2Value = EmprSub
+                        cmdup.Parameters("@CONY09").iDB2Value = EmpeCntr.contributionPeriodYear
+                        cmdup.Parameters("@CONM09").iDB2Value = EmpeCntr.contributionPeriodMonth
+                        cmdup.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
+                        'UPDATE a
+                        cmdup.Parameters("@ACTV").Value = "A"
+
+                        Dim centx = EmpeCntr.contributionPeriodYear \ 100
+                        Dim yearx = EmpeCntr.contributionPeriodYear - (centx * 100)
+                        cmdup.Parameters("@CCEN").Value = centx
+                        cmdup.Parameters("@CONY").Value = yearx
+                        cmdup.Parameters("@CONM").Value = EmpeCntr.contributionPeriodMonth
+                        cmdup.Parameters("@EREG").Value = EmpeCntr.employeeNumber
+                        cmdup.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
+                        cmdup.Parameters("@ECNB").Value = EmpeCntr.contributions
+
+                        ' Week
+                        If EmpeCntr.week1.hasWorked = False Then
+                            cmdup.Parameters("@PWK1").Value = ""
+                        Else
+                            cmdup.Parameters("@PWK1").Value = "Y"
+                        End If
+                        If EmpeCntr.week2.hasWorked = False Then
+                            cmdup.Parameters("@PWK2").Value = ""
+                        Else
+                            cmdup.Parameters("@PWK2").Value = "Y"
+                        End If
+                        If EmpeCntr.week3.hasWorked = False Then
+                            cmdup.Parameters("@PWK3").Value = ""
+                        Else
+                            cmdup.Parameters("@PWK3").Value = "Y"
+                        End If
+                        If EmpeCntr.week4.hasWorked = False Then
+                            cmdup.Parameters("@PWK4").Value = ""
+                        Else
+                            cmdup.Parameters("@PWK4").Value = "Y"
+                        End If
+                        If EmpeCntr.week5.hasWorked = False Then
+                            cmdup.Parameters("@PWK5").Value = ""
+                        Else
+                            cmdup.Parameters("@PWK5").Value = "Y"
+                        End If
+                        cmdup.Parameters("@FREQ").Value = EmpeCntr.frequency
+                        cmdup.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
+                        cmdup.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
+                        cmdup.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
+                        cmdup.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
+                        cmdup.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
+                        cmdup.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
+                        cmdup.Parameters("@USER").Value = "userID"
+                        Await cmdup.ExecuteNonQueryAsync()
+                        cmdup.Dispose()
+                    Else
+                        Await InsertECWE(EmpeCntr, EmprNo, EmprSub)
+                    End If
+                End If
+
+                cmd.Dispose()
+                rs.Close()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+    End Function
+    Async Function InsertECWE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'insert in NI.EMNT for
+
+                Dim cmd As New iDB2Command With {
+                            .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ECWE"" 
+                                               (ACTV09, RREG09, RRSF09, CCEN09, CONY09, CONM09, LIN#09, EREG09, EGIE09, ECNB09,
+                                               PWK109, PWK209, PWK309, PWK409, PWK509, PWK609, PAGE09, FREQ09, ERN109, ERN209,
+                                               ERN309, ERN409, ERN509, ERN609, WKSW09, USER09, POST09, FILL09)
+                                        VALUES(@ACTV, @RREG, @RRSF, @CCEN, @CONY, @CONM, @LIN#, @EREG, @EGIE, @ECNB,
+                                               @PWK1, @PWK2, @PWK3, @PWK4, @PWK5, @PWK6, @PAGE, @FREQ, @ERN1, @ERN2,
+                                               @ERN3, @ERN4, @ERN5, @ERN6, @WKSW, @USER, @POST, @FILL)",
+                            .Connection = connection,
+                            .CommandTimeout = 0
+                        }
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTV").Value = "A"
+                cmd.Parameters("@RREG").Value = EmprNo
+                cmd.Parameters("@RRSF").Value = EmprSub
+                '((Ccen09*100)+ Cony09
+                Dim centx = EmpeCntr.contributionPeriodYear \ 100
+                Dim yearx = EmpeCntr.contributionPeriodYear - (centx * 100)
+                cmd.Parameters("@CCEN").Value = centx
+                cmd.Parameters("@CONY").Value = yearx
+                cmd.Parameters("@CONM").Value = EmpeCntr.contributionPeriodMonth
+                cmd.Parameters("@LIN#").Value = EmpeCntr.rowNumber
+                cmd.Parameters("@EREG").Value = EmpeCntr.employeeNumber
+                cmd.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
+                cmd.Parameters("@ECNB").Value = EmpeCntr.contributions
+
+
+                ' Weeks
+                If EmpeCntr.week1.hasWorked = False Then
+                    cmd.Parameters("@PWK1").Value = ""
+                Else
+                    cmd.Parameters("@PWK1").Value = "Y"
+                End If
+                If EmpeCntr.week2.hasWorked = False Then
+                    cmd.Parameters("@PWK2").Value = ""
+                Else
+                    cmd.Parameters("@PWK2").Value = "Y"
+                End If
+                If EmpeCntr.week3.hasWorked = False Then
+                    cmd.Parameters("@PWK3").Value = ""
+                Else
+                    cmd.Parameters("@PWK3").Value = "Y"
+                End If
+                If EmpeCntr.week4.hasWorked = False Then
+                    cmd.Parameters("@PWK4").Value = ""
+                Else
+                    cmd.Parameters("@PWK4").Value = "Y"
+                End If
+                If EmpeCntr.week5.hasWorked = False Then
+                    cmd.Parameters("@PWK5").Value = ""
+                Else
+                    cmd.Parameters("@PWK5").Value = "Y"
+                End If
+
+                cmd.Parameters("@PWK6").Value = ""
+                cmd.Parameters("@PAGE").Value = ""
+                cmd.Parameters("@FREQ").Value = EmpeCntr.frequency
+
+                cmd.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
+                cmd.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
+                cmd.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
+                cmd.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
+                cmd.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
+                cmd.Parameters("@ERN6").Value = "0.00"
+                cmd.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
+                cmd.Parameters("@USER").Value = "UserID"
+                cmd.Parameters("@POST").Value = ""
+                cmd.Parameters("@FILL").Value = ""
+                Await cmd.ExecuteNonQueryAsync
+                cmd.Dispose()
+
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+    End Function
+
+    '** Update CNTE Employee Contribution File
     Async Function UpdateCNTE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
 
         Try
@@ -709,193 +893,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    Async Function UpdECWE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
-
-        Try
-            Using connection As New iDB2Connection(cn)
-                connection.Open()
-                Dim rs As iDB2DataReader
-                Dim totcontr As Integer = 0
-                Dim cmd As New iDB2Command() With {
-                .CommandText = "Select count(*) as cant  From ""QS36F"".""" & As400_lib & ".ECWE"" " &
-                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM And LIN#09 = @LIN#",
-                .Connection = connection,
-                .CommandTimeout = 0
-                }
-
-                cmd.DeriveParameters()
-                cmd.Parameters("@Rreg09").iDB2Value = EmprNo
-                cmd.Parameters("@Rrsf09").iDB2Value = EmprSub
-                cmd.Parameters("@CONY").iDB2Value = EmpeCntr.contributionPeriodYear
-                cmd.Parameters("@CONM").iDB2Value = EmpeCntr.contributionPeriodMonth
-                cmd.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
-                rs = Await cmd.ExecuteReaderAsync
-                If rs.Read Then
-                    If rs("cant") > 0 Then
-
-                        Dim cmdU As String = "UPDATE ""QS36F"".""" & As400_lib & ".ECWE"" SET Actv09 = @Actv,  CCEN09 = @CCEN, CONY09 = @CONY, CONM09 = @CONM, EREG09 = @EREG, EGIE09 = @EGIE, ECNB09= @ECNB,  PWK109 = @PWK1, PWK209 = @PWK2, PWK309 = @PWK3, PWK409 = @PWK4, PWK509 = @PWK5, FREQ09 = @FREQ,   ERN109 = @ERN1, ERN209 = @ERN2, ERN309 = @ERN3, ERN409 = @ERN4, ERN509 = @ERN5, WKSW09 = @WKSW, USER09 = @USER Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And((Ccen09*100)+ Cony09) = @CONY09 And CONM09 = @CONM09 And LIN#09 = @LIN# "
-                        Dim cmdup As New iDB2Command() With {
-                            .CommandText = cmdU,
-                            .Connection = connection,
-                            .CommandTimeout = 0
-                        }
-                        cmdup.DeriveParameters()
-                        cmdup.Parameters("@Rreg09").iDB2Value = EmprNo
-                        cmdup.Parameters("@Rrsf09").iDB2Value = EmprSub
-                        cmdup.Parameters("@CONY09").iDB2Value = EmpeCntr.contributionPeriodYear
-                        cmdup.Parameters("@CONM09").iDB2Value = EmpeCntr.contributionPeriodMonth
-                        cmdup.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
-                        'UPDATE a
-                        cmdup.Parameters("@ACTV").Value = "A"
-
-                        Dim centx = EmpeCntr.contributionPeriodYear \ 100
-                        Dim yearx = EmpeCntr.contributionPeriodYear - (centx * 100)
-                        cmdup.Parameters("@CCEN").Value = centx
-                        cmdup.Parameters("@CONY").Value = yearx
-                        cmdup.Parameters("@CONM").Value = EmpeCntr.contributionPeriodMonth
-                        cmdup.Parameters("@EREG").Value = EmpeCntr.employeeNumber
-                        cmdup.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
-                        cmdup.Parameters("@ECNB").Value = EmpeCntr.contributions
-
-                        ' Week
-                        If EmpeCntr.week1.hasWorked = False Then
-                            cmdup.Parameters("@PWK1").Value = ""
-                        Else
-                            cmdup.Parameters("@PWK1").Value = "Y"
-                        End If
-                        If EmpeCntr.week2.hasWorked = False Then
-                            cmdup.Parameters("@PWK2").Value = ""
-                        Else
-                            cmdup.Parameters("@PWK2").Value = "Y"
-                        End If
-                        If EmpeCntr.week3.hasWorked = False Then
-                            cmdup.Parameters("@PWK3").Value = ""
-                        Else
-                            cmdup.Parameters("@PWK3").Value = "Y"
-                        End If
-                        If EmpeCntr.week4.hasWorked = False Then
-                            cmdup.Parameters("@PWK4").Value = ""
-                        Else
-                            cmdup.Parameters("@PWK4").Value = "Y"
-                        End If
-                        If EmpeCntr.week5.hasWorked = False Then
-                            cmdup.Parameters("@PWK5").Value = ""
-                        Else
-                            cmdup.Parameters("@PWK5").Value = "Y"
-                        End If
-                        cmdup.Parameters("@FREQ").Value = EmpeCntr.frequency
-                        cmdup.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
-                        cmdup.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
-                        cmdup.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
-                        cmdup.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
-                        cmdup.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
-                        cmdup.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
-                        cmdup.Parameters("@USER").Value = "userID"
-                        Await cmdup.ExecuteNonQueryAsync()
-                        cmdup.Dispose()
-                    Else
-                        Await InsertECWE(EmpeCntr, EmprNo, EmprSub)
-                    End If
-                End If
-
-                cmd.Dispose()
-                rs.Close()
-
-            End Using
-        Catch ex As iDB2Exception
-            Throw ex
-        End Try
-
-    End Function
-    Async Function InsertECWE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
-
-        Try
-            Using connection As New iDB2Connection(cn)
-                connection.Open()
-                'insert in NI.EMNT for
-
-                Dim cmd As New iDB2Command With {
-                            .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ECWE"" 
-                                               (ACTV09, RREG09, RRSF09, CCEN09, CONY09, CONM09, LIN#09, EREG09, EGIE09, ECNB09,
-                                               PWK109, PWK209, PWK309, PWK409, PWK509, PWK609, PAGE09, FREQ09, ERN109, ERN209,
-                                               ERN309, ERN409, ERN509, ERN609, WKSW09, USER09, POST09, FILL09)
-                                        VALUES(@ACTV, @RREG, @RRSF, @CCEN, @CONY, @CONM, @LIN#, @EREG, @EGIE, @ECNB,
-                                               @PWK1, @PWK2, @PWK3, @PWK4, @PWK5, @PWK6, @PAGE, @FREQ, @ERN1, @ERN2,
-                                               @ERN3, @ERN4, @ERN5, @ERN6, @WKSW, @USER, @POST, @FILL)",
-                            .Connection = connection,
-                            .CommandTimeout = 0
-                        }
-                cmd.DeriveParameters()
-                cmd.Parameters("@ACTV").Value = "A"
-                cmd.Parameters("@RREG").Value = EmprNo
-                cmd.Parameters("@RRSF").Value = EmprSub
-                '((Ccen09*100)+ Cony09
-                Dim centx = EmpeCntr.contributionPeriodYear \ 100
-                Dim yearx = EmpeCntr.contributionPeriodYear - (centx * 100)
-                cmd.Parameters("@CCEN").Value = centx
-                cmd.Parameters("@CONY").Value = yearx
-                cmd.Parameters("@CONM").Value = EmpeCntr.contributionPeriodMonth
-                cmd.Parameters("@LIN#").Value = EmpeCntr.rowNumber
-                cmd.Parameters("@EREG").Value = EmpeCntr.employeeNumber
-                cmd.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
-                cmd.Parameters("@ECNB").Value = EmpeCntr.contributions
-
-
-                ' Weeks
-                If EmpeCntr.week1.hasWorked = False Then
-                    cmd.Parameters("@PWK1").Value = ""
-                Else
-                    cmd.Parameters("@PWK1").Value = "Y"
-                End If
-                If EmpeCntr.week2.hasWorked = False Then
-                    cmd.Parameters("@PWK2").Value = ""
-                Else
-                    cmd.Parameters("@PWK2").Value = "Y"
-                End If
-                If EmpeCntr.week3.hasWorked = False Then
-                    cmd.Parameters("@PWK3").Value = ""
-                Else
-                    cmd.Parameters("@PWK3").Value = "Y"
-                End If
-                If EmpeCntr.week4.hasWorked = False Then
-                    cmd.Parameters("@PWK4").Value = ""
-                Else
-                    cmd.Parameters("@PWK4").Value = "Y"
-                End If
-                If EmpeCntr.week5.hasWorked = False Then
-                    cmd.Parameters("@PWK5").Value = ""
-                Else
-                    cmd.Parameters("@PWK5").Value = "Y"
-                End If
-
-                cmd.Parameters("@PWK6").Value = ""
-                cmd.Parameters("@PAGE").Value = ""
-                cmd.Parameters("@FREQ").Value = EmpeCntr.frequency
-
-                cmd.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
-                cmd.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
-                cmd.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
-                cmd.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
-                cmd.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
-                cmd.Parameters("@ERN6").Value = "0.00"
-                cmd.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
-                cmd.Parameters("@USER").Value = "UserID"
-                cmd.Parameters("@POST").Value = ""
-                cmd.Parameters("@FILL").Value = ""
-                Await cmd.ExecuteNonQueryAsync
-                cmd.Dispose()
-
-
-            End Using
-        Catch ex As iDB2Exception
-            Throw ex
-        End Try
-
-    End Function
-
-
-    '***** Update CNTS Employee Contributions Summary****
-
+    '** Update CNTS Employee Contributions Summary
     Async Function UpdateCNTS(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
 
         Try
@@ -1012,7 +1010,7 @@ Public Class ElectRemittanceDB2
                     End If
                 Else
                     'insert
-                    Await InsertCNTR(EmpeCntr)
+                    Await InsertCNTS(EmpeCntr)
                 End If
                 cmd8.Dispose()
                 rscns.Close()
@@ -1022,7 +1020,8 @@ Public Class ElectRemittanceDB2
         End Try
 
     End Function
-    Async Function InsertCNTR(EmpeCntr As EmployeeContributionRecord) As Task
+
+    Async Function InsertCNTS(EmpeCntr As EmployeeContributionRecord) As Task
 
         Try
             Using connection As New iDB2Connection(cn)
@@ -1117,7 +1116,6 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-
     Public Function CantMonday(ByVal anno As Integer, ByVal mes As Integer)
         ' le pasas el year, mes y dia 
         Dim cantidad As Integer = 0
@@ -1142,7 +1140,7 @@ Public Class ElectRemittanceDB2
 
 
 #Region "EmployerFiles"
-    '******Insert RCXE AFTER POST EMPLOYER CONTRIBUTION WORK FILE*******
+    'Insert RCXE AFTER POST EMPLOYER CONTRIBUTION WORK FILE
     Async Function InsertRCXE(EmprNo As String, EmprSub As String, period As String, Freq As String, totalins As Decimal, totalcontrs As Decimal) As Task
 
         Try
@@ -1566,7 +1564,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    '******  Update RCWE Employer Contribution Work File ******
+    'Update RCWE Employer Contribution Work File 
     Async Function UpdRCWE(EmprNo As String, EmprSub As String, Period As String, freq As String, totalins As Decimal, totalcontrs As Decimal) As Task
 
         Try
@@ -1697,7 +1695,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    '******  Update CNTR Employer Contribution File ******
+    '** Update CNTR Employer Contribution File 
     Async Function UpdateCNTR(EmprNo As String, EmprSub As String, Period As String, totalins As Decimal, empecntr As Decimal, emprcntr As Decimal) As Task
 
         Try
@@ -1847,7 +1845,7 @@ Public Class ElectRemittanceDB2
 #End Region
 
 #Region "COMPSTAT"
-    '******** Update ARSUM Employer Accounts Receivable
+    ' Update ARSUM Employer Accounts Receivable
     Async Function UpdArsum(EmprNo As String, EmprSub As String, Period As String, totalins As Decimal, totalcontrs As Decimal) As Task
 
         Try
@@ -1944,7 +1942,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    '******* Update AROP Employer Accounts Receivable
+    ' Update AROP Employer Accounts Receivable
     Async Function UpdArop(EmprNo As String, EmprSub As String, Period As String, totalcontrs As Decimal) As Task
 
         Try
@@ -2049,7 +2047,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    '***********Update ARITM  Employer A/R detail*********************
+    'Update ARITM  Employer A/R detail'
     Async Function UpdAritm(EmprNo As String, EmprSub As String, Period As String, totalins As Decimal, totalcontrs As Decimal) As Task
 
         Try
@@ -2149,7 +2147,7 @@ Public Class ElectRemittanceDB2
 
     End Function
 
-    '*********** Update STAT Remittance Statistics File**********************
+    ' Update STAT Remittance Statistics File'
     Async Function UpdSTAT(EmprNo As String, EmprSub As String, Period As String, cantempe As Integer) As Task
 
         Try
