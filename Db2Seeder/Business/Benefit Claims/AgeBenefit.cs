@@ -1,4 +1,5 @@
-﻿using Db2Seeder.API.Helpers;
+﻿using As400DataAccess;
+using Db2Seeder.API.Helpers;
 using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Microsoft.AppCenter.Crashes;
@@ -14,6 +15,8 @@ namespace Db2Seeder.Business.Benefit_Claims
 {
     public class AgeBenefit
     {
+        readonly AgePensionDB2 as400AgePension=new AgePensionDB2();
+
         List<SupportRequest> RequestList;
         Document_AgeBenefit Document_AgeBenefit;
         //SupportRequest/GetByState/Type/6/State/16
@@ -38,7 +41,9 @@ namespace Db2Seeder.Business.Benefit_Claims
 
                             List<RequestHistory> requestHistory = new List<RequestHistory>();
                             requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", request.supportRequestId);
+                           // Document_AgeBenefit.
 
+                            await as400AgePension.InsertAgePension(Document_AgeBenefit);
                            
                         }
                     }
