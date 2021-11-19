@@ -61,6 +61,7 @@
     <Compile Include="Business\Employee.cs" />
     <Compile Include="Business\EmployeeRegistration.cs" />
     <Compile Include="Business\Employer.cs" />
+    <Compile Include="Business\EmployerRegistration.cs" />
     <Compile Include="Business\Remittance.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

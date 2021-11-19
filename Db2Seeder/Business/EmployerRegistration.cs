@@ -7,25 +7,26 @@ using ShareModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.Business
 {
-    public class EmployeeRegistration
+    public class EmployerRegistration
     {
-        public static async Task<List<SupportRequest>> GetEmployeeRegistrationSupportRequestCompleted()
+        public static async Task<List<SupportRequest>> GetEmployerRegistrationSupportRequestCompleted()
         {
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(3, 8);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(5, 14);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static async Task<Document_Employee> EmployeeRegistrationRequestDetail(SupportRequest Request)
+        public static async Task<Document_Employer> EmployerRegistrationRequestDetail(SupportRequest Request)
         {
             try
             {
@@ -33,8 +34,8 @@ namespace Db2Seeder.Business
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
-                    Document_Employee Document_Employee = new Document_Employee();
-                    return Document_Employee = await GetRequestDetailsEmployee(guid);
+                    Document_Employer Document_Employer = new Document_Employer();
+                    return Document_Employer = await GetRequestDetailsEmployer(guid);
                 }
                 return null;
             }
@@ -43,7 +44,7 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_Employee Document_Employee)
+        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_Employer Document_Employer)
         {
             try
             {
@@ -57,7 +58,6 @@ namespace Db2Seeder.Business
                     {
                         List<RequestHistory> requestHistory = new List<RequestHistory>();
                         requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-
                         ImportLog importLog = new ImportLog
                         {
                             ImportedBy = requestHistory.Last().UserName,
@@ -66,15 +66,14 @@ namespace Db2Seeder.Business
                         ScannedDocumentsDB scannedDocumentsDB = new ScannedDocumentsDB();
                         int importId = 0;
                         importId = await scannedDocumentsDB.InsertImportLog(importLog);
-
                         foreach (var item in document_MetaDataList)
                         {
                             Documents documents = new Documents();
                             documents.ActiveCode = "A";
-                            documents.RegistrantTypeId = Document_Employee.registrationType == 1 ? 1 : 3;
+                            documents.RegistrantTypeId = 2;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = (int)Document_Employee.nisNo;
+                            documents.NisNumber = (int)Document_Employer.employerNo;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid);
                             documents.ScannedBy = importLog.ImportedBy;
                             documents.ScanDatetime = DateTime.Now;
@@ -93,13 +92,13 @@ namespace Db2Seeder.Business
             }
         }
 
-        public static async Task<Response> AddNISMapping(SupportRequest Request, Document_Employee Document_Employee)
+        public static async Task<Response> AddNISMapping(SupportRequest Request, Document_Employer Document_Employer)
         {
             try
             {
                 NisMapping nisMapping = new NisMapping();
-                nisMapping.nisNumberTypeId = 2;
-                nisMapping.nisNumber = Document_Employee.nisNo.ToString();
+                nisMapping.nisNumberTypeId = 1;
+                nisMapping.nisNumber = Document_Employer.employerNo.ToString();
                 nisMapping.userAccountId = Request.ownerId;
                 return await AddNisMapping(nisMapping);
             }
@@ -108,13 +107,13 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-        public static async Task<bool> AddEmployeeRole(SupportRequest Request)
+        public static async Task<bool> AddEmployerRole(SupportRequest Request)
         {
             try
             {
                 AssignRoleToUserAccount roleToUserAccount = new AssignRoleToUserAccount();
                 roleToUserAccount.userAccountId = Request.ownerId;
-                roleToUserAccount.roleId = 7;
+                roleToUserAccount.roleId = 6;
                 roleToUserAccount.createdBy = 7083;
                 return await AssignRoleToUserAccount(roleToUserAccount);
             }
@@ -123,17 +122,17 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-        public static async Task<Document_Employee> GetRequestDetailsEmployee(DocumentGuid guid)
+        public static async Task<Document_Employer> GetRequestDetailsEmployer(DocumentGuid guid)
         {
             try
             {
-                Response response = await ApiServices.FindAsyncByGuid<Document_Employee>("Document/Get?id", guid.message);
+                Response response = await ApiServices.FindAsyncByGuid<Document_Employer>("Document/Get?id", guid.message);
 
                 if (!response.IsSuccess)
                 {
                     return null;
                 }
-                return (Document_Employee)response.Result;
+                return (Document_Employer)response.Result;
             }
             catch (Exception ex)
             {
@@ -144,9 +143,9 @@ namespace Db2Seeder.Business
         {
             try
             {
-               Response response = await ApiServices.PostAsync("Account/AddNisMapping", nisMapping);
+                Response response = await ApiServices.PostAsync("Account/AddNisMapping", nisMapping);
                 return response;
-                
+
             }
             catch (Exception ex)
             {
@@ -170,12 +169,11 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-
         public static async Task<Response> UpdateWorkFlowStateEmployee(int userId, int requestId, int actionId)
         {
             try
             {
-                Response response = await ApiRequest.UpdateWorkFlowState( userId, requestId,actionId);
+                Response response = await ApiRequest.UpdateWorkFlowState(userId, requestId, actionId);
                 return response;
             }
             catch (Exception ex)

@@ -11,6 +11,7 @@ namespace ShareModels.Models
         public int employerRegistrationFormId { get; set; }
         public int firmBusinessCompany { get; set; }
         public string firmName { get; set; }
+        public int? employerNo { get; set; }
         public string employerName { get; set; }
         public string businessAddress { get; set; }
         public string businessTown { get; set; }

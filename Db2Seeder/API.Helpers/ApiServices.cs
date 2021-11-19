@@ -306,13 +306,6 @@ namespace Db2Seeder.API.Helpers
 
                 HttpResponseMessage response = await client.GetAsync(address);
                 var result =  response.Content.ReadAsByteArrayAsync().Result;
-                
-
-                //using (var newFile = System.IO.File.Create(@"C:\Users\jcsoto\AppData\Local\HPMyNewFile.pdf"))
-                //{
-                //    var stream = await result.ReadAsStreamAsync();
-                //    await stream.CopyToAsync(newFile);
-                //}
                 if (!response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -339,59 +332,54 @@ namespace Db2Seeder.API.Helpers
                 };
             }
         }
+        public static async Task<Response> PostAsyncNoBody(string controller, int userId,int requestId,int actionId)
+        {
+            try
+            {
+                HttpClientHandler handler = new HttpClientHandler()
+                {
+                    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                };
+                string url = Settings.GetApiUrl();
+                HttpClient client = new HttpClient(handler)
+                {
+                    BaseAddress = new Uri(url)
+                };
+                string address;
+                address = $"/{controller}userId={userId}&requestId={requestId}&actionId={actionId}";
+
+                HttpResponseMessage response = await client.PostAsync(address, null);
+                var result = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return new Response
+                        {
+                            IsSuccess = false,
+                            Message = result,
+                        };
+                    }
+                }
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = result,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
 
 
 
-        //public static async Task<Response> FindAsyncByID<T>(string controller, string id)
-        //{
-        //    try
-        //    {
-        //        HttpClientHandler handler = new HttpClientHandler()
-        //        {
-        //            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-        //        };
-        //        string url = Settings.GetApiUrl();
-        //        HttpClient client = new HttpClient(handler)
-        //        {
-        //            BaseAddress = new Uri(url)
-        //        };               
-        //        string address;
-        //        address = $"/{controller}/ID/{id}";
-
-        //        HttpResponseMessage response = await client.GetAsync(address);
-        //        string result = await response.Content.ReadAsStringAsync();
-        //        if (!response.IsSuccessStatusCode)
-        //        {
-        //            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-        //            {
-        //                return new Response
-        //                {
-        //                    IsSuccess = false,
-        //                    Message = "Not Found",
-        //                };
-        //            }
-        //            return new Response
-        //            {
-        //                IsSuccess = false,
-        //                Message = result,
-        //            };
-        //        }
-        //        var element = JsonConvert.DeserializeObject<T>(result);
-        //        return new Response
-        //        {
-        //            IsSuccess = true,
-        //            Result = element,
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new Response
-        //        {
-        //            IsSuccess = false,
-        //            Message = ex.Message
-        //        };
-        //    }
-        //}
+      
 
     }
 }

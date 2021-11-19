@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -39,6 +40,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button5 = new System.Windows.Forms.Button();
             this.tViewEvents = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +48,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(4, 4);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 32);
             this.button1.TabIndex = 0;
@@ -57,7 +59,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(231, 4);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 32);
             this.button2.TabIndex = 1;
@@ -78,7 +80,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(458, 4);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 32);
             this.button3.TabIndex = 2;
@@ -89,7 +91,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(685, 4);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(153, 32);
             this.button4.TabIndex = 3;
@@ -147,10 +149,23 @@
             // 
             // tViewEvents
             // 
+            this.tViewEvents.ImageIndex = 0;
+            this.tViewEvents.ImageList = this.imageList1;
             this.tViewEvents.Location = new System.Drawing.Point(3, 3);
             this.tViewEvents.Name = "tViewEvents";
+            this.tViewEvents.SelectedImageIndex = 0;
             this.tViewEvents.Size = new System.Drawing.Size(1160, 650);
             this.tViewEvents.TabIndex = 1;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "regularClams.png");
+            this.imageList1.Images.SetKeyName(1, "—Pngtree—dollar money in hand_4099984.png");
+            this.imageList1.Images.SetKeyName(2, "Selected.png");
+            this.imageList1.Images.SetKeyName(3, "—Pngtree—true and false symbols accept_4723246.png");
+            this.imageList1.Images.SetKeyName(4, "daniel_info-icon-danholt.png");
             // 
             // Form1
             // 
@@ -160,7 +175,7 @@
             this.ClientSize = new System.Drawing.Size(1369, 717);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -182,6 +197,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TreeView tViewEvents;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

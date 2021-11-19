@@ -203,16 +203,13 @@ namespace Db2Seeder.API.Request
                 throw ex;
             }
         }
-
         public static async Task<List<RequestHistory>> GetRequestHistory(string controler, int id)
         {
             try
             {
                 Response response = await ApiServices.FindAsyncByID<List<RequestHistory>>(controler, id);
-
                 if (!response.IsSuccess)
                 {
-
                     return new List<RequestHistory>();
                 }
                 return (List<RequestHistory>)response.Result;
@@ -223,7 +220,18 @@ namespace Db2Seeder.API.Request
                 throw ex;
             }
         }
-
+        public static async Task<Response> UpdateWorkFlowState(int userId,int requestId,int actionId)
+        {
+            try
+            {
+                Response response = await ApiServices.PostAsyncNoBody("SupportRequest/UpdateWorkflowState?", userId,requestId,actionId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }
