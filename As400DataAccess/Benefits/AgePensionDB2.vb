@@ -205,7 +205,7 @@ Public Class AgePensionDB2
                 cmd.Parameters("@CMPQCS").Value = " "
 
                 cmd.Parameters("@SAVBCS").Value = Agepension.CompletedBy
-                cmd.Parameters("@SAVTCS").Value = CDate(Agepension.CompletedTime).Year + CDate(Agepension.CompletedTime).Month * 100 + CDate(Agepension.CompletedTime).Day
+                cmd.Parameters("@SAVTCS").Value = CDate(Agepension.CompletedTime).Year * 10000 + CDate(Agepension.CompletedTime).Month * 100 + CDate(Agepension.CompletedTime).Day
 
                 'reassingempr
                 cmd.Parameters("@EMPASCS").Value = "N"

@@ -201,7 +201,7 @@ Public Class SicknessDB2
                 cmd.Parameters("@CMPQCS").Value = " "
 
                 cmd.Parameters("@SAVBCS").Value = Sickness.CompletedBy
-                cmd.Parameters("@SAVTCS").Value = CDate(Sickness.CompletedTime).Year + CDate(Sickness.CompletedTime).Month * 100 + CDate(Sickness.CompletedTime).Day
+                cmd.Parameters("@SAVTCS").Value = CDate(Sickness.CompletedTime).Year * 10000 + CDate(Sickness.CompletedTime).Month * 100 + CDate(Sickness.CompletedTime).Day
 
                 'reassingempr
                 cmd.Parameters("@EMPASCS").Value = "N"
