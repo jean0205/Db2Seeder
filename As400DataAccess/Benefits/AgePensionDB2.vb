@@ -9,10 +9,19 @@ Public Class AgePensionDB2
         Dim ClaimNo As Integer
         Try
 
-            ClaimNo = Await GenerarClaimNo()
-            Await InsertBenf(Agepension, ClaimNo)
-            Await InsertCLMNCS(Agepension, ClaimNo)
+            'EMPLOYERS REG
+            Dim strCadena As String
+            Dim intPos As Integer
+            Dim EmprNo As String
+            Dim EmprSub As String
+            strCadena = Await SelectLastEmployer(Agepension.nisNo)
+            intPos = InStr(1, strCadena, "-") 'posicion de la "-"
+            EmprNo = Mid(strCadena, 1, intPos - 1)
+            EmprSub = Mid(strCadena, intPos + 1)
 
+            ClaimNo = Await GenerarClaimNo()
+            Await InsertBenf(Agepension, ClaimNo, EmprNo, EmprSub)
+            Await InsertCLMNCS(Agepension, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
             Throw ex
@@ -21,12 +30,14 @@ Public Class AgePensionDB2
         Return ClaimNo
     End Function
 
-    Async Function InsertBenf(Agepension As Document_AgeBenefit, Clmn As String) As Task
+    Async Function InsertBenf(Agepension As Document_AgeBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
 
-                connection.Open()
+                If connection.State = ConnectionState.Closed Then
+                    connection.Open()
+                End If
 
                 Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".BENF""  " &
                                                                         " (ACTV13, CLMN13, EREG13, BENT13, NATR13, CNCC13, CNYY13, CNMM13, CNDD13, STAT13, " &
@@ -65,13 +76,13 @@ Public Class AgePensionDB2
                 cmd1.Parameters("@COTC13").Value = " "
 
                 'USER INITIALS
-                cmd1.Parameters("@INTL13").Value = "USERID"
+                cmd1.Parameters("@INTL13").Value = Agepension.CompletedBy
 
                 'DIAGNOSIS COD
                 cmd1.Parameters("@DIAG13").Value = " "
 
-                cmd1.Parameters("@RREG13").Value = 0
-                cmd1.Parameters("@RRSF13").Value = 0
+                cmd1.Parameters("@RREG13").Value = EmprNo
+                cmd1.Parameters("@RRSF13").Value = Emprsub
 
                 cmd1.Parameters("@FILL13").Value = " "
 
@@ -92,12 +103,14 @@ Public Class AgePensionDB2
         End Try
     End Function
 
-    Async Function InsertCLMNCS(Agepension As Document_AgeBenefit, Clmn As String) As Task
+    Async Function InsertCLMNCS(Agepension As Document_AgeBenefit, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
 
-                connection.Open()
+                If connection.State = ConnectionState.Closed Then
+                    connection.Open()
+                End If
 
                 Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNCS""  (ACTVCS, CLMNCS, EREGCS, BENTCS, CNCCCS, CNYYCS, CNMMCS, CNDDCS, STATCS,
                                                   RFRCCS, RCOMCS, RTCSCS, LWRKCS, ACCDCS, DEADCS, UNEMPCS, CHIDCS, CRDCS, DEGDCS, PRMDCS, RREGCS, RRSFCS, RREGCS2, RRSFCS2,RREGCS3,
@@ -155,15 +168,6 @@ Public Class AgePensionDB2
                 cmd.Parameters("@PRMDCS").Value = " "
 
                 'EMPLOYERS REG
-                Dim strCadena As String
-                Dim intPos As Integer
-                Dim EmprNo As String
-                Dim EmprSub As String
-                strCadena = Await SelectLastEmployer(Agepension.nisNo)
-                intPos = InStr(1, strCadena, "-") 'posicion de la "-"
-                EmprNo = Mid(strCadena, 1, intPos - 1)
-                EmprSub = Mid(strCadena, intPos + 1)
-
                 cmd.Parameters("@RREGCS").Value = EmprNo
                 cmd.Parameters("@RRSFCS").Value = EmprSub
                 cmd.Parameters("@RREGCS2").Value = 0
@@ -200,8 +204,8 @@ Public Class AgePensionDB2
                 'COMPLIANCE QUERY
                 cmd.Parameters("@CMPQCS").Value = " "
 
-                cmd.Parameters("@SAVBCS").Value = "UserID"
-                cmd.Parameters("@SAVTCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
+                cmd.Parameters("@SAVBCS").Value = Agepension.CompletedBy
+                cmd.Parameters("@SAVTCS").Value = CDate(Agepension.CompletedTime).Year + CDate(Agepension.CompletedTime).Month * 100 + CDate(Agepension.CompletedTime).Day
 
                 'reassingempr
                 cmd.Parameters("@EMPASCS").Value = "N"
