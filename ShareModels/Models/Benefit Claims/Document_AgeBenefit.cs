@@ -10,7 +10,7 @@ namespace ShareModels.Models.Benefit_Claims
     {
         public int ageBenefitFormId { get; set; }
         public string surname { get; set; }
-        public string nisNo { get; set; }
+        public int nisNo { get; set; }
         public string firstName { get; set; }
         public DateTime dateOfBirth { get; set; }
         public string otherName { get; set; }

@@ -353,6 +353,92 @@ namespace Db2Seeder
                                     //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
                                     //}                                   
                                 }
+                                //comentar si no se quieren salvar los documentos nuevamente
+                                try
+                                {
+                                    AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                    int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, Document_AgeBenefit);
+                                    AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                    AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                }
+                            }
+                            else
+                            {
+                                AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
+        private async Task ComplianceCertificateRequest()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Age Benefit Claims");
+                AddTreeViewLogLevel1Info("Age Benefit Claims Completed");
+                try
+                {
+                    var requests = await AgeBenefit.GetAgeBenefitClaimCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        foreach (var request in requests)
+                        {
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            var Document_AgeBenefit = await AgeBenefit.AgeBenefitClaimDetail(request);
+                            if (Document_AgeBenefit != null)
+                            {
+                                AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                Document_AgeBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_AgeBenefit);
+                                if (Document_AgeBenefit.ClaimNumber == 0)
+                                {
+                                    AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Claim with number: " + Document_AgeBenefit.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                    //updating worflow state
+                                    // var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 163);
+                                    //if (responseA.IsSuccess)
+                                    //{
+                                    //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                    //}
+                                    //else
+                                    //{
+                                    //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                    //}                                   
+                                }
+                                //comentar si no se quieren salvar los documentos nuevamente
+                                try
+                                {
+                                    AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                    int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, Document_AgeBenefit);
+                                    AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Crashes.TrackError(ex);
+                                    AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                }
                             }
                             else
                             {
@@ -434,7 +520,6 @@ namespace Db2Seeder
             secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
             tViewEvents.ExpandAll();            
         }
-
         private void button6_Click(object sender, EventArgs e)
         {
             Form2 frm= new Form2();
