@@ -12,7 +12,7 @@ Public Class SicknessDB2
 
             ClaimNo = Await GenerarClaimNo()
             '     Await InsertBenf(Agepension, ClaimNo)
-            Await InsertBadt("2", ClaimNo)
+
 
         Catch ex As iDB2Exception
             Throw ex
