@@ -186,13 +186,12 @@ Public Class ElectRemittanceDB2
                 .Connection = connection,
                 .CommandTimeout = 0
                 }
-
                 cmd.DeriveParameters()
                 cmd.Parameters("@rreg").iDB2Value = EmprNo
                 cmd.Parameters("@rrsf").iDB2Value = EmprSub
                 cmd.Parameters("@ereg").iDB2Value = EmpeCntr.employeeNumber
-
                 rs = Await cmd.ExecuteReaderAsync
+
                 If rs.Read Then
                     If rs("cant") = 0 Then
 
@@ -1588,6 +1587,8 @@ Public Class ElectRemittanceDB2
                 If rs.Read Then
 
                     If rs("cant") > 0 Then
+
+
                         Dim cmdpX As New iDB2Command With {
                          .CommandText = "UPDATE ""QS36F"".""" & As400_lib & ".RCWE"" SET Actv10= @Actv10, Bchi10 = @Bchi10, Bchc10 = @Bchc10, Cenr10 = @Cenr10, Datr10 = @Datr10, Edit10 =              @Edit10, User10 = @User10, Date10 = @Date10 Where Rreg10 = @Rreg10 And Rrsf10 = @Rrsf10  And((Ccen10*100)+ Cony10) = @CONY10 And CONM10 = @CONM10",
                          .Connection = connection,
@@ -1621,7 +1622,6 @@ Public Class ElectRemittanceDB2
                                 .CommandTimeout = 0
                             }
                         cmd.DeriveParameters()
-
                         cmd.Parameters("@ACTV10").Value = "D"
                         cmd.Parameters("@RREG10").Value = EmprNo
                         cmd.Parameters("@RRSF10").Value = EmprSub
