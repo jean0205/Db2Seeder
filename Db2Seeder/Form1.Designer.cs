@@ -41,6 +41,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.tViewEvents = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.button6 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -58,7 +59,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(231, 4);
+            this.button2.Location = new System.Drawing.Point(458, 4);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 32);
@@ -79,7 +80,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(458, 4);
+            this.button3.Location = new System.Drawing.Point(685, 4);
             this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 32);
@@ -90,7 +91,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(685, 4);
+            this.button4.Location = new System.Drawing.Point(912, 4);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(153, 32);
@@ -123,11 +124,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.Controls.Add(this.button5, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.button4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.button2, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.button3, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button5, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button6, 4, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 659);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -138,7 +140,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(912, 4);
+            this.button5.Location = new System.Drawing.Point(231, 4);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(153, 32);
@@ -154,7 +156,7 @@
             this.tViewEvents.Location = new System.Drawing.Point(3, 3);
             this.tViewEvents.Name = "tViewEvents";
             this.tViewEvents.SelectedImageIndex = 0;
-            this.tViewEvents.Size = new System.Drawing.Size(1160, 650);
+            this.tViewEvents.Size = new System.Drawing.Size(939, 650);
             this.tViewEvents.TabIndex = 1;
             // 
             // imageList1
@@ -166,6 +168,17 @@
             this.imageList1.Images.SetKeyName(2, "Selected.png");
             this.imageList1.Images.SetKeyName(3, "—Pngtree—true and false symbols accept_4723246.png");
             this.imageList1.Images.SetKeyName(4, "daniel_info-icon-danholt.png");
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(1139, 4);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(153, 32);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "Age Benefit";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
@@ -198,6 +211,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TreeView tViewEvents;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button button6;
     }
 }
 

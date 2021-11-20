@@ -29,14 +29,14 @@ namespace ShareModels.Models.Benefit_Claims
         public string accountNo { get; set; }
         public string accountName { get; set; }
         public int accountType { get; set; }
-        public int chkbxInvalidity { get; set; }
-        public int chkbxSurvivors { get; set; }
-        public int chkbxSickness { get; set; }
-        public object chkbxNone { get; set; }
-        public int providentFund { get; set; }
+        public int? chkbxInvalidity { get; set; }
+        public int? chkbxSurvivors { get; set; }
+        public int? chkbxSickness { get; set; }
+        public int? chkbxNone { get; set; }
+        public int? providentFund { get; set; }
         public string providentFundList { get; set; }
         public string workHistoryList { get; set; }
-        public int workOtherCountries { get; set; }
+        public int? workOtherCountries { get; set; }
         public string workOtherCountryList { get; set; }
         public List<WorkHistoryEntity> workHistoryEntity { get; set; }
         public List<ProvidentFundEntity> providentFundEntity { get; set; }
@@ -59,5 +59,10 @@ namespace ShareModels.Models.Benefit_Claims
         public int version { get; set; }
         public DateTime createdOn { get; set; }
         public DateTime updatedOn { get; set; }
+        public string CompletedBy { get; set; }
+        public DateTime? CompletedTime { get; set; }
+        public int SupportRequestId { get; set; }
+        public string WebPortalLink => $"http://my-nis-uat.loteklabs.com/SupportRequest/Detail/ {SupportRequestId}";
+        public int? ClaimNumber { get; set; }
     }
 }
