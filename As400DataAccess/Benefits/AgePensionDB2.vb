@@ -12,7 +12,7 @@ Public Class AgePensionDB2
             ClaimNo = Await GenerarClaimNo()
             Await InsertBenf(Agepension, ClaimNo)
             Await InsertCLMNCS(Agepension, ClaimNo)
-            '  Await InsertBadt("4", ClaimNo)
+
 
         Catch ex As iDB2Exception
             Throw ex
@@ -148,7 +148,6 @@ Public Class AgePensionDB2
                 'DATE OF CLAIM RECEIVED
                 cmd.Parameters("@CRDCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 
-
                 'DEGREE OF DISABLEMENT
                 cmd.Parameters("@DEGDCS").Value = 0
 
@@ -156,8 +155,17 @@ Public Class AgePensionDB2
                 cmd.Parameters("@PRMDCS").Value = " "
 
                 'EMPLOYERS REG
-                cmd.Parameters("@RREGCS").Value = 0
-                cmd.Parameters("@RRSFCS").Value = 0
+                Dim strCadena As String
+                Dim intPos As Integer
+                Dim EmprNo As String
+                Dim EmprSub As String
+                strCadena = Await SelectLastEmployer(Agepension.nisNo)
+                intPos = InStr(1, strCadena, "-") 'posicion de la "-"
+                EmprNo = Mid(strCadena, 1, intPos - 1)
+                EmprSub = Mid(strCadena, intPos + 1)
+
+                cmd.Parameters("@RREGCS").Value = EmprNo
+                cmd.Parameters("@RRSFCS").Value = EmprSub
                 cmd.Parameters("@RREGCS2").Value = 0
                 cmd.Parameters("@RRSFCS2").Value = 0
                 cmd.Parameters("@RREGCS3").Value = 0
@@ -167,21 +175,27 @@ Public Class AgePensionDB2
                 cmd.Parameters("@RREGCS5").Value = 0
                 cmd.Parameters("@RRSFCS5").Value = 0
 
-
                 'PROVIDENT FUND CLAIM
-                cmd.Parameters("@PROVFCS").Value = " "
+                If Agepension.providentFund = 1 Then
+                    cmd.Parameters("@PROVFCS").Value = "V"
+                Else
+                    cmd.Parameters("@PROVFCS").Value = " "
+                End If
 
 
                 'PRECIPROCAL AGREEMENT
-                cmd.Parameters("@RECPACS").Value = ""
+                If Agepension.workOtherCountries = 1 Then
+                    cmd.Parameters("@RECPACS").Value = "V"
+                Else
+                    cmd.Parameters("@RECPACS").Value = ""
+                End If
+
 
                 'GOVERNMENT CLAIM
-                cmd.Parameters("@GOVWCS").Value = "V"
-
+                cmd.Parameters("@GOVWCS").Value = " "
 
                 'STATEMENT QUERY
                 cmd.Parameters("@STAQCS").Value = " "
-
 
                 'COMPLIANCE QUERY
                 cmd.Parameters("@CMPQCS").Value = " "

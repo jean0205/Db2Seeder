@@ -60,38 +60,37 @@ Module ModBenfHelps
 
         Return ClaimNo
     End Function
-    Async Function InsertBadt(BenfTyp As String, Clmn As String) As Task
+
+
+    Async Function SelectLastEmployer(nistxt1 As String) As Task(Of String)
+        Dim period As String = ""
         Try
 
             Using connection As New iDB2Connection(cn)
-
                 connection.Open()
-
-                Dim cmdtext As String = " INSERT INTO ""QS36F"".""" & As400_lib & ".BADT""  " &
-                                                                         "(CLMN206, LINE206, BENT206, OUSR206, CUSR206, CDTE206, CTME206, ODTE206, OTME206) " &
-                                                                  "Values(@CLMN206, @LINE206, @BENT206, @OUSR206, @CUSR206, @CDTE206, @CTME206, CURRENT_DATE, CURRENT_TIME)"
-                Dim cmdBadt As New iDB2Command() With {
+                Dim rs As iDB2DataReader
+                Dim cmdtext As String = "Select concat(concat(RREG06,'-'),RRSF06) as cd,  MAX(CCEN06 * 10000 + CONY06 * 100 + CPER06)  
+                                         FROM ""QS36F"".""" & As400_lib & ".CNTE"" INNER JOIN ""QS36F"".""" & As400_lib & ".EMPR"" On RREG06 = RREG02 And RRSF06 = RRSF02 
+                                         WHERE ACTV06 = 'A'  AND Ereg06 = " & nistxt1 & " and EGIE06 <> 0 
+                                         GROUP BY  RREG06, RRSF06, BTNO02
+                                         ORDER BY MAX (CCEN06 * 10000 + CONY06 * 100 + CPER06) DESC"
+                Dim cmd As New iDB2Command() With {
                             .CommandText = cmdtext,
                             .Connection = connection,
                             .CommandTimeout = 0
                         }
+                rs = Await cmd.ExecuteReaderAsync
+                If rs.Read Then
+                    period = rs(0)
+                End If
 
-                ' Insert Bef payment BADT
-
-                cmdBadt.Parameters("@CLMN206").Value = Clmn
-                cmdBadt.Parameters("@LINE206").Value = 0
-                cmdBadt.Parameters("@BENT206").Value = BenfTyp
-                cmdBadt.Parameters("@OUSR206").Value = "UserID"
-                cmdBadt.Parameters("@CUSR206").Value = " "
-                cmdBadt.Parameters("@CDTE206").Value = Date.MinValue
-                cmdBadt.Parameters("@CTME206").Value = Date.MinValue
-
-                Await cmdBadt.ExecuteNonQueryAsync()
-                cmdBadt.Dispose()
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
 
             End Using
         Catch ex As iDB2Exception
             Throw ex
         End Try
+        Return period
     End Function
 End Module
