@@ -67,7 +67,9 @@ Module ModBenfHelps
         Try
 
             Using connection As New iDB2Connection(cn)
-                connection.Open()
+                If connection.State = ConnectionState.Closed Then
+                    connection.Open()
+                End If
                 Dim rs As iDB2DataReader
                 Dim cmdtext As String = "Select concat(concat(RREG06,'-'),RRSF06) as cd,  MAX(CCEN06 * 10000 + CONY06 * 100 + CPER06)  
                                          FROM ""QS36F"".""" & As400_lib & ".CNTE"" INNER JOIN ""QS36F"".""" & As400_lib & ".EMPR"" On RREG06 = RREG02 And RRSF06 = RRSF02 
