@@ -21,8 +21,7 @@ namespace Db2Seeder
 
         readonly Employee Employee = new Employee();
         readonly Employer Employer = new Employer();
-        readonly Remittance Remittance = new Remittance();
-        readonly ComplianceCertificate ComplianceCertificate = new ComplianceCertificate();
+        readonly Remittance Remittance = new Remittance();      
         readonly AgeBenefit AgeBenefit = new AgeBenefit();
 
 
@@ -53,7 +52,8 @@ namespace Db2Seeder
         }
         private async void button4_Click(object sender, EventArgs e)
         {
-            await ComplianceCertificate.GetComplianceCrtCompleted();
+            // await ComplianceCertificate.GetComplianceCrtCompleted();
+            await ComplianceCertificateRequest();
         }
         private async void button5_Click(object sender, EventArgs e)
         {
@@ -319,8 +319,8 @@ namespace Db2Seeder
         {
             try
             {
-                AddTreeViewLogLevel0("Age Benefit Claims");
-                AddTreeViewLogLevel1Info("Age Benefit Claims Completed");
+                AddTreeViewLogLevel0("Age Benefit");
+                AddTreeViewLogLevel1Info(" Getting Age Benefit Claims Completed");
                 try
                 {
                     var requests = await AgeBenefit.GetAgeBenefitClaimCompleted();
@@ -393,31 +393,33 @@ namespace Db2Seeder
         {
             try
             {
-                AddTreeViewLogLevel0("Age Benefit Claims");
-                AddTreeViewLogLevel1Info("Age Benefit Claims Completed");
+                AddTreeViewLogLevel0("Compliance Certificate");
+                AddTreeViewLogLevel1Info("Getting Compliance Certificate Request Completed");
                 try
                 {
-                    var requests = await AgeBenefit.GetAgeBenefitClaimCompleted();
+                    var requests = await ComplianceCertificate.GetComplianceCertfCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        AddTreeViewLogLevel1(requests.Count + " Request Completed Found", true);
                         foreach (var request in requests)
                         {
-                            AddTreeViewLogLevel1Info("Getting Claim Details");
-                            var Document_AgeBenefit = await AgeBenefit.AgeBenefitClaimDetail(request);
-                            if (Document_AgeBenefit != null)
+                            AddTreeViewLogLevel1Info("Getting Request Details");
+                            var Document_ComplianceCert = await ComplianceCertificate.ComplianceCertRequestDetail(request);
+                            if (Document_ComplianceCert != null)
                             {
-                                AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                Document_AgeBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_AgeBenefit);
-                                if (Document_AgeBenefit.ClaimNumber == 0)
+                                AddTreeViewLogLevel1("Request details successfully loaded", true);
+                                AddTreeViewLogLevel1Info("Inserting Compliance Certificate in SQL.");
+
+                                if (await ComplianceCertificate.InsertComplianceCertificateSQL(request,Document_ComplianceCert))
                                 {
-                                    AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    AddTreeViewLogLevel2("Compliance Certificate successfully saved to SQL.", true);
                                 }
                                 else
                                 {
-                                    AddTreeViewLogLevel1("Claim with number: " + Document_AgeBenefit.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                    AddTreeViewLogLevel2("Error Saving Compliance Certificate to SQL.", false);
+
                                     //updating worflow state
-                                    // var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 163);
+                                    //var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 160);
                                     //if (responseA.IsSuccess)
                                     //{
                                     //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -425,24 +427,14 @@ namespace Db2Seeder
                                     //else
                                     //{
                                     //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                    //}                                   
+                                    //}
                                 }
-                                //comentar si no se quieren salvar los documentos nuevamente
-                                try
-                                {
-                                    AddTreeViewLogLevel2Info("Saving Employee Documents.");
-                                    int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, Document_AgeBenefit);
-                                    AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Crashes.TrackError(ex);
-                                    AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                }
+                                
+                                
                             }
                             else
                             {
-                                AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                AddTreeViewLogLevel1("Error Getting Compliance Details.", false);
                             }
                         }
                     }
@@ -471,6 +463,7 @@ namespace Db2Seeder
             Application.DoEvents();
             tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
             tViewEvents.ExpandAll();
+            tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count-1];
         }
         void AddTreeViewLogLevel1(string text, bool successful)
         {
@@ -485,7 +478,8 @@ namespace Db2Seeder
             {
                 firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
             }
-            tViewEvents.ExpandAll();          
+            tViewEvents.ExpandAll();
+            tViewEvents.SelectedNode = firstLevelNode;
         }
         void AddTreeViewLogLevel1Info(string text)
         {
@@ -493,7 +487,8 @@ namespace Db2Seeder
             Application.DoEvents();
             var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
             firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
-            tViewEvents.ExpandAll();            
+            tViewEvents.ExpandAll();
+            tViewEvents.SelectedNode = firstLevelNode;
         }
         void AddTreeViewLogLevel2(string text, bool successful)
         {
@@ -509,7 +504,8 @@ namespace Db2Seeder
             {
                 secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
             }
-            tViewEvents.ExpandAll();            
+            tViewEvents.ExpandAll();
+            tViewEvents.SelectedNode = secondLevelNode;
         }
         void AddTreeViewLogLevel2Info(string text)
         {
@@ -518,7 +514,8 @@ namespace Db2Seeder
             var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
             var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
             secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
-            tViewEvents.ExpandAll();            
+            tViewEvents.ExpandAll();
+            tViewEvents.SelectedNode = secondLevelNode;
         }
         private void button6_Click(object sender, EventArgs e)
         {

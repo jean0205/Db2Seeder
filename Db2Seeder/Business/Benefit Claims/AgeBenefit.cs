@@ -16,13 +16,7 @@ using System.Threading.Tasks;
 namespace Db2Seeder.Business.Benefit_Claims
 {
     public class AgeBenefit
-    {
-        readonly AgePensionDB2 as400AgePension=new AgePensionDB2();
-
-        List<SupportRequest> RequestList;
-        Document_AgeBenefit Document_AgeBenefit;
-        //SupportRequest/GetByState/Type/6/State/16
-
+    {//SupportRequest/GetByState/Type/6/State/16
         public static async Task<List<SupportRequest>> GetAgeBenefitClaimCompleted()
         {
             try

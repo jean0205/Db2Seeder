@@ -76,6 +76,11 @@ namespace ShareModels.Models.Sickness_Claim
         public int version { get; set; }
         public DateTime createdOn { get; set; }
         public DateTime updatedOn { get; set; }
+        public string CompletedBy { get; set; }
+        public DateTime? CompletedTime { get; set; }
+        public int SupportRequestId { get; set; }
+        public string WebPortalLink => $"http://my-nis-uat.loteklabs.com/SupportRequest/Detail/" + SupportRequestId;
+        public int? ClaimNumber { get; set; }
     }
     public class EmployerEntity
     {

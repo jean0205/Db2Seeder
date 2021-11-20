@@ -18,6 +18,45 @@ namespace Db2Seeder.Business
         List<SupportRequest> RequestList;
         Document_Remittance Document_Remittance;
         //SupportRequest/GetByState/Type/15/State/9
+
+        public static async Task<List<SupportRequest>> GetRemittancePending()
+        {
+            try
+            {
+                List<SupportRequest> RequestList = new List<SupportRequest>();
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(15, 9);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Document_Remittance> RemittanceDetailsDetail(SupportRequest Request)
+        {
+            try
+            {
+                DocumentGuid guid = new DocumentGuid();
+                guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
+                if (guid.message != Guid.Empty)
+                {
+                    Document_AgeBenefit Document_AgeBenefit = new Document_AgeBenefit();
+                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
+                    Document_AgeBenefit = await GetAgeBanefitDetails(guid);
+                    Document_AgeBenefit.CompletedBy = requestHistory.Last().UserName;
+                    Document_AgeBenefit.CompletedTime = requestHistory.Last().dateModified;
+                    Document_AgeBenefit.SupportRequestId = Request.supportRequestId;
+                    return Document_AgeBenefit;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public async Task GetRemittancePendingReview()
         {
             try
