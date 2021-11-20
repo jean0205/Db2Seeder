@@ -31,20 +31,17 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-        public static async Task<Document_Remittance> RemittanceDetailsDetail(SupportRequest Request)
+        public static async Task<Document_Remittance> RemittanceDetail(SupportRequest Request)
         {
             try
             {
                 DocumentGuid guid = new DocumentGuid();
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
-                {
-                    Document_Remittance Document_Remittance = new Document_Remittance();
+                {                  
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-                    Document_Remittance = await GetRequestDetailsRemittance(guid);
-                    
-                   
+                    return await GetRequestDetailsRemittance(guid);                   
                 }
                 return null;
             }
@@ -99,9 +96,8 @@ namespace Db2Seeder.Business
                     jmp:;
                     }
                     //toma palacio
-                    
-                    //await as400Remittance.PostRemittances(RemittanceCopy);
-                    //await PostAS400
+                    Remittance rt=new Remittance();
+                    await rt.PostAS400(RemittanceCopy);
                 }
             }
             catch (Exception ex)

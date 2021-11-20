@@ -5,6 +5,7 @@ using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
+using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +13,22 @@ using System.Threading.Tasks;
 
 namespace Db2Seeder.Business.Benefit_Claims
 {
-    public class AgeBenefit
-    {//SupportRequest/GetByState/Type/6/State/16
+    public class DeathBenefit
+    {
+        //SupportRequest/GetByState/Type/7/State/20
         public static async Task<List<SupportRequest>> GetClaimsCompleted()
         {
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(6, 16);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(7, 20);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static async Task<Document_AgeBenefit> ClaimDetail(SupportRequest Request)
+        public static async Task<Document_DeathBenefit> ClaimDetail(SupportRequest Request)
         {
             try
             {
@@ -34,14 +36,15 @@ namespace Db2Seeder.Business.Benefit_Claims
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
-                    Document_AgeBenefit Document_AgeBenefit = new Document_AgeBenefit();
+                    Document_DeathBenefit Document_DeathBenefit = new Document_DeathBenefit();
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-                    Document_AgeBenefit = await GetDetails(guid);
-                    Document_AgeBenefit.CompletedBy = requestHistory.Last().UserName;
-                    Document_AgeBenefit.CompletedTime = requestHistory.Last().dateModified;
-                    Document_AgeBenefit.SupportRequestId = Request.supportRequestId;
-                    return Document_AgeBenefit;
+                    Document_DeathBenefit = await GetDetails(guid);
+
+                    Document_DeathBenefit.CompletedBy = requestHistory.Last().UserName;
+                    Document_DeathBenefit.CompletedTime = requestHistory.Last().dateModified;
+                    Document_DeathBenefit.SupportRequestId = Request.supportRequestId;
+                    return Document_DeathBenefit;
                 }
                 return null;
             }
@@ -50,17 +53,17 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<Document_AgeBenefit> GetDetails(DocumentGuid guid)
+        public static async Task<Document_DeathBenefit> GetDetails(DocumentGuid guid)
         {
             try
             {
-                Response response = await ApiServices.FindAsyncByGuid<Document_AgeBenefit>("Document/Get?id", guid.message);
+                Response response = await ApiServices.FindAsyncByGuid<Document_DeathBenefit>("Document/Get?id", guid.message);
 
                 if (!response.IsSuccess)
                 {
                     return null;
                 }
-                return (Document_AgeBenefit)response.Result;
+                return (Document_DeathBenefit)response.Result;
             }
             catch (Exception ex)
             {
@@ -79,7 +82,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_AgeBenefit Document_AgeBenefit)
+        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_DeathBenefit Document_DeathBenefit)
         {
             try
             {
@@ -110,7 +113,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.RegistrantTypeId = 1;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = Document_AgeBenefit.nisNo;
+                            documents.NisNumber = Document_DeathBenefit.nisNo;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid);
                             documents.ScannedBy = importLog.ImportedBy;
                             documents.ScanDatetime = DateTime.Now;
@@ -128,6 +131,5 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-
     }
 }

@@ -41,7 +41,8 @@
             this.button5 = new System.Windows.Forms.Button();
             this.tViewEvents = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +60,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(458, 4);
+            this.button2.Location = new System.Drawing.Point(231, 4);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 32);
@@ -68,15 +69,10 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // button3
             // 
@@ -110,8 +106,8 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.49233F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.50767F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.17155F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.82845F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1369, 717);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
@@ -129,18 +125,21 @@
             this.tableLayoutPanel2.Controls.Add(this.button2, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.button3, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.button5, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button6, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button7, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button8, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 659);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 585);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1363, 55);
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1363, 129);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(231, 4);
+            this.button5.Location = new System.Drawing.Point(458, 4);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(153, 32);
@@ -151,12 +150,13 @@
             // 
             // tViewEvents
             // 
+            this.tViewEvents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tViewEvents.ImageIndex = 0;
             this.tViewEvents.ImageList = this.imageList1;
             this.tViewEvents.Location = new System.Drawing.Point(3, 3);
             this.tViewEvents.Name = "tViewEvents";
             this.tViewEvents.SelectedImageIndex = 0;
-            this.tViewEvents.Size = new System.Drawing.Size(939, 650);
+            this.tViewEvents.Size = new System.Drawing.Size(1363, 576);
             this.tViewEvents.TabIndex = 1;
             // 
             // imageList1
@@ -169,16 +169,27 @@
             this.imageList1.Images.SetKeyName(3, "—Pngtree—true and false symbols accept_4723246.png");
             this.imageList1.Images.SetKeyName(4, "daniel_info-icon-danholt.png");
             // 
-            // button6
+            // button7
             // 
-            this.button6.Location = new System.Drawing.Point(1139, 4);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(153, 32);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Age Benefit";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button7.Location = new System.Drawing.Point(4, 47);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(112, 32);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "deathBenefit";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(231, 47);
+            this.button8.Margin = new System.Windows.Forms.Padding(4);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(112, 32);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "Funeral";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Form1
             // 
@@ -191,7 +202,6 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -211,7 +221,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TreeView tViewEvents;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 

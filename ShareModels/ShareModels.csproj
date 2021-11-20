@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -44,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Helpers\UtilRecurrent.cs" />
     <Compile Include="Models\Benefit Claims\Document_AgeBenefit.cs" />
+    <Compile Include="Models\Benefit Claims\Document_DeathBenefit.cs" />
+    <Compile Include="Models\Benefit Claims\Document_FuneralBenefit.cs" />
     <Compile Include="Models\Benefit Claims\ProvidentFundEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkOtherCountryEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkHistoryEntity.cs" />
@@ -54,10 +59,13 @@
     <Compile Include="Models\Document_Employee.cs" />
     <Compile Include="Models\Document_Remittance.cs" />
     <Compile Include="Models\RequestHistory.cs" />
-    <Compile Include="Models\Sickness Claim\Document_Sickness.cs" />
+    <Compile Include="Models\Benefit Claims\Document_Sickness.cs" />
     <Compile Include="Models\SuportRequest.cs" />
     <Compile Include="Models\SupportRequestType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
