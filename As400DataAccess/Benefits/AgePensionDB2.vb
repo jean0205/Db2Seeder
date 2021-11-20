@@ -11,6 +11,8 @@ Public Class AgePensionDB2
 
             ClaimNo = Await GenerarClaimNo()
             Await InsertBenf(Agepension, ClaimNo)
+            Await InsertCLMNCS(Agepension, ClaimNo)
+            '  Await InsertBadt("4", ClaimNo)
 
         Catch ex As iDB2Exception
             Throw ex
@@ -19,61 +21,6 @@ Public Class AgePensionDB2
         Return ClaimNo
     End Function
 
-    Async Function GenerarClaimNo() As Task(Of Integer)
-        Dim ClaimNo As Integer = 0
-        Try
-            Using connection As New iDB2Connection(cn)
-
-                connection.Open()
-                Dim rs As iDB2DataReader
-                Dim cmdtextnewnum As String = "select * from ""QS36F"".""" & As400_lib & ".CONS"" where CKEY01 LIKE @CKEY"
-                Dim cmd As New iDB2Command() With {
-                            .CommandText = cmdtextnewnum,
-                            .Connection = connection,
-                            .CommandTimeout = 0
-                        }
-                cmd.DeriveParameters()
-                cmd.Parameters("@CKEY").Value = "Z  005"
-
-                rs = Await cmd.ExecuteReaderAsync
-                If rs.Read Then
-                    Dim CLMNNUMBER As String
-                    CLMNNUMBER = rs("DATA01").ToString.Substring(12, 9)
-                    ClaimNo = Convert.ToInt32(CLMNNUMBER)
-
-                    'UPDATE CONS FILE
-                    Dim cmdtxt As String = "UPDATE ""QS36F"".""" & As400_lib & ".CONS"" SET DATA01 = @DATA WHERE CKEY01 LIKE @CKEY "
-                    Dim cmdupd As New iDB2Command With {
-                        .CommandText = cmdtxt,
-                        .Connection = connection,
-                        .CommandTimeout = 0
-                    }
-                    cmdupd.DeriveParameters()
-                    Dim strdata As String
-                    Dim newclmn As Integer = Convert.ToInt32(CLMNNUMBER) + 1
-                    Dim newclmnstr As String = Convert.ToString(newclmn)
-
-                    While newclmnstr.Length < 9
-                        newclmnstr = "0" + newclmnstr
-                    End While
-
-                    strdata = Mid(rs("DATA01"), 1, 12) + newclmnstr + Mid(rs("DATA01"), 22)
-                    cmdupd.Parameters("@DATA").Value = strdata
-                    cmdupd.Parameters("@CKEY").Value = "Z  005"
-                    Await cmdupd.ExecuteNonQueryAsync()
-                    cmdupd.Dispose()
-
-                End If
-                cmd.Dispose()
-                rs.Close()
-
-            End Using
-        Catch ex As iDB2Exception
-            Throw ex
-        End Try
-
-        Return ClaimNo
-    End Function
     Async Function InsertBenf(Agepension As Document_AgeBenefit, Clmn As String) As Task
         Try
 
@@ -144,4 +91,118 @@ Public Class AgePensionDB2
             Throw ex
         End Try
     End Function
+
+    Async Function InsertCLMNCS(Agepension As Document_AgeBenefit, Clmn As String) As Task
+        Try
+
+            Using connection As New iDB2Connection(cn)
+
+                connection.Open()
+
+                Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNCS""  (ACTVCS, CLMNCS, EREGCS, BENTCS, CNCCCS, CNYYCS, CNMMCS, CNDDCS, STATCS,
+                                                  RFRCCS, RCOMCS, RTCSCS, LWRKCS, ACCDCS, DEADCS, UNEMPCS, CHIDCS, CRDCS, DEGDCS, PRMDCS, RREGCS, RRSFCS, RREGCS2, RRSFCS2,RREGCS3,
+                                                  RRSFCS3, RREGCS4, RRSFCS4, RREGCS5, RRSFCS5, PROVFCS, RECPACS, GOVWCS, STAQCS, CMPQCS, SAVBCS, SAVTCS, EMPASCS, EMPRACS, EMPSACS)
+                                        VALUES(@ACTVCS, @CLMNCS, @EREGCS, @BENTCS, @CNCCCS, @CNYYCS, @CNMMCS, @CNDDCS, @STATCS,
+                                              @RFRCCS, @RCOMCS, @RTCSCS,  @LWRKCS, @ACCDCS, @DEADCS, @UNEMPCS, @CHIDCS, @CRDCS, @DEGDCS, @PRMDCS, @RREGCS, @RRSFCS, @RREGCS2, @RRSFCS2,
+                                              @RREGCS3, @RRSFCS3, @RREGCS4, @RRSFCS4, @RREGCS5, @RRSFCS5, @PROVFCS, @RECPACS, @GOVWCS, @STAQCS, @CMPQCS, @SAVBCS,@SAVTCS, @EMPASCS, @EMPRACS, @EMPSACS )"
+
+                Dim cmd As New iDB2Command() With {
+                            .CommandText = cmdtext,
+                            .Connection = connection,
+                            .CommandTimeout = 0
+                        }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTVCS").Value = "A"
+                cmd.Parameters("@CLMNCS").Value = Clmn
+                cmd.Parameters("@EREGCS").Value = Agepension.nisNo
+                cmd.Parameters("@BENTCS").Value = "4"
+                cmd.Parameters("@CNCCCS").Value = Agepension.createdOn.Year \ 100
+                cmd.Parameters("@CNYYCS").Value = Agepension.createdOn.Year Mod 100
+                cmd.Parameters("@CNMMCS").Value = Agepension.createdOn.Month
+                cmd.Parameters("@CNDDCS").Value = Agepension.createdOn.Day
+                cmd.Parameters("@STATCS").Value = " "
+
+                'REASON FOR REJECT
+                cmd.Parameters("@RFRCCS").Value = " "
+
+                'REJECT COMMENTS
+                cmd.Parameters("@RCOMCS").Value = " "
+
+                'REASON TO CLOSE
+                cmd.Parameters("@RTCSCS").Value = " "
+
+                'LAST DAY WORKED
+                cmd.Parameters("@LWRKCS").Value = 0
+
+                'DATE OF ACCIDENT
+                cmd.Parameters("@ACCDCS").Value = 0
+
+                'DATE OF DEATH
+                cmd.Parameters("@DEADCS").Value = 0
+                cmd.Parameters("@UNEMPCS").Value = 0
+
+                'CHILD DATE OF BIRTH
+                cmd.Parameters("@CHIDCS").Value = 0
+
+                'DATE OF CLAIM RECEIVED
+                cmd.Parameters("@CRDCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
+
+
+                'DEGREE OF DISABLEMENT
+                cmd.Parameters("@DEGDCS").Value = 0
+
+                'PERMANENTLY OF INCAPABLE
+                cmd.Parameters("@PRMDCS").Value = " "
+
+                'EMPLOYERS REG
+                cmd.Parameters("@RREGCS").Value = 0
+                cmd.Parameters("@RRSFCS").Value = 0
+                cmd.Parameters("@RREGCS2").Value = 0
+                cmd.Parameters("@RRSFCS2").Value = 0
+                cmd.Parameters("@RREGCS3").Value = 0
+                cmd.Parameters("@RRSFCS3").Value = 0
+                cmd.Parameters("@RREGCS4").Value = 0
+                cmd.Parameters("@RRSFCS4").Value = 0
+                cmd.Parameters("@RREGCS5").Value = 0
+                cmd.Parameters("@RRSFCS5").Value = 0
+
+
+                'PROVIDENT FUND CLAIM
+                cmd.Parameters("@PROVFCS").Value = " "
+
+
+                'PRECIPROCAL AGREEMENT
+                cmd.Parameters("@RECPACS").Value = ""
+
+                'GOVERNMENT CLAIM
+                cmd.Parameters("@GOVWCS").Value = "V"
+
+
+                'STATEMENT QUERY
+                cmd.Parameters("@STAQCS").Value = " "
+
+
+                'COMPLIANCE QUERY
+                cmd.Parameters("@CMPQCS").Value = " "
+
+                cmd.Parameters("@SAVBCS").Value = "UserID"
+                cmd.Parameters("@SAVTCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
+
+                'reassingempr
+                cmd.Parameters("@EMPASCS").Value = "N"
+                cmd.Parameters("@EMPRACS").Value = "0"
+                cmd.Parameters("@EMPSACS").Value = "0"
+
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+    End Function
+
+
+
 End Class
