@@ -59,6 +59,7 @@
     <Compile Include="Business\Benefit Claims\AgeBenefit.cs" />
     <Compile Include="Business\Benefit Claims\DeathBenefit.cs" />
     <Compile Include="Business\Benefit Claims\FuneralBenefit.cs" />
+    <Compile Include="Business\Benefit Claims\InvalidityBenefit.cs" />
     <Compile Include="Business\Benefit Claims\SicknessBenefit.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\Employee.cs" />

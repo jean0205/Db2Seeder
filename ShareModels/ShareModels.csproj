@@ -45,10 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Helpers\UtilRecurrent.cs" />
     <Compile Include="Models\Benefit Claims\Document_AgeBenefit.cs" />
     <Compile Include="Models\Benefit Claims\Document_DeathBenefit.cs" />
     <Compile Include="Models\Benefit Claims\Document_FuneralBenefit.cs" />
+    <Compile Include="Models\Benefit Claims\Document_Invalidity.cs" />
     <Compile Include="Models\Benefit Claims\ProvidentFundEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkOtherCountryEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkHistoryEntity.cs" />

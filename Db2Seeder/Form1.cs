@@ -1,13 +1,9 @@
 ﻿using As400DataAccess;
-using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
 using Microsoft.AppCenter.Crashes;
-using ShareModels.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,14 +12,14 @@ namespace Db2Seeder
     public partial class Form1 : Form
     {
         readonly EmployeeDB2 as400Empe = new EmployeeDB2();
-        readonly EmployerDB2 as400Empr= new EmployerDB2();
-        readonly AgePensionDB2 as400AgeBenefit= new AgePensionDB2();
+        readonly EmployerDB2 as400Empr = new EmployerDB2();
+        readonly AgePensionDB2 as400AgeBenefit = new AgePensionDB2();
 
         bool finish = true;
         public Form1()
         {
             InitializeComponent();
-        }       
+        }
         private async void button1_Click(object sender, EventArgs e)
         {
             // await Employee.GetEmployeeRegistrationSupportRequestCompleted();           
@@ -45,7 +41,7 @@ namespace Db2Seeder
             //await AgeBenefit.GetAgeBenefitCompleted();
             await AgeBenefitClaimCompleted();
         }
-      
+
         private async void button3_Click(object sender, EventArgs e)
         {
             // await Remittance.GetRemittancePendingReview();
@@ -504,7 +500,7 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                               // Document_DeathBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_DeathBenefit);
+                                // Document_DeathBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_DeathBenefit);
                                 if (document.ClaimNumber == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -533,7 +529,7 @@ namespace Db2Seeder
                                     //    Crashes.TrackError(ex);
                                     //    AddTreeViewLogLevel2("Error " + ex.Message, false);
                                     //}
-                                }                               
+                                }
                             }
                             else
                             {
@@ -629,6 +625,78 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        private async Task InvalidityBenefitClaimCompleted()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Invalidity Benefit");
+                AddTreeViewLogLevel1Info("Getting Invalidity Benefit Claims Completed");
+                try
+                {
+                    var requests = await InvalidityBenefit.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        foreach (var request in requests)
+                        {
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            var document = await InvalidityBenefit.ClaimDetail(request);
+                            if (document != null)
+                            {
+                                AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                // Document_DeathBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_DeathBenefit);
+                                if (document.ClaimNumber == 0)
+                                {
+                                    AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                    //updating worflow state
+                                    var responseA = await InvalidityBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 166);
+                                    if (responseA.IsSuccess)
+                                    {
+                                        AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                    }
+                                    try
+                                    {
+                                        AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                        int savedAtt = await InvalidityBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
 
         #endregion
 
@@ -643,7 +711,7 @@ namespace Db2Seeder
             //Application.DoEvents();
             tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
             tViewEvents.ExpandAll();
-            tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count-1];
+            tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
         }
         void AddTreeViewLogLevel1(string text, bool successful)
         {
@@ -689,7 +757,7 @@ namespace Db2Seeder
         }
         void AddTreeViewLogLevel2Info(string text)
         {
-           // Thread.Sleep(2000);
+            // Thread.Sleep(2000);
             //Application.DoEvents();
             var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
             var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
@@ -697,12 +765,11 @@ namespace Db2Seeder
             tViewEvents.ExpandAll();
             tViewEvents.SelectedNode = secondLevelNode;
         }
+
         private void button6_Click(object sender, EventArgs e)
         {
-            Form2 frm= new Form2();
+            Form2 frm = new Form2();
             frm.Show();
         }
-
-        
     }
 }

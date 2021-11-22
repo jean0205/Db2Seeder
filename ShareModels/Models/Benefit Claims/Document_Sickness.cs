@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShareModels.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -79,7 +80,7 @@ namespace ShareModels.Models.Sickness_Claim
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
-        public string WebPortalLink => $"http://my-nis-uat.loteklabs.com/SupportRequest/Detail/" + SupportRequestId;
+        public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;
         public int? ClaimNumber { get; set; }
     }
     public class EmployerEntity

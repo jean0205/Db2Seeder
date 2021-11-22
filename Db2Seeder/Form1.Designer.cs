@@ -39,10 +39,11 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button5 = new System.Windows.Forms.Button();
-            this.tViewEvents = new System.Windows.Forms.TreeView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.tViewEvents = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.button6 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -127,6 +128,7 @@
             this.tableLayoutPanel2.Controls.Add(this.button5, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.button7, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.button8, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button6, 1, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 585);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -147,27 +149,6 @@
             this.button5.Text = "Age Benefit";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // tViewEvents
-            // 
-            this.tViewEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tViewEvents.ImageIndex = 0;
-            this.tViewEvents.ImageList = this.imageList1;
-            this.tViewEvents.Location = new System.Drawing.Point(3, 3);
-            this.tViewEvents.Name = "tViewEvents";
-            this.tViewEvents.SelectedImageIndex = 0;
-            this.tViewEvents.Size = new System.Drawing.Size(1363, 576);
-            this.tViewEvents.TabIndex = 1;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "regularClams.png");
-            this.imageList1.Images.SetKeyName(1, "—Pngtree—dollar money in hand_4099984.png");
-            this.imageList1.Images.SetKeyName(2, "Selected.png");
-            this.imageList1.Images.SetKeyName(3, "—Pngtree—true and false symbols accept_4723246.png");
-            this.imageList1.Images.SetKeyName(4, "daniel_info-icon-danholt.png");
             // 
             // button7
             // 
@@ -190,6 +171,38 @@
             this.button8.Text = "Funeral";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // tViewEvents
+            // 
+            this.tViewEvents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tViewEvents.ImageIndex = 0;
+            this.tViewEvents.ImageList = this.imageList1;
+            this.tViewEvents.Location = new System.Drawing.Point(3, 3);
+            this.tViewEvents.Name = "tViewEvents";
+            this.tViewEvents.SelectedImageIndex = 0;
+            this.tViewEvents.Size = new System.Drawing.Size(1363, 576);
+            this.tViewEvents.TabIndex = 1;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "regularClams.png");
+            this.imageList1.Images.SetKeyName(1, "—Pngtree—dollar money in hand_4099984.png");
+            this.imageList1.Images.SetKeyName(2, "Selected.png");
+            this.imageList1.Images.SetKeyName(3, "—Pngtree—true and false symbols accept_4723246.png");
+            this.imageList1.Images.SetKeyName(4, "daniel_info-icon-danholt.png");
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(231, 90);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(153, 32);
+            this.button6.TabIndex = 8;
+            this.button6.Text = "Age Benefit";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
@@ -223,6 +236,7 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button6;
     }
 }
 
