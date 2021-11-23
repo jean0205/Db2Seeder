@@ -233,6 +233,52 @@ namespace Db2Seeder.API.Request
             }
         }
 
+        //get NIS mapped to the account
+        public static async Task<List<NISMapped>> GetNISMapping(int accountId )
+        {
+            try
+            {
+                NISMapped nISMapped = new NISMapped();
+                nISMapped.UserAccountID= accountId;
+                Response response = await ApiServices.PostAsync("Account/AddNisMapping", nISMapped);
+
+                if (!response.IsSuccess)
+                {
+                    return new List<NISMapped>();
+                }
+                return (List<NISMapped>)response.Result;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                throw ex;
+            }
+        }
+        public static async Task<bool> IsEmployer(int accountId)
+        {
+            try
+            {
+                var roleList = await GetNISMapping(accountId);
+                return roleList.Where(x=>x.NisNumberTypeID==1).Any();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<bool> IsEmployee(int accountId)
+        {
+            try
+            {
+                var roleList = await GetNISMapping(accountId);
+                return roleList.Where(x => x.NisNumberTypeID == 2).Any();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
     }
 }

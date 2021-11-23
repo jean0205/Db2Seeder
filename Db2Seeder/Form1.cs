@@ -1,4 +1,5 @@
 ﻿using As400DataAccess;
+using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
 using Microsoft.AppCenter.Crashes;
@@ -71,6 +72,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                         foreach (var request in requests)
                         {
+
                             AddTreeViewLogLevel1Info("Getting Employee Details");
                             var document = await EmployeeRegistration.EmployeeRegistrationRequestDetail(request);
                             if (document != null)
@@ -105,41 +107,47 @@ namespace Db2Seeder
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                     }
-                                    try
+                                    //si no es employer y no tiene  employee link entonces hago el link automatico
+                                    if (!await ApiRequest.IsEmployer(request.ownerId) && !await ApiRequest.IsEmployee(request.ownerId))
                                     {
-                                        AddTreeViewLogLevel2Info("Mapping NIS Number to Web Portal Account.");
-                                        var response = await EmployeeRegistration.AddNISMapping(request, document);
-                                        if (response.IsSuccess)
+                                        try
                                         {
-                                            AddTreeViewLogLevel2(document.nisNo + " Successfully Mapped.", true);
+                                            AddTreeViewLogLevel2Info("Mapping NIS Number to Web Portal Account.");
+                                            var response = await EmployeeRegistration.AddNISMapping(request, document);
+                                            if (response.IsSuccess)
+                                            {
+                                                AddTreeViewLogLevel2(document.nisNo + " Successfully Mapped.", true);
+                                            }
+                                            else
+                                            {
+                                                AddTreeViewLogLevel2("Error mapping NIS number: " + document.nisNo + " " + response.Message, false);
+                                            }
                                         }
-                                        else
+                                        catch (Exception ex)
                                         {
-                                            AddTreeViewLogLevel2("Error mapping NIS number: " + document.nisNo + " " + response.Message, false);
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                        }
+                                        try
+                                        {
+
+                                            AddTreeViewLogLevel2Info("Assigning Employee Rol.");
+                                            if (await EmployeeRegistration.AddEmployeeRole(request))
+                                            {
+                                                AddTreeViewLogLevel2("Employee Role successufully added", true);
+                                            }
+                                            else
+                                            {
+                                                AddTreeViewLogLevel2("Error Adding Employee Role.", false);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        Crashes.TrackError(ex);
-                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                    }
-                                    try
-                                    {
-                                        AddTreeViewLogLevel2Info("Assigning Employee Rol.");
-                                        if (await EmployeeRegistration.AddEmployeeRole(request))
-                                        {
-                                            AddTreeViewLogLevel2("Employee Role successufully added", true);
-                                        }
-                                        else
-                                        {
-                                            AddTreeViewLogLevel2("Error Adding Employee Role.", false);
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Crashes.TrackError(ex);
-                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                    }
+
                                 }
                             }
                             else
@@ -413,7 +421,7 @@ namespace Db2Seeder
             try
             {
                 AddTreeViewLogLevel0("Age Benefit");
-                AddTreeViewLogLevel1Info(" Getting Age Benefit Claims Completed");
+                AddTreeViewLogLevel1Info("Getting Age Benefit Claims Completed");
                 try
                 {
                     var requests = await AgeBenefit.GetClaimsCompleted();
@@ -697,7 +705,6 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-
         #endregion
 
 

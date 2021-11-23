@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.Models\AssignRoleToUserAccount.cs" />
+    <Compile Include="API.Models\NISMapped.cs" />
     <Compile Include="API.Models\NisMapping.cs" />
     <Compile Include="API.Models\Response.cs" />
     <Compile Include="API.Models\UserAccount.cs" />

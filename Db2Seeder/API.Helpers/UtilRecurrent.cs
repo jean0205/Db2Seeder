@@ -189,5 +189,31 @@ namespace Db2Seeder.API.Helpers
             }
         }
 
+        public void ConvertImagetoPDF()
+        {
+            try
+            {
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        void DrawImage(XGraphics gfx, string jpegSamplePath, int x, int y, int width, int height)
+        {
+            try
+            {
+                XImage image = XImage.FromFile(jpegSamplePath);
+                gfx.DrawImage(image, x, y, width, height);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex); UtilRecurrent.ErrorMessage(ex.Message);
+            }
+        }
+
     }
 }
