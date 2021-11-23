@@ -1,7 +1,14 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Db2Seeder.API.Helpers
@@ -189,29 +196,45 @@ namespace Db2Seeder.API.Helpers
             }
         }
 
-        public void ConvertImagetoPDF()
+        public static async Task<byte[]> ConvertImagetoPDF(byte[] imagerray, string extention)
         {
             try
             {
 
+                Stream imageStream = new MemoryStream(imagerray);
+                byte[] result = Array.Empty<byte>();
+                PdfDocument document2 = new PdfDocument();
+                PdfPage page = document2.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                System.Drawing.Image img = System.Drawing.Image.FromStream(imageStream);
+                page.Width = img.Width;
+                page.Height = img.Height;
 
+                DrawImage(gfx, imageStream, 0, 0, (int)page.Width, (int)page.Height);
+
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                var enc1252 = Encoding.GetEncoding(1252);
+                MemoryStream stream = new MemoryStream();
+                document2.Save(stream, false);
+                result = new byte[stream.Length];
+                await stream.ReadAsync(result, 0, (int)stream.Length);               
+                return result;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-        void DrawImage(XGraphics gfx, string jpegSamplePath, int x, int y, int width, int height)
+        static void DrawImage(XGraphics gfx, Stream jpegSamplePath, int x, int y, int width, int height)
         {
             try
             {
-                XImage image = XImage.FromFile(jpegSamplePath);
+                XImage image = XImage.FromStream(jpegSamplePath);
                 gfx.DrawImage(image, x, y, width, height);
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(ex); UtilRecurrent.ErrorMessage(ex.Message);
+                throw ex;
             }
         }
 

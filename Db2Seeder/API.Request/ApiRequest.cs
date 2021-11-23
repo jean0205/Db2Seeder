@@ -88,11 +88,16 @@ namespace Db2Seeder.API.Request
         }
 
         //get PDF Data
-        public static async Task<byte[]> GetDocument_Data(Guid guid)
+        public static async Task<byte[]> GetDocument_Data(Guid guid,string fileType)
         {
             try
             {
-                return await GetSupportRequestAttachmentsData(guid);
+                var result= await GetSupportRequestAttachmentsData(guid);
+                if (fileType!="PDF")
+                {
+                    return await  UtilRecurrent.ConvertImagetoPDF(result, fileType);
+                }
+                return result;
 
             }
             catch (Exception ex)
@@ -240,7 +245,7 @@ namespace Db2Seeder.API.Request
             {
                 NISMapped nISMapped = new NISMapped();
                 nISMapped.UserAccountID= accountId;
-                Response response = await ApiServices.PostAsync("Account/AddNisMapping", nISMapped);
+                Response response = await ApiServices.PostAsyncx<NISMapped>("Account/GetNisMapping", nISMapped);
 
                 if (!response.IsSuccess)
                 {
@@ -249,8 +254,7 @@ namespace Db2Seeder.API.Request
                 return (List<NISMapped>)response.Result;
             }
             catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
+            {               
                 throw ex;
             }
         }

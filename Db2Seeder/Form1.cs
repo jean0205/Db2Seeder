@@ -108,7 +108,7 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                     }
                                     //si no es employer y no tiene  employee link entonces hago el link automatico
-                                    if (!await ApiRequest.IsEmployer(request.ownerId) && !await ApiRequest.IsEmployee(request.ownerId))
+                                    if (!await ApiRequest.IsEmployer(request.ownerId) || !await ApiRequest.IsEmployee(request.ownerId))
                                     {
                                         try
                                         {
