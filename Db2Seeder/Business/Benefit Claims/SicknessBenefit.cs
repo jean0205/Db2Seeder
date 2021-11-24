@@ -70,7 +70,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<Response> UpdateWorkFlowStateSicknessBenefit(int userId, int requestId, int actionId)
+        public static async Task<Response> UpdateWorkFlowState(int userId, int requestId, int actionId)
         {
             try
             {

@@ -15,8 +15,12 @@ namespace Db2Seeder
         readonly EmployeeDB2 as400Empe = new EmployeeDB2();
         readonly EmployerDB2 as400Empr = new EmployerDB2();
         readonly AgePensionDB2 as400AgeBenefit = new AgePensionDB2();
+        readonly DeathBenefitDB2 as400DeathBenefit = new DeathBenefitDB2();
+        readonly FuneralBenefitDB2 as400FuneralBenefit = new FuneralBenefitDB2();
+        readonly InvalidityDB2 as400InvalidityBenefit = new InvalidityDB2();
+        readonly SicknessDB2 as400sicknessBenefit = new SicknessDB2();
 
-       
+
         public Form1()
         {
             InitializeComponent();
@@ -56,9 +60,13 @@ namespace Db2Seeder
         {
             await FuneralBenefitClaimCompleted();
         }
-        private async  void button6_Click(object sender, EventArgs e)
+        private async void button6_Click(object sender, EventArgs e)
         {
             await InvalidityBenefitClaimCompleted();
+        }
+        private async  void button9_Click(object sender, EventArgs e)
+        {
+            await SicknessBenefitClaimCompleted();
         }
 
         #region Employee-Employer
@@ -512,7 +520,7 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                // Document_DeathBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_DeathBenefit);
+                                document.ClaimNumber = await as400DeathBenefit.InsertDeathBenefit(document);
                                 if (document.ClaimNumber == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -584,7 +592,7 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                // Document_DeathBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_DeathBenefit);
+                                document.ClaimNumber = await as400FuneralBenefit.InsertFuneral(document);
                                 if (document.ClaimNumber == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -602,17 +610,17 @@ namespace Db2Seeder
                                     //{
                                     //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
                                     //}
-                                    //try
-                                    //{
-                                    //    AddTreeViewLogLevel2Info("Saving Employee Documents.");
-                                    //    int savedAtt = await FuneralBenefit.RequestAttachmentToScannedDocuments(request, Document_DeathBenefit);
-                                    //    AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
-                                    //}
-                                    //catch (Exception ex)
-                                    //{
-                                    //    Crashes.TrackError(ex);
-                                    //    AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                    //}
+                                    try
+                                    {
+                                        AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                        int savedAtt = await FuneralBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                    }
                                 }
                             }
                             else
@@ -656,7 +664,7 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                // Document_DeathBenefit.ClaimNumber = await as400AgeBenefit.InsertAgePension(Document_DeathBenefit);
+                                 document.ClaimNumber = await as400InvalidityBenefit.InsertInvalidity(document);
                                 if (document.ClaimNumber == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -678,6 +686,79 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel2Info("Saving Employee Documents.");
                                         int savedAtt = await InvalidityBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
+        private async Task SicknessBenefitClaimCompleted()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Sickness Benefit");
+                AddTreeViewLogLevel1Info("Getting Sickness Benefit Claims Completed");
+                try
+                {
+                    var requests = await SicknessBenefit.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        foreach (var request in requests)
+                        {
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            var document = await SicknessBenefit.ClaimDetail(request);
+                            if (document != null)
+                            {
+                                AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document);
+                                if (document.ClaimNumber == 0)
+                                {
+                                    AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                    //updating worflow state
+                                    //var responseA = await SicknessBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 169);
+                                    //if (responseA.IsSuccess)
+                                    //{
+                                    //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                    //}
+                                    //else
+                                    //{
+                                    //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                    //}
+                                    try
+                                    {
+                                        AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                        int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
                                         AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                     }
                                     catch (Exception ex)
@@ -777,6 +858,6 @@ namespace Db2Seeder
             tViewEvents.SelectedNode = secondLevelNode;
         }
 
-       
+      
     }
 }
