@@ -89,12 +89,12 @@ Public Class DeathBenefitDB2
                 cmd1.Parameters("@FILL13").Value = " "
 
                 'LAST DAY WORKED
-                cmd1.Parameters("@LWRK13").Value = ""
+                cmd1.Parameters("@LWRK13").Value = 0
 
                 cmd1.Parameters("@ACCD13").Value = 0
 
                 'DIAGNOSIS COD
-                cmd1.Parameters("@DIAN13").Value = ""
+                cmd1.Parameters("@DIAN13").Value = " "
 
                 Await cmd1.ExecuteNonQueryAsync()
                 cmd1.Dispose()
