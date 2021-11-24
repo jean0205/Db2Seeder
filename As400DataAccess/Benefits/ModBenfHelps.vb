@@ -85,6 +85,8 @@ Module ModBenfHelps
                 rs = Await cmd.ExecuteReaderAsync
                 If rs.Read Then
                     period = rs(0)
+                Else
+                    period = "0-0"
                 End If
                 rs.Close()
                 cmd.Dispose()
