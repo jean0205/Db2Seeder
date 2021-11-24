@@ -33,7 +33,7 @@ Public Class SicknessDB2
     End Function
 
 
-    Async Function InsertSickBenf(Sickness As Document_Sickness, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertSickBenf(Sickness As Document_Sickness, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
