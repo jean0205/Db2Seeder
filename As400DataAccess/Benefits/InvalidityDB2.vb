@@ -21,7 +21,7 @@ Public Class InvalidityDB2
 
 
             ClaimNo = Await GenerarClaimNo()
-            Await InsertInvalidity(Invalidity, ClaimNo, EmprNo, EmprSub)
+            Await InsertInvalidityBENF(Invalidity, ClaimNo, EmprNo, EmprSub)
             Await InsertInvalidityCLMNCS(Invalidity, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
@@ -31,7 +31,7 @@ Public Class InvalidityDB2
         Return ClaimNo
     End Function
 
-    Async Function InsertInvalidity(Invalidity As Document_Invalidity, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertInvalidityBENF(Invalidity As Document_Invalidity, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)

@@ -22,7 +22,7 @@ Public Class DeathBenefitDB2
 
 
             ClaimNo = Await GenerarClaimNo()
-            Await InsertDeathBenefit(DeathBenefit, ClaimNo, EmprNo, EmprSub)
+            Await InsertDeathBenefitBENF(DeathBenefit, ClaimNo, EmprNo, EmprSub)
             Await InsertDeathBenefitCLMNCS(DeathBenefit, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
@@ -32,7 +32,7 @@ Public Class DeathBenefitDB2
         Return ClaimNo
     End Function
 
-    Async Function InsertDeathBenefit(DeathBenefit As Document_DeathBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertDeathBenefitBENF(DeathBenefit As Document_DeathBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -153,7 +153,8 @@ Public Class DeathBenefitDB2
                 cmd.Parameters("@ACCDCS").Value = 0
 
                 'DATE OF DEATH
-                cmd.Parameters("@DEADCS").Value = DeathBenefit.dateOfDeath
+                cmd.Parameters("@DEADCS").Value = CDate(DeathBenefit.dateOfDeath).Year * 10000 + CDate(DeathBenefit.dateOfDeath).Month * 100 + CDate(DeathBenefit.dateOfDeath).Day
+
                 cmd.Parameters("@UNEMPCS").Value = 0
 
                 'CHILD DATE OF BIRTH
