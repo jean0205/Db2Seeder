@@ -22,7 +22,7 @@ Public Class FuneralBenefitDB2
 
 
             ClaimNo = Await GenerarClaimNo()
-            Await InsertFuneral(Funeral, ClaimNo, EmprNo, EmprSub)
+            Await InsertFuneralBENF(Funeral, ClaimNo, EmprNo, EmprSub)
             Await InsertFuneralCLMNCS(Funeral, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
@@ -32,7 +32,7 @@ Public Class FuneralBenefitDB2
         Return ClaimNo
     End Function
 
-    Async Function InsertFuneral(Funeral As Document_FuneralBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertFuneralBENF(Funeral As Document_FuneralBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -154,6 +154,7 @@ Public Class FuneralBenefitDB2
 
                 'DATE OF DEATH
                 cmd.Parameters("@DEADCS").Value = 0
+                'CDate(Funeral.dateOfDeath).Year * 10000 + CDate(Funeral.dateOfDeath).Month * 100 + CDate(Funeral.dateOfDeath).Day
                 cmd.Parameters("@UNEMPCS").Value = 0
 
                 'CHILD DATE OF BIRTH
