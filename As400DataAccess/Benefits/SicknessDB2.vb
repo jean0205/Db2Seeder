@@ -31,8 +31,6 @@ Public Class SicknessDB2
 
         Return ClaimNo
     End Function
-
-
     Private Async Function InsertSickBenf(Sickness As Document_Sickness, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
@@ -82,7 +80,7 @@ Public Class SicknessDB2
                 cmd1.Parameters("@INTL13").Value = Sickness.CompletedBy
 
                 'DIAGNOSIS COD
-                cmd1.Parameters("@DIAG13").Value = Sickness.icdCode
+                cmd1.Parameters("@DIAG13").Value = 0
 
                 cmd1.Parameters("@RREG13").Value = EmprNo
                 cmd1.Parameters("@RRSF13").Value = Emprsub
@@ -95,7 +93,7 @@ Public Class SicknessDB2
                 cmd1.Parameters("@ACCD13").Value = 0
 
                 'DIAGNOSIS COD
-                cmd1.Parameters("@DIAN13").Value = Sickness.icdCode
+                cmd1.Parameters("@DIAN13").Value = If(Sickness.icdCode = Nothing, 0, Sickness.icdCode)
 
                 Await cmd1.ExecuteNonQueryAsync()
                 cmd1.Dispose()
@@ -105,7 +103,6 @@ Public Class SicknessDB2
             Throw ex
         End Try
     End Function
-
     Async Function InsertSickCLMNCS(Sickness As Document_Sickness, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 

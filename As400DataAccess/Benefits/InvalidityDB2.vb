@@ -19,7 +19,6 @@ Public Class InvalidityDB2
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
-
             ClaimNo = Await GenerarClaimNo()
             Await InsertInvalidityBENF(Invalidity, ClaimNo, EmprNo, EmprSub)
             Await InsertInvalidityCLMNCS(Invalidity, ClaimNo, EmprNo, EmprSub)
@@ -30,7 +29,6 @@ Public Class InvalidityDB2
 
         Return ClaimNo
     End Function
-
     Private Async Function InsertInvalidityBENF(Invalidity As Document_Invalidity, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
