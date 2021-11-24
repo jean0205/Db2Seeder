@@ -153,7 +153,7 @@ Public Class DeathBenefitDB2
                 cmd.Parameters("@ACCDCS").Value = 0
 
                 'DATE OF DEATH
-                cmd.Parameters("@DEADCS").Value = 0
+                cmd.Parameters("@DEADCS").Value = DeathBenefit.dateOfDeath
                 cmd.Parameters("@UNEMPCS").Value = 0
 
                 'CHILD DATE OF BIRTH
