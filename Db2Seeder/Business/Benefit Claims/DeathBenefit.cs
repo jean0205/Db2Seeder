@@ -96,7 +96,6 @@ namespace Db2Seeder.Business.Benefit_Claims
                     {
                         List<RequestHistory> requestHistory = new List<RequestHistory>();
                         requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-
                         ImportLog importLog = new ImportLog
                         {
                             ImportedBy = requestHistory.Last().UserName,

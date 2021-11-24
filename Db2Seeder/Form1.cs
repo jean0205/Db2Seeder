@@ -16,7 +16,7 @@ namespace Db2Seeder
         readonly EmployerDB2 as400Empr = new EmployerDB2();
         readonly AgePensionDB2 as400AgeBenefit = new AgePensionDB2();
 
-        bool finish = true;
+       
         public Form1()
         {
             InitializeComponent();
@@ -55,6 +55,10 @@ namespace Db2Seeder
         private async void button8_Click(object sender, EventArgs e)
         {
             await FuneralBenefitClaimCompleted();
+        }
+        private async  void button6_Click(object sender, EventArgs e)
+        {
+            await InvalidityBenefitClaimCompleted();
         }
 
         #region Employee-Employer
@@ -526,17 +530,17 @@ namespace Db2Seeder
                                     //{
                                     //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
                                     //}
-                                    //try
-                                    //{
-                                    //    AddTreeViewLogLevel2Info("Saving Employee Documents.");
-                                    //    int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, Document_DeathBenefit);
-                                    //    AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
-                                    //}
-                                    //catch (Exception ex)
-                                    //{
-                                    //    Crashes.TrackError(ex);
-                                    //    AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                    //}
+                                    try
+                                    {
+                                        AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                        int savedAtt = await DeathBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                    }
                                 }
                             }
                             else
@@ -773,10 +777,6 @@ namespace Db2Seeder
             tViewEvents.SelectedNode = secondLevelNode;
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            Form2 frm = new Form2();
-            frm.Show();
-        }
+       
     }
 }

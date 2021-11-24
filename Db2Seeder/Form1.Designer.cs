@@ -41,9 +41,9 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.tViewEvents = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.button6 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -88,7 +88,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(912, 4);
+            this.button4.Location = new System.Drawing.Point(458, 4);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(153, 32);
@@ -122,13 +122,13 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.button2, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button3, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button5, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button7, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.button8, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.button6, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.button6, 3, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button8, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button7, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button5, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button3, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button4, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 585);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -141,7 +141,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(458, 4);
+            this.button5.Location = new System.Drawing.Point(4, 47);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(153, 32);
@@ -152,7 +152,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(4, 47);
+            this.button7.Location = new System.Drawing.Point(231, 47);
             this.button7.Margin = new System.Windows.Forms.Padding(4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(112, 32);
@@ -163,7 +163,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(231, 47);
+            this.button8.Location = new System.Drawing.Point(458, 47);
             this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(112, 32);
@@ -171,6 +171,17 @@
             this.button8.Text = "Funeral";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(685, 47);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(153, 32);
+            this.button6.TabIndex = 8;
+            this.button6.Text = "Invalidity Benefit";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // tViewEvents
             // 
@@ -192,17 +203,6 @@
             this.imageList1.Images.SetKeyName(2, "Selected.png");
             this.imageList1.Images.SetKeyName(3, "—Pngtree—true and false symbols accept_4723246.png");
             this.imageList1.Images.SetKeyName(4, "daniel_info-icon-danholt.png");
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(231, 90);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(153, 32);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "Age Benefit";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
