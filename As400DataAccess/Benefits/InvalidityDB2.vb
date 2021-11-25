@@ -178,12 +178,18 @@ Public Class InvalidityDB2
                 cmd.Parameters("@RRSFCS5").Value = 0
 
                 'PROVIDENT FUND CLAIM
-
-                cmd.Parameters("@PROVFCS").Value = " "
+                If Invalidity.ProvidentFund = 1 Then
+                    cmd.Parameters("@PROVFCS").Value = "V"
+                Else
+                    cmd.Parameters("@PROVFCS").Value = " "
+                End If
 
                 'PRECIPROCAL AGREEMENT
-
-                cmd.Parameters("@RECPACS").Value = ""
+                If Invalidity.WorkOtherCountries = 1 Then
+                    cmd.Parameters("@RECPACS").Value = "V"
+                Else
+                    cmd.Parameters("@RECPACS").Value = ""
+                End If
 
 
                 'GOVERNMENT CLAIM
