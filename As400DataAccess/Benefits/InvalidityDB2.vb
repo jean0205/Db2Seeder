@@ -101,7 +101,7 @@ Public Class InvalidityDB2
             Throw ex
         End Try
     End Function
-    Async Function InsertInvalidityCLMNCS(Invalidity As Document_Invalidity, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertInvalidityCLMNCS(Invalidity As Document_Invalidity, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)

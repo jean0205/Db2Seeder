@@ -1,10 +1,9 @@
 ﻿Imports IBM.Data.DB2.iSeries
 Imports ShareModels.Models.Benefit_Claims
-Public Class AgePensionDB2
+Public Class SurvivorBenefitDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
-
-    Async Function InsertAgePension(Agepension As Document_AgeBenefit) As Task(Of Integer)
+    Async Function InsertSurvivorBenefit(Survivor As Document_SurvivorBenefit) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
@@ -14,14 +13,14 @@ Public Class AgePensionDB2
             Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Await SelectLastEmployer(Agepension.nisNo)
+            strCadena = Await SelectLastEmployer(Survivor.NisNo)
             intPos = InStr(1, strCadena, "-") 'posicion de la "-"
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
             ClaimNo = Await GenerarClaimNo()
-            Await InsertBenf(Agepension, ClaimNo, EmprNo, EmprSub)
-            Await InsertCLMNCS(Agepension, ClaimNo, EmprNo, EmprSub)
+            Await InsertSurvivorBenf(Survivor, ClaimNo, EmprNo, EmprSub)
+            Await InsertSurvivorCLMNCS(Survivor, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
             Throw ex
@@ -29,8 +28,7 @@ Public Class AgePensionDB2
 
         Return ClaimNo
     End Function
-
-    Private Async Function InsertBenf(Agepension As Document_AgeBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertSurvivorBenf(Survivor As Document_SurvivorBenefit, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -53,14 +51,14 @@ Public Class AgePensionDB2
                 cmd1.DeriveParameters()
                 cmd1.Parameters("@ACTV13").Value = "A"
                 cmd1.Parameters("@CLMN13").Value = Clmn
-                cmd1.Parameters("@EREG13").Value = Agepension.nisNo
-                cmd1.Parameters("@BENT13").Value = "4"
+                cmd1.Parameters("@EREG13").Value = Survivor.NisNo
+                cmd1.Parameters("@BENT13").Value = "8"
                 cmd1.Parameters("@NATR13").Value = ""
 
-                cmd1.Parameters("@CNCC13").Value = Agepension.createdOn.Year \ 100
-                cmd1.Parameters("@CNYY13").Value = Agepension.createdOn.Year Mod 100
-                cmd1.Parameters("@CNMM13").Value = Agepension.createdOn.Month
-                cmd1.Parameters("@CNDD13").Value = Agepension.createdOn.Day
+                cmd1.Parameters("@CNCC13").Value = Survivor.CreatedOn.Year \ 100
+                cmd1.Parameters("@CNYY13").Value = Survivor.CreatedOn.Year Mod 100
+                cmd1.Parameters("@CNMM13").Value = Survivor.CreatedOn.Month
+                cmd1.Parameters("@CNDD13").Value = Survivor.CreatedOn.Day
                 cmd1.Parameters("@STAT13").Value = " "
 
                 'REASON FOR REJECT
@@ -76,7 +74,7 @@ Public Class AgePensionDB2
                 cmd1.Parameters("@COTC13").Value = " "
 
                 'USER INITIALS
-                cmd1.Parameters("@INTL13").Value = Agepension.CompletedBy
+                cmd1.Parameters("@INTL13").Value = Survivor.CompletedBy
 
                 'DIAGNOSIS COD
                 cmd1.Parameters("@DIAG13").Value = " "
@@ -103,7 +101,7 @@ Public Class AgePensionDB2
         End Try
     End Function
 
-    Private Async Function InsertCLMNCS(Agepension As Document_AgeBenefit, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertSurvivorCLMNCS(Survivor As Document_SurvivorBenefit, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -128,12 +126,12 @@ Public Class AgePensionDB2
                 cmd.DeriveParameters()
                 cmd.Parameters("@ACTVCS").Value = "A"
                 cmd.Parameters("@CLMNCS").Value = Clmn
-                cmd.Parameters("@EREGCS").Value = Agepension.nisNo
-                cmd.Parameters("@BENTCS").Value = "4"
-                cmd.Parameters("@CNCCCS").Value = Agepension.createdOn.Year \ 100
-                cmd.Parameters("@CNYYCS").Value = Agepension.createdOn.Year Mod 100
-                cmd.Parameters("@CNMMCS").Value = Agepension.createdOn.Month
-                cmd.Parameters("@CNDDCS").Value = Agepension.createdOn.Day
+                cmd.Parameters("@EREGCS").Value = Survivor.NisNo
+                cmd.Parameters("@BENTCS").Value = "8"
+                cmd.Parameters("@CNCCCS").Value = Survivor.CreatedOn.Year \ 100
+                cmd.Parameters("@CNYYCS").Value = Survivor.CreatedOn.Year Mod 100
+                cmd.Parameters("@CNMMCS").Value = Survivor.CreatedOn.Month
+                cmd.Parameters("@CNDDCS").Value = Survivor.CreatedOn.Day
                 cmd.Parameters("@STATCS").Value = " "
 
                 'REASON FOR REJECT
@@ -180,7 +178,7 @@ Public Class AgePensionDB2
                 cmd.Parameters("@RRSFCS5").Value = 0
 
                 'PROVIDENT FUND CLAIM
-                If Agepension.providentFund = 1 Then
+                If Survivor.ProvidentFund = 1 Then
                     cmd.Parameters("@PROVFCS").Value = "V"
                 Else
                     cmd.Parameters("@PROVFCS").Value = " "
@@ -188,7 +186,7 @@ Public Class AgePensionDB2
 
 
                 'PRECIPROCAL AGREEMENT
-                If Agepension.workOtherCountries = 1 Then
+                If Survivor.WorkOtherCountries = 1 Then
                     cmd.Parameters("@RECPACS").Value = "V"
                 Else
                     cmd.Parameters("@RECPACS").Value = ""
@@ -204,14 +202,14 @@ Public Class AgePensionDB2
                 'COMPLIANCE QUERY
                 cmd.Parameters("@CMPQCS").Value = " "
 
-                cmd.Parameters("@SAVBCS").Value = Agepension.CompletedBy
-                cmd.Parameters("@SAVTCS").Value = CDate(Agepension.CompletedTime).Year * 10000 + CDate(Agepension.CompletedTime).Month * 100 + CDate(Agepension.CompletedTime).Day
+                cmd.Parameters("@SAVBCS").Value = Survivor.CompletedBy
+                cmd.Parameters("@SAVTCS").Value = CDate(Survivor.CompletedTime).Year * 10000 + CDate(Survivor.CompletedTime).Month * 100 + CDate(Survivor.CompletedTime).Day
 
                 'reassingempr
                 cmd.Parameters("@EMPASCS").Value = "N"
                 cmd.Parameters("@EMPRACS").Value = "0"
                 cmd.Parameters("@EMPSACS").Value = "0"
-                cmd.Parameters("@WBLINKCS").Value = Agepension.WebPortalLink
+                cmd.Parameters("@WBLINKCS").Value = Survivor.WebPortalLink
 
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
@@ -221,6 +219,5 @@ Public Class AgePensionDB2
             Throw ex
         End Try
     End Function
-
 
 End Class
