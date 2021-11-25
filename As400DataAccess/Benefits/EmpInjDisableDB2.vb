@@ -5,7 +5,7 @@ Imports ShareModels.Models.Benefit_Claims
 Public Class EmpInjDisableDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
-    Async Function InsertInvalidity(EmpInjDisable As Document_Disablemet) As Task(Of Integer)
+    Async Function InsertEmpInjDisable(EmpInjDisable As Document_Disablemet) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
@@ -21,8 +21,8 @@ Public Class EmpInjDisableDB2
             EmprSub = Mid(strCadena, intPos + 1)
 
             ClaimNo = Await GenerarClaimNo()
-            Await InsertInvalidityBENF(EmpInjDisable, ClaimNo, EmprNo, EmprSub)
-            Await InsertInvalidityCLMNCS(EmpInjDisable, ClaimNo, EmprNo, EmprSub)
+            Await InsertEmpInjDisableBENF(EmpInjDisable, ClaimNo, EmprNo, EmprSub)
+            Await InsertEmpInjDisableCLMNCS(EmpInjDisable, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
             Throw ex
@@ -30,7 +30,7 @@ Public Class EmpInjDisableDB2
 
         Return ClaimNo
     End Function
-    Private Async Function InsertInvalidityBENF(EmpInjDisable As Document_Disablemet, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertEmpInjDisableBENF(EmpInjDisable As Document_Disablemet, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -103,7 +103,7 @@ Public Class EmpInjDisableDB2
             Throw ex
         End Try
     End Function
-    Private Async Function InsertInvalidityCLMNCS(EmpInjDisable As Document_Disablemet, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertEmpInjDisableCLMNCS(EmpInjDisable As Document_Disablemet, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
