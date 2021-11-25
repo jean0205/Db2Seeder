@@ -46,6 +46,7 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -132,8 +133,9 @@
             this.tableLayoutPanel2.Controls.Add(this.button5, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.button3, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.button4, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button9, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.button10, 4, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button9, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button11, 5, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 585);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -211,7 +213,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(4, 90);
+            this.button9.Location = new System.Drawing.Point(780, 4);
             this.button9.Margin = new System.Windows.Forms.Padding(4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(104, 32);
@@ -230,6 +232,17 @@
             this.button10.Text = "Survivor";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(974, 47);
+            this.button11.Margin = new System.Windows.Forms.Padding(4);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(104, 32);
+            this.button11.TabIndex = 11;
+            this.button11.Text = "Disabelment";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // Form1
             // 
@@ -266,6 +279,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
     }
 }
 
