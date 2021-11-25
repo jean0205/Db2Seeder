@@ -14,37 +14,35 @@ namespace Db2Seeder.Business.Benefit_Claims
 {
     public class DisablementBenefit
     {
-        //SupportRequest/GetByState/Type/10/State/22
+        //SupportRequest/GetByState/Type/12/State/22
         public static async Task<List<SupportRequest>> GetClaimsCompleted()
         {
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(11, 32);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(12, 22);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static async Task<Document_SurvivorBenefit> ClaimDetail(SupportRequest Request)
+        public static async Task<Document_Disablemet> ClaimDetail(SupportRequest Request)
         {
             try
             {
-
                 DocumentGuid guid = new DocumentGuid();
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
-                    Document_SurvivorBenefit Document_SurvivorBenefit = new Document_SurvivorBenefit();
+                    Document_Disablemet Document_Disablemet = new Document_Disablemet();
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-                    Document_SurvivorBenefit = await GetDetails(guid);
-
-                    Document_SurvivorBenefit.CompletedBy = requestHistory.Last().UserName;
-                    Document_SurvivorBenefit.CompletedTime = requestHistory.Last().dateModified;
-                    Document_SurvivorBenefit.SupportRequestId = Request.supportRequestId;
-                    return Document_SurvivorBenefit;
+                    Document_Disablemet = await GetDetails(guid);
+                    Document_Disablemet.CompletedBy = requestHistory.Last().UserName;
+                    Document_Disablemet.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Disablemet.SupportRequestId = Request.supportRequestId;
+                    return Document_Disablemet;
                 }
                 return null;
             }
@@ -53,17 +51,17 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<Document_SurvivorBenefit> GetDetails(DocumentGuid guid)
+        public static async Task<Document_Disablemet> GetDetails(DocumentGuid guid)
         {
             try
             {
-                Response response = await ApiServices.FindAsyncByGuid<Document_SurvivorBenefit>("Document/Get?id", guid.message);
+                Response response = await ApiServices.FindAsyncByGuid<Document_Disablemet>("Document/Get?id", guid.message);
 
                 if (!response.IsSuccess)
                 {
                     return null;
                 }
-                return (Document_SurvivorBenefit)response.Result;
+                return (Document_Disablemet)response.Result;
             }
             catch (Exception ex)
             {
@@ -82,7 +80,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_SurvivorBenefit Document_SurvivorBenefit)
+        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_Disablemet Document_Disablemet)
         {
             try
             {
@@ -112,7 +110,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.RegistrantTypeId = 1;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = Document_SurvivorBenefit.NisNo;
+                            documents.NisNumber = Document_Disablemet.NisNo;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
                             documents.ScannedBy = importLog.ImportedBy;
                             documents.ScanDatetime = DateTime.Now;

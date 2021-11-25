@@ -49,6 +49,7 @@
     <Compile Include="Helpers\UtilRecurrent.cs" />
     <Compile Include="Models\Benefit Claims\Document_AgeBenefit.cs" />
     <Compile Include="Models\Benefit Claims\Document_DeathBenefit.cs" />
+    <Compile Include="Models\Benefit Claims\Document_Disablemet.cs" />
     <Compile Include="Models\Benefit Claims\Document_FuneralBenefit.cs" />
     <Compile Include="Models\Benefit Claims\Document_Invalidity.cs" />
     <Compile Include="Models\Benefit Claims\Document_SurvivorBenefit.cs" />
