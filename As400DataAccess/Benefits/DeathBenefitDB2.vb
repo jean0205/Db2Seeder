@@ -104,7 +104,7 @@ Public Class DeathBenefitDB2
             Throw ex
         End Try
     End Function
-    Async Function InsertDeathBenefitCLMNCS(DeathBenefit As Document_DeathBenefit, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertDeathBenefitCLMNCS(DeathBenefit As Document_DeathBenefit, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)

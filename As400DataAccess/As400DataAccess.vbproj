@@ -70,10 +70,12 @@
   <ItemGroup>
     <Compile Include="Benefits\AgePensionDB2.vb" />
     <Compile Include="Benefits\DeathBenefitDB2.vb" />
+    <Compile Include="Benefits\EmpInjDisableDB2.vb" />
     <Compile Include="Benefits\FuneralBenefitDB2.vb" />
     <Compile Include="Benefits\InvalidityDB2.vb" />
     <Compile Include="Benefits\ModBenfHelps.vb" />
     <Compile Include="Benefits\SicknessDB2.vb" />
+    <Compile Include="Benefits\SurvivorBenefitDB2.vb" />
     <Compile Include="DataEntry\ElectRemittanceDB2.vb" />
     <Compile Include="Employer\EmployerDB2.vb" />
     <Compile Include="Employee\EmployeeDB2.vb" />
