@@ -45,6 +45,7 @@
             this.tViewEvents = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +63,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(231, 4);
+            this.button2.Location = new System.Drawing.Point(198, 4);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 32);
@@ -78,7 +79,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(685, 4);
+            this.button3.Location = new System.Drawing.Point(586, 4);
             this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 32);
@@ -89,7 +90,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(458, 4);
+            this.button4.Location = new System.Drawing.Point(392, 4);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(153, 32);
@@ -115,13 +116,14 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 6;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnCount = 7;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.button2, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.button6, 3, 1);
@@ -130,7 +132,8 @@
             this.tableLayoutPanel2.Controls.Add(this.button5, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.button3, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.button4, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button9, 4, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button9, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.button10, 4, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 585);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -143,10 +146,10 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(685, 47);
+            this.button6.Location = new System.Drawing.Point(586, 47);
             this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(153, 32);
+            this.button6.Size = new System.Drawing.Size(133, 32);
             this.button6.TabIndex = 8;
             this.button6.Text = "Invalidity Benefit";
             this.button6.UseVisualStyleBackColor = true;
@@ -154,10 +157,10 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(458, 47);
+            this.button8.Location = new System.Drawing.Point(392, 47);
             this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(112, 32);
+            this.button8.Size = new System.Drawing.Size(95, 32);
             this.button8.TabIndex = 7;
             this.button8.Text = "Funeral";
             this.button8.UseVisualStyleBackColor = true;
@@ -165,7 +168,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(231, 47);
+            this.button7.Location = new System.Drawing.Point(198, 47);
             this.button7.Margin = new System.Windows.Forms.Padding(4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(112, 32);
@@ -208,14 +211,25 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(912, 47);
+            this.button9.Location = new System.Drawing.Point(4, 90);
             this.button9.Margin = new System.Windows.Forms.Padding(4);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(153, 32);
+            this.button9.Size = new System.Drawing.Size(104, 32);
             this.button9.TabIndex = 9;
             this.button9.Text = "Sickness";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(780, 47);
+            this.button10.Margin = new System.Windows.Forms.Padding(4);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(104, 32);
+            this.button10.TabIndex = 10;
+            this.button10.Text = "Survivor";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // Form1
             // 
@@ -251,6 +265,7 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
     }
 }
 
