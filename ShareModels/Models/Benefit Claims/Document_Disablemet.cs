@@ -89,7 +89,7 @@ namespace ShareModels.Models.Benefit_Claims
         public object Description { get; set; }
 
         [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         [JsonProperty("updatedBy")]
         public int UpdatedBy { get; set; }

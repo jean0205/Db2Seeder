@@ -52,6 +52,7 @@
     <Compile Include="Models\Benefit Claims\Document_Disablemet.cs" />
     <Compile Include="Models\Benefit Claims\Document_FuneralBenefit.cs" />
     <Compile Include="Models\Benefit Claims\Document_Invalidity.cs" />
+    <Compile Include="Models\Benefit Claims\Document_Maternity.cs" />
     <Compile Include="Models\Benefit Claims\Document_SurvivorBenefit.cs" />
     <Compile Include="Models\Benefit Claims\ProvidentFundEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkOtherCountryEntity.cs" />
