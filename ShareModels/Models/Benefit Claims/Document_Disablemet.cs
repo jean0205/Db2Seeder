@@ -92,10 +92,10 @@ namespace ShareModels.Models.Benefit_Claims
         public int? CreatedBy { get; set; }
 
         [JsonProperty("updatedBy")]
-        public int UpdatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
 
         [JsonProperty("checkInById")]
-        public object CheckInById { get; set; }
+        public int? CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
         public DateTime CheckInAtTime { get; set; }
@@ -104,16 +104,16 @@ namespace ShareModels.Models.Benefit_Claims
         public object CheckInMessage { get; set; }
 
         [JsonProperty("checkOutById")]
-        public object CheckOutById { get; set; }
+        public int? CheckOutById { get; set; }
 
         [JsonProperty("checkOutTime")]
-        public object CheckOutTime { get; set; }
+        public DateTime? CheckOutTime { get; set; }
 
         [JsonProperty("checkOutMessage")]
-        public object CheckOutMessage { get; set; }
+        public string CheckOutMessage { get; set; }
 
         [JsonProperty("checkOutExpiration")]
-        public object CheckOutExpiration { get; set; }
+        public DateTime? CheckOutExpiration { get; set; }
 
         [JsonProperty("version")]
         public int Version { get; set; }
