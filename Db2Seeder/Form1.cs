@@ -22,6 +22,7 @@ namespace Db2Seeder
         readonly SurvivorBenefitDB2 as400survivorBenefit = new SurvivorBenefitDB2();
         readonly EmpInjDisableDB2 as400DisablementBenefit = new EmpInjDisableDB2();
         readonly MaternityDB2 as400maternityBenefit = new MaternityDB2();
+        readonly EmpInjuryBenefitDB2 as400EmploymentInjurBenefit = new EmpInjuryBenefitDB2();
 
 
         public Form1()
@@ -1049,7 +1050,7 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                //document.ClaimNumber = await as400DisablementBenefit.InsertEmpInjDisable(document);
+                                document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document);
                                 if (document.ClaimNumber == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1121,7 +1122,7 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document);
+                               // document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document);
                                 if (document.ClaimNumber == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);

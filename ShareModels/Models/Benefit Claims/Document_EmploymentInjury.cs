@@ -8,25 +8,25 @@ namespace ShareModels.Models.Benefit_Claims
     public class Document_EmploymentInjury
     {
         [JsonProperty("injuryBenefitFormId")]
-        public int InjuryBenefitFormId { get; set; }
+        public int? InjuryBenefitFormId { get; set; }
 
         [JsonProperty("surname")]
         public string Surname { get; set; }
 
         [JsonProperty("nisNo")]
-        public int NisNo { get; set; }
+        public int? NisNo { get; set; }
 
         [JsonProperty("firstName")]
         public string FirstName { get; set; }
 
         [JsonProperty("dateOfBirth")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [JsonProperty("otherName")]
         public string OtherName { get; set; }
 
         [JsonProperty("gender")]
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
 
         [JsonProperty("maidenName")]
         public string MaidenName { get; set; }
@@ -41,7 +41,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string EmailAddress { get; set; }
 
         [JsonProperty("maritalStatus")]
-        public int MaritalStatus { get; set; }
+        public int? MaritalStatus { get; set; }
 
         [JsonProperty("tAddress")]
         public string TAddress { get; set; }
@@ -68,7 +68,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string AccountName { get; set; }
 
         [JsonProperty("accountType")]
-        public int AccountType { get; set; }
+        public int? AccountType { get; set; }
 
         [JsonProperty("workHistoryList")]
         public string WorkHistoryList { get; set; }
@@ -98,46 +98,46 @@ namespace ShareModels.Models.Benefit_Claims
         public string RegistrationNo { get; set; }
 
         [JsonProperty("employmentDateStart")]
-        public DateTime EmploymentDateStart { get; set; }
+        public DateTime? EmploymentDateStart { get; set; }
 
         [JsonProperty("employerNumber")]
         public string EmployerNumber { get; set; }
 
         [JsonProperty("lastWorkedDate")]
-        public DateTime LastWorkedDate { get; set; }
+        public DateTime? LastWorkedDate { get; set; }
 
         [JsonProperty("paidInFull")]
-        public int PaidInFull { get; set; }
+        public int? PaidInFull { get; set; }
 
         [JsonProperty("formCompleteEmployee")]
-        public int FormCompleteEmployee { get; set; }
+        public int? FormCompleteEmployee { get; set; }
 
         [JsonProperty("formCompleteDoctor")]
-        public object FormCompleteDoctor { get; set; }
+        public int? FormCompleteDoctor { get; set; }
 
         [JsonProperty("formCompleteEmployer")]
-        public int FormCompleteEmployer { get; set; }
+        public int? FormCompleteEmployer { get; set; }
 
         [JsonProperty("employerNis")]
         public string EmployerNis { get; set; }
 
         [JsonProperty("medicalPracticeId")]
-        public int MedicalPracticeId { get; set; }
+        public int? MedicalPracticeId { get; set; }
 
         [JsonProperty("doctorId")]
-        public int DoctorId { get; set; }
+        public int? DoctorId { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntityE> WorkHistoryEntity { get; set; }
 
         [JsonProperty("documentId")]
-        public int DocumentId { get; set; }
+        public int? DocumentId { get; set; }
 
         [JsonProperty("documentGuid")]
         public string DocumentGuid { get; set; }
 
         [JsonProperty("documentTypeId")]
-        public int DocumentTypeId { get; set; }
+        public int? DocumentTypeId { get; set; }
 
         [JsonProperty("documentCode")]
         public string DocumentCode { get; set; }
@@ -149,16 +149,16 @@ namespace ShareModels.Models.Benefit_Claims
         public string Description { get; set; }
 
         [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         [JsonProperty("updatedBy")]
-        public int UpdatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
 
         [JsonProperty("checkInById")]
         public object CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime { get; set; }
+        public DateTime? CheckInAtTime { get; set; }
 
         [JsonProperty("checkInMessage")]
         public object CheckInMessage { get; set; }
@@ -176,13 +176,13 @@ namespace ShareModels.Models.Benefit_Claims
         public object CheckOutExpiration { get; set; }
 
         [JsonProperty("version")]
-        public int Version { get; set; }
+        public int? Version { get; set; }
 
         [JsonProperty("createdOn")]
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
         [JsonProperty("updatedOn")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
@@ -198,6 +198,6 @@ namespace ShareModels.Models.Benefit_Claims
         public string Address { get; set; }
 
         [JsonProperty("status")]
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
     }
 }
