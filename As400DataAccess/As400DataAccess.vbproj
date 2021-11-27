@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benefits\AgePensionDB2.vb" />
+    <Compile Include="Benefits\Covid19DB2.vb" />
     <Compile Include="Benefits\DeathBenefitDB2.vb" />
     <Compile Include="Benefits\EmpInjDisableDB2.vb" />
     <Compile Include="Benefits\EmpInjuryBenefitDB2.vb" />

@@ -58,10 +58,10 @@ Public Class EmpInjuryBenefitDB2
                 cmd1.Parameters("@BENT13").Value = "C"
                 cmd1.Parameters("@NATR13").Value = " "
 
-                cmd1.Parameters("@CNCC13").Value = EmpInjuryBenefit.CreatedOn.Year \ 100
-                cmd1.Parameters("@CNYY13").Value = EmpInjuryBenefit.CreatedOn.Year Mod 100
-                cmd1.Parameters("@CNMM13").Value = EmpInjuryBenefit.CreatedOn.Month
-                cmd1.Parameters("@CNDD13").Value = EmpInjuryBenefit.CreatedOn.Day
+                cmd1.Parameters("@CNCC13").Value = CDate(EmpInjuryBenefit.CreatedOn).Year \ 100
+                cmd1.Parameters("@CNYY13").Value = CDate(EmpInjuryBenefit.CreatedOn).Year Mod 100
+                cmd1.Parameters("@CNMM13").Value = CDate(EmpInjuryBenefit.CreatedOn).Month
+                cmd1.Parameters("@CNDD13").Value = CDate(EmpInjuryBenefit.CreatedOn).Day
                 cmd1.Parameters("@STAT13").Value = " "
 
                 'REASON FOR REJECT
@@ -132,10 +132,10 @@ Public Class EmpInjuryBenefitDB2
                 cmd.Parameters("@CLMNCS").Value = Clmn
                 cmd.Parameters("@EREGCS").Value = EmpInjuryBenefit.NisNo
                 cmd.Parameters("@BENTCS").Value = "C"
-                cmd.Parameters("@CNCCCS").Value = EmpInjuryBenefit.CreatedOn.Year \ 100
-                cmd.Parameters("@CNYYCS").Value = EmpInjuryBenefit.CreatedOn.Year Mod 100
-                cmd.Parameters("@CNMMCS").Value = EmpInjuryBenefit.CreatedOn.Month
-                cmd.Parameters("@CNDDCS").Value = EmpInjuryBenefit.CreatedOn.Day
+                cmd.Parameters("@CNCCCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Year \ 100
+                cmd.Parameters("@CNYYCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Year Mod 100
+                cmd.Parameters("@CNMMCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Month
+                cmd.Parameters("@CNDDCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Day
                 cmd.Parameters("@STATCS").Value = " "
 
                 'REASON FOR REJECT
