@@ -58,10 +58,10 @@ Public Class Covid19DB2
                 cmd1.Parameters("@BENT13").Value = "2"
                 cmd1.Parameters("@NATR13").Value = ""
 
-                cmd1.Parameters("@CNCC13").Value = Covid19.CreatedOn.Year \ 100
-                cmd1.Parameters("@CNYY13").Value = Covid19.CreatedOn.Year Mod 100
-                cmd1.Parameters("@CNMM13").Value = Covid19.CreatedOn.Month
-                cmd1.Parameters("@CNDD13").Value = Covid19.CreatedOn.Day
+                cmd1.Parameters("@CNCC13").Value = CDate(Covid19.CreatedOn).Year \ 100
+                cmd1.Parameters("@CNYY13").Value = CDate(Covid19.CreatedOn).Year Mod 100
+                cmd1.Parameters("@CNMM13").Value = CDate(Covid19.CreatedOn).Month
+                cmd1.Parameters("@CNDD13").Value = CDate(Covid19.CreatedOn).Day
                 cmd1.Parameters("@STAT13").Value = " "
 
                 'REASON FOR REJECT
@@ -88,7 +88,7 @@ Public Class Covid19DB2
                 cmd1.Parameters("@FILL13").Value = " "
 
                 'LAST DAY WORKED
-                cmd1.Parameters("@LWRK13").Value = Covid19.LastWorkedDate
+                cmd1.Parameters("@LWRK13").Value = CDate(Covid19.LastWorkedDate).Year * 10000 + CDate(Covid19.LastWorkedDate).Month * 100 + CDate(Covid19.LastWorkedDate).Day
 
                 cmd1.Parameters("@ACCD13").Value = 0
 
@@ -130,10 +130,10 @@ Public Class Covid19DB2
                 cmd.Parameters("@CLMNCS").Value = Clmn
                 cmd.Parameters("@EREGCS").Value = Covid19.NisNo
                 cmd.Parameters("@BENTCS").Value = "2"
-                cmd.Parameters("@CNCCCS").Value = Covid19.CreatedOn.Year \ 100
-                cmd.Parameters("@CNYYCS").Value = Covid19.CreatedOn.Year Mod 100
-                cmd.Parameters("@CNMMCS").Value = Covid19.CreatedOn.Month
-                cmd.Parameters("@CNDDCS").Value = Covid19.CreatedOn.Day
+                cmd.Parameters("@CNCCCS").Value = CDate(Covid19.CreatedOn).Year \ 100
+                cmd.Parameters("@CNYYCS").Value = CDate(Covid19.CreatedOn).Year Mod 100
+                cmd.Parameters("@CNMMCS").Value = CDate(Covid19.CreatedOn).Month
+                cmd.Parameters("@CNDDCS").Value = CDate(Covid19.CreatedOn).Day
                 cmd.Parameters("@STATCS").Value = " "
 
                 'REASON FOR REJECT
