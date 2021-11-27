@@ -88,7 +88,7 @@ Public Class SicknessDB2
                 cmd1.Parameters("@FILL13").Value = " "
 
                 'LAST DAY WORKED
-                cmd1.Parameters("@LWRK13").Value = Sickness.lastWorkedDate
+                cmd1.Parameters("@LWRK13").Value = CDate(Sickness.lastWorkedDate).Year * 10000 + CDate(Sickness.lastWorkedDate).Month * 100 + CDate(Sickness.lastWorkedDate).Day
 
                 cmd1.Parameters("@ACCD13").Value = 0
 
