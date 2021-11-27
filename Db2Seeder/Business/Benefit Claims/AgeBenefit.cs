@@ -111,6 +111,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
                             documents.NisNumber = Document_AgeBenefit.nisNo;
+                            documents.ClaimNumber = Document_AgeBenefit.ClaimNumber;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
                             documents.ScannedBy = importLog.ImportedBy;
                             documents.ScanDatetime = DateTime.Now;

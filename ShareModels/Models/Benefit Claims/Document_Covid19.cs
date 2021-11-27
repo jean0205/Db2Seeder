@@ -186,12 +186,12 @@ namespace ShareModels.Models.Benefit_Claims
         public int? Version { get; set; }
 
         [JsonProperty("createdOn")]
-        public DateTime? CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         [JsonProperty("updatedOn")]
-        public DateTime? UpdatedOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
         public string CompletedBy { get; set; }
-        public DateTime? CompletedTime { get; set; }
+        public DateTime CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
         public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;
         public int? ClaimNumber { get; set; }
