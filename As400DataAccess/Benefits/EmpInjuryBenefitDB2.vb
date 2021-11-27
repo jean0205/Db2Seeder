@@ -1,10 +1,11 @@
-﻿Imports IBM.Data.DB2.iSeries
+﻿
+
+Imports IBM.Data.DB2.iSeries
 Imports ShareModels.Models.Benefit_Claims
-Public Class MaternityDB2
+Public Class EmpInjuryBenefitDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
-
-    Async Function InsertMaternity(Maternity As Document_Maternity) As Task(Of Integer)
+    Async Function InsertEmpInjuryBenefit(EmpInjuryBenefit As Document_EmploymentInjury) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
@@ -14,14 +15,14 @@ Public Class MaternityDB2
             Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Await SelectLastEmployer(Maternity.NisNo)
+            strCadena = Await SelectLastEmployer(EmpInjuryBenefit.NisNo)
             intPos = InStr(1, strCadena, "-") 'posicion de la "-"
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
             ClaimNo = Await GenerarClaimNo()
-            Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub)
-            Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub)
+            Await InsertEmpInjDisableBENF(EmpInjuryBenefit, ClaimNo, EmprNo, EmprSub)
+            Await InsertEmpInjDisableCLMNCS(EmpInjuryBenefit, ClaimNo, EmprNo, EmprSub)
 
         Catch ex As iDB2Exception
             Throw ex
@@ -30,7 +31,7 @@ Public Class MaternityDB2
         Return ClaimNo
     End Function
 
-    Private Async Function InsertMaternityBenf(Maternity As Document_Maternity, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertEmpInjDisableBENF(EmpInjuryBenefit As Document_EmploymentInjury, Clmn As String, EmprNo As String, Emprsub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -53,19 +54,14 @@ Public Class MaternityDB2
                 cmd1.DeriveParameters()
                 cmd1.Parameters("@ACTV13").Value = "A"
                 cmd1.Parameters("@CLMN13").Value = Clmn
-                cmd1.Parameters("@EREG13").Value = Maternity.NisNo
-                If Maternity.BenefitApply = "Maternity Allowance" Then
-                    cmd1.Parameters("@BENT13").Value = "1"
-                Else
-                    cmd1.Parameters("@BENT13").Value = "A"
-                End If
+                cmd1.Parameters("@EREG13").Value = EmpInjuryBenefit.NisNo
+                cmd1.Parameters("@BENT13").Value = "C"
+                cmd1.Parameters("@NATR13").Value = " "
 
-                cmd1.Parameters("@NATR13").Value = "S"
-
-                cmd1.Parameters("@CNCC13").Value = Maternity.CreatedOn.Year \ 100
-                cmd1.Parameters("@CNYY13").Value = Maternity.CreatedOn.Year Mod 100
-                cmd1.Parameters("@CNMM13").Value = Maternity.CreatedOn.Month
-                cmd1.Parameters("@CNDD13").Value = Maternity.CreatedOn.Day
+                cmd1.Parameters("@CNCC13").Value = EmpInjuryBenefit.CreatedOn.Year \ 100
+                cmd1.Parameters("@CNYY13").Value = EmpInjuryBenefit.CreatedOn.Year Mod 100
+                cmd1.Parameters("@CNMM13").Value = EmpInjuryBenefit.CreatedOn.Month
+                cmd1.Parameters("@CNDD13").Value = EmpInjuryBenefit.CreatedOn.Day
                 cmd1.Parameters("@STAT13").Value = " "
 
                 'REASON FOR REJECT
@@ -81,9 +77,9 @@ Public Class MaternityDB2
                 cmd1.Parameters("@COTC13").Value = " "
 
                 'USER INITIALS
-                cmd1.Parameters("@INTL13").Value = Maternity.CompletedBy
+                cmd1.Parameters("@INTL13").Value = EmpInjuryBenefit.CompletedBy
 
-                'DIAGNOSIS COD
+                'DIAGNOSIS COD 
                 cmd1.Parameters("@DIAG13").Value = " "
 
                 cmd1.Parameters("@RREG13").Value = EmprNo
@@ -92,12 +88,14 @@ Public Class MaternityDB2
                 cmd1.Parameters("@FILL13").Value = " "
 
                 'LAST DAY WORKED
-                cmd1.Parameters("@LWRK13").Value = CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day
+                cmd1.Parameters("@LWRK13").Value = CDate(EmpInjuryBenefit.LastWorkedDate).Year * 10000 + CDate(EmpInjuryBenefit.LastWorkedDate).Month * 100 + CDate(EmpInjuryBenefit.LastWorkedDate).Day
+                'DATE OF ACCIDENT
+                cmd1.Parameters("@ACCD13").Value = 0 '
+                'CDate(EmpInjuryBenefit.DateAccident).Year * 10000 + CDate(EmpInjuryBenefit.DateAccident).Month * 100 + CDate(EmpInjuryBenefit.DateAccident).Day
 
-                cmd1.Parameters("@ACCD13").Value = 0
 
                 'DIAGNOSIS COD
-                cmd1.Parameters("@DIAN13").Value = "Z32.1"
+                cmd1.Parameters("@DIAN13").Value = EmpInjuryBenefit.IcdCode
 
                 Await cmd1.ExecuteNonQueryAsync()
                 cmd1.Dispose()
@@ -107,8 +105,7 @@ Public Class MaternityDB2
             Throw ex
         End Try
     End Function
-
-    Private Async Function InsertMaternityCLMNCS(Maternity As Document_Maternity, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertEmpInjDisableCLMNCS(EmpInjuryBenefit As Document_EmploymentInjury, Clmn As String, EmprNo As String, EmprSub As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -133,16 +130,12 @@ Public Class MaternityDB2
                 cmd.DeriveParameters()
                 cmd.Parameters("@ACTVCS").Value = "A"
                 cmd.Parameters("@CLMNCS").Value = Clmn
-                cmd.Parameters("@EREGCS").Value = Maternity.NisNo
-                If Maternity.BenefitApply = "Maternity Allowance" Then
-                    cmd.Parameters("@BENTCS").Value = "1"
-                Else
-                    cmd.Parameters("@BENTCS").Value = "A"
-                End If
-                cmd.Parameters("@CNCCCS").Value = Maternity.CreatedOn.Year \ 100
-                cmd.Parameters("@CNYYCS").Value = Maternity.CreatedOn.Year Mod 100
-                cmd.Parameters("@CNMMCS").Value = Maternity.CreatedOn.Month
-                cmd.Parameters("@CNDDCS").Value = Maternity.CreatedOn.Day
+                cmd.Parameters("@EREGCS").Value = EmpInjuryBenefit.NisNo
+                cmd.Parameters("@BENTCS").Value = "C"
+                cmd.Parameters("@CNCCCS").Value = EmpInjuryBenefit.CreatedOn.Year \ 100
+                cmd.Parameters("@CNYYCS").Value = EmpInjuryBenefit.CreatedOn.Year Mod 100
+                cmd.Parameters("@CNMMCS").Value = EmpInjuryBenefit.CreatedOn.Month
+                cmd.Parameters("@CNDDCS").Value = EmpInjuryBenefit.CreatedOn.Day
                 cmd.Parameters("@STATCS").Value = " "
 
                 'REASON FOR REJECT
@@ -155,17 +148,20 @@ Public Class MaternityDB2
                 cmd.Parameters("@RTCSCS").Value = " "
 
                 'LAST DAY WORKED
-                cmd.Parameters("@LWRKCS").Value = CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day
+                cmd.Parameters("@LWRKCS").Value = CDate(EmpInjuryBenefit.LastWorkedDate).Year * 10000 + CDate(EmpInjuryBenefit.LastWorkedDate).Month * 100 + CDate(EmpInjuryBenefit.LastWorkedDate).Day
+
 
                 'DATE OF ACCIDENT
                 cmd.Parameters("@ACCDCS").Value = 0
+                'CDate(EmpInjuryBenefit.DateAccident).Year * 10000 + CDate(EmpInjuryBenefit.DateAccident).Month * 100 + CDate(EmpInjuryBenefit.CompletedTime).Day
+
 
                 'DATE OF DEATH
                 cmd.Parameters("@DEADCS").Value = 0
                 cmd.Parameters("@UNEMPCS").Value = 0
 
                 'CHILD DATE OF BIRTH
-                cmd.Parameters("@CHIDCS").Value = CDate(Maternity.ExpectDelivered).Year * 10000 + CDate(Maternity.ExpectDelivered).Month * 100 + CDate(Maternity.ExpectDelivered).Day
+                cmd.Parameters("@CHIDCS").Value = 0
 
                 'DATE OF CLAIM RECEIVED
                 cmd.Parameters("@CRDCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
@@ -197,6 +193,7 @@ Public Class MaternityDB2
                 cmd.Parameters("@RECPACS").Value = ""
 
 
+
                 'GOVERNMENT CLAIM
                 cmd.Parameters("@GOVWCS").Value = " "
 
@@ -206,14 +203,14 @@ Public Class MaternityDB2
                 'COMPLIANCE QUERY
                 cmd.Parameters("@CMPQCS").Value = " "
 
-                cmd.Parameters("@SAVBCS").Value = Maternity.CompletedBy
-                cmd.Parameters("@SAVTCS").Value = CDate(Maternity.CompletedTime).Year * 10000 + CDate(Maternity.CompletedTime).Month * 100 + CDate(Maternity.CompletedTime).Day
+                cmd.Parameters("@SAVBCS").Value = EmpInjuryBenefit.CompletedBy
+                cmd.Parameters("@SAVTCS").Value = CDate(EmpInjuryBenefit.CompletedTime).Year * 10000 + CDate(EmpInjuryBenefit.CompletedTime).Month * 100 + CDate(EmpInjuryBenefit.CompletedTime).Day
 
                 'reassingempr
                 cmd.Parameters("@EMPASCS").Value = "N"
                 cmd.Parameters("@EMPRACS").Value = "0"
                 cmd.Parameters("@EMPSACS").Value = "0"
-                cmd.Parameters("@WBLINKCS").Value = Maternity.WebPortalLink
+                cmd.Parameters("@WBLINKCS").Value = EmpInjuryBenefit.WebPortalLink
 
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
@@ -223,6 +220,5 @@ Public Class MaternityDB2
             Throw ex
         End Try
     End Function
-
 
 End Class

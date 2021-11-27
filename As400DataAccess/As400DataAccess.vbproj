@@ -71,6 +71,7 @@
     <Compile Include="Benefits\AgePensionDB2.vb" />
     <Compile Include="Benefits\DeathBenefitDB2.vb" />
     <Compile Include="Benefits\EmpInjDisableDB2.vb" />
+    <Compile Include="Benefits\EmpInjuryBenefitDB2.vb" />
     <Compile Include="Benefits\FuneralBenefitDB2.vb" />
     <Compile Include="Benefits\InvalidityDB2.vb" />
     <Compile Include="Benefits\MaternityDB2.vb" />
