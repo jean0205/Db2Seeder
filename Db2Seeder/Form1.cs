@@ -2,7 +2,10 @@
 using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
+using Db2Seeder.SQL.Logs;
+using Db2Seeder.SQL.Logs.DataAccess;
 using Microsoft.AppCenter.Crashes;
+using ShareModels.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +34,10 @@ namespace Db2Seeder
             InitializeComponent();
         }
         #region Buttoms
+        private void button15_Click(object sender, EventArgs e)
+        {
+
+        }
         private async void button1_Click(object sender, EventArgs e)
         {
             await EmployeeRegistrationRequest();
@@ -98,16 +105,19 @@ namespace Db2Seeder
             AddTreeViewLogLevel1Info("Getting Employee Requests Completed");
             try
             {
+
                 var requests = await EmployeeRegistration.GetEmployeeRegistrationSupportRequestCompleted();
                 if (requests.Any())
                 {
+
                     AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                     foreach (var request in requests)
                     {
-                        AddTreeViewLogLevel1Info("Getting Employee Details");
+                        var document= new object();
+                       AddTreeViewLogLevel1Info("Getting Employee Details");
                         try
                         {
-                            var document = await EmployeeRegistration.EmployeeRegistrationRequestDetail(request);
+                             document = await EmployeeRegistration.EmployeeRegistrationRequestDetail(request);
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Employee details successfully loaded", true);
@@ -191,7 +201,9 @@ namespace Db2Seeder
                         {
                             Crashes.TrackError(ex);
                             AddTreeViewLogLevel1("Error " + ex.Message, false);
+
                         }
+                        SaveLOG(String.Empty,request,do)
                     }
                 }
                 else
@@ -1268,12 +1280,6 @@ namespace Db2Seeder
         }
 
         #endregion
-
-
-
-
-
-
         void AddTreeViewLogLevel0(string text)
         {
             //Thread.Sleep(2000);
@@ -1334,6 +1340,26 @@ namespace Db2Seeder
             tViewEvents.ExpandAll();
             tViewEvents.SelectedNode = secondLevelNode;
         }
+
+        async void SaveLOG(string errorMessage, SupportRequest request, int formId, DateTime completedOn)
+        {
+
+            Log log=new Log
+            {
+                RequestType = request.supportRequestType,
+                RequestId = request.supportRequestId,
+                FormId = formId,
+                Error = errorMessage.Length > 0,
+                ErrorMessage = errorMessage,
+                CreatedOn = request.createdOn,
+                CompletedOn = completedOn,
+                PostedOn = DateTime.Now
+            };
+            LogsDB logsDB = new LogsDB();
+            await logsDB.InsertLog(log);
+
+        }
+
 
 
     }
