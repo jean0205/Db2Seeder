@@ -4,7 +4,6 @@ Public Class MaternityDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
 
-
     Async Function InsertMaternity(Maternity As Document_Maternity) As Task(Of Integer)
 
         Dim ClaimNo As Integer
@@ -224,8 +223,6 @@ Public Class MaternityDB2
             Throw ex
         End Try
     End Function
-
-
 
 
 End Class
