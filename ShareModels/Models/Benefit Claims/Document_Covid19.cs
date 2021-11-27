@@ -9,7 +9,7 @@ namespace ShareModels.Models.Benefit_Claims
     public class Document_Covid19
     {
         [JsonProperty("covidBenefitFormId")]
-        public int CovidBenefitFormId { get; set; }
+        public int? CovidBenefitFormId { get; set; }
 
         [JsonProperty("surname")]
         public string Surname { get; set; }
@@ -27,7 +27,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string OtherName { get; set; }
 
         [JsonProperty("gender")]
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
 
         [JsonProperty("maidenName")]
         public string MaidenName { get; set; }
@@ -72,7 +72,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string AccountName { get; set; }
 
         [JsonProperty("accountType")]
-        public int AccountType { get; set; }
+        public int? AccountType { get; set; }
 
         [JsonProperty("employerBusinessName")]
         public string EmployerBusinessName { get; set; }
@@ -81,19 +81,19 @@ namespace ShareModels.Models.Benefit_Claims
         public string RegistrationNo { get; set; }
 
         [JsonProperty("commenceEmployment")]
-        public DateTime CommenceEmployment { get; set; }
+        public DateTime? CommenceEmployment { get; set; }
 
         [JsonProperty("lastWorkedDate")]
-        public DateTime LastWorkedDate { get; set; }
+        public DateTime? LastWorkedDate { get; set; }
 
         [JsonProperty("employerPhone")]
         public string EmployerPhone { get; set; }
 
         [JsonProperty("employeePaidFull")]
-        public int EmployeePaidFull { get; set; }
+        public int? EmployeePaidFull { get; set; }
 
         [JsonProperty("requiredReimburse")]
-        public int RequiredReimburse { get; set; }
+        public int? RequiredReimburse { get; set; }
 
         [JsonProperty("employerBank")]
         public string EmployerBank { get; set; }
@@ -138,13 +138,13 @@ namespace ShareModels.Models.Benefit_Claims
         public List<EmployerEntity> EmployerEntity { get; set; }
 
         [JsonProperty("documentId")]
-        public int DocumentId { get; set; }
+        public int? DocumentId { get; set; }
 
         [JsonProperty("documentGuid")]
         public string DocumentGuid { get; set; }
 
         [JsonProperty("documentTypeId")]
-        public int DocumentTypeId { get; set; }
+        public int? DocumentTypeId { get; set; }
 
         [JsonProperty("documentCode")]
         public string DocumentCode { get; set; }
@@ -156,16 +156,16 @@ namespace ShareModels.Models.Benefit_Claims
         public object Description { get; set; }
 
         [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         [JsonProperty("updatedBy")]
-        public int UpdatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
 
         [JsonProperty("checkInById")]
         public object CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime { get; set; }
+        public DateTime? CheckInAtTime { get; set; }
 
         [JsonProperty("checkInMessage")]
         public object CheckInMessage { get; set; }
@@ -183,13 +183,13 @@ namespace ShareModels.Models.Benefit_Claims
         public object CheckOutExpiration { get; set; }
 
         [JsonProperty("version")]
-        public int Version { get; set; }
+        public int? Version { get; set; }
 
         [JsonProperty("createdOn")]
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
         [JsonProperty("updatedOn")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
@@ -205,6 +205,6 @@ namespace ShareModels.Models.Benefit_Claims
         public string Address { get; set; }
 
         [JsonProperty("status")]
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
     }
 }

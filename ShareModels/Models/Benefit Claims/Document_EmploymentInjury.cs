@@ -14,7 +14,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string Surname { get; set; }
 
         [JsonProperty("nisNo")]
-        public int? NisNo { get; set; }
+        public int NisNo { get; set; }
 
         [JsonProperty("firstName")]
         public string FirstName { get; set; }
