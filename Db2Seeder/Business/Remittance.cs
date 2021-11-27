@@ -77,21 +77,25 @@ namespace Db2Seeder.Business
                             employee.week5.amount = employee.insurableEarnings;
                             goto jmp;
                         }
+                        else employee.week5.amount = 0.00;
                         if (employee.week4.hasWorked == true)
                         {
                             employee.week4.amount = employee.insurableEarnings;
                             goto jmp;
                         }
+                        else employee.week4.amount = 0.00;
                         if (employee.week3.hasWorked == true)
                         {
                             employee.week3.amount = employee.insurableEarnings;
                             goto jmp;
                         }
+                        else employee.week3.amount = 0.00;
                         if (employee.week2.hasWorked == true)
                         {
                             employee.week2.amount = employee.insurableEarnings;
                             goto jmp;
                         }
+                        else employee.week2.amount = 0.00;
                         employee.week1.amount = employee.insurableEarnings;
                     jmp:;
                     }
