@@ -87,6 +87,10 @@ namespace Db2Seeder
         {
             await EmploymentInjuryBenefitClaimCompleted();
         }
+        private async void button14_Click(object sender, EventArgs e)
+        {
+            await CovidBenefitClaimCompleted();
+        }
 
         #region Employee-Employer
         private async Task EmployeeRegistrationRequest()
@@ -1067,6 +1071,78 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel2Info("Saving Employee Documents.");
                                         int savedAtt = await EmployInjuryBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+        private async Task CovidBenefitClaimCompleted()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Covid Benefit");
+                AddTreeViewLogLevel1Info("Getting Covid Benefit Claims Completed");
+                try
+                {
+                    var requests = await CovidBenefit.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        foreach (var request in requests)
+                        {
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            var document = await CovidBenefit.ClaimDetail(request);
+                            if (document != null)
+                            {
+                                AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document);
+                                if (document.ClaimNumber == 0)
+                                {
+                                    AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                    //updating worflow state
+                                    //var responseA = await CovidBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 170);
+                                    //if (responseA.IsSuccess)
+                                    //{
+                                    //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                    //}
+                                    //else
+                                    //{
+                                    //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                    //}
+                                    try
+                                    {
+                                        AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                        int savedAtt = await CovidBenefit.RequestAttachmentToScannedDocuments(request, document);
                                         AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                     }
                                     catch (Exception ex)

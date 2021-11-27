@@ -58,6 +58,7 @@
     <Compile Include="API.Models\UserAccount.cs" />
     <Compile Include="API.Request\ApiRequest.cs" />
     <Compile Include="Business\Benefit Claims\AgeBenefit.cs" />
+    <Compile Include="Business\Benefit Claims\CovidBenefit.cs" />
     <Compile Include="Business\Benefit Claims\DeathBenefit.cs" />
     <Compile Include="Business\Benefit Claims\DisablementBenefit.cs" />
     <Compile Include="Business\Benefit Claims\EmployInjuryBenefit.cs" />
