@@ -5,11 +5,12 @@ using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.SQL.Logs;
 using Db2Seeder.SQL.Logs.DataAccess;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.EntityFrameworkCore.Internal;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
 using System;
-using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,71 +33,71 @@ namespace Db2Seeder
         readonly EmpInjuryBenefitDB2 as400EmploymentInjurBenefit = new EmpInjuryBenefitDB2();
         readonly Covid19DB2 as400CovidBenefit = new Covid19DB2();
 
-       
-        
+        bool working = false;
+        bool cancelRequest = false;
 
         public Form1()
         {
             InitializeComponent();
-           
+            dataGridView1.DefaultCellStyle.BackColor = Color.Beige;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.Bisque;
+        }
 
+        private async void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!working && !cancelRequest)
+                {
+                    await Task.Run(() => DoWork());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Crashes.TrackError(ex);
+            }
         }
         private void button15_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.DoWork += OnDoWork;
-            backgroundWorker1.RunWorkerCompleted += OnRunWorkerCompleted;
-
-            backgroundWorker1.RunWorkerAsync();
+            cancelRequest = true;
+            label1.Text = "Waiting for the current process finish excecution.";
+            timer1.Stop();
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
+        private void button16_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    if (!backgroundWorker1.IsBusy)
-            //    {
-            //        backgroundWorker1.RunWorkerAsync();
-                   
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Crashes.TrackError(ex);
-            //}
+            cancelRequest=false;
+            working = false;
+            timer1.Start();
 
         }
-        private async void OnDoWork(object sender, DoWorkEventArgs e)
+        private async void DoWork()
         {
-            BeginInvoke(new Action(async () => await EmployeeRegistrationRequest()));
-            //await EmployeeRegistrationRequest();
-            //await EmployerRegistrationRequest();
-            //await ComplianceCertificateRequest();
-            //await AgeBenefitClaimCompleted();
-            //await AgeBenefitClaimCompleted();
-            ////await GetRemittancePendingReview();
-            //await DeathBenefitClaimCompleted();
-            //await FuneralBenefitClaimCompleted();
-            //await InvalidityBenefitClaimCompleted();
-            //await SicknessBenefitClaimCompleted();
-            //await SurvivorBenefitClaimCompleted();
-            //await DisablemetBenefitClaimCompleted();
-            //await MaternityBenefitClaimCompleted();
-            //await EmploymentInjuryBenefitClaimCompleted();
-            //await CovidBenefitClaimCompleted();
+            working = true;
+      
+            BeginInvoke(new Action(() => label1.Text = "Process running."));
 
+            if (!cancelRequest) await EmployeeRegistrationRequest();
+            if (!cancelRequest) await EmployerRegistrationRequest();
+            if (!cancelRequest) await ComplianceCertificateRequest();
+            if (!cancelRequest) await AgeBenefitClaimCompleted();
+            // BeginInvoke(new Action(async () => await GetRemittancePendingReview()));
+            if (!cancelRequest) await DeathBenefitClaimCompleted();
+            if (!cancelRequest) await FuneralBenefitClaimCompleted();
+            if (!cancelRequest) await InvalidityBenefitClaimCompleted();
+            if (!cancelRequest) await SicknessBenefitClaimCompleted();
+            if (!cancelRequest) await SurvivorBenefitClaimCompleted();
+            if (!cancelRequest) await DisablemetBenefitClaimCompleted();
+            if (!cancelRequest) await MaternityBenefitClaimCompleted();
+            if (!cancelRequest) await EmploymentInjuryBenefitClaimCompleted();
+            if (!cancelRequest) await CovidBenefitClaimCompleted();
 
-            // e.Result = dbdataset;
+            working = false;
+            BeginInvoke(new Action(() => label1.Text = "No Process Running."));           
         }
 
-        void OnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            // This will run on the main form thread when the background work is
-            // done; it connects the results to the data grid.
-           // dataGridView1.DataSource = e.Result;
-        }
         #region Buttoms
-        
+
         private async void button1_Click(object sender, EventArgs e)
         {
             await EmployeeRegistrationRequest();
@@ -264,7 +265,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1("Error " + ex.Message, false);
                             SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
                         }
-                       
+
                     }
                 }
                 else
@@ -576,7 +577,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await AgeBenefit.ClaimDetail(request);
+                                document = await AgeBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -662,7 +663,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await DeathBenefit.ClaimDetail(request);
+                                document = await DeathBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -747,7 +748,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await FuneralBenefit.ClaimDetail(request);
+                                document = await FuneralBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -918,7 +919,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await SicknessBenefit.ClaimDetail(request);
+                                document = await SicknessBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -1003,7 +1004,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await SurvivorBenefit.ClaimDetail(request);
+                                document = await SurvivorBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -1088,7 +1089,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await DisablementBenefit.ClaimDetail(request);
+                                document = await DisablementBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -1173,7 +1174,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await MaternityBenefit.ClaimDetail(request);
+                                document = await MaternityBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -1258,7 +1259,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await EmployInjuryBenefit.ClaimDetail(request);
+                                document = await EmployInjuryBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -1343,7 +1344,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
-                                 document = await CovidBenefit.ClaimDetail(request);
+                                document = await CovidBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
@@ -1414,64 +1415,92 @@ namespace Db2Seeder
         #endregion
         void AddTreeViewLogLevel0(string text)
         {
+            BeginInvoke(new Action(() =>
+            {
+                if(tViewEvents.Nodes.Count>=500)tViewEvents.Nodes.Clear();
+
+                tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
+                tViewEvents.ExpandAll();
+                var lastNode = tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Any() ? tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Last() : tViewEvents.Nodes.Cast<TreeNode>().Last();
+                lastNode.EnsureVisible();
+            }
+            ));
+            Application.DoEvents();
             Thread.Sleep(1000);
-            //Application.DoEvents();
-            tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
-            tViewEvents.ExpandAll();
-            tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
         }
         void AddTreeViewLogLevel1(string text, bool successful)
         {
-           Thread.Sleep(1000);
-            //Application.DoEvents();
-            var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-            if (successful)
+            BeginInvoke(new Action(() =>
             {
-                firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
+                var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+                if (successful)
+                {
+                    firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
+                }
+                else
+                {
+                    firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
+                }
+                tViewEvents.ExpandAll();
+                var lastNode = tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Any() ? tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Last() : tViewEvents.Nodes.Cast<TreeNode>().Last();
+                lastNode.EnsureVisible();
             }
-            else
-            {
-                firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
-            }
-            tViewEvents.ExpandAll();
-            tViewEvents.SelectedNode = firstLevelNode;
+            ));
+            Application.DoEvents();
+            Thread.Sleep(1000);
         }
         void AddTreeViewLogLevel1Info(string text)
         {
+            BeginInvoke(new Action(() =>
+            {
+                var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+                firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
+                tViewEvents.ExpandAll();
+                var lastNode = tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Any() ? tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Last() : tViewEvents.Nodes.Cast<TreeNode>().Last();
+                lastNode.EnsureVisible();
+            }
+              ));
+            Application.DoEvents();
             Thread.Sleep(1000);
-            //Application.DoEvents();
-            var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-            firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
-            tViewEvents.ExpandAll();
-            tViewEvents.SelectedNode = firstLevelNode;
         }
         void AddTreeViewLogLevel2(string text, bool successful)
         {
+            BeginInvoke(new Action(() =>
+            {
+                var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+                var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
+                if (successful)
+                {
+                    secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
+                }
+                else
+                {
+                    secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
+                }
+                tViewEvents.ExpandAll();
+                var lastNode = secondLevelNode.Nodes.Cast<TreeNode>().Any() ? secondLevelNode.Nodes.Cast<TreeNode>().Last() : secondLevelNode;
+                lastNode.EnsureVisible();
+            }
+              ));
+            Application.DoEvents();
             Thread.Sleep(1000);
-            //Application.DoEvents();
-            var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-            var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
-            if (successful)
-            {
-                secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
-            }
-            else
-            {
-                secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
-            }
-            tViewEvents.ExpandAll();
-            tViewEvents.SelectedNode = secondLevelNode;
         }
         void AddTreeViewLogLevel2Info(string text)
         {
+            BeginInvoke(new Action(() =>
+            {
+                var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+                var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
+                secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
+                tViewEvents.ExpandAll();
+                var lastNode = secondLevelNode.Nodes.Cast<TreeNode>().Any() ? secondLevelNode.Nodes.Cast<TreeNode>().Last() : secondLevelNode;
+                lastNode.EnsureVisible();
+            }
+             ));
+            Application.DoEvents();
             Thread.Sleep(1000);
-            //Application.DoEvents();
-            var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-            var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
-            secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
-            tViewEvents.ExpandAll();
-            tViewEvents.SelectedNode = secondLevelNode;
         }
+
         async void SaveLOG(string errorMessage, SupportRequest request, int? formId, DateTime? completedOn)
         {
 
@@ -1492,13 +1521,93 @@ namespace Db2Seeder
         }
         private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex==1)
+            if (tabControl1.SelectedIndex == 1)
             {
                 LogsDB logsDB = new LogsDB();
-                dataGridView1.DataSource= await logsDB.GetErrorLogsListAsync();
+                dataGridView1.DataSource = await logsDB.GetErrorLogsListAsync();
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (working)
+            {
+                e.Cancel = true;
             }
         }
 
         
+
+       
+
+
+
+
+        //void AddTreeViewLogLevel0(string text)
+        //{
+        //    //Thread.Sleep(1000);
+        //    //Application.DoEvents();
+
+
+        //    BeginInvoke(new Action(() => tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0))));
+        //    BeginInvoke(new Action(() => tViewEvents.ExpandAll()));
+        //    BeginInvoke(new Action(() => tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1]));
+
+        //    //tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
+        //    //tViewEvents.ExpandAll();
+        //    //tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+        //}
+        //void AddTreeViewLogLevel1(string text, bool successful)
+        //{
+        //   //Thread.Sleep(1000);
+        //    //Application.DoEvents();
+        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+        //    if (successful)
+        //    {
+        //        firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
+        //    }
+        //    else
+        //    {
+        //        firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
+        //    }
+        //    tViewEvents.ExpandAll();
+        //    tViewEvents.SelectedNode = firstLevelNode;
+        //}
+        //void AddTreeViewLogLevel1Info(string text)
+        //{
+        //    //Thread.Sleep(1000);
+        //    //Application.DoEvents();
+        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+        //    firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
+        //    tViewEvents.ExpandAll();
+        //    tViewEvents.SelectedNode = firstLevelNode;
+        //}
+        //void AddTreeViewLogLevel2(string text, bool successful)
+        //{
+        //    //Thread.Sleep(1000);
+        //    //Application.DoEvents();
+        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+        //    var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
+        //    if (successful)
+        //    {
+        //        secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
+        //    }
+        //    else
+        //    {
+        //        secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
+        //    }
+        //    tViewEvents.ExpandAll();
+        //    tViewEvents.SelectedNode = secondLevelNode;
+        //}
+        //void AddTreeViewLogLevel2Info(string text)
+        //{
+        //    //Thread.Sleep(1000);
+        //    //Application.DoEvents();
+        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
+        //    var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
+        //    secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
+        //    tViewEvents.ExpandAll();
+        //    tViewEvents.SelectedNode = secondLevelNode;
+        //}
     }
 }
