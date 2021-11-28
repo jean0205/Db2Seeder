@@ -8,6 +8,7 @@ Public Class ElectRemittanceDB2
     Async Function PostRemittances(EmprRemitt As Document_Remittance) As Task
         dtLoadCnte = New DataTable
         Dim lst As List(Of EmployeeContributionRecord) = EmprRemitt.employeeContributionRecords
+        Dim NoPotsed As New List(Of EmployeeContributionRecord)
 
         'Employer no and Sub
         Dim strCadena As String
@@ -29,11 +30,17 @@ Public Class ElectRemittanceDB2
             Try
             For Each EmpeCnte As EmployeeContributionRecord In lst
 
-                Await UpdEmnfile(EmpeCnte, EmprNo, EmprSub)
-                Await UpdTotalCntrEmpe(EmpeCnte)
-                Await InsertECXE(EmpeCnte, EmprNo, EmprSub)
-                Await UpdECWE(EmpeCnte, EmprNo, EmprSub)
-                Await UpdateCNTExx(EmpeCnte, EmprNo, EmprSub)
+                Dim posted = Await UpdateCNTExx(EmpeCnte, EmprNo, EmprSub)
+
+                If posted = True Then
+                    Await UpdEmnfile(EmpeCnte, EmprNo, EmprSub)
+                    Await UpdTotalCntrEmpe(EmpeCnte)
+                    Await InsertECXE(EmpeCnte, EmprNo, EmprSub)
+                    Await UpdECWE(EmpeCnte, EmprNo, EmprSub)
+                Else
+                    NoPotsed.Add(EmpeCnte)
+                End If
+
             Next
 
             'Variables
@@ -949,8 +956,8 @@ Public Class ElectRemittanceDB2
         Return dtload
     End Function
 
-    Private Async Function UpdateCNTExx(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
-
+    Private Async Function UpdateCNTExx(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task(Of Boolean)
+        Dim Posted As Boolean
         Try
             Using connection As New iDB2Connection(cn)
 
@@ -1020,7 +1027,7 @@ Public Class ElectRemittanceDB2
                            (w5 = "P" And EmpeCntr.week5.hasWorked = True) Then
                             'Upload file
                             Await InsertDATAE(EmpeCntr, EmprNo, EmprSub)
-
+                            Posted = False
 
                         Else
                             'actualizar
@@ -1120,7 +1127,7 @@ Public Class ElectRemittanceDB2
 
                                 Await cmdup1.ExecuteNonQueryAsync()
                                 cmdup1.Dispose()
-
+                                Posted = True
 
                             ElseIf ACTV = "D" Then
 
@@ -1168,6 +1175,7 @@ Public Class ElectRemittanceDB2
 
                                 Await cmdup1.ExecuteNonQueryAsync()
                                 cmdup1.Dispose()
+                                Posted = True
                             End If
                         End If
 
@@ -1175,13 +1183,14 @@ Public Class ElectRemittanceDB2
                 Else
                     'insert cnte
                     Await InsertCNTE(EmpeCntr, EmprNo, EmprSub)
+                    Posted = True
                 End If
 
             End Using
         Catch ex As iDB2Exception
             Throw ex
         End Try
-
+        Return Posted
     End Function
 
 
