@@ -179,7 +179,19 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Employee details successfully loaded", true);
-                                document.nisNo = await as400Empe.InsertEmployees(document);
+                                if (document.registrationType==1)
+                                {
+                                    AddTreeViewLogLevel1("Posting Employee", true);
+                                    document.nisNo = await as400Empe.InsertEmployees(document);
+                                }
+                                if (document.registrationType ==2 )
+                                {
+                                    AddTreeViewLogLevel1("Posting Self-Employee (Employee)", true);
+                                    document.nisNo = await as400Empe.InsertEmployees(document);
+                                    AddTreeViewLogLevel1("Posting Self-Employee (Employer)", true);
+                                    await as400Empr.InsertSelfEmployers(document);
+                                }
+
                                 if (document.nisNo == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting employee to the  DB2 database.", false);

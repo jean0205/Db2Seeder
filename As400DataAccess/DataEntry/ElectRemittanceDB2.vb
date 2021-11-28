@@ -50,7 +50,6 @@ Public Class ElectRemittanceDB2
             'cant empe
             Dim cantempe As Decimal = EmprRemitt.employeeContributionRecords.Count()
 
-
             'compstat updated
             Await UpdArsum(EmprNo, EmprSub, Periodx, totalins, totalcontrs)
             Await UpdArop(EmprNo, EmprSub, Periodx, totalcontrs)
