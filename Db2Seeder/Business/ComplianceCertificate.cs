@@ -37,8 +37,14 @@ namespace Db2Seeder.Business
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
+                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
                     Document_ComplianceCert Document_ComplianceCert = new Document_ComplianceCert();
-                    return Document_ComplianceCert = await GetRequestDetailsCompliance(guid);
+                    Document_ComplianceCert = await GetRequestDetailsCompliance(guid);
+                    Document_ComplianceCert.CompletedBy = requestHistory.Last().UserName;
+                    Document_ComplianceCert.CompletedTime = requestHistory.Last().dateModified;
+                    Document_ComplianceCert.SupportRequestId = Request.supportRequestId;
+                    return Document_ComplianceCert;
                 }
                 return null;
             }
@@ -47,7 +53,7 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-        public static async Task<bool> InsertComplianceCertificateSQL(SupportRequest Request,Document_ComplianceCert Document_ComplianceCert)
+        public static async Task<bool> InsertComplianceCertificateSQL(SupportRequest Request, Document_ComplianceCert Document_ComplianceCert)
         {
             try
             {
@@ -141,12 +147,12 @@ namespace Db2Seeder.Business
                                 certificate.ImportedId = 100000 + Document_ComplianceCert.documentId;
                                 certificate.EmployerNo = Document_ComplianceCert.employerNumber.Split('-')[0];
                                 certificate.EmployerSub = Document_ComplianceCert.employerNumber.Split('-')[1];
-                                certificate.BusinessName= Document_ComplianceCert.businessName.ToUpper();
-                                certificate.BusinessAddress= Document_ComplianceCert.businessAddress.ToUpper();
+                                certificate.BusinessName = Document_ComplianceCert.businessName.ToUpper();
+                                certificate.BusinessAddress = Document_ComplianceCert.businessAddress.ToUpper();
                                 certificate.Telephone = Document_ComplianceCert.phoneNumber;
                                 certificate.Email = Document_ComplianceCert.emailAddress.ToUpper();
                                 certificate.Reason = Document_ComplianceCert.certificateReason.ToUpper();
-                                certificate.Title=Document_ComplianceCert.title.ToUpper();
+                                certificate.Title = Document_ComplianceCert.title.ToUpper();
                                 certificate.AppDate = Document_ComplianceCert.createdOn.ToLocalTime();
                                 List<RequestHistory> requestHistory = new List<RequestHistory>();
                                 requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", request.supportRequestId);

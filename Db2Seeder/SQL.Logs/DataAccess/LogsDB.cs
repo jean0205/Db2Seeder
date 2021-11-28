@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,11 @@ namespace Db2Seeder.SQL.Logs.DataAccess
             {
                 throw ex;
             }
-        }        
+        }
+        public async Task<IEnumerable<Log>>GetErrorLogsListAsync()
+        {
+           // var ss= await _context.Log.Where(x => x.Error == true).ToListAsync();
+            return await _context.Log.Where(x => x.Error == true).ToListAsync();
+        }
     }
 }

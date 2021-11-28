@@ -34,8 +34,15 @@ namespace Db2Seeder.Business
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
+                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
+
                     Document_Employer Document_Employer = new Document_Employer();
-                    return Document_Employer = await GetRequestDetailsEmployer(guid);
+                    Document_Employer = await GetRequestDetailsEmployer(guid);
+                    Document_Employer.CompletedBy = requestHistory.Last().UserName;
+                    Document_Employer.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Employer.SupportRequestId = Request.supportRequestId;
+                    return Document_Employer;
                 }
                 return null;
             }

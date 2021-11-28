@@ -67,6 +67,7 @@
     <Compile Include="Business\Benefit Claims\MaternityBenefit.cs" />
     <Compile Include="Business\Benefit Claims\SicknessBenefit.cs" />
     <Compile Include="Business\Benefit Claims\SurvivorBenefit.cs" />
+    <Compile Include="Business\Class1.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\Employee.cs" />
     <Compile Include="Business\EmployeeRegistration.cs" />
