@@ -39,6 +39,7 @@ namespace Db2Seeder.Business
 
                     Document_Employer Document_Employer = new Document_Employer();
                     Document_Employer = await GetRequestDetailsEmployer(guid);
+                    validatePhone(Document_Employer);
                     Document_Employer.CompletedBy = requestHistory.Last().UserName;
                     Document_Employer.CompletedTime = requestHistory.Last().dateModified;
                     Document_Employer.SupportRequestId = Request.supportRequestId;
@@ -186,6 +187,25 @@ namespace Db2Seeder.Business
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        private static void validatePhone(Document_Employer Document_Employer)
+        {
+            if (Document_Employer.businessPhone != null)
+            {
+                Document_Employer.businessPhone = Document_Employer.businessPhone.Length > 10 ? Document_Employer.businessPhone.Substring(Document_Employer.businessPhone.Length - 10) : Document_Employer.businessPhone;
+            }
+            if (Document_Employer.mobile != null)
+            {
+                Document_Employer.mobile = Document_Employer.mobile.Length > 10 ? Document_Employer.mobile.Substring(Document_Employer.mobile.Length - 10) : Document_Employer.mobile;
+            }
+            if (Document_Employer.secondMobile != null)
+            {
+                Document_Employer.secondMobile = Document_Employer.secondMobile.Length > 10 ? Document_Employer.secondMobile.Substring(Document_Employer.secondMobile.Length - 10) : Document_Employer.secondMobile;
+            }
+            if (Document_Employer.fax != null)
+            {
+                Document_Employer.fax = Document_Employer.fax.Length > 10 ? Document_Employer.fax.Substring(Document_Employer.fax.Length - 10) : Document_Employer.fax;
             }
         }
     }

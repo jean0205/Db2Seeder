@@ -40,7 +40,8 @@ namespace Db2Seeder
         {
             InitializeComponent();
             dataGridView1.DefaultCellStyle.BackColor = Color.Beige;
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.Bisque;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.Bisque;           
+            timer1.Stop();
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
@@ -81,7 +82,7 @@ namespace Db2Seeder
             if (!cancelRequest) await EmployerRegistrationRequest();
             if (!cancelRequest) await ComplianceCertificateRequest();
             if (!cancelRequest) await AgeBenefitClaimCompleted();
-            // BeginInvoke(new Action(async () => await GetRemittancePendingReview()));
+            if (!cancelRequest) await GetRemittancePendingReview();
             if (!cancelRequest) await DeathBenefitClaimCompleted();
             if (!cancelRequest) await FuneralBenefitClaimCompleted();
             if (!cancelRequest) await InvalidityBenefitClaimCompleted();

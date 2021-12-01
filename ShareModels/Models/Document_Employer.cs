@@ -1,9 +1,7 @@
-﻿using ShareModels.Helpers;
+﻿using Newtonsoft.Json;
+using ShareModels.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShareModels.Models
 {
@@ -32,6 +30,11 @@ namespace ShareModels.Models
         public int femaleEmployee { get; set; }
         public int totalEmployee { get; set; }
         public string employeeInfoForms { get; set; }
+        public string zone { get; set; }
+        public int? sector { get; set; }
+        public string typeOfBusiness { get; set; }
+        public string inspector { get; set; }
+        public List<EmployeInfoEntity> employeInfoEntity { get; set; }
         public int documentId { get; set; }
         public Guid documentGuid { get; set; }
         public int documentTypeId { get; set; }
@@ -55,5 +58,25 @@ namespace ShareModels.Models
         public int SupportRequestId { get; set; }
         public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;
         public int? ClaimNumber { get; set; }
+    }
+    public class EmployeInfoEntity
+    {
+        [JsonProperty("firstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("middleName")]
+        public string MiddleName { get; set; }
+
+        [JsonProperty("lastName")]
+        public string LastName { get; set; }
+
+        [JsonProperty("dateEmployed")]
+        public string DateEmployed { get; set; }
+
+        [JsonProperty("nisNo")]
+        public string NisNo { get; set; }
+
+        [JsonProperty("status")]
+        public bool Status { get; set; }
     }
 }
