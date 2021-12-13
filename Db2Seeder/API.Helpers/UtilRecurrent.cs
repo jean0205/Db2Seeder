@@ -1,11 +1,14 @@
-﻿using PdfSharp.Drawing;
+﻿using Microsoft.Extensions.Configuration;
+using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -63,7 +66,7 @@ namespace Db2Seeder.API.Helpers
         #endregion
 
         #region Controls
-        public  static List<TextBox> FindAllTextBoxIterative( Control parent)
+        public static List<TextBox> FindAllTextBoxIterative(Control parent)
         {
             List<TextBox> list = new List<TextBox>();
             Stack<Control> ContainerStack = new Stack<Control>();
@@ -80,18 +83,18 @@ namespace Db2Seeder.API.Helpers
             }
             return list;
         }
-        public static List<Control> FindAllControlsIterative(Control parent, string  type)
+        public static List<Control> FindAllControlsIterative(Control parent, string type)
         {
             List<Control> list = new List<Control>();
             Stack<Control> ContainerStack = new Stack<Control>();
-            ContainerStack.Push(parent);           
+            ContainerStack.Push(parent);
             while (ContainerStack.Count > 0)
             {
                 foreach (Control child in ContainerStack.Pop().Controls)
                 {
                     if (child.HasChildren)
                         ContainerStack.Push(child);
-                    if (child.GetType().Name==type)
+                    if (child.GetType().Name == type)
                         list.Add(child);
                 }
             }
@@ -116,7 +119,7 @@ namespace Db2Seeder.API.Helpers
                 e.Handled = false;
             else if (char.IsControl(e.KeyChar))
                 e.Handled = false;
-            else if (e.KeyChar== '.' && ((TextBox)sender).Text.Length == 0)
+            else if (e.KeyChar == '.' && ((TextBox)sender).Text.Length == 0)
                 e.Handled = true;
             else if (e.KeyChar == '.' && !((TextBox)sender).Text.Contains("."))
                 e.Handled = false;
@@ -217,7 +220,7 @@ namespace Db2Seeder.API.Helpers
                 MemoryStream stream = new MemoryStream();
                 document2.Save(stream, false);
                 result = new byte[stream.Length];
-                await stream.ReadAsync(result, 0, (int)stream.Length);               
+                await stream.ReadAsync(result, 0, (int)stream.Length);
                 return result;
             }
             catch (Exception ex)
@@ -238,5 +241,39 @@ namespace Db2Seeder.API.Helpers
             }
         }
 
+
+        //############ Email
+
+       
+        public async static Task SendMail(string to, string subject, string body)
+        {
+            try
+            {
+                var _configuration= ConfigurationManager.AppSettings;
+                string smtp = _configuration["Smtp"];
+                MailMessage Email = new MailMessage();
+                using (SmtpClient client = new SmtpClient(smtp))
+                {
+                    client.Port = 587;
+                    client.EnableSsl = true;
+                    Email.From = new MailAddress(_configuration["From"], "DB2-Seeder");
+                    Email.To.Add(new MailAddress(to));
+                    Email.Subject = subject;
+                    Email.Body = body;
+                    Email.IsBodyHtml = true;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(_configuration["User"], _configuration["Password"]);
+                    System.Net.ServicePointManager.ServerCertificateValidationCallback = (object se, System.Security.Cryptography.X509Certificates.X509Certificate cert, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslerror) => true;
+                   await  client.SendMailAsync(Email);
+                    Email.Dispose();
+                    client.Dispose();
+                }               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
