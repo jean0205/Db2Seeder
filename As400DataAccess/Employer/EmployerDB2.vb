@@ -311,11 +311,11 @@ Public Class EmployerDB2
                 ' Business Town
                 cmdEMPR.Parameters("@btwn").Value = If(Empe.businessTown = Nothing, "", Empe.businessTown)
                 ' Business Postal Code
-                cmdEMPR.Parameters("@bpcd").Value = "Postal Code"
+                cmdEMPR.Parameters("@bpcd").Value = ""
                 ' Business Area
                 cmdEMPR.Parameters("@brgn").Value = If(Empe.businessParish = Nothing, "", Empe.businessParish)
                 ' Business phone
-                cmdEMPR.Parameters("@btno").Value = If(Empe.businessPhoneNumber = Nothing, 0, Empe.businessPhoneNumber)
+                cmdEMPR.Parameters("@btno").Value = If(Empe.businessPhoneNumber = Nothing, 0, Val(Empe.businessPhoneNumber))
 
 
                 ' Number of Employees
@@ -350,7 +350,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@offr").Value = "000"
 
                 'Zone
-                cmdEMPR.Parameters("@zone").Value = ""
+                cmdEMPR.Parameters("@zone").Value = 0
                 'Grade
                 cmdEMPR.Parameters("@grad").Value = ""
 
@@ -364,7 +364,7 @@ Public Class EmployerDB2
 
 
                 ' Business fax
-                cmdEMPR.Parameters("@faxn").Value = If(Empe.businessFax = Nothing, 0, Empe.businessFax)
+                cmdEMPR.Parameters("@faxn").Value = If(Empe.businessFax = Nothing, 0, Val(Empe.businessFax))
                 ' Dorman
                 cmdEMPR.Parameters("@dorm").Value = ""
                 'Dorman date 
@@ -375,11 +375,11 @@ Public Class EmployerDB2
                 'Employer Email
                 cmdEMPR.Parameters("@eml2").Value = ""
                 'extra phone business
-                cmdEMPR.Parameters("@pds1").Value = 0
+                cmdEMPR.Parameters("@pds1").Value = ""
                 cmdEMPR.Parameters("@phn1").Value = If(Empe.primaryMobileNumber = Nothing, 0, Empe.primaryMobileNumber)
 
                 'extra phone empr
-                cmdEMPR.Parameters("@pds2").Value = 0
+                cmdEMPR.Parameters("@pds2").Value = ""
                 cmdEMPR.Parameters("@phn2").Value = If(Empe.secondaryMobileNumber = Nothing, 0, Empe.secondaryMobileNumber)
 
                 'Contact #1 Information
