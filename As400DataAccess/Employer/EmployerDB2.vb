@@ -83,7 +83,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@crdt").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 
                 'Inspector
-                cmdEMPR.Parameters("@offr").Value = If(Empr.inspector = Nothing, 0, Empr.inspector)
+                cmdEMPR.Parameters("@offr").Value = If(Empr.inspector = Nothing, "000", Empr.inspector)
 
                 'Zone
                 cmdEMPR.Parameters("@zone").Value = If(Empr.zone = Nothing, 0, Val(Empr.zone))
