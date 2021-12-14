@@ -293,9 +293,9 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@rreg").Value = Empe.nisNo
                 cmdEMPR.Parameters("@rrsf").Value = "0"
                 ' Business Name
-                cmdEMPR.Parameters("@bnam").Value = Empe.name + " " + Empe.lastName
+                cmdEMPR.Parameters("@bnam").Value = Empe.firstName + " " + Empe.lastName
                 'Employer Name
-                cmdEMPR.Parameters("@rnam").Value = Empe.name + " " + Empe.lastName
+                cmdEMPR.Parameters("@rnam").Value = Empe.firstName + " " + Empe.lastName
                 'Employer Address
                 cmdEMPR.Parameters("@radd").Value = If(Empe.businessMailingAddress = Nothing, "", Empe.businessMailingAddress)
                 'Employer town
