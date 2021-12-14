@@ -100,13 +100,13 @@ namespace Db2Seeder.Business
             }
         }
 
-        public static async Task<Response> AddNISMapping(SupportRequest Request, Document_Employer Document_Employer)
+        public static async Task<Response> AddNISMapping(SupportRequest Request,int employerNo)
         {
             try
             {
                 NisMapping nisMapping = new NisMapping();
                 nisMapping.nisNumberTypeId = 1;
-                nisMapping.nisNumber = Document_Employer.employerNo.ToString();
+                nisMapping.nisNumber = employerNo.ToString();
                 nisMapping.userAccountId = Request.ownerId;
                 return await AddNisMapping(nisMapping);
             }

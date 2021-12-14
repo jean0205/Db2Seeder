@@ -33,7 +33,7 @@ namespace Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments
             if (!optionsBuilder.IsConfigured)
             {
              
-                optionsBuilder.UseSqlServer($"Server=NISSQLSRV-01;Database={Settings.SQLDocuments()}Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer($"Server=NISSQLSRV-01;Database={Settings.SQLDocuments()};Trusted_Connection=True;");
             }
         }
 

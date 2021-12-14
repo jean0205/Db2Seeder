@@ -56,27 +56,33 @@ namespace Db2Seeder
             }
             catch (Exception ex)
             {
-
                 Crashes.TrackError(ex);
             }
         }
         private void button15_Click(object sender, EventArgs e)
         {
-            cancelRequest = true;
-            label1.Text = "Waiting for the current process finish excecution.";
-            timer1.Stop();
+            if (working)
+            {
+                cancelRequest = true;
+                label1.Text = "Waiting for the current process finish excecution.";
+                timer1.Stop();
+                button15.Enabled = false;
+            }
         }
         private void button16_Click(object sender, EventArgs e)
         {
-            cancelRequest = false;
-            working = false;
-            timer1.Start();
-
+            if (!working)
+            {
+                cancelRequest = false;
+                working = false;
+                timer1.Start();
+                button16.Enabled = false;
+                button15.Enabled = true;
+            }
         }
         private async void DoWork()
         {
             working = true;
-
             BeginInvoke(new Action(() => label1.Text = "Process running."));
 
             if (!cancelRequest) await EmployeeRegistrationRequest();
@@ -93,69 +99,128 @@ namespace Db2Seeder
             if (!cancelRequest) await MaternityBenefitClaimCompleted();
             if (!cancelRequest) await EmploymentInjuryBenefitClaimCompleted();
             if (!cancelRequest) await CovidBenefitClaimCompleted();
-
             working = false;
-            BeginInvoke(new Action(() => label1.Text = "No Process Running."));
+            if (cancelRequest) BeginInvoke(new Action(() =>
+            {
+                button16.Enabled = true;
+                label1.Text = "No Process Running.";
+            }));
         }
 
         #region Buttoms
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            await EmployeeRegistrationRequest();
+            if (!working)
+            {
+                await EmployeeRegistrationRequest();
+                working = false;
+            }
         }
         private async void button2_Click(object sender, EventArgs e)
         {
-            await EmployerRegistrationRequest();
+            if (!working)
+            {
+                await EmployerRegistrationRequest();
+                working = false;
+            }
         }
         private async void button4_Click(object sender, EventArgs e)
         {
-            await ComplianceCertificateRequest();
+            if (!working)
+            {
+                await ComplianceCertificateRequest();
+                working = false;
+            }
         }
         private async void button5_Click(object sender, EventArgs e)
         {
-            await AgeBenefitClaimCompleted();
+            if (!working)
+            {
+                await AgeBenefitClaimCompleted();
+                working = false;
+            }
         }
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            await GetRemittancePendingReview();
+            if (!working)
+            {
+                await GetRemittancePendingReview();
+                working = false;
+            }
         }
         private async void button7_Click(object sender, EventArgs e)
         {
-            await DeathBenefitClaimCompleted();
+            if (!working)
+            {
+                await DeathBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button8_Click(object sender, EventArgs e)
         {
-            await FuneralBenefitClaimCompleted();
+            if (!working)
+            {
+                await FuneralBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button6_Click(object sender, EventArgs e)
         {
-            await InvalidityBenefitClaimCompleted();
+            if (!working)
+            {
+                await InvalidityBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button9_Click(object sender, EventArgs e)
         {
-            await SicknessBenefitClaimCompleted();
+            if (!working)
+            {
+                await SicknessBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button10_Click(object sender, EventArgs e)
         {
-            await SurvivorBenefitClaimCompleted();
+            if (!working)
+            {
+                await SurvivorBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button11_Click(object sender, EventArgs e)
         {
-            await DisablemetBenefitClaimCompleted();
+            if (!working)
+            {
+                await DisablemetBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button12_Click(object sender, EventArgs e)
         {
-            await MaternityBenefitClaimCompleted();
+            if (!working)
+            {
+                await MaternityBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button13_Click(object sender, EventArgs e)
         {
-            await EmploymentInjuryBenefitClaimCompleted();
+            if (!working)
+            {
+                await EmploymentInjuryBenefitClaimCompleted();
+                working = false;
+            }
         }
         private async void button14_Click(object sender, EventArgs e)
         {
-            await CovidBenefitClaimCompleted();
+            if (!working)
+            {
+                await CovidBenefitClaimCompleted();
+                working = false;
+            }
         }
         #endregion
 
@@ -185,16 +250,25 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Posting Employee", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
+                                    document.EmployerNo = 0;
+                                    if (document.nisNo != 0) await MappAndAssingEmployeeRol(request, document);
                                 }
                                 if (document.registrationType == 2)
                                 {
                                     AddTreeViewLogLevel1("Posting Self-Employee (Employee)", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
                                     AddTreeViewLogLevel1("Posting Self-Employee (Employer)", true);
-                                    await as400Empr.InsertSelfEmployers(document);
-                                }
+                                    document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
 
-                                if (document.nisNo == 0)
+                                    if (document.nisNo != 0) await MappAndAssingEmployeeRol(request, document);
+                                    if (document.EmployerNo != 0) await MappAndAssingSelfEmployer(request, document);
+                                }
+                                if (document.registrationType == 3)
+                                {
+                                    AddTreeViewLogLevel1("Posting Voluntary (Employer)", true);
+                                    document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
+                                }
+                                if (document.nisNo == 0 && document.EmployerNo == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting employee to the  DB2 database.", false);
                                 }
@@ -211,6 +285,8 @@ namespace Db2Seeder
                                     //{
                                     //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
                                     //}
+
+                                    //###SAVING DOCUMENTS
                                     try
                                     {
                                         AddTreeViewLogLevel2Info("Saving Employee Documents.");
@@ -222,48 +298,6 @@ namespace Db2Seeder
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
-                                    }
-                                    //si no es employer y no tiene  employee link entonces hago el link automatico
-                                    if (!await ApiRequest.IsEmployer(request.ownerId) || !await ApiRequest.IsEmployee(request.ownerId))
-                                    {
-                                        try
-                                        {
-                                            AddTreeViewLogLevel2Info("Mapping NIS Number to Web Portal Account.");
-                                            var response = await EmployeeRegistration.AddNISMapping(request, document);
-                                            if (response.IsSuccess)
-                                            {
-                                                AddTreeViewLogLevel2(document.nisNo + " Successfully Mapped.", true);
-                                            }
-                                            else
-                                            {
-                                                AddTreeViewLogLevel2("Error mapping NIS number: " + document.nisNo + " " + response.Message, false);
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Crashes.TrackError(ex);
-                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
-                                        }
-                                        try
-                                        {
-
-                                            AddTreeViewLogLevel2Info("Assigning Employee Rol.");
-                                            if (await EmployeeRegistration.AddEmployeeRole(request))
-                                            {
-                                                AddTreeViewLogLevel2("Employee Role successufully added", true);
-                                            }
-                                            else
-                                            {
-                                                AddTreeViewLogLevel2("Error Adding Employee Role.", false);
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Crashes.TrackError(ex);
-                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
-                                        }
                                     }
                                 }
                             }
@@ -347,43 +381,45 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
                                         }
-                                        try
-                                        {
-                                            AddTreeViewLogLevel2Info("Mapping Employer Number to Web Portal Account.");
-                                            var response = await EmployerRegistration.AddNISMapping(request, document);
-                                            if (response.IsSuccess)
-                                            {
-                                                AddTreeViewLogLevel2(document.employerNo + " Successfully Mapped.", true);
-                                            }
-                                            else
-                                            {
-                                                AddTreeViewLogLevel2("Error mapping NIS number: " + document.employerNo + " " + response.Message, false);
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Crashes.TrackError(ex);
-                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
-                                        }
-                                        try
-                                        {
-                                            AddTreeViewLogLevel2Info("Assigning Employer Rol.");
-                                            if (await EmployerRegistration.AddEmployerRole(request))
-                                            {
-                                                AddTreeViewLogLevel2("Employer Role successufully added", true);
-                                            }
-                                            else
-                                            {
-                                                AddTreeViewLogLevel2("Error Adding Employer Role.", false);
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Crashes.TrackError(ex);
-                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
-                                        }
+                                        await MappAndAssingEmployerRol(request, document);
+                                        //try
+                                        //{
+                                        //    AddTreeViewLogLevel2Info("Mapping Employer Number to Web Portal Account.");
+                                        //    var response = await EmployerRegistration.AddNISMapping(request, document);
+                                        //    if (response.IsSuccess)
+                                        //    {
+                                        //        AddTreeViewLogLevel2(document.employerNo + " Successfully Mapped.", true);
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        AddTreeViewLogLevel2("Error mapping Employer number: " + document.employerNo + " " + response.Message, false);
+                                        //        await SaveLOG("Error mapping Employer number: " + document.employerNo, request, document.employerRegistrationFormId, document.CompletedTime);
+                                        //    }
+                                        //}
+                                        //catch (Exception ex)
+                                        //{
+                                        //    Crashes.TrackError(ex);
+                                        //    AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                        //    await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+                                        //}
+                                        //try
+                                        //{
+                                        //    AddTreeViewLogLevel2Info("Assigning Employer Rol.");
+                                        //    if (await EmployerRegistration.AddEmployerRole(request))
+                                        //    {
+                                        //        AddTreeViewLogLevel2("Employer Role successufully added", true);
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        AddTreeViewLogLevel2("Error Adding Employer Role.", false);
+                                        //    }
+                                        //}
+                                        //catch (Exception ex)
+                                        //{
+                                        //    Crashes.TrackError(ex);
+                                        //    AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                        //    await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+                                        //}
                                     }
                                 }
                                 else
@@ -415,6 +451,134 @@ namespace Db2Seeder
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+            }
+        }
+
+        private async Task MappAndAssingEmployerRol(SupportRequest request, Document_Employer document)
+        {
+            try
+            {
+                AddTreeViewLogLevel2Info("Mapping Employer Number to Web Portal Account.");
+                var response = await EmployerRegistration.AddNISMapping(request, (int)document.employerNo);
+                if (response.IsSuccess)
+                {
+                    AddTreeViewLogLevel2(document.employerNo + " Successfully Mapped.", true);
+                }
+                else
+                {
+                    AddTreeViewLogLevel2("Error mapping Employer number: " + document.employerNo + " " + response.Message, false);
+                    await SaveLOG("Error mapping Employer number: " + document.employerNo, request, document.employerRegistrationFormId, document.CompletedTime);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+            }
+            try
+            {
+                AddTreeViewLogLevel2Info("Assigning Employer Rol.");
+                if (await EmployerRegistration.AddEmployerRole(request))
+                {
+                    AddTreeViewLogLevel2("Employer Role successufully added", true);
+                }
+                else
+                {
+                    AddTreeViewLogLevel2("Error Adding Employer Role.", false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+            }
+        }
+        private async Task MappAndAssingSelfEmployer(SupportRequest request, Document_Employee document)
+        {
+            try
+            {
+                AddTreeViewLogLevel2Info("Mapping Employer Number to Web Portal Account.");
+                var response = await EmployerRegistration.AddNISMapping(request, (int)document.EmployerNo);
+                if (response.IsSuccess)
+                {
+                    AddTreeViewLogLevel2(document.EmployerNo + " Successfully Mapped.", true);
+                }
+                else
+                {
+                    AddTreeViewLogLevel2("Error mapping Employer number: " + document.EmployerNo + " " + response.Message, false);
+                    await SaveLOG("Error mapping Employer number: " + document.EmployerNo, request, document.employeeRegistrationFormId, document.CompletedTime);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+            }
+            try
+            {
+                AddTreeViewLogLevel2Info("Assigning Employer Rol.");
+                if (await EmployerRegistration.AddEmployerRole(request))
+                {
+                    AddTreeViewLogLevel2("Employer Role successufully added", true);
+                }
+                else
+                {
+                    AddTreeViewLogLevel2("Error Adding Employer Role.", false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+            }
+        }
+        private async Task MappAndAssingEmployeeRol(SupportRequest request, Document_Employee document)
+        {
+            //si no es employer y no tiene  employee link entonces hago el link automatico
+            if (!await ApiRequest.IsEmployer(request.ownerId) || !await ApiRequest.IsEmployee(request.ownerId))
+            {
+                try
+                {
+                    AddTreeViewLogLevel2Info("Mapping NIS Number to Web Portal Account.");
+                    var response = await EmployeeRegistration.AddNISMapping(request, document);
+                    if (response.IsSuccess)
+                    {
+                        AddTreeViewLogLevel2(document.nisNo + " Successfully Mapped.", true);
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel2("Error mapping NIS number: " + document.nisNo + " " + response.Message, false);
+                        await SaveLOG("Error mapping NIS number: " + document.nisNo, request, document.employeeRegistrationFormId, document.CompletedTime);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel2("Error " + ex.Message, false);
+                    await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                }
+                try
+                {
+                    AddTreeViewLogLevel2Info("Assigning Employee Rol.");
+                    if (await EmployeeRegistration.AddEmployeeRole(request))
+                    {
+                        AddTreeViewLogLevel2("Employee Role successufully added", true);
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel2("Error Adding Employee Role.", false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel2("Error " + ex.Message, false);
+                    await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                }
             }
         }
 
@@ -499,6 +663,9 @@ namespace Db2Seeder
         #endregion
 
         #region Remittance
+
+        //TODO 
+        //PONERLE LOGS A LOS REMITTANCE TAMBIEN
         private async Task GetRemittancePendingReview()
         {
             try
@@ -1428,6 +1595,7 @@ namespace Db2Seeder
         #endregion
         void AddTreeViewLogLevel0(string text)
         {
+            working = true;
             BeginInvoke(new Action(() =>
             {
                 if (tViewEvents.Nodes.Count >= 500) tViewEvents.Nodes.Clear();
@@ -1514,7 +1682,7 @@ namespace Db2Seeder
             Thread.Sleep(1000);
         }
 
-        async Task  SaveLOG(string errorMessage, SupportRequest request, int? formId, DateTime? completedOn)
+        async Task SaveLOG(string errorMessage, SupportRequest request, int? formId, DateTime? completedOn)
         {
 
             Log log = new Log

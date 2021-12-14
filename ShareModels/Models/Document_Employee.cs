@@ -8,6 +8,7 @@ namespace ShareModels.Models
         public int employeeRegistrationFormId { get; set; }
         public int registrationType { get; set; }
         public int? nisNo { get; set; }
+        public int? EmployerNo { get; set; }
         public string firstName { get; set; }
         public string middleName { get; set; } = String.Empty;
         public string lastName { get; set; }
