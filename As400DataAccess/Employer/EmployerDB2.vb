@@ -135,7 +135,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@cmm2").Value = ""
 
                 'Statement Start
-                ' If Dtstmd.CustomFormat = " " Then
+
                 cmdEMPR.Parameters("@stmd").Value = 0
 
                 'cmdEMPR.Parameters("@stmd").Value = Dtstmd.Value.Year * 10000 + Dtstmd.Value.Month * 100 + Dtstmd.Value.Day
@@ -275,7 +275,7 @@ Public Class EmployerDB2
 
                 Dim cmdEMPR As New iDB2Command With {
                     .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".EMPR"" 
-                                         (ACTV02, RREG02, RRSF02, BNAM02, RNAM02, RADD02, RTWN02, RPCD02, RRGN02, RTNO02, BADD02, BTWN02, 
+                                           (ACTV02, RREG02, RRSF02, BNAM02, RNAM02, RADD02, RTWN02, RPCD02, RRGN02, RTNO02, BADD02, BTWN02, 
                                           BPCD02, BRGN02, BTNO02, NOME02, NOFE02, CENI02, DATI02, TCEN02, TDAT02, SECT02, INDC02, USER02, 
                                           CRDT02, OFFR02, ZONE02, GRAD02, STDT02, FAXN02, DORM02, DORD02, EML102, EML202, PDS102, PHN102, 
                                           PDS202, PHN202, CNM102, CPT102, CPH102, CEX102, CML102, CNM202, CPT202, CPH202, CEX202, CMM202, STMD02)
@@ -291,7 +291,7 @@ Public Class EmployerDB2
                 EmprNo = Empe.nisNo
 
                 cmdEMPR.Parameters("@rreg").Value = Empe.nisNo
-                cmdEMPR.Parameters("@rrsf").Value = "0"
+                cmdEMPR.Parameters("@rrsf").Value = 0
                 ' Business Name
                 cmdEMPR.Parameters("@bnam").Value = Empe.firstName + " " + Empe.lastName
                 'Employer Name
@@ -317,8 +317,6 @@ Public Class EmployerDB2
                 ' Business phone
                 cmdEMPR.Parameters("@btno").Value = If(Empe.businessPhoneNumber = Nothing, 0, Empe.businessPhoneNumber)
 
-                'Type of Business
-                cmdEMPR.Parameters("@indc").Value = 0
 
                 ' Number of Employees
                 cmdEMPR.Parameters("@nome").Value = 0
@@ -341,6 +339,8 @@ Public Class EmployerDB2
                     cmdEMPR.Parameters("@sect").Value = "2"
                 End If
 
+                'Type of Business
+                cmdEMPR.Parameters("@indc").Value = 0
                 'user
                 cmdEMPR.Parameters("@user").Value = Empe.CompletedBy
                 'Creation date
