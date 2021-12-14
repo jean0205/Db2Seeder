@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using Db2Seeder.API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -37,9 +39,8 @@ namespace Db2Seeder.Models_OnlineFoms
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-
-                optionsBuilder.UseSqlServer("Server=NISSQLSRV-01;Database=OnlineForms_Test;Trusted_Connection=True;");
+            {              
+                optionsBuilder.UseSqlServer($"Server=NISSQLSRV-01;Database={Settings.OnlineForms()};Trusted_Connection=True;");
             }
         }
 

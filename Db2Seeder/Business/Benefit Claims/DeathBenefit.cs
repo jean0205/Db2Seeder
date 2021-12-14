@@ -5,7 +5,6 @@ using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
-using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Collections.Generic;
 using System.Linq;

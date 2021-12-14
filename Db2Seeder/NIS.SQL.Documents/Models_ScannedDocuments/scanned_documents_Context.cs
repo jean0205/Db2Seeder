@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using Db2Seeder.API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments
 {
     public partial class scanned_documents_Context : DbContext
-    {
+    {      
         public scanned_documents_Context()
-        {
+        {           
         }
 
         public scanned_documents_Context(DbContextOptions<scanned_documents_Context> options)
@@ -30,7 +32,8 @@ namespace Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=NISSQLSRV-01;Database=scanned_documents_test;Trusted_Connection=True;");
+             
+                optionsBuilder.UseSqlServer($"Server=NISSQLSRV-01;Database={Settings.SQLDocuments()};Trusted_Connection=True;");
             }
         }
 

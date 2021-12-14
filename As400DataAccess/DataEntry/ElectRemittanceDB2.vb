@@ -44,12 +44,11 @@ Public Class ElectRemittanceDB2
             Next
 
             'Variables
-            Dim totalcontrs As Decimal = EmprRemitt.employeeContributionRecords.Sum(Function(x) x.contributions)
-            Dim totalins As Decimal = EmprRemitt.employeeContributionRecords.Sum(Function(x) x.insurableEarnings)
+            Dim totalcontrs As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions)
+            Dim totalins As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.insurableEarnings)
 
             'cant empe
             Dim cantempe As Decimal = EmprRemitt.employeeContributionRecords.Count()
-
 
             'compstat updated
             Await UpdArsum(EmprNo, EmprSub, Periodx, totalins, totalcontrs)
