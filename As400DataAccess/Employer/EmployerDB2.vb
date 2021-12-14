@@ -76,8 +76,9 @@ Public Class EmployerDB2
 
                 'Sector
                 cmdEMPR.Parameters("@sect").Value = 0
-                cmdEMPR.Parameters("@user").Value = "USER"
 
+                'User
+                cmdEMPR.Parameters("@user").Value = Empr.CompletedBy
                 'Creation date
                 cmdEMPR.Parameters("@crdt").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 
@@ -340,8 +341,8 @@ Public Class EmployerDB2
                     cmdEMPR.Parameters("@sect").Value = "2"
                 End If
 
-                cmdEMPR.Parameters("@user").Value = "USER"
-
+                'user
+                cmdEMPR.Parameters("@user").Value = Empe.CompletedBy
                 'Creation date
                 cmdEMPR.Parameters("@crdt").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 

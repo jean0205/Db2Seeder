@@ -658,7 +658,7 @@ Public Class ElectRemittanceDB2
                 cmdCNTE.Parameters("@ERN306").Value = EmpeCntr.week3.amount
                 cmdCNTE.Parameters("@ERN406").Value = EmpeCntr.week4.amount
                 cmdCNTE.Parameters("@ERN506").Value = EmpeCntr.week5.amount
-                cmdCNTE.Parameters("@ERN606").Value = 0.0
+                cmdCNTE.Parameters("@ERN606").Value = 0.00
                 cmdCNTE.Parameters("@WKSW06").Value = EmpeCntr.weeksWorked
                 cmdCNTE.Parameters("@CRIE06").Value = 0.0
                 cmdCNTE.Parameters("@CRD106").Value = 0.0
