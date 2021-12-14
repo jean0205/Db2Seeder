@@ -1,5 +1,6 @@
 ﻿using As400DataAccess;
 using Db2Seeder.API.Helpers;
+using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
@@ -141,7 +142,6 @@ namespace Db2Seeder
                 working = false;
             }
         }
-
         private async void button3_Click(object sender, EventArgs e)
         {
             if (!working)
@@ -246,27 +246,41 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Employee details successfully loaded", true);
+
                                 if (document.registrationType == 1)
                                 {
                                     AddTreeViewLogLevel1("Posting Employee", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
                                     document.EmployerNo = 0;
                                     if (document.nisNo != 0) await MappAndAssingEmployeeRol(request, document);
+                                    await CreateCommentToPost(request.supportRequestId, 7083, "Employee with NIS number: " + document.nisNo + " successfully saved.");
                                 }
                                 if (document.registrationType == 2)
                                 {
-                                    AddTreeViewLogLevel1("Posting Self-Employee (Employee)", true);
-                                    document.nisNo = await as400Empe.InsertEmployees(document);
+                                    if (document.nisNo == null)
+                                    {
+                                        AddTreeViewLogLevel1("Posting Self-Employee (Employee)", true);
+                                        document.nisNo = await as400Empe.InsertEmployees(document);
+                                        if (document.nisNo != 0)
+                                        {
+                                            await MappAndAssingEmployeeRol(request, document);
+                                            await CreateCommentToPost(request.supportRequestId, 7083, "Employee with NIS number: " + document.nisNo + " successfully saved.");
+                                        }
+                                    }
                                     AddTreeViewLogLevel1("Posting Self-Employee (Employer)", true);
                                     document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
-
-                                    if (document.nisNo != 0) await MappAndAssingEmployeeRol(request, document);
-                                    if (document.EmployerNo != 0) await MappAndAssingSelfEmployer(request, document);
+                                    if (document.EmployerNo != 0)
+                                    {
+                                        await MappAndAssingSelfEmployer(request, document);
+                                        await CreateCommentToPost(request.supportRequestId, 7083, "Employer with number: " + document.EmployerNo + " successfully saved.");
+                                    }
                                 }
                                 if (document.registrationType == 3)
                                 {
                                     AddTreeViewLogLevel1("Posting Voluntary (Employer)", true);
                                     document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
+                                    await MappAndAssingSelfEmployer(request, document);
+                                    await CreateCommentToPost(request.supportRequestId, 7083, "Employer (Voluntary Contributor) with number: " + document.EmployerNo + " successfully saved.");
                                 }
                                 if (document.nisNo == 0 && document.EmployerNo == 0)
                                 {
@@ -275,6 +289,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Employee with NIS number: " + document.nisNo + " successfully saved to the DB2 database", true);
+
                                     //updating worflow state
                                     //var responseA = await EmployeeRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 161);
                                     //if (responseA.IsSuccess)
@@ -358,6 +373,7 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel1("Employer with number: " + document.employerNo + " successfully saved to the DB2 database.", true);
+                                        await CreateCommentToPost(request.supportRequestId, 7083, "Employer with number: " + document.employerNo + " successfully saved.");
                                         //updating worflow state
                                         //var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 162);
                                         //if (responseA.IsSuccess)
@@ -542,6 +558,24 @@ namespace Db2Seeder
                 }
             }
         }
+        private async Task<bool> CreateCommentToPost(int supportRequesId, int userAccountId, string commentTest)
+        {
+            try
+            {
+                SupportRequestComment comment = new SupportRequestComment
+                {
+                    supportRequestId = supportRequesId,
+                    userAccountId = userAccountId,
+                    comment = commentTest
+                };
+                return await ApiRequest.AddSupportRequestComment(comment);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                return false;
+            }
+        }
 
         #endregion
         #region Compliance Certificate
@@ -601,7 +635,6 @@ namespace Db2Seeder
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
                                 await SaveLOG(ex.Message, request, document.documentId, document.CompletedTime);
                             }
-
                         }
                     }
                     else

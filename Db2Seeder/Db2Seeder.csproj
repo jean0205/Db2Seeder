@@ -55,6 +55,7 @@
     <Compile Include="API.Models\NISMapped.cs" />
     <Compile Include="API.Models\NisMapping.cs" />
     <Compile Include="API.Models\Response.cs" />
+    <Compile Include="API.Models\SupportRequestComment.cs" />
     <Compile Include="API.Models\UserAccount.cs" />
     <Compile Include="API.Request\ApiRequest.cs" />
     <Compile Include="Business\Benefit Claims\AgeBenefit.cs" />

@@ -185,6 +185,7 @@ namespace Db2Seeder.API.Request
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
+
             }
             return null;
         }
@@ -276,6 +277,24 @@ namespace Db2Seeder.API.Request
             {
                 var roleList = await GetNISMapping(accountId);
                 return roleList.Where(x => x.NisNumberTypeID == 2).Any();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static async Task<bool> AddSupportRequestComment(SupportRequestComment comment)
+        {
+            try
+            {
+                Response response = await ApiServices.PostAsync<SupportRequestComment>("SupportRequest/PostComment", comment);
+
+                if (!response.IsSuccess)
+                {
+                    return false;
+                }
+                return true;
             }
             catch (Exception ex)
             {
