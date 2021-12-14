@@ -142,7 +142,7 @@ Public Class EmployeeDB2
                 cmd.Parameters("@EML1").Value = If(Empe.emailAddress = Nothing, "", Empe.emailAddress)
                 cmd.Parameters("@EML2").Value = ""
 
-                cmd.Parameters("@CRTB").Value = "UserID"
+                cmd.Parameters("@CRTB").Value = Empe.CompletedBy.ToUpper
                 cmd.Parameters("@CRTD").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
                 cmd.Parameters("@TOTC").Value = 0
 

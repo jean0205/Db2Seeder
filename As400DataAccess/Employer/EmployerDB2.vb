@@ -33,9 +33,9 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@rreg").Value = EmprNo
                 cmdEMPR.Parameters("@rrsf").Value = 0
                 ' Business Name
-                cmdEMPR.Parameters("@bnam").Value = Empr.firmName
+                cmdEMPR.Parameters("@bnam").Value = Empr.firmName.ToUpper
                 'Employer Name
-                cmdEMPR.Parameters("@rnam").Value = Empr.employerName
+                cmdEMPR.Parameters("@rnam").Value = Empr.employerName.ToUpper
                 'Employer Address
                 cmdEMPR.Parameters("@radd").Value = ""
                 'Employer town
@@ -48,18 +48,18 @@ Public Class EmployerDB2
 
                 cmdEMPR.Parameters("@rtno").Value = 0 ' If(Empr.mobile = Nothing, 0, Empr.mobile)
                 ' Business address
-                cmdEMPR.Parameters("@badd").Value = Empr.businessAddress
+                cmdEMPR.Parameters("@badd").Value = Empr.businessAddress.ToUpper
                 ' Business Town
-                cmdEMPR.Parameters("@btwn").Value = Empr.businessTown
+                cmdEMPR.Parameters("@btwn").Value = Empr.businessTown.ToUpper
                 ' Business Postal Code
                 cmdEMPR.Parameters("@bpcd").Value = ""
                 ' Business Area
-                cmdEMPR.Parameters("@brgn").Value = Empr.businessParish
+                cmdEMPR.Parameters("@brgn").Value = Empr.businessParish.ToUpper
                 ' Business phone
                 cmdEMPR.Parameters("@btno").Value = If(Empr.businessPhone = Nothing, 0, Val(Empr.businessPhone))
 
                 'Type of Business
-                cmdEMPR.Parameters("@indc").Value = 0
+                cmdEMPR.Parameters("@indc").Value = If(Empr.typeOfBusiness = Nothing, 0, Empr.typeOfBusiness)
 
                 ' Number of Employees
                 cmdEMPR.Parameters("@nome").Value = Empr.maleEmployee
@@ -75,18 +75,18 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@tdat").Value = 0
 
                 'Sector
-                cmdEMPR.Parameters("@sect").Value = 0
+                cmdEMPR.Parameters("@sect").Value = If(CInt(Empr.sector) = Nothing, 0, Val(Empr.sector))
 
                 'User
-                cmdEMPR.Parameters("@user").Value = Empr.CompletedBy
+                cmdEMPR.Parameters("@user").Value = Empr.CompletedBy.ToUpper
                 'Creation date
                 cmdEMPR.Parameters("@crdt").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 
                 'Inspector
-                cmdEMPR.Parameters("@offr").Value = "000"
+                cmdEMPR.Parameters("@offr").Value = If(Empr.inspector = Nothing, 0, Empr.inspector)
 
                 'Zone
-                cmdEMPR.Parameters("@zone").Value = 0
+                cmdEMPR.Parameters("@zone").Value = If(Empr.zone = Nothing, 0, Val(Empr.zone))
                 'Grade
                 cmdEMPR.Parameters("@grad").Value = ""
 
@@ -293,11 +293,11 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@rreg").Value = Empe.nisNo
                 cmdEMPR.Parameters("@rrsf").Value = 0
                 ' Business Name
-                cmdEMPR.Parameters("@bnam").Value = Empe.firstName + " " + Empe.lastName
+                cmdEMPR.Parameters("@bnam").Value = Empe.firstName.ToUpper + " " + Empe.lastName.ToUpper
                 'Employer Name
-                cmdEMPR.Parameters("@rnam").Value = Empe.firstName + " " + Empe.lastName
+                cmdEMPR.Parameters("@rnam").Value = Empe.firstName.ToUpper + " " + Empe.lastName.ToUpper
                 'Employer Address
-                cmdEMPR.Parameters("@radd").Value = If(Empe.businessMailingAddress = Nothing, "", Empe.businessMailingAddress)
+                cmdEMPR.Parameters("@radd").Value = If(Empe.businessMailingAddress = Nothing, "", Empe.businessMailingAddress.ToUpper)
                 'Employer town
                 cmdEMPR.Parameters("@rtwn").Value = ""
                 'Employer Postal code
@@ -307,13 +307,13 @@ Public Class EmployerDB2
                 'Employer phone
                 cmdEMPR.Parameters("@rtno").Value = If(Empe.businessMobile = Nothing, 0, Empe.businessMobile)
                 ' Business address
-                cmdEMPR.Parameters("@badd").Value = If(Empe.businessAddress = Nothing, "", Empe.businessAddress)
+                cmdEMPR.Parameters("@badd").Value = If(Empe.businessAddress = Nothing, "", Empe.businessAddress.ToUpper)
                 ' Business Town
-                cmdEMPR.Parameters("@btwn").Value = If(Empe.businessTown = Nothing, "", Empe.businessTown)
+                cmdEMPR.Parameters("@btwn").Value = If(Empe.businessTown = Nothing, "", Empe.businessTown.ToUpper)
                 ' Business Postal Code
                 cmdEMPR.Parameters("@bpcd").Value = ""
                 ' Business Area
-                cmdEMPR.Parameters("@brgn").Value = If(Empe.businessParish = Nothing, "", Empe.businessParish)
+                cmdEMPR.Parameters("@brgn").Value = If(Empe.businessParish = Nothing, "", Empe.businessParish.ToUpper)
                 ' Business phone
                 cmdEMPR.Parameters("@btno").Value = If(Empe.businessPhoneNumber = Nothing, 0, Val(Empe.businessPhoneNumber))
 
@@ -342,7 +342,7 @@ Public Class EmployerDB2
                 'Type of Business
                 cmdEMPR.Parameters("@indc").Value = 0
                 'user
-                cmdEMPR.Parameters("@user").Value = Empe.CompletedBy
+                cmdEMPR.Parameters("@user").Value = Empe.CompletedBy.ToUpper
                 'Creation date
                 cmdEMPR.Parameters("@crdt").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
 
