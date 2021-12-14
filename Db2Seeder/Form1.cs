@@ -313,7 +313,6 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1("Error " + ex.Message, false);
                             await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
                         }
-
                     }
                 }
                 else
@@ -382,44 +381,6 @@ namespace Db2Seeder
                                             await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
                                         }
                                         await MappAndAssingEmployerRol(request, document);
-                                        //try
-                                        //{
-                                        //    AddTreeViewLogLevel2Info("Mapping Employer Number to Web Portal Account.");
-                                        //    var response = await EmployerRegistration.AddNISMapping(request, document);
-                                        //    if (response.IsSuccess)
-                                        //    {
-                                        //        AddTreeViewLogLevel2(document.employerNo + " Successfully Mapped.", true);
-                                        //    }
-                                        //    else
-                                        //    {
-                                        //        AddTreeViewLogLevel2("Error mapping Employer number: " + document.employerNo + " " + response.Message, false);
-                                        //        await SaveLOG("Error mapping Employer number: " + document.employerNo, request, document.employerRegistrationFormId, document.CompletedTime);
-                                        //    }
-                                        //}
-                                        //catch (Exception ex)
-                                        //{
-                                        //    Crashes.TrackError(ex);
-                                        //    AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                        //    await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
-                                        //}
-                                        //try
-                                        //{
-                                        //    AddTreeViewLogLevel2Info("Assigning Employer Rol.");
-                                        //    if (await EmployerRegistration.AddEmployerRole(request))
-                                        //    {
-                                        //        AddTreeViewLogLevel2("Employer Role successufully added", true);
-                                        //    }
-                                        //    else
-                                        //    {
-                                        //        AddTreeViewLogLevel2("Error Adding Employer Role.", false);
-                                        //    }
-                                        //}
-                                        //catch (Exception ex)
-                                        //{
-                                        //    Crashes.TrackError(ex);
-                                        //    AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                        //    await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
-                                        //}
                                     }
                                 }
                                 else
