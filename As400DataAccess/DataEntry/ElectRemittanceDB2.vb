@@ -658,11 +658,11 @@ Public Class ElectRemittanceDB2
                 cmdCNTE.Parameters("@RCNB06").Value = EmpeCntr.contributions.employerPortion
                 cmdCNTE.Parameters("@PAGE06").Value = " "
                 cmdCNTE.Parameters("@FREQ06").Value = Trim(EmpeCntr.frequency)
-                cmdCNTE.Parameters("@ERN106").Value = EmpeCntr.week1.amount
-                cmdCNTE.Parameters("@ERN206").Value = EmpeCntr.week2.amount
-                cmdCNTE.Parameters("@ERN306").Value = EmpeCntr.week3.amount
-                cmdCNTE.Parameters("@ERN406").Value = EmpeCntr.week4.amount
-                cmdCNTE.Parameters("@ERN506").Value = EmpeCntr.week5.amount
+                cmdCNTE.Parameters("@ERN106").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
+                cmdCNTE.Parameters("@ERN206").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
+                cmdCNTE.Parameters("@ERN306").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
+                cmdCNTE.Parameters("@ERN406").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
+                cmdCNTE.Parameters("@ERN506").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
                 cmdCNTE.Parameters("@ERN606").Value = 0.00
                 cmdCNTE.Parameters("@WKSW06").Value = EmpeCntr.weeksWorked
                 cmdCNTE.Parameters("@CRIE06").Value = 0.0
@@ -756,7 +756,7 @@ Public Class ElectRemittanceDB2
 
                         'UPDATE
                         Dim XWFPC As Integer
-                        XWFPC = Trim(wfpc + CInt(Trim(EmpeCntr.weeksWorked)))
+                        XWFPC = Trim(wfpc + EmpeCntr.weeksWorked)
                         If XWFPC < 53 Then
                             cmdCNTSU.Parameters("@WFPC08").Value = XWFPC
                         ElseIf XWFPC = 52 Then
@@ -787,7 +787,7 @@ Public Class ElectRemittanceDB2
 
                         'UPDATE a
                         Dim XWFPC As Integer
-                        XWFPC = CInt(Trim(EmpeCntr.weeksWorked))
+                        XWFPC = CInt(EmpeCntr.weeksWorked)
                         If XWFPC < 53 Then
                             cmdCNTSU.Parameters("@WFPC08").Value = XWFPC
                         ElseIf XWFPC = 52 Then
@@ -1263,11 +1263,11 @@ Public Class ElectRemittanceDB2
 
                 cmd.Parameters("@PAGE").Value = ""
 
-                cmd.Parameters("@ERN1").Value = EmpeCntr.week1.amount
-                cmd.Parameters("@ERN2").Value = EmpeCntr.week2.amount
-                cmd.Parameters("@ERN3").Value = EmpeCntr.week3.amount
-                cmd.Parameters("@ERN4").Value = EmpeCntr.week4.amount
-                cmd.Parameters("@ERN5").Value = EmpeCntr.week5.amount
+                cmd.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
+                cmd.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
+                cmd.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
+                cmd.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
+                cmd.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
                 cmd.Parameters("@ERN6").Value = 0.0
 
                 Await cmd.ExecuteNonQueryAsync
@@ -1871,7 +1871,7 @@ Public Class ElectRemittanceDB2
                         cmd.Parameters("@DATR10").Value = (Now.Year Mod 100) * 10000 + Now.Month * 100 + Now.Day
                         cmd.Parameters("@EDIT10").Value = "P"
                         cmd.Parameters("@LOCK10").Value = ""
-                        cmd.Parameters("@USER10").Value = "UserID"
+                        cmd.Parameters("@USER10").Value = "WEBPORTAl"
                         cmd.Parameters("@WSID10").Value = "W1"
                         cmd.Parameters("@DATE10").Value = (Now.Year Mod 100) * 10000 + Now.Month * 100 + Now.Day
                         cmd.Parameters("@FILL10").Value = ""
@@ -2603,10 +2603,10 @@ Public Class ElectRemittanceDB2
                         cmdup1.Parameters("@RCNB").Value = empr
 
                         cmdup1.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
-                        cmdup1.Parameters("@ERN2").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week2.amount)
-                        cmdup1.Parameters("@ERN3").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week3.amount)
-                        cmdup1.Parameters("@ERN4").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week4.amount)
-                        cmdup1.Parameters("@ERN5").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week5.amount)
+                        cmdup1.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
+                        cmdup1.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
+                        cmdup1.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
+                        cmdup1.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
                         'week
                         cmdup1.Parameters("@CT#106").Value = If(EmpeCntr.week1.hasWorked = False, " ", "P")
                         cmdup1.Parameters("@CT#206").Value = If(EmpeCntr.week2.hasWorked = False, " ", "P")
