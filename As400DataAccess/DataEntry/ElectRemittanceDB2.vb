@@ -44,7 +44,7 @@ Public Class ElectRemittanceDB2
             Next
 
             'Variables
-            Dim totalcontrs As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions)
+            Dim totalcontrs As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.total)
             Dim totalins As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.insurableEarnings)
 
             'cant empe
