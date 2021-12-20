@@ -85,7 +85,6 @@ namespace Db2Seeder
         {
             working = true;
             BeginInvoke(new Action(() => label1.Text = "Process running."));
-
             if (!cancelRequest) await EmployeeRegistrationRequest();
             if (!cancelRequest) await EmployerRegistrationRequest();
             if (!cancelRequest) await ComplianceCertificateRequest();
@@ -342,7 +341,6 @@ namespace Db2Seeder
                 await SaveLOG(ex.Message, null, null, null);
             }
         }
-
         private async Task EmployerRegistrationRequest()
         {
             try
@@ -430,7 +428,6 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-
         private async Task MappAndAssingEmployerRol(SupportRequest request, Document_Employer document)
         {
             try
@@ -1678,7 +1675,6 @@ namespace Db2Seeder
 
         async Task SaveLOG(string errorMessage, SupportRequest request, int? formId, DateTime? completedOn)
         {
-
             Log log = new Log
             {
                 RequestType = request.supportRequestType,
@@ -1689,7 +1685,6 @@ namespace Db2Seeder
                 CreatedOn = request.createdOn,
                 CompletedOn = completedOn,
                 PostedOn = DateTime.Now
-
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertLog(log);
@@ -1718,78 +1713,5 @@ namespace Db2Seeder
             }
         }
 
-
-
-
-
-
-
-
-        //void AddTreeViewLogLevel0(string text)
-        //{
-        //    //Thread.Sleep(1000);
-        //    //Application.DoEvents();
-
-
-        //    BeginInvoke(new Action(() => tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0))));
-        //    BeginInvoke(new Action(() => tViewEvents.ExpandAll()));
-        //    BeginInvoke(new Action(() => tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1]));
-
-        //    //tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
-        //    //tViewEvents.ExpandAll();
-        //    //tViewEvents.SelectedNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-        //}
-        //void AddTreeViewLogLevel1(string text, bool successful)
-        //{
-        //   //Thread.Sleep(1000);
-        //    //Application.DoEvents();
-        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-        //    if (successful)
-        //    {
-        //        firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
-        //    }
-        //    else
-        //    {
-        //        firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
-        //    }
-        //    tViewEvents.ExpandAll();
-        //    tViewEvents.SelectedNode = firstLevelNode;
-        //}
-        //void AddTreeViewLogLevel1Info(string text)
-        //{
-        //    //Thread.Sleep(1000);
-        //    //Application.DoEvents();
-        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-        //    firstLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
-        //    tViewEvents.ExpandAll();
-        //    tViewEvents.SelectedNode = firstLevelNode;
-        //}
-        //void AddTreeViewLogLevel2(string text, bool successful)
-        //{
-        //    //Thread.Sleep(1000);
-        //    //Application.DoEvents();
-        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-        //    var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
-        //    if (successful)
-        //    {
-        //        secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 2, 2));
-        //    }
-        //    else
-        //    {
-        //        secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 3, 3));
-        //    }
-        //    tViewEvents.ExpandAll();
-        //    tViewEvents.SelectedNode = secondLevelNode;
-        //}
-        //void AddTreeViewLogLevel2Info(string text)
-        //{
-        //    //Thread.Sleep(1000);
-        //    //Application.DoEvents();
-        //    var firstLevelNode = tViewEvents.Nodes[tViewEvents.Nodes.Count - 1];
-        //    var secondLevelNode = firstLevelNode.Nodes[firstLevelNode.Nodes.Count - 1];
-        //    secondLevelNode.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 4, 4));
-        //    tViewEvents.ExpandAll();
-        //    tViewEvents.SelectedNode = secondLevelNode;
-        //}
     }
 }

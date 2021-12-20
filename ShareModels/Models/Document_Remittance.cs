@@ -39,7 +39,7 @@ namespace ShareModels.Models
         public string frequency { get; set; }
         public int weeksWorked { get; set; }
         public double insurableEarnings { get; set; }
-        public double contributions { get; set; }
+        public Contributions contributions { get; set; }
         public double expectedContributionPercentage { get; set; }
         public Week1 week1 { get; set; }
         public Week2 week2 { get; set; }
@@ -75,6 +75,12 @@ namespace ShareModels.Models
     {
         public bool? hasWorked { get; set; }
         public double? amount { get; set; }
+    }
+    public class Contributions
+    {
+        public double employerPortion { get; set; }
+        public double employeePortion { get; set; }
+        public double total { get; set; }
     }
 }
 
