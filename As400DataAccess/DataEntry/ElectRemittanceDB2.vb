@@ -695,21 +695,21 @@ Public Class ElectRemittanceDB2
 
                 connection.Open()
                 Dim rscns As iDB2DataReader
-                Dim CMDTXT As String = "UPDATE ""QS36F"".""" & As400_lib & ".CNTS"" SET WFPC08 = @WFPC08, ETPC08 = @ETPC08, PCON08 = @PCON08, RCON08 = @RCON08 
-                                                                                      Where Ereg08 = @Ereg08 And Ccen08 = @Ccen08 And Cony08 = @Cony08 And ACTV08 = 'A'"
-                Dim cmd8 As New iDB2Command() With {
+                Dim CMDTXT As String = "Select WFPC08, ETPC08, PCON08, RCON08, ACTV08 From ""QS36F"".""" & As400_lib & ".CNTS"" " &
+                        "Where Ereg08 = @Ereg08 And Ccen08 = @Ccen08 And Cony08 = @Cony08 And (ACTV08 = 'A' OR ACTV08 = 'D')"
+                Dim CMDCNTS As New iDB2Command() With {
                  .CommandText = CMDTXT,
                  .Connection = connection,
                  .CommandTimeout = 0
                 }
 
-                cmd8.DeriveParameters()
-                cmd8.Parameters("@Ereg08").iDB2Value = EmpeCntr.employeeNumber
+                CMDCNTS.DeriveParameters()
+                CMDCNTS.Parameters("@Ereg08").iDB2Value = EmpeCntr.employeeNumber
                 Dim Centx = EmpeCntr.contributionPeriodYear \ 100
                 Dim Yearx = EmpeCntr.contributionPeriodYear - (Centx * 100)
-                cmd8.Parameters("@Ccen08").iDB2Value = Centx
-                cmd8.Parameters("@Cony08").iDB2Value = Yearx
-                rscns = Await cmd8.ExecuteReaderAsync
+                CMDCNTS.Parameters("@Ccen08").iDB2Value = Centx
+                CMDCNTS.Parameters("@Cony08").iDB2Value = Yearx
+                rscns = Await CMDCNTS.ExecuteReaderAsync
 
                 Dim wfpc As Integer = 0
                 Dim etpc As Decimal = 0.0
@@ -744,68 +744,68 @@ Public Class ElectRemittanceDB2
 
                         Dim cmdXCNTS As String = "UPDATE ""QS36F"".""" & As400_lib & ".CNTS"" SET WFPC08 = @WFPC08, ETPC08 = @ETPC08, PCON08 = @PCON08, RCON08 = @RCON08 " &
                                                                                        "Where Ereg08 = @Ereg08 And Ccen08 = @Ccen08 And Cony08 = @Cony08 And ACTV08 = 'A'"
-                        Dim cmdCNTSU As New iDB2Command() With {
+                        Dim cmdCNTS1 As New iDB2Command() With {
                                     .CommandText = cmdXCNTS,
                                     .Connection = connection,
                                     .CommandTimeout = 0
                                 }
-                        cmdCNTSU.DeriveParameters()
-                        cmdCNTSU.Parameters("@Ereg08").iDB2Value = EmpeCntr.employeeNumber
-                        cmdCNTSU.Parameters("@Ccen08").iDB2Value = Centx
-                        cmdCNTSU.Parameters("@Cony08").iDB2Value = Yearx
+                        cmdCNTS1.DeriveParameters()
+                        cmdCNTS1.Parameters("@Ereg08").iDB2Value = EmpeCntr.employeeNumber
+                        cmdCNTS1.Parameters("@Ccen08").iDB2Value = Centx
+                        cmdCNTS1.Parameters("@Cony08").iDB2Value = Yearx
 
                         'UPDATE
                         Dim XWFPC As Integer
-                        XWFPC = Trim(wfpc + EmpeCntr.weeksWorked)
+                        XWFPC = wfpc + EmpeCntr.weeksWorked
                         If XWFPC < 53 Then
-                            cmdCNTSU.Parameters("@WFPC08").Value = XWFPC
+                            cmdCNTS1.Parameters("@WFPC08").Value = XWFPC
                         ElseIf XWFPC = 52 Then
-                            cmdCNTSU.Parameters("@WFPC08").Value = XWFPC
+                            cmdCNTS1.Parameters("@WFPC08").Value = XWFPC
                         ElseIf XWFPC >= 53 Then
-                            cmdCNTSU.Parameters("@WFPC08").Value = 53
+                            cmdCNTS1.Parameters("@WFPC08").Value = 53
                         End If
 
-                        cmdCNTSU.Parameters("@ETPC08").Value = etpc + EmpeCntr.insurableEarnings
-                        cmdCNTSU.Parameters("@PCON08").Value = pcon + EmpeCntr.contributions.employeePortion
-                        cmdCNTSU.Parameters("@RCON08").Value = rcon + EmpeCntr.contributions.employerPortion
-                        Await cmdCNTSU.ExecuteNonQueryAsync()
-                        cmdCNTSU.Dispose()
+                        cmdCNTS1.Parameters("@ETPC08").Value = etpc + EmpeCntr.insurableEarnings
+                        cmdCNTS1.Parameters("@PCON08").Value = pcon + EmpeCntr.contributions.employeePortion
+                        cmdCNTS1.Parameters("@RCON08").Value = rcon + EmpeCntr.contributions.employerPortion
+                        Await cmdCNTS1.ExecuteNonQueryAsync()
+                        cmdCNTS1.Dispose()
 
 
                     ElseIf ACTV1 = "D" Then
                         Dim cmdXCNTS As String = "UPDATE ""QS36F"".""" & As400_lib & ".CNTS"" SET WFPC08 = @WFPC08, ETPC08 = @ETPC08, PCON08 = @PCON08, RCON08 = @RCON08, ACTV08 = @ACTV08                                                                       Where Ereg08 = @Ereg08 And Ccen08 = @Ccen08 And Cony08 = @Cony08 And ACTV08 = 'D'"
-                        Dim cmdCNTSU As New iDB2Command() With {
+                        Dim cmdCNTS2 As New iDB2Command() With {
                         .CommandText = cmdXCNTS,
                         .Connection = connection,
                         .CommandTimeout = 0
                         }
-                        cmdCNTSU.DeriveParameters()
-                        cmdCNTSU.Parameters("@Ereg08").iDB2Value = EmpeCntr.employeeNumber
-                        cmdCNTSU.Parameters("@Ccen08").iDB2Value = Centx
-                        cmdCNTSU.Parameters("@Cony08").iDB2Value = Yearx
-                        cmdCNTSU.Parameters("@ACTV08").Value = "A"
+                        cmdCNTS2.DeriveParameters()
+                        cmdCNTS2.Parameters("@Ereg08").iDB2Value = EmpeCntr.employeeNumber
+                        cmdCNTS2.Parameters("@Ccen08").iDB2Value = Centx
+                        cmdCNTS2.Parameters("@Cony08").iDB2Value = Yearx
+                        cmdCNTS2.Parameters("@ACTV08").Value = "A"
 
                         'UPDATE a
                         Dim XWFPC As Integer
-                        XWFPC = CInt(EmpeCntr.weeksWorked)
+                        XWFPC = EmpeCntr.weeksWorked
                         If XWFPC < 53 Then
-                            cmdCNTSU.Parameters("@WFPC08").Value = XWFPC
+                            cmdCNTS2.Parameters("@WFPC08").Value = XWFPC
                         ElseIf XWFPC = 52 Then
-                            cmdCNTSU.Parameters("@WFPC08").Value = XWFPC
+                            cmdCNTS2.Parameters("@WFPC08").Value = XWFPC
                         ElseIf XWFPC >= 53 Then
-                            cmdCNTSU.Parameters("@WFPC08").Value = 53
+                            cmdCNTS2.Parameters("@WFPC08").Value = 53
                         End If
-                        cmdCNTSU.Parameters("@ETPC08").Value = EmpeCntr.insurableEarnings
-                        cmdCNTSU.Parameters("@PCON08").Value = EmpeCntr.contributions.employeePortion
-                        cmdCNTSU.Parameters("@RCON08").Value = EmpeCntr.contributions.employerPortion
-                        Await cmdCNTSU.ExecuteNonQueryAsync()
-                        cmdCNTSU.Dispose()
+                        cmdCNTS2.Parameters("@ETPC08").Value = EmpeCntr.insurableEarnings
+                        cmdCNTS2.Parameters("@PCON08").Value = EmpeCntr.contributions.employeePortion
+                        cmdCNTS2.Parameters("@RCON08").Value = EmpeCntr.contributions.employerPortion
+                        Await cmdCNTS2.ExecuteNonQueryAsync()
+                        cmdCNTS2.Dispose()
                     End If
                 Else
                     'insert
                     Await InsertCNTS(EmpeCntr)
                 End If
-                cmd8.Dispose()
+                CMDCNTS.Dispose()
                 rscns.Close()
             End Using
         Catch ex As iDB2Exception
