@@ -10,13 +10,13 @@ namespace Db2Seeder.API.Helpers
         {
             //var _configuration = ConfigurationManager.AppSettings;
             //return _configuration["APIURL"];
-            return "http://192.168.210.90:24266";
+            return "http://192.168.215.10:24266";
 
         }
         public static string GetPortalUrl()
         {
             //return ConfigurationManager.AppSettings["PortalURL"];
-            return "http://my-nis-uat.loteklabs.com/SupportRequest/Detail/";
+            return "https://my.nisgrenada.org/SupportRequest/Detail/";
         }
 
        
