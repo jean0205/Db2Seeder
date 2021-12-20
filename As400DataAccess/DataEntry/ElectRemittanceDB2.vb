@@ -1218,7 +1218,7 @@ Public Class ElectRemittanceDB2
                 cmd.Parameters("@ACTV").Value = "A"
                 Dim Batch As String = Await GenerarBatchNo()
                 cmd.Parameters("@BATCH").Value = Batch
-                cmd.Parameters("@USER").Value = "UserID"
+                cmd.Parameters("@USER").Value = "WEBPORTAL"
                 cmd.Parameters("@RREG").Value = EmprNo
                 cmd.Parameters("@RRSF").Value = EmprSub
                 cmd.Parameters("@CONY").Value = EmpeCntr.contributionPeriodYear
