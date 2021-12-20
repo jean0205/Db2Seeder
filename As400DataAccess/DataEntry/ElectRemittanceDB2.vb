@@ -2394,8 +2394,6 @@ Public Class ElectRemittanceDB2
                         cmdus.Parameters("@COMM").Value = ""
                         cmdus.Parameters("@LIN#").Value = cantempe
                         cmdus.Parameters("@FILL").Value = ""
-                        cmdus.ExecuteNonQuery()
-                        cmdus.Dispose()
                         Await cmdus.ExecuteNonQueryAsync()
                         cmdus.Dispose()
                     End If
