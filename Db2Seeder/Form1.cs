@@ -689,15 +689,15 @@ namespace Db2Seeder
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                     }
-                                    //var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
-                                    //if (responseA.IsSuccess)
-                                    //{
-                                    //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                    //}
-                                    //else
-                                    //{
-                                    //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                    //}
+                                    var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
+                                    if (responseA.IsSuccess)
+                                    {
+                                        AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                    }
                                 }
                                 else
                                 {
