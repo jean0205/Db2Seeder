@@ -691,6 +691,15 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2Info("Posting Remittance to As400.");
                                         await Remittance.PostRemittanceToAs400(request, document);
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
+                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
@@ -698,15 +707,7 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         await SaveLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
                                     }
-                                    var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
-                                    if (responseA.IsSuccess)
-                                    {
-                                        AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                    }
-                                    else
-                                    {
-                                        AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                    }
+                                    
                                 }
                                 else
                                 {
