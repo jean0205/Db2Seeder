@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Db2Seeder
 {
@@ -38,6 +39,7 @@ namespace Db2Seeder
         bool working = false;
         bool cancelRequest = false;
 
+
         public Form1()
         {
             InitializeComponent();
@@ -50,6 +52,12 @@ namespace Db2Seeder
         {
             try
             {
+                if (dtpDFrom.Value > DateTime.Now && dtpDTo.Value < DateTime.Now && UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().Where(x => x.Checked && int.Parse(x.Tag.ToString()) == (int)DateTime.Now.DayOfWeek).ToList().Any())
+                {
+
+                    return;
+                }
+
                 if (!working && !cancelRequest)
                 {
                     await Task.Run(() => DoWork());
@@ -688,6 +696,7 @@ namespace Db2Seeder
                                     {
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                        await SaveLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
                                     }
                                     var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
                                     if (responseA.IsSuccess)
@@ -708,6 +717,8 @@ namespace Db2Seeder
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await SaveLOG(ex.Message, request, null, DateTime.Now);
+
                             }
                         }
                     }
@@ -720,6 +731,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await SaveLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1713,5 +1725,9 @@ namespace Db2Seeder
             }
         }
 
+        private void dtpDFrom_ValueChanged(object sender, EventArgs e)
+        {
+            var doc = XDocument.Load("path_to_xml_file.xml");
+        }
     }
 }
