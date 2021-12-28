@@ -26,11 +26,17 @@ Public Class ElectRemittanceDB2
         Dim Frequency = EmprRemitt.employeeContributionRecords.Select(Function(x) New With {x.frequency})
         Dim freq = Frequency(0).frequency
         dtLoadCnte = Await ReadExistCNTE(Periodx, EmprNo, EmprSub)
+        Dim Batch As String
+        If dtLoadCnte.Rows.Count > 0 Then
+            Batch = Await GenerarBatchNo()
+        Else
+            Batch = "0"
+        End If
 
-            Try
+        Try
             For Each EmpeCnte As EmployeeContributionRecord In lst
 
-                Dim posted = Await UpdateCNTExx(EmpeCnte, EmprNo, EmprSub)
+                Dim posted = Await UpdateCNTExx(EmpeCnte, EmprNo, EmprSub, Batch)
 
                 If posted = True Then
                     Await UpdEmnfile(EmpeCnte, EmprNo, EmprSub)
@@ -961,7 +967,7 @@ Public Class ElectRemittanceDB2
         Return dtload
     End Function
 
-    Private Async Function UpdateCNTExx(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task(Of Boolean)
+    Private Async Function UpdateCNTExx(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String, Batch As String) As Task(Of Boolean)
         Dim Posted As Boolean
         Try
             Using connection As New iDB2Connection(cn)
@@ -1031,7 +1037,7 @@ Public Class ElectRemittanceDB2
                            (w4 = "P" And EmpeCntr.week4.hasWorked = True) OrElse
                            (w5 = "P" And EmpeCntr.week5.hasWorked = True) Then
                             'Upload file
-                            Await InsertDATAE(EmpeCntr, EmprNo, EmprSub)
+                            Await InsertDATAE(EmpeCntr, EmprNo, EmprSub, Batch)
                             Posted = False
 
                         Else
@@ -1197,7 +1203,7 @@ Public Class ElectRemittanceDB2
         End Try
         Return Posted
     End Function
-    Private Async Function InsertDATAE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertDATAE(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String, Batch As String) As Task
         Try
             Using connection As New iDB2Connection(cn)
                 connection.Open()
@@ -1216,7 +1222,6 @@ Public Class ElectRemittanceDB2
                         }
                 cmd.DeriveParameters()
                 cmd.Parameters("@ACTV").Value = "A"
-                Dim Batch As String = Await GenerarBatchNo()
                 cmd.Parameters("@BATCH").Value = Batch
                 cmd.Parameters("@USER").Value = "WEBPORTAL"
                 cmd.Parameters("@RREG").Value = EmprNo
