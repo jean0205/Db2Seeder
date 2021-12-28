@@ -62,27 +62,27 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.dtpNTo = new System.Windows.Forms.DateTimePicker();
-            this.dtpNFrom = new System.Windows.Forms.DateTimePicker();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.tpanelDays = new System.Windows.Forms.TableLayoutPanel();
+            this.chk1 = new System.Windows.Forms.CheckBox();
+            this.chk7 = new System.Windows.Forms.CheckBox();
+            this.chk6 = new System.Windows.Forms.CheckBox();
+            this.chk5 = new System.Windows.Forms.CheckBox();
+            this.chk4 = new System.Windows.Forms.CheckBox();
+            this.chk3 = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.chk2 = new System.Windows.Forms.CheckBox();
-            this.chk3 = new System.Windows.Forms.CheckBox();
-            this.chk4 = new System.Windows.Forms.CheckBox();
-            this.chk5 = new System.Windows.Forms.CheckBox();
-            this.chk6 = new System.Windows.Forms.CheckBox();
-            this.chk7 = new System.Windows.Forms.CheckBox();
-            this.chk1 = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.dtpDTo = new System.Windows.Forms.DateTimePicker();
+            this.label7 = new System.Windows.Forms.Label();
             this.dtpDFrom = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
+            this.dtpNTo = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dtpNFrom = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -93,9 +93,9 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
             this.tpanelDays.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -533,73 +533,6 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(655, 218);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.ColumnCount = 5;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel5.Controls.Add(this.label9, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.dtpNTo, 4, 0);
-            this.tableLayoutPanel5.Controls.Add(this.label4, 3, 0);
-            this.tableLayoutPanel5.Controls.Add(this.dtpNFrom, 2, 0);
-            this.tableLayoutPanel5.Controls.Add(this.label3, 1, 0);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 75);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 1;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(649, 66);
-            this.tableLayoutPanel5.TabIndex = 0;
-            // 
-            // dtpNTo
-            // 
-            this.dtpNTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.dtpNTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpNTo.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpNTo.Location = new System.Drawing.Point(519, 19);
-            this.dtpNTo.Name = "dtpNTo";
-            this.dtpNTo.ShowUpDown = true;
-            this.dtpNTo.Size = new System.Drawing.Size(127, 27);
-            this.dtpNTo.TabIndex = 3;
-            this.dtpNTo.ValueChanged += new System.EventHandler(this.dtpDFrom_ValueChanged);
-            // 
-            // dtpNFrom
-            // 
-            this.dtpNFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.dtpNFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpNFrom.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpNFrom.Location = new System.Drawing.Point(261, 19);
-            this.dtpNFrom.Name = "dtpNFrom";
-            this.dtpNFrom.ShowUpDown = true;
-            this.dtpNFrom.Size = new System.Drawing.Size(123, 27);
-            this.dtpNFrom.TabIndex = 0;
-            this.dtpNFrom.ValueChanged += new System.EventHandler(this.dtpDFrom_ValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(199, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 22);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "From:";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(476, 22);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(37, 22);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "To:";
-            // 
             // tpanelDays
             // 
             this.tpanelDays.ColumnCount = 8;
@@ -627,6 +560,108 @@
             this.tpanelDays.Size = new System.Drawing.Size(649, 68);
             this.tpanelDays.TabIndex = 1;
             // 
+            // chk1
+            // 
+            this.chk1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chk1.AutoSize = true;
+            this.chk1.BackColor = System.Drawing.Color.Tomato;
+            this.chk1.Checked = true;
+            this.chk1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk1.Location = new System.Drawing.Point(578, 22);
+            this.chk1.Name = "chk1";
+            this.chk1.Size = new System.Drawing.Size(60, 24);
+            this.chk1.TabIndex = 9;
+            this.chk1.Tag = "g,7";
+            this.chk1.Text = "Sun";
+            this.chk1.UseVisualStyleBackColor = false;
+            this.chk1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
+            // 
+            // chk7
+            // 
+            this.chk7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chk7.AutoSize = true;
+            this.chk7.BackColor = System.Drawing.Color.Tomato;
+            this.chk7.Checked = true;
+            this.chk7.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk7.Location = new System.Drawing.Point(498, 22);
+            this.chk7.Name = "chk7";
+            this.chk7.Size = new System.Drawing.Size(56, 24);
+            this.chk7.TabIndex = 8;
+            this.chk7.Tag = "f,6";
+            this.chk7.Text = "Sat";
+            this.chk7.UseVisualStyleBackColor = false;
+            this.chk7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
+            // 
+            // chk6
+            // 
+            this.chk6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chk6.AutoSize = true;
+            this.chk6.BackColor = System.Drawing.Color.Tomato;
+            this.chk6.Checked = true;
+            this.chk6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk6.Location = new System.Drawing.Point(421, 22);
+            this.chk6.Name = "chk6";
+            this.chk6.Size = new System.Drawing.Size(49, 24);
+            this.chk6.TabIndex = 7;
+            this.chk6.Tag = "e,5";
+            this.chk6.Text = "Fri";
+            this.chk6.UseVisualStyleBackColor = false;
+            this.chk6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
+            // 
+            // chk5
+            // 
+            this.chk5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chk5.AutoSize = true;
+            this.chk5.BackColor = System.Drawing.Color.Tomato;
+            this.chk5.Checked = true;
+            this.chk5.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk5.Location = new System.Drawing.Point(335, 22);
+            this.chk5.Name = "chk5";
+            this.chk5.Size = new System.Drawing.Size(58, 24);
+            this.chk5.TabIndex = 6;
+            this.chk5.Tag = "d,4";
+            this.chk5.Text = "Thu";
+            this.chk5.UseVisualStyleBackColor = false;
+            this.chk5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
+            // 
+            // chk4
+            // 
+            this.chk4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chk4.AutoSize = true;
+            this.chk4.BackColor = System.Drawing.Color.Tomato;
+            this.chk4.Checked = true;
+            this.chk4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk4.Location = new System.Drawing.Point(251, 22);
+            this.chk4.Name = "chk4";
+            this.chk4.Size = new System.Drawing.Size(64, 24);
+            this.chk4.TabIndex = 5;
+            this.chk4.Tag = "c,3";
+            this.chk4.Text = "Wen";
+            this.chk4.UseVisualStyleBackColor = false;
+            this.chk4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
+            // 
+            // chk3
+            // 
+            this.chk3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chk3.AutoSize = true;
+            this.chk3.BackColor = System.Drawing.Color.Tomato;
+            this.chk3.Checked = true;
+            this.chk3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk3.Location = new System.Drawing.Point(173, 22);
+            this.chk3.Name = "chk3";
+            this.chk3.Size = new System.Drawing.Size(58, 24);
+            this.chk3.TabIndex = 4;
+            this.chk3.Tag = "b,2";
+            this.chk3.Text = "Tue";
+            this.chk3.UseVisualStyleBackColor = false;
+            this.chk3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
+            // 
             // label5
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -650,105 +685,10 @@
             this.chk2.Name = "chk2";
             this.chk2.Size = new System.Drawing.Size(62, 24);
             this.chk2.TabIndex = 3;
-            this.chk2.Tag = "2";
+            this.chk2.Tag = "a,1";
             this.chk2.Text = "Mon";
             this.chk2.UseVisualStyleBackColor = false;
-            // 
-            // chk3
-            // 
-            this.chk3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chk3.AutoSize = true;
-            this.chk3.BackColor = System.Drawing.Color.Tomato;
-            this.chk3.Checked = true;
-            this.chk3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk3.Location = new System.Drawing.Point(173, 22);
-            this.chk3.Name = "chk3";
-            this.chk3.Size = new System.Drawing.Size(58, 24);
-            this.chk3.TabIndex = 4;
-            this.chk3.Tag = "3";
-            this.chk3.Text = "Tue";
-            this.chk3.UseVisualStyleBackColor = false;
-            // 
-            // chk4
-            // 
-            this.chk4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chk4.AutoSize = true;
-            this.chk4.BackColor = System.Drawing.Color.Tomato;
-            this.chk4.Checked = true;
-            this.chk4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk4.Location = new System.Drawing.Point(251, 22);
-            this.chk4.Name = "chk4";
-            this.chk4.Size = new System.Drawing.Size(64, 24);
-            this.chk4.TabIndex = 5;
-            this.chk4.Tag = "4";
-            this.chk4.Text = "Wen";
-            this.chk4.UseVisualStyleBackColor = false;
-            // 
-            // chk5
-            // 
-            this.chk5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chk5.AutoSize = true;
-            this.chk5.BackColor = System.Drawing.Color.Tomato;
-            this.chk5.Checked = true;
-            this.chk5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk5.Location = new System.Drawing.Point(335, 22);
-            this.chk5.Name = "chk5";
-            this.chk5.Size = new System.Drawing.Size(58, 24);
-            this.chk5.TabIndex = 6;
-            this.chk5.Tag = "5";
-            this.chk5.Text = "Thu";
-            this.chk5.UseVisualStyleBackColor = false;
-            // 
-            // chk6
-            // 
-            this.chk6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chk6.AutoSize = true;
-            this.chk6.BackColor = System.Drawing.Color.Tomato;
-            this.chk6.Checked = true;
-            this.chk6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk6.Location = new System.Drawing.Point(421, 22);
-            this.chk6.Name = "chk6";
-            this.chk6.Size = new System.Drawing.Size(49, 24);
-            this.chk6.TabIndex = 7;
-            this.chk6.Tag = "6";
-            this.chk6.Text = "Fri";
-            this.chk6.UseVisualStyleBackColor = false;
-            // 
-            // chk7
-            // 
-            this.chk7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chk7.AutoSize = true;
-            this.chk7.BackColor = System.Drawing.Color.Tomato;
-            this.chk7.Checked = true;
-            this.chk7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk7.Location = new System.Drawing.Point(498, 22);
-            this.chk7.Name = "chk7";
-            this.chk7.Size = new System.Drawing.Size(56, 24);
-            this.chk7.TabIndex = 8;
-            this.chk7.Tag = "7";
-            this.chk7.Text = "Sat";
-            this.chk7.UseVisualStyleBackColor = false;
-            // 
-            // chk1
-            // 
-            this.chk1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chk1.AutoSize = true;
-            this.chk1.BackColor = System.Drawing.Color.Tomato;
-            this.chk1.Checked = true;
-            this.chk1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chk1.Location = new System.Drawing.Point(578, 22);
-            this.chk1.Name = "chk1";
-            this.chk1.Size = new System.Drawing.Size(60, 24);
-            this.chk1.TabIndex = 9;
-            this.chk1.Tag = "1";
-            this.chk1.Text = "Sun";
-            this.chk1.UseVisualStyleBackColor = false;
+            this.chk2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chk2_MouseClick);
             // 
             // tableLayoutPanel7
             // 
@@ -783,6 +723,17 @@
             this.dtpDTo.TabIndex = 3;
             this.dtpDTo.ValueChanged += new System.EventHandler(this.dtpDFrom_ValueChanged);
             // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(476, 22);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 22);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "To:";
+            // 
             // dtpDFrom
             // 
             this.dtpDFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -806,17 +757,6 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "From:";
             // 
-            // label7
-            // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(476, 22);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(37, 22);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "To:";
-            // 
             // label8
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -828,6 +768,27 @@
             this.label8.TabIndex = 4;
             this.label8.Text = "Daily Back-Up";
             // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 5;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel5.Controls.Add(this.label9, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.dtpNTo, 4, 0);
+            this.tableLayoutPanel5.Controls.Add(this.label4, 3, 0);
+            this.tableLayoutPanel5.Controls.Add(this.dtpNFrom, 2, 0);
+            this.tableLayoutPanel5.Controls.Add(this.label3, 1, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 75);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(649, 66);
+            this.tableLayoutPanel5.TabIndex = 0;
+            // 
             // label9
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -838,6 +799,52 @@
             this.label9.Size = new System.Drawing.Size(88, 48);
             this.label9.TabIndex = 5;
             this.label9.Text = "Nigth Back-Up";
+            // 
+            // dtpNTo
+            // 
+            this.dtpNTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dtpNTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpNTo.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpNTo.Location = new System.Drawing.Point(519, 19);
+            this.dtpNTo.Name = "dtpNTo";
+            this.dtpNTo.ShowUpDown = true;
+            this.dtpNTo.Size = new System.Drawing.Size(127, 27);
+            this.dtpNTo.TabIndex = 3;
+            this.dtpNTo.ValueChanged += new System.EventHandler(this.dtpDFrom_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(476, 22);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(37, 22);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "To:";
+            // 
+            // dtpNFrom
+            // 
+            this.dtpNFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dtpNFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpNFrom.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpNFrom.Location = new System.Drawing.Point(261, 19);
+            this.dtpNFrom.Name = "dtpNFrom";
+            this.dtpNFrom.ShowUpDown = true;
+            this.dtpNFrom.Size = new System.Drawing.Size(123, 27);
+            this.dtpNFrom.TabIndex = 0;
+            this.dtpNFrom.ValueChanged += new System.EventHandler(this.dtpDFrom_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(199, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 22);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "From:";
             // 
             // Form1
             // 
@@ -851,6 +858,7 @@
             this.Name = "Form1";
             this.Text = "DB2Seeder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -862,12 +870,12 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
             this.tpanelDays.ResumeLayout(false);
             this.tpanelDays.PerformLayout();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
             this.ResumeLayout(false);
 
         }

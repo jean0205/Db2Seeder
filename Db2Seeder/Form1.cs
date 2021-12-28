@@ -52,9 +52,11 @@ namespace Db2Seeder
         {
             try
             {
-                if (dtpDFrom.Value > DateTime.Now && dtpDTo.Value < DateTime.Now && UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().Where(x => x.Checked && int.Parse(x.Tag.ToString()) == (int)DateTime.Now.DayOfWeek).ToList().Any())
-                {
+                var xx = (int)DateTime.Now.DayOfWeek;
 
+                if (((dtpDFrom.Value < DateTime.Now && dtpDTo.Value > DateTime.Now)||(dtpNFrom.Value < DateTime.Now && dtpNTo.Value > DateTime.Now)) && UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().Where(x => x.Checked && int.Parse(x.Tag.ToString().Split(',')[1]) == (int)DateTime.Now.DayOfWeek).ToList().Any())
+                {
+                    label1.Text = "Back-up Time";
                     return;
                 }
 
@@ -691,7 +693,9 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2Info("Posting Remittance to As400.");
                                         await Remittance.PostRemittanceToAs400(request, document);
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
+
                                         var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
+
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -707,7 +711,7 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         await SaveLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
                                     }
-                                    
+
                                 }
                                 else
                                 {
@@ -719,7 +723,6 @@ namespace Db2Seeder
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
                                 await SaveLOG(ex.Message, request, null, DateTime.Now);
-
                             }
                         }
                     }
@@ -1603,7 +1606,6 @@ namespace Db2Seeder
             BeginInvoke(new Action(() =>
             {
                 if (tViewEvents.Nodes.Count >= 500) tViewEvents.Nodes.Clear();
-
                 tViewEvents.Nodes.Add(new TreeNode(text + " [" + DateTime.Now + "]", 0, 0));
                 tViewEvents.ExpandAll();
                 var lastNode = tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Any() ? tViewEvents.Nodes.Cast<TreeNode>().Last().Nodes.Cast<TreeNode>().Last() : tViewEvents.Nodes.Cast<TreeNode>().Last();
@@ -1685,7 +1687,6 @@ namespace Db2Seeder
             Application.DoEvents();
             Thread.Sleep(1000);
         }
-
         async Task SaveLOG(string errorMessage, SupportRequest request, int? formId, DateTime? completedOn)
         {
             Log log = new Log
@@ -1708,14 +1709,29 @@ namespace Db2Seeder
                      $"{errorMessage}");
             }
         }
-
         private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 1)
+            try
             {
-                LogsDB logsDB = new LogsDB();
-                dataGridView1.DataSource = await logsDB.GetErrorLogsListAsync();
+                if (tabControl1.SelectedIndex == 1)
+                {
+                    LogsDB logsDB = new LogsDB();
+                    dataGridView1.DataSource = await logsDB.GetErrorLogsListAsync();
+                }
+                if (tabControl1.SelectedIndex == 2)
+                {
+                    var doc = XDocument.Load("As400Backup.xml");
+                    var days = doc.Descendants().Where(o => o.Name == "Days").Descendants();
+                    UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
+
+                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()),00));                   
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -1728,7 +1744,48 @@ namespace Db2Seeder
 
         private void dtpDFrom_ValueChanged(object sender, EventArgs e)
         {
-            var doc = XDocument.Load("path_to_xml_file.xml");
+            try
+            {
+                var doc = XDocument.Load("As400Backup.xml");
+                var time = ((DateTimePicker)sender).Value;
+                var value = doc.Descendants().Where(o => o.Name == ((DateTimePicker)sender).Name).First();
+                XElement hour = value.Descendants("Hour").FirstOrDefault();
+                XElement minutes = value.Descendants("Minutes").FirstOrDefault();
+                hour.Value = time.Hour.ToString();
+                minutes.Value = time.Minute.ToString();
+                doc.Save("As400Backup.xml");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void chk2_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                var doc = XDocument.Load("As400Backup.xml");
+                XElement day = doc.Descendants().Where(o => o.Name == "Days").Descendants().Where(o => o.Name == ((CheckBox)sender).Tag.ToString().Split(',')[0]).FirstOrDefault();
+                day.Value = ((CheckBox)sender).Checked ? "1" : "0";
+                doc.Save("As400Backup.xml");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var doc = XDocument.Load("As400Backup.xml");
+            var days = doc.Descendants().Where(o => o.Name == "Days").Descendants();
+            UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
+
+            UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
         }
     }
 }
