@@ -26,7 +26,12 @@ Public Class ElectRemittanceDB2
         Dim Frequency = EmprRemitt.employeeContributionRecords.Select(Function(x) New With {x.frequency})
         Dim freq = Frequency(0).frequency
         dtLoadCnte = Await ReadExistCNTE(Periodx, EmprNo, EmprSub)
-        Dim Batch As String = Await GenerarBatchNo()
+        Dim Batch As String
+        If dtLoadCnte.Rows.Count > 0 Then
+            Batch = Await GenerarBatchNo()
+        Else
+            Batch = "0"
+        End If
 
         Try
             For Each EmpeCnte As EmployeeContributionRecord In lst
