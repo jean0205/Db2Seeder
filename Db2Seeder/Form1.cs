@@ -98,17 +98,17 @@ namespace Db2Seeder
             if (!cancelRequest) await EmployeeRegistrationRequest();
             if (!cancelRequest) await EmployerRegistrationRequest();
             if (!cancelRequest) await ComplianceCertificateRequest();
-            if (!cancelRequest) await AgeBenefitClaimCompleted();
-            if (!cancelRequest) await GetRemittancePendingReview();
-            if (!cancelRequest) await DeathBenefitClaimCompleted();
-            if (!cancelRequest) await FuneralBenefitClaimCompleted();
-            if (!cancelRequest) await InvalidityBenefitClaimCompleted();
-            if (!cancelRequest) await SicknessBenefitClaimCompleted();
-            if (!cancelRequest) await SurvivorBenefitClaimCompleted();
-            if (!cancelRequest) await DisablemetBenefitClaimCompleted();
-            if (!cancelRequest) await MaternityBenefitClaimCompleted();
-            if (!cancelRequest) await EmploymentInjuryBenefitClaimCompleted();
-            if (!cancelRequest) await CovidBenefitClaimCompleted();
+            //if (!cancelRequest) await AgeBenefitClaimCompleted();
+            //if (!cancelRequest) await GetRemittancePendingReview();
+            //if (!cancelRequest) await DeathBenefitClaimCompleted();
+            //if (!cancelRequest) await FuneralBenefitClaimCompleted();
+            //if (!cancelRequest) await InvalidityBenefitClaimCompleted();
+            //if (!cancelRequest) await SicknessBenefitClaimCompleted();
+            //if (!cancelRequest) await SurvivorBenefitClaimCompleted();
+            //if (!cancelRequest) await DisablemetBenefitClaimCompleted();
+            //if (!cancelRequest) await MaternityBenefitClaimCompleted();
+            //if (!cancelRequest) await EmploymentInjuryBenefitClaimCompleted();
+            //if (!cancelRequest) await CovidBenefitClaimCompleted();
             working = false;
             if (cancelRequest) BeginInvoke(new Action(() =>
             {
