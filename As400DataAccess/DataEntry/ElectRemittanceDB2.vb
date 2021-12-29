@@ -1240,31 +1240,31 @@ Public Class ElectRemittanceDB2
                 If EmpeCntr.week1.hasWorked = False Then
                     cmd.Parameters("@PWK1").Value = ""
                 Else
-                    cmd.Parameters("@PWK1").Value = "P"
+                    cmd.Parameters("@PWK1").Value = "Y"
                 End If
 
                 If EmpeCntr.week2.hasWorked = False Then
                     cmd.Parameters("@PWK2").Value = ""
                 Else
-                    cmd.Parameters("@PWK2").Value = "P"
+                    cmd.Parameters("@PWK2").Value = "Y"
                 End If
                 If EmpeCntr.week3.hasWorked = False Then
                     cmd.Parameters("@PWK3").Value = ""
                 Else
-                    cmd.Parameters("@PWK3").Value = "P"
+                    cmd.Parameters("@PWK3").Value = "Y"
                 End If
 
                 If EmpeCntr.week4.hasWorked = False Then
                     cmd.Parameters("@PWK4").Value = ""
                 Else
-                    cmd.Parameters("@PWK4").Value = "P"
+                    cmd.Parameters("@PWK4").Value = "Y"
                 End If
                 If EmpeCntr.week5.hasWorked = False Then
                     cmd.Parameters("@PWK5").Value = ""
                 Else
-                    cmd.Parameters("@PWK5").Value = "P"
+                    cmd.Parameters("@PWK5").Value = "Y"
                 End If
-                cmd.Parameters("@PWK5").Value = ""
+                cmd.Parameters("@PWK6").Value = ""
 
                 cmd.Parameters("@PAGE").Value = ""
 
