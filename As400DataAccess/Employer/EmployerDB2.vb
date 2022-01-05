@@ -4,6 +4,7 @@ Imports ShareModels.Models
 Public Class EmployerDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
+    Dim WebCache As New WebPortalDB
 #Region "Employer"
 
     Async Function InsertEmployers(Empr As Document_Employer) As Task(Of Integer)
@@ -146,6 +147,7 @@ Public Class EmployerDB2
                     Await cmdEMPR.ExecuteNonQueryAsync
                     Await InsertEmprExtr(EmprNo)
                     Await InsertBankInformationEmpr(Empr, EmprNo)
+                    Await WebCache.NewEmployer(EmprNo, 0)
                 End If
 
                 cmdEMPR.Dispose()

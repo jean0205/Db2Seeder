@@ -4,7 +4,7 @@ Imports ShareModels.Models
 Public Class EmployeeDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
-
+    Dim WebCache As New WebPortalDB
     Async Function CountEmployees() As Task(Of Integer)
 
         Dim total As Integer = 0
@@ -153,7 +153,7 @@ Public Class EmployeeDB2
                     Await InsertDataCard(Empe, NisNumber)
                     Await InsertEmpeAuxilliary(Empe, NisNumber)
                     Await InsertBankInformation(Empe, NisNumber)
-
+                    Await WebCache.NewEmployee(NisNumber)
                 End If
 
                 cmd.Dispose()

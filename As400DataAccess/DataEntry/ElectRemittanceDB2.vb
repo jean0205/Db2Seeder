@@ -5,6 +5,7 @@ Public Class ElectRemittanceDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
     Dim dtLoadCnte As New DataTable
+    Dim WebCache As New WebPortalDB
     Async Function PostRemittances(EmprRemitt As Document_Remittance) As Task
         dtLoadCnte = New DataTable
         Dim lst As List(Of EmployeeContributionRecord) = EmprRemitt.employeeContributionRecords
@@ -72,6 +73,9 @@ Public Class ElectRemittanceDB2
             Await InsertCONH(EmprNo, EmprSub, Periodx, freq, cantempe)
             Await UpdRCWE(EmprNo, EmprSub, Periodx, freq, totalins, totalcontrs)
             Await UpdateCNTR(EmprNo, EmprSub, Periodx, totalins, employePortion, employerPortion)
+
+            Await WebCache.UpdateContributionEmprByPeriod(EmprNo, EmprSub, Periodx)
+
 
         Catch ex As iDB2Exception
             Throw ex
