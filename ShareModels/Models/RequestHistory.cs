@@ -8,6 +8,6 @@ namespace ShareModels.Models
         public string modifiedBy { get; set; }
         public DateTime dateModified { get; set; }
         public string email { get; set; }
-        public string UserName => $"{email}".Split('@')[0].ToUpper();
+        public string UserName => "webportal";//$"{email}".Split('@')[0].ToUpper();
     }
 }
