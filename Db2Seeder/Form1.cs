@@ -95,11 +95,11 @@ namespace Db2Seeder
         {
             working = true;
             BeginInvoke(new Action(() => label1.Text = "Process running."));
-            if (!cancelRequest) await EmployeeRegistrationRequest();
-            if (!cancelRequest) await EmployerRegistrationRequest();
-            if (!cancelRequest) await ComplianceCertificateRequest();
+            //if (!cancelRequest) await EmployeeRegistrationRequest();
+           // if (!cancelRequest) await EmployerRegistrationRequest();
+           // if (!cancelRequest) await ComplianceCertificateRequest();
             //if (!cancelRequest) await AgeBenefitClaimCompleted();
-            //if (!cancelRequest) await GetRemittancePendingReview();
+            if (!cancelRequest) await GetRemittancePendingReview();
             //if (!cancelRequest) await DeathBenefitClaimCompleted();
             //if (!cancelRequest) await FuneralBenefitClaimCompleted();
             //if (!cancelRequest) await InvalidityBenefitClaimCompleted();
