@@ -4,6 +4,7 @@ using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
+using Db2Seeder.Controls;
 using Db2Seeder.SQL.Logs;
 using Db2Seeder.SQL.Logs.DataAccess;
 using Microsoft.AppCenter.Crashes;
@@ -54,7 +55,7 @@ namespace Db2Seeder
             {
                 var xx = (int)DateTime.Now.DayOfWeek;
 
-                if (((dtpDFrom.Value < DateTime.Now && dtpDTo.Value > DateTime.Now)||(dtpNFrom.Value < DateTime.Now && dtpNTo.Value > DateTime.Now)) && UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().Where(x => x.Checked && int.Parse(x.Tag.ToString().Split(',')[1]) == (int)DateTime.Now.DayOfWeek).ToList().Any())
+                if (((dtpDFrom.Value < DateTime.Now && dtpDTo.Value > DateTime.Now) || (dtpNFrom.Value < DateTime.Now && dtpNTo.Value > DateTime.Now)) && UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().Where(x => x.Checked && int.Parse(x.Tag.ToString().Split(',')[1]) == (int)DateTime.Now.DayOfWeek).ToList().Any())
                 {
                     label1.Text = "Back-up Time";
                     return;
@@ -95,22 +96,23 @@ namespace Db2Seeder
         {
             working = true;
             BeginInvoke(new Action(() => label1.Text = "Process running."));
-            if (!cancelRequest) await EmployeeRegistrationRequest();
-            if (!cancelRequest) await EmployerRegistrationRequest();
-            if (!cancelRequest) await ComplianceCertificateRequest();
+            if (!cancelRequest && rja.Checked) await EmployeeRegistrationRequest();
+            if (!cancelRequest && rjb.Checked) await EmployerRegistrationRequest();
+            if (!cancelRequest && rjc.Checked) await ComplianceCertificateRequest();
 
-            if (!cancelRequest) await GetRemittancePendingReview();
+            if (!cancelRequest && rjd.Checked) await GetRemittancePendingReview();
 
-            //if (!cancelRequest) await AgeBenefitClaimCompleted();
-            //if (!cancelRequest) await DeathBenefitClaimCompleted();
-            //if (!cancelRequest) await FuneralBenefitClaimCompleted();
-            //if (!cancelRequest) await InvalidityBenefitClaimCompleted();
-            //if (!cancelRequest) await SicknessBenefitClaimCompleted();
-            //if (!cancelRequest) await SurvivorBenefitClaimCompleted();
-            //if (!cancelRequest) await DisablemetBenefitClaimCompleted();
-            //if (!cancelRequest) await MaternityBenefitClaimCompleted();
-            //if (!cancelRequest) await EmploymentInjuryBenefitClaimCompleted();
-            //if (!cancelRequest) await CovidBenefitClaimCompleted();
+            if (!cancelRequest && rje.Checked) await AgeBenefitClaimCompleted();
+            if (!cancelRequest && rjf.Checked) await DeathBenefitClaimCompleted();
+            if (!cancelRequest && rjg.Checked) await FuneralBenefitClaimCompleted();
+            if (!cancelRequest && rjh.Checked) await InvalidityBenefitClaimCompleted();
+            if (!cancelRequest && rji.Checked) await SicknessBenefitClaimCompleted();
+            if (!cancelRequest && rjl.Checked) await MaternityBenefitClaimCompleted();
+            if (!cancelRequest && rjm.Checked) await EmploymentInjuryBenefitClaimCompleted();
+            if (!cancelRequest && rjn.Checked) await CovidBenefitClaimCompleted();
+            if (!cancelRequest && rjj.Checked) await SurvivorBenefitClaimCompleted();
+            if (!cancelRequest && rjk.Checked) await DisablemetBenefitClaimCompleted();
+
             working = false;
             if (cancelRequest) BeginInvoke(new Action(() =>
             {
@@ -249,6 +251,7 @@ namespace Db2Seeder
                     AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                     foreach (var request in requests)
                     {
+                        if (cancelRequest) return;
                         var document = new Document_Employee();
                         AddTreeViewLogLevel1Info("Getting Employee Details");
                         try
@@ -367,6 +370,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_Employer();
                             AddTreeViewLogLevel1Info("Getting Employer Details");
                             try
@@ -616,7 +620,7 @@ namespace Db2Seeder
                                     if (await ComplianceCertificate.InsertComplianceCertificateSQL(request, document))
                                     {
                                         AddTreeViewLogLevel2("Compliance Certificate successfully saved to SQL.", true);
-                                        await CreateCommentToPost(request.supportRequestId, 3, 
+                                        await CreateCommentToPost(request.supportRequestId, 3,
                                             @"Dear Employer,
                                         <p> Your application for a Compliance Certificate has been received.
                                             Please note, for your application to be approved, all remittances and payments must be             submitted. Once your records are up to date, your Compliance Certificate would be                  provided within 24 hours.
@@ -638,7 +642,7 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel2("Error Saving Compliance Certificate to SQL.", false);
-                                       
+
                                     }
                                 }
                                 else
@@ -725,7 +729,7 @@ namespace Db2Seeder
                                 }
                                 else
                                 {
-                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                    AddTreeViewLogLevel1("Error Getting Remittance Details.", false);
                                 }
                             }
                             catch (Exception ex)
@@ -738,7 +742,7 @@ namespace Db2Seeder
                     }
                     else
                     {
-                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                        AddTreeViewLogLevel1Info("No Pending Remittance were Found.");
                     }
                 }
                 catch (Exception ex)
@@ -1734,7 +1738,7 @@ namespace Db2Seeder
                     var days = doc.Descendants().Where(o => o.Name == "Days").Descendants();
                     UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
 
-                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()),00));                   
+                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
                 }
             }
             catch (Exception ex)
@@ -1773,13 +1777,28 @@ namespace Db2Seeder
 
         }
 
-        private void chk2_MouseClick(object sender, MouseEventArgs e)
+        private void rjToggleButton3_MouseClick(object sender, MouseEventArgs e)
         {
             try
             {
                 var doc = XDocument.Load("As400Backup.xml");
-                XElement day = doc.Descendants().Where(o => o.Name == "Days").Descendants().Where(o => o.Name == ((CheckBox)sender).Tag.ToString().Split(',')[0]).FirstOrDefault();
-                day.Value = ((CheckBox)sender).Checked ? "1" : "0";
+                XElement day = doc.Descendants().Where(o => o.Name == "Days").Descendants().Where(o => o.Name == ((RJToggleButton)sender).Tag.ToString().Split(',')[0]).FirstOrDefault();
+                day.Value = ((RJToggleButton)sender).Checked ? "1" : "0";
+                doc.Save("As400Backup.xml");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void rjToggleButton8_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                var doc = XDocument.Load("As400Backup.xml");
+                XElement request = doc.Descendants().Where(o => o.Name == "Requests").Descendants().Where(o => o.Name == ((RJToggleButton)sender).Tag.ToString().Split(',')[0]).FirstOrDefault();
+                request.Value = ((RJToggleButton)sender).Checked ? "1" : "0";
                 doc.Save("As400Backup.xml");
 
             }
@@ -1793,9 +1812,14 @@ namespace Db2Seeder
         {
             var doc = XDocument.Load("As400Backup.xml");
             var days = doc.Descendants().Where(o => o.Name == "Days").Descendants();
-            UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
+            UtilRecurrent.FindAllControlsIterative(tpanelDays, "RJToggleButton").Cast<RJToggleButton>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
+
+            var requests = doc.Descendants().Where(o => o.Name == "Requests").Descendants();
+            UtilRecurrent.FindAllControlsIterative(tRquestPanel, "RJToggleButton").Cast<RJToggleButton>().ToList().ForEach(o => o.Checked = requests.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
 
             UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
         }
+
+
     }
 }

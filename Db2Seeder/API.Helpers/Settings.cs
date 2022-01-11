@@ -17,15 +17,8 @@ namespace Db2Seeder.API.Helpers
         {
             //return ConfigurationManager.AppSettings["PortalURL"];
             return "https://my.nisgrenada.org/SupportRequest/Detail/";
-        }
-
-       
-        public static string GetEnviroment()
-        {
-            //return ConfigurationManager.AppSettings["Enviroment"];
-            //return "NI";
-            return "TT";
-        }
+        }  
+      
 
         public static string SQLDocuments()
         {

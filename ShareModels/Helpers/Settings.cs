@@ -4,7 +4,7 @@
     {       
         public static string GetPortalUrl()
         {
-            return "http://my-nis-uat.loteklabs.com/SupportRequest/Detail/";
+            return "https://my.nisgrenada.org/SupportRequest/Detail/";
 
         }      
        

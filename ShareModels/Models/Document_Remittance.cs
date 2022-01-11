@@ -78,9 +78,15 @@ namespace ShareModels.Models
     }
     public class Contributions
     {
+
         public double employerPortion { get; set; }
+        public double employerPortionRounded => Math.Round(employerPortion, 2);
         public double employeePortion { get; set; }
+        public double employeePortionRounded => Math.Round(employeePortion, 2);
         public double total { get; set; }
+        public double totalRounded => Math.Round(total, 2);
+
+        //public double employeePortionx =>Math.Round(employeePortion,2);
     }
 }
 

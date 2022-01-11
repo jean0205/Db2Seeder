@@ -55,9 +55,9 @@ Public Class ElectRemittanceDB2
             'Variables
 
             Dim totalins As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.insurableEarnings)
-            Dim totalcontrs As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.total)
-            Dim employePortion As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.employeePortion)
-            Dim employerPortion As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.employerPortion)
+            Dim totalcontrs As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.totalRounded)
+            Dim employePortion As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.employeePortionRounded)
+            Dim employerPortion As Decimal = EmprRemitt.employeeContributionRecords.Where(Function(r) Not NoPotsed.Contains(r)).Sum(Function(x) x.contributions.employerPortionRounded)
 
             'cant empe
             Dim cantempe As Decimal = EmprRemitt.employeeContributionRecords.Count()
@@ -364,7 +364,7 @@ Public Class ElectRemittanceDB2
                 CMDE.Parameters("@LIN#").Value = EmpeCntr.rowNumber
                 CMDE.Parameters("@EREG").Value = EmpeCntr.employeeNumber
                 CMDE.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
-                CMDE.Parameters("@ECNB").Value = EmpeCntr.contributions.total
+                CMDE.Parameters("@ECNB").Value = EmpeCntr.contributions.totalRounded
 
                 ' Weeks
                 If EmpeCntr.week1.hasWorked = False Then
@@ -466,7 +466,7 @@ Public Class ElectRemittanceDB2
                         cmdup.Parameters("@CONM").Value = EmpeCntr.contributionPeriodMonth
                         cmdup.Parameters("@EREG").Value = EmpeCntr.employeeNumber
                         cmdup.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
-                        cmdup.Parameters("@ECNB").Value = EmpeCntr.contributions.total
+                        cmdup.Parameters("@ECNB").Value = EmpeCntr.contributions.totalRounded
 
                         ' Week
                         If EmpeCntr.week1.hasWorked = False Then
@@ -549,7 +549,7 @@ Public Class ElectRemittanceDB2
                 cmd.Parameters("@LIN#").Value = EmpeCntr.rowNumber
                 cmd.Parameters("@EREG").Value = EmpeCntr.employeeNumber
                 cmd.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
-                cmd.Parameters("@ECNB").Value = EmpeCntr.contributions.total
+                cmd.Parameters("@ECNB").Value = EmpeCntr.contributions.totalRounded
 
 
                 ' Weeks
@@ -632,7 +632,7 @@ Public Class ElectRemittanceDB2
                 cmdCNTE.Parameters("@CPER06").Value = EmpeCntr.contributionPeriodMonth
                 cmdCNTE.Parameters("@EGIE06").Value = EmpeCntr.insurableEarnings
                 '********Empe contrib************
-                cmdCNTE.Parameters("@ECNB06").Value = EmpeCntr.contributions.employeePortion
+                cmdCNTE.Parameters("@ECNB06").Value = EmpeCntr.contributions.employeePortionRounded
 
                 ' Week
                 If EmpeCntr.week1.hasWorked = False Then
@@ -665,7 +665,7 @@ Public Class ElectRemittanceDB2
 
                 cmdCNTE.Parameters("@EGRS06").Value = 0.0
                 '*******Employer cntr*********
-                cmdCNTE.Parameters("@RCNB06").Value = EmpeCntr.contributions.employerPortion
+                cmdCNTE.Parameters("@RCNB06").Value = EmpeCntr.contributions.employerPortionRounded
                 cmdCNTE.Parameters("@PAGE06").Value = " "
                 cmdCNTE.Parameters("@FREQ06").Value = Trim(EmpeCntr.frequency)
                 cmdCNTE.Parameters("@ERN106").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
@@ -776,8 +776,8 @@ Public Class ElectRemittanceDB2
                         End If
 
                         cmdCNTS1.Parameters("@ETPC08").Value = etpc + EmpeCntr.insurableEarnings
-                        cmdCNTS1.Parameters("@PCON08").Value = pcon + EmpeCntr.contributions.employeePortion
-                        cmdCNTS1.Parameters("@RCON08").Value = rcon + EmpeCntr.contributions.employerPortion
+                        cmdCNTS1.Parameters("@PCON08").Value = pcon + EmpeCntr.contributions.employeePortionRounded
+                        cmdCNTS1.Parameters("@RCON08").Value = rcon + EmpeCntr.contributions.employerPortionRounded
                         Await cmdCNTS1.ExecuteNonQueryAsync()
                         cmdCNTS1.Dispose()
 
@@ -806,8 +806,8 @@ Public Class ElectRemittanceDB2
                             cmdCNTS2.Parameters("@WFPC08").Value = 53
                         End If
                         cmdCNTS2.Parameters("@ETPC08").Value = EmpeCntr.insurableEarnings
-                        cmdCNTS2.Parameters("@PCON08").Value = EmpeCntr.contributions.employeePortion
-                        cmdCNTS2.Parameters("@RCON08").Value = EmpeCntr.contributions.employerPortion
+                        cmdCNTS2.Parameters("@PCON08").Value = EmpeCntr.contributions.employeePortionRounded
+                        cmdCNTS2.Parameters("@RCON08").Value = EmpeCntr.contributions.employerPortionRounded
                         Await cmdCNTS2.ExecuteNonQueryAsync()
                         cmdCNTS2.Dispose()
                     End If
@@ -851,11 +851,11 @@ Public Class ElectRemittanceDB2
                 cmdCNTS.Parameters("@FILL08").Value = ""
                 cmdCNTS.Parameters("@WFPC08").Value = EmpeCntr.weeksWorked
                 cmdCNTS.Parameters("@ETPC08").Value = EmpeCntr.insurableEarnings
-                cmdCNTS.Parameters("@PCON08").Value = EmpeCntr.contributions.employeePortion
+                cmdCNTS.Parameters("@PCON08").Value = EmpeCntr.contributions.employeePortionRounded
                 cmdCNTS.Parameters("@WFCC08").Value = 0
                 cmdCNTS.Parameters("@ETCC08").Value = 0.0
                 cmdCNTS.Parameters("@GTPC08").Value = 0.0
-                cmdCNTS.Parameters("@RCON08").Value = EmpeCntr.contributions.employerPortion
+                cmdCNTS.Parameters("@RCON08").Value = EmpeCntr.contributions.employerPortionRounded
                 cmdCNTS.Parameters("@WE0108").Value = 0.0
                 cmdCNTS.Parameters("@WE0208").Value = 0.0
                 cmdCNTS.Parameters("@WE0308").Value = 0.0
@@ -1095,8 +1095,8 @@ Public Class ElectRemittanceDB2
                                 cmdup1.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings + egie1
                                 Dim empe As Decimal = 0.0
                                 Dim empr As Decimal = 0.0
-                                empe = EmpeCntr.contributions.employeePortion
-                                empr = EmpeCntr.contributions.employerPortion
+                                empe = EmpeCntr.contributions.employeePortionRounded
+                                empr = EmpeCntr.contributions.employerPortionRounded
                                 cmdup1.Parameters("@ECNB").Value = empe + ecnb2
                                 cmdup1.Parameters("@RCNB").Value = empr + rcnb3
 
@@ -1164,8 +1164,8 @@ Public Class ElectRemittanceDB2
                                 cmdup1.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
                                 Dim empe As Decimal = 0.0
                                 Dim empr As Decimal = 0.0
-                                empe = EmpeCntr.contributions.employeePortion
-                                empr = EmpeCntr.contributions.employerPortion
+                                empe = EmpeCntr.contributions.employeePortionRounded
+                                empr = EmpeCntr.contributions.employerPortionRounded
                                 cmdup1.Parameters("@ECNB").Value = empe + ecnb2
                                 cmdup1.Parameters("@RCNB").Value = empr + rcnb3
 
@@ -1238,7 +1238,7 @@ Public Class ElectRemittanceDB2
                 cmd.Parameters("@FREQ").Value = EmpeCntr.frequency
                 cmd.Parameters("@WKSW").Value = EmpeCntr.weeksWorked
                 cmd.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
-                cmd.Parameters("@ECNB").Value = EmpeCntr.contributions.total
+                cmd.Parameters("@ECNB").Value = EmpeCntr.contributions.totalRounded
 
 
                 If EmpeCntr.week1.hasWorked = False Then
@@ -2534,8 +2534,8 @@ Public Class ElectRemittanceDB2
                         cmdup1.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings + egie1
                         Dim empe As Decimal = 0.0
                         Dim empr As Decimal = 0.0
-                        empe = EmpeCntr.contributions.employeePortion
-                        empr = EmpeCntr.contributions.employerPortion
+                        empe = EmpeCntr.contributions.employeePortionRounded
+                        empr = EmpeCntr.contributions.employerPortionRounded
 
                         cmdup1.Parameters("@ECNB").Value = empe + ecnb2
                         cmdup1.Parameters("@RCNB").Value = empr + rcnb3
@@ -2603,8 +2603,8 @@ Public Class ElectRemittanceDB2
                         cmdup1.Parameters("@EGIE").Value = EmpeCntr.insurableEarnings
                         Dim empe As Decimal = 0.0
                         Dim empr As Decimal = 0.0
-                        empe = EmpeCntr.contributions.employeePortion
-                        empr = EmpeCntr.contributions.employerPortion
+                        empe = EmpeCntr.contributions.employeePortionRounded
+                        empr = EmpeCntr.contributions.employerPortionRounded
 
                         cmdup1.Parameters("@ECNB").Value = empe
                         cmdup1.Parameters("@RCNB").Value = empr
