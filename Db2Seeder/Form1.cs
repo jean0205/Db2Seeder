@@ -95,11 +95,13 @@ namespace Db2Seeder
         {
             working = true;
             BeginInvoke(new Action(() => label1.Text = "Process running."));
-            //if (!cancelRequest) await EmployeeRegistrationRequest();
-           // if (!cancelRequest) await EmployerRegistrationRequest();
-           // if (!cancelRequest) await ComplianceCertificateRequest();
-            //if (!cancelRequest) await AgeBenefitClaimCompleted();
+            if (!cancelRequest) await EmployeeRegistrationRequest();
+            if (!cancelRequest) await EmployerRegistrationRequest();
+            if (!cancelRequest) await ComplianceCertificateRequest();
+
             if (!cancelRequest) await GetRemittancePendingReview();
+
+            //if (!cancelRequest) await AgeBenefitClaimCompleted();
             //if (!cancelRequest) await DeathBenefitClaimCompleted();
             //if (!cancelRequest) await FuneralBenefitClaimCompleted();
             //if (!cancelRequest) await InvalidityBenefitClaimCompleted();
@@ -262,7 +264,7 @@ namespace Db2Seeder
                                     document.nisNo = await as400Empe.InsertEmployees(document);
                                     document.EmployerNo = 0;
                                     if (document.nisNo != 0) await MappAndAssingEmployeeRol(request, document);
-                                    await CreateCommentToPost(request.supportRequestId, 7083, "Employee with NIS number: " + document.nisNo + " successfully saved.");
+                                    await CreateCommentToPost(request.supportRequestId, 3, "Employee with NIS number: " + document.nisNo + " successfully created.");
                                 }
                                 if (document.registrationType == 2)
                                 {
@@ -273,7 +275,7 @@ namespace Db2Seeder
                                         if (document.nisNo != 0)
                                         {
                                             await MappAndAssingEmployeeRol(request, document);
-                                            await CreateCommentToPost(request.supportRequestId, 7083, "Employee with NIS number: " + document.nisNo + " successfully saved.");
+                                            await CreateCommentToPost(request.supportRequestId, 3, "Employee with NIS number: " + document.nisNo + " successfully created.");
                                         }
                                     }
                                     AddTreeViewLogLevel1("Posting Self-Employee (Employer)", true);
@@ -281,7 +283,7 @@ namespace Db2Seeder
                                     if (document.EmployerNo != 0)
                                     {
                                         await MappAndAssingSelfEmployer(request, document);
-                                        await CreateCommentToPost(request.supportRequestId, 7083, "Employer with number: " + document.EmployerNo + " successfully saved.");
+                                        await CreateCommentToPost(request.supportRequestId, 3, "Employer with number: " + document.EmployerNo + " successfully created.");
                                     }
                                 }
                                 if (document.registrationType == 3)
@@ -289,7 +291,7 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Posting Voluntary (Employer)", true);
                                     document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
                                     await MappAndAssingSelfEmployer(request, document);
-                                    await CreateCommentToPost(request.supportRequestId, 7083, "Employer (Voluntary Contributor) with number: " + document.EmployerNo + " successfully saved.");
+                                    await CreateCommentToPost(request.supportRequestId, 3, "Employer (Voluntary Contributor) with number: " + document.EmployerNo + " successfully created.");
                                 }
                                 if (document.nisNo == 0 && document.EmployerNo == 0)
                                 {
@@ -300,15 +302,15 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Employee with NIS number: " + document.nisNo + " successfully saved to the DB2 database", true);
 
                                     //updating worflow state
-                                    //var responseA = await EmployeeRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 161);
-                                    //if (responseA.IsSuccess)
-                                    //{
-                                    //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                    //}
-                                    //else
-                                    //{
-                                    //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                    //}
+                                    var responseA = await EmployeeRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 161);
+                                    if (responseA.IsSuccess)
+                                    {
+                                        AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                    }
 
                                     //###SAVING DOCUMENTS
                                     try
@@ -381,17 +383,18 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel1("Employer with number: " + document.employerNo + " successfully saved to the DB2 database.", true);
-                                        await CreateCommentToPost(request.supportRequestId, 7083, "Employer with number: " + document.employerNo + " successfully saved.");
+
+                                        await CreateCommentToPost(request.supportRequestId, 3, "Employer with number: " + document.employerNo + " successfully created.");
                                         //updating worflow state
-                                        //var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 162);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 162);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employer Documents.");
@@ -613,21 +616,29 @@ namespace Db2Seeder
                                     if (await ComplianceCertificate.InsertComplianceCertificateSQL(request, document))
                                     {
                                         AddTreeViewLogLevel2("Compliance Certificate successfully saved to SQL.", true);
+                                        await CreateCommentToPost(request.supportRequestId, 3, 
+                                            @"Dear Employer,
+                                        <p> Your application for a Compliance Certificate has been received.
+                                            Please note, for your application to be approved, all remittances and payments must be             submitted. Once your records are up to date, your Compliance Certificate would be                  provided within 24 hours.
+                                           For any comments, questions or feedback, please reply to compliance@nisgrenada.org </p>
+                                            <p> Kindest regards,</p>
+                                            <p> Franca Belle </p>
+                                            <p> Compliance Manager </p>");
+                                        //updating worflow state
+                                        var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
                                     }
                                     else
                                     {
                                         AddTreeViewLogLevel2("Error Saving Compliance Certificate to SQL.", false);
-
-                                        //updating worflow state
-                                        //var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 160);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                       
                                     }
                                 }
                                 else
@@ -694,7 +705,7 @@ namespace Db2Seeder
                                         await Remittance.PostRemittanceToAs400(request, document);
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
 
-                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 171);
+                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 171);
 
                                         if (responseA.IsSuccess)
                                         {
@@ -711,7 +722,6 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         await SaveLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
                                     }
-
                                 }
                                 else
                                 {
@@ -777,7 +787,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        // var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(7083, request.supportRequestId, 163);
+                                        // var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 163);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -863,7 +873,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        // var responseA = await DeathBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 164);
+                                        // var responseA = await DeathBenefit.UpdateWorkFlowState(3, request.supportRequestId, 164);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -948,7 +958,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        // var responseA = await FuneralBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 165);
+                                        // var responseA = await FuneralBenefit.UpdateWorkFlowState(3, request.supportRequestId, 165);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1034,7 +1044,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        var responseA = await InvalidityBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 166);
+                                        var responseA = await InvalidityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 166);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1119,7 +1129,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await SicknessBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 169);
+                                        //var responseA = await SicknessBenefit.UpdateWorkFlowState(3, request.supportRequestId, 169);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1204,7 +1214,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await InvalidityBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 159);
+                                        //var responseA = await InvalidityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 159);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1289,7 +1299,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await DisablementBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 168);
+                                        //var responseA = await DisablementBenefit.UpdateWorkFlowState(3, request.supportRequestId, 168);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1374,7 +1384,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await MaternityBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 167);
+                                        //var responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 167);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1459,7 +1469,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await EmployInjuryBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 172);
+                                        //var responseA = await EmployInjuryBenefit.UpdateWorkFlowState(3, request.supportRequestId, 172);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1544,7 +1554,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await CovidBenefit.UpdateWorkFlowState(7083, request.supportRequestId, 170);
+                                        //var responseA = await CovidBenefit.UpdateWorkFlowState(3, request.supportRequestId, 170);
                                         //if (responseA.IsSuccess)
                                         //{
                                         //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
