@@ -53,7 +53,7 @@ namespace ShareModels.Models
         public int version { get; set; }
         public DateTime createdOn { get; set; }
         public DateTime? updatedOn { get; set; }
-        public string CompletedBy { get; set; }
+        public string CompletedBy { get; set; } 
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
         public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;

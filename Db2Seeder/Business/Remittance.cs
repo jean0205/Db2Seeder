@@ -2,6 +2,8 @@
 using Db2Seeder.API.Helpers;
 using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
+
+using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using ShareModels.Models;
@@ -14,7 +16,7 @@ namespace Db2Seeder.Business
 {
     public class Remittance
     {
-          ElectRemittanceDB2 as400Remittance= new ElectRemittanceDB2();
+        ElectRemittanceDB2 as400Remittance = new ElectRemittanceDB2();
         List<SupportRequest> RequestList;
         Document_Remittance Document_Remittance;
         //SupportRequest/GetByState/Type/15/State/9
@@ -38,10 +40,10 @@ namespace Db2Seeder.Business
                 DocumentGuid guid = new DocumentGuid();
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
-                {                  
+                {
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-                    return await GetRequestDetailsRemittance(guid);                   
+                    return await GetRequestDetailsRemittance(guid);
                 }
                 return null;
             }
@@ -51,7 +53,7 @@ namespace Db2Seeder.Business
             }
         }
 
-        public static async Task PostRemittanceToAs400(SupportRequest Request,Document_Remittance Document_Remittance)
+        public static async Task PostRemittanceToAs400(SupportRequest Request, Document_Remittance Document_Remittance)
         {
             try
             {
@@ -101,7 +103,7 @@ namespace Db2Seeder.Business
                         else employee.week3.amount = 0.00;
                         if (employee.week2.hasWorked == true)
                         {
-                            employee.week2.amount = employee.insurableEarnings;                          
+                            employee.week2.amount = employee.insurableEarnings;
                             employee.week1.amount = 0.00;
                             goto jmp;
                         }
@@ -111,8 +113,13 @@ namespace Db2Seeder.Business
 
                     }
                     //toma palacio
-                    Remittance rt=new Remittance();
+                    Remittance rt = new Remittance();
                     await rt.PostAS400(RemittanceCopy);
+                    int yyyyMM = period.contributionPeriodYear * 100 + period.contributionPeriodMonth;
+                    decimal totalIE = (decimal)Math.Round(RemittanceCopy.employeeContributionRecords.Sum(x => x.insurableEarnings), 2);
+                    decimal totalCont = (decimal)Math.Round(RemittanceCopy.employeeContributionRecords.Sum(x => x.contributions.total), 2);
+
+                    await LogsHelper.SaveRemittanceLOG(Request, Document_Remittance, yyyyMM, totalIE, totalCont);
                 }
             }
             catch (Exception ex)
@@ -160,7 +167,7 @@ namespace Db2Seeder.Business
                                 RemittanceCopy.employeeContributionRecords = Document_Remittance.employeeContributionRecords.Where(x => x.contributionPeriodMonth == period.contributionPeriodMonth && x.contributionPeriodYear == period.contributionPeriodYear).ToList();
 
                                 //copiando los earning para la ultima semana trabajada
-                                foreach (var employee in RemittanceCopy.employeeContributionRecords.Where(x=>x.frequency=="M"))
+                                foreach (var employee in RemittanceCopy.employeeContributionRecords.Where(x => x.frequency == "M"))
                                 {
                                     if (employee.week5.hasWorked == true)
                                     {

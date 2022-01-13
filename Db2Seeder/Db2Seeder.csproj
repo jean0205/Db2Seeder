@@ -29,7 +29,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>31</ApplicationRevision>
+    <ApplicationRevision>33</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -152,9 +152,14 @@
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\scanned_documents_Context.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQL.Logs\Helpers\LogsHelper.cs" />
+    <Compile Include="SQL.Logs\ComplianceCertRequestLog.cs" />
     <Compile Include="SQL.Logs\DataAccess\LogsDB.cs" />
     <Compile Include="SQL.Logs\DB2SeederDBContext.cs" />
+    <Compile Include="SQL.Logs\EmployeeRequestLog.cs" />
+    <Compile Include="SQL.Logs\EmployerRequestLog.cs" />
     <Compile Include="SQL.Logs\Log.cs" />
+    <Compile Include="SQL.Logs\RemittanceLog.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

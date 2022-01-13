@@ -19,18 +19,97 @@ namespace Db2Seeder.SQL.Logs
         {
         }
 
+        public virtual DbSet<ComplianceCertRequestLog> ComplianceCertRequestLog { get; set; }
+        public virtual DbSet<EmployeeRequestLog> EmployeeRequestLog { get; set; }
+        public virtual DbSet<EmployerRequestLog> EmployerRequestLog { get; set; }
         public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<RemittanceLog> RemittanceLog { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+
                 optionsBuilder.UseSqlServer("Server=NISSQLSRV-01;Database=DB2SeederDB;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ComplianceCertRequestLog>(entity =>
+            {
+                entity.Property(e => e.BusinessName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompletedBy)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompletedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EmailAddress)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PostedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<EmployeeRequestLog>(entity =>
+            {
+                entity.Property(e => e.CompletedBy)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompletedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("date");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MiddleName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nisnumber).HasColumnName("NISNumber");
+
+                entity.Property(e => e.PostedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<EmployerRequestLog>(entity =>
+            {
+                entity.Property(e => e.CompletedBy)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompletedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EmloyerName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PostedOn).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<Log>(entity =>
             {
                 entity.Property(e => e.CompletedOn).HasColumnType("datetime");
@@ -39,11 +118,20 @@ namespace Db2Seeder.SQL.Logs
 
                 entity.Property(e => e.ErrorMessage).IsUnicode(false);
 
-                entity.Property(e => e.PostedOn).HasColumnType("datetime");
-
                 entity.Property(e => e.RequestType)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RemittanceLog>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PostedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.TotalContribution).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.TotalInsuranceEarning).HasColumnType("decimal(18, 2)");
             });
 
             OnModelCreatingPartial(modelBuilder);

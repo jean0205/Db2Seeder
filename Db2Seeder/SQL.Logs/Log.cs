@@ -13,10 +13,8 @@ namespace Db2Seeder.SQL.Logs
         public string RequestType { get; set; }
         public int? RequestId { get; set; }
         public int? FormId { get; set; }
-        public bool? Error { get; set; }
         public string ErrorMessage { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? CompletedOn { get; set; }
-        public DateTime? PostedOn { get; set; }
     }
 }

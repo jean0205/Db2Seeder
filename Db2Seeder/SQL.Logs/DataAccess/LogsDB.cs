@@ -11,7 +11,7 @@ namespace Db2Seeder.SQL.Logs.DataAccess
     {
         private readonly DB2SeederDBContext _context = new DB2SeederDBContext();
 
-        public async Task InsertLog( Log log)
+        public async Task InsertErrorLog( Log log)
         {
             try
             {
@@ -23,10 +23,73 @@ namespace Db2Seeder.SQL.Logs.DataAccess
                 throw ex;
             }
         }
-        public async Task<IEnumerable<Log>>GetErrorLogsListAsync()
+        public async Task InsertComplianceCertificateLog(ComplianceCertRequestLog log)
         {
-           // var ss= await _context.Log.Where(x => x.Error == true).ToListAsync();
-            return await _context.Log.Where(x => x.Error == true).ToListAsync();
+            try
+            {
+                _context.ComplianceCertRequestLog.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task InsertEmployeeRequestLog(EmployeeRequestLog log)
+        {
+            try
+            {
+                _context.EmployeeRequestLog.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task InsertEmployerRequestLog(EmployerRequestLog log)
+        {
+            try
+            {
+                _context.EmployerRequestLog.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task InsertRemittanceLog(RemittanceLog log)
+        {
+            try
+            {
+                _context.RemittanceLog.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<IEnumerable<Log>>GetErrorLogsListAsync()
+        {           
+            return await _context.Log.ToListAsync();
+        }
+        public async Task<IEnumerable<EmployeeRequestLog>> GetEmployeeLogsListAsync()
+        {
+            return await _context.EmployeeRequestLog.ToListAsync();
+        }
+        public async Task<IEnumerable<EmployerRequestLog>> GetEmployerLogsListAsync()
+        {
+            return await _context.EmployerRequestLog.ToListAsync();
+        }
+        public async Task<IEnumerable<ComplianceCertRequestLog>> GetComplianceLogsListAsync()
+        {
+            return await _context.ComplianceCertRequestLog.ToListAsync();
+        }
+        public async Task<IEnumerable<RemittanceLog>> GetRemittanceLogsListAsync()
+        {
+            return await _context.RemittanceLog.ToListAsync();
         }
     }
 }

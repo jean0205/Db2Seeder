@@ -7,6 +7,7 @@ using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.Controls;
 using Db2Seeder.SQL.Logs;
 using Db2Seeder.SQL.Logs.DataAccess;
+using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.EntityFrameworkCore.Internal;
 using ShareModels.Models;
@@ -260,14 +261,18 @@ namespace Db2Seeder
                             if (document != null)
                             {
                                 AddTreeViewLogLevel1("Employee details successfully loaded", true);
-
+                                document.EmployerNo = 0;
                                 if (document.registrationType == 1)
                                 {
                                     AddTreeViewLogLevel1("Posting Employee", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
-                                    document.EmployerNo = 0;
-                                    if (document.nisNo != 0) await MappAndAssingEmployeeRol(request, document);
-                                    await CreateCommentToPost(request.supportRequestId, 3, "Employee with NIS number: " + document.nisNo + " successfully created.");
+
+                                    if (document.nisNo != 0)
+                                    {
+                                        await MappAndAssingEmployeeRol(request, document);
+                                        await CreateCommentToPost(request.supportRequestId, 3, "Employee with NIS number: " + document.nisNo + " successfully created.");
+                                        await LogsHelper.SaveEmployeeLOG(request, document);
+                                    }
                                 }
                                 if (document.registrationType == 2)
                                 {
@@ -279,6 +284,7 @@ namespace Db2Seeder
                                         {
                                             await MappAndAssingEmployeeRol(request, document);
                                             await CreateCommentToPost(request.supportRequestId, 3, "Employee with NIS number: " + document.nisNo + " successfully created.");
+                                            await LogsHelper.SaveEmployeeLOG(request, document);
                                         }
                                     }
                                     AddTreeViewLogLevel1("Posting Self-Employee (Employer)", true);
@@ -287,15 +293,22 @@ namespace Db2Seeder
                                     {
                                         await MappAndAssingSelfEmployer(request, document);
                                         await CreateCommentToPost(request.supportRequestId, 3, "Employer with number: " + document.EmployerNo + " successfully created.");
+                                        await LogsHelper.SaveSelfEmployeeLOG(request, document);
                                     }
                                 }
                                 if (document.registrationType == 3)
                                 {
                                     AddTreeViewLogLevel1("Posting Voluntary (Employer)", true);
                                     document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
-                                    await MappAndAssingSelfEmployer(request, document);
-                                    await CreateCommentToPost(request.supportRequestId, 3, "Employer (Voluntary Contributor) with number: " + document.EmployerNo + " successfully created.");
+                                    if (document.EmployerNo != 0)
+                                    {
+                                        await MappAndAssingSelfEmployer(request, document);
+                                        await CreateCommentToPost(request.supportRequestId, 3, "Employer (Voluntary Contributor) with number: " + document.EmployerNo + " successfully created.");
+                                        await LogsHelper.SaveVoluntaryLOG(request, document);
+                                    }
+
                                 }
+
                                 if (document.nisNo == 0 && document.EmployerNo == 0)
                                 {
                                     AddTreeViewLogLevel1("Error inserting employee to the  DB2 database.", false);
@@ -326,7 +339,7 @@ namespace Db2Seeder
                                     {
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                        await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                                        await LogsHelper.SaveErrorLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
                                     }
                                 }
                             }
@@ -334,13 +347,12 @@ namespace Db2Seeder
                             {
                                 AddTreeViewLogLevel1("Error Getting Employee Details.", false);
                             }
-                            await SaveLOG(String.Empty, request, document.employeeRegistrationFormId, document.CompletedTime);
                         }
                         catch (Exception ex)
                         {
                             Crashes.TrackError(ex);
                             AddTreeViewLogLevel1("Error " + ex.Message, false);
-                            await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
                         }
                     }
                 }
@@ -353,7 +365,7 @@ namespace Db2Seeder
             {
                 Crashes.TrackError(ex);
                 AddTreeViewLogLevel1("Error " + ex.Message, false);
-                await SaveLOG(ex.Message, null, null, null);
+                await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
             }
         }
         private async Task EmployerRegistrationRequest()
@@ -389,6 +401,8 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel1("Employer with number: " + document.employerNo + " successfully saved to the DB2 database.", true);
 
                                         await CreateCommentToPost(request.supportRequestId, 3, "Employer with number: " + document.employerNo + " successfully created.");
+                                        await LogsHelper.SaveEmployerLOG(request, document);
+
                                         //updating worflow state
                                         var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 162);
                                         if (responseA.IsSuccess)
@@ -409,7 +423,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
                                         }
                                         await MappAndAssingEmployerRol(request, document);
                                     }
@@ -418,13 +432,12 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Employer Details.", false);
                                 }
-                                await SaveLOG(String.Empty, request, document.employerRegistrationFormId, document.CompletedTime);
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -437,7 +450,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -458,14 +471,14 @@ namespace Db2Seeder
                 else
                 {
                     AddTreeViewLogLevel2("Error mapping Employer number: " + document.employerNo + " " + response.Message, false);
-                    await SaveLOG("Error mapping Employer number: " + document.employerNo, request, document.employerRegistrationFormId, document.CompletedTime);
+                    await LogsHelper.SaveErrorLOG("Error mapping Employer number: " + document.employerNo, request, document.employerRegistrationFormId, document.CompletedTime);
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+                await LogsHelper.SaveErrorLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
             }
             try
             {
@@ -483,7 +496,7 @@ namespace Db2Seeder
             {
                 Crashes.TrackError(ex);
                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                await SaveLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
+                await LogsHelper.SaveErrorLOG(ex.Message, request, document.employerRegistrationFormId, document.CompletedTime);
             }
         }
         private async Task MappAndAssingSelfEmployer(SupportRequest request, Document_Employee document)
@@ -499,14 +512,14 @@ namespace Db2Seeder
                 else
                 {
                     AddTreeViewLogLevel2("Error mapping Employer number: " + document.EmployerNo + " " + response.Message, false);
-                    await SaveLOG("Error mapping Employer number: " + document.EmployerNo, request, document.employeeRegistrationFormId, document.CompletedTime);
+                    await LogsHelper.SaveErrorLOG("Error mapping Employer number: " + document.EmployerNo, request, document.employeeRegistrationFormId, document.CompletedTime);
                 }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                await LogsHelper.SaveErrorLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
             }
             try
             {
@@ -524,7 +537,7 @@ namespace Db2Seeder
             {
                 Crashes.TrackError(ex);
                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                await LogsHelper.SaveErrorLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
             }
         }
         private async Task MappAndAssingEmployeeRol(SupportRequest request, Document_Employee document)
@@ -543,14 +556,14 @@ namespace Db2Seeder
                     else
                     {
                         AddTreeViewLogLevel2("Error mapping NIS number: " + document.nisNo + " " + response.Message, false);
-                        await SaveLOG("Error mapping NIS number: " + document.nisNo, request, document.employeeRegistrationFormId, document.CompletedTime);
+                        await LogsHelper.SaveErrorLOG("Error mapping NIS number: " + document.nisNo, request, document.employeeRegistrationFormId, document.CompletedTime);
                     }
                 }
                 catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel2("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                    await LogsHelper.SaveErrorLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
                 }
                 try
                 {
@@ -568,7 +581,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel2("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
+                    await LogsHelper.SaveErrorLOG(ex.Message, request, document.employeeRegistrationFormId, document.CompletedTime);
                 }
             }
         }
@@ -607,6 +620,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Request Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_ComplianceCert();
                             AddTreeViewLogLevel1Info("Getting Request Details");
                             try
@@ -630,6 +644,7 @@ namespace Db2Seeder
                                             <p> Compliance Manager </p>");
                                         //updating worflow state
                                         var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
+                                        await LogsHelper.SaveComplianceLOG(request,document);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -642,20 +657,18 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel2("Error Saving Compliance Certificate to SQL.", false);
-
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Compliance Details.", false);
-                                }
-                                await SaveLOG(String.Empty, request, document.documentId, document.CompletedTime);
+                                }                               
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.documentId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.documentId, document.CompletedTime);
                             }
                         }
                     }
@@ -668,7 +681,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -696,6 +709,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Remittance Pending Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             AddTreeViewLogLevel1Info("Getting Remittance Pending Details");
                             try
                             {
@@ -709,6 +723,10 @@ namespace Db2Seeder
                                         await Remittance.PostRemittanceToAs400(request, document);
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
 
+                                        //agregar el mensage cuando me den el text.
+                                        //await CreateCommentToPost(request.supportRequestId, 3, "Employer with number: " + document.employerNo + " successfully created.");
+
+                                      
                                         var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 171);
 
                                         if (responseA.IsSuccess)
@@ -724,7 +742,7 @@ namespace Db2Seeder
                                     {
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                        await SaveLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
+                                        await LogsHelper.SaveErrorLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
                                     }
                                 }
                                 else
@@ -736,7 +754,7 @@ namespace Db2Seeder
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, null, DateTime.Now);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, null, DateTime.Now);
                             }
                         }
                     }
@@ -749,7 +767,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -774,6 +792,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_AgeBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -812,20 +831,20 @@ namespace Db2Seeder
                                     {
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                        await SaveLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
+                                        await LogsHelper.SaveErrorLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                await SaveLOG(String.Empty, request, document.ageBenefitFormId, document.CompletedTime);
+                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -838,7 +857,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -860,6 +879,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_DeathBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -896,21 +916,20 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.deathBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.deathBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }
-                                await SaveLOG(String.Empty, request, document.deathBenefitFormId, document.CompletedTime);
+                                }                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.deathBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.deathBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -923,7 +942,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -945,6 +964,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_FuneralBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -981,7 +1001,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
@@ -989,13 +1009,12 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                await SaveLOG(String.Empty, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
                             }
 
                         }
@@ -1009,7 +1028,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1031,6 +1050,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_Invalidity();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1067,21 +1087,20 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.InvalidityBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.InvalidityBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }
-                                await SaveLOG(String.Empty, request, document.InvalidityBenefitFormId, document.CompletedTime);
+                                }                               
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.InvalidityBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.InvalidityBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1094,7 +1113,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1116,6 +1135,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_Sickness();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1152,7 +1172,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
@@ -1160,13 +1180,13 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                await SaveLOG(String.Empty, request, document.sicknessBenefitFormId, document.CompletedTime);
+                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1179,7 +1199,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1201,6 +1221,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_SurvivorBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1237,7 +1258,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
@@ -1245,13 +1266,13 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                await SaveLOG(String.Empty, request, document.SurvivorBenefitFormId, document.CompletedTime);
+                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1264,7 +1285,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1286,6 +1307,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_Disablemet();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1322,7 +1344,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.DisablementBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.DisablementBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
@@ -1330,13 +1352,13 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                await SaveLOG(String.Empty, request, document.DisablementBenefitFormId, document.CompletedTime);
+                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.DisablementBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.DisablementBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1349,7 +1371,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1371,6 +1393,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_Maternity();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1407,21 +1430,20 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }
-                                await SaveLOG(String.Empty, request, document.MaternityBenefitFormId, document.CompletedTime);
+                                }                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1434,7 +1456,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1456,6 +1478,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_EmploymentInjury();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1492,21 +1515,20 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }
-                                await SaveLOG(String.Empty, request, document.InjuryBenefitFormId, document.CompletedTime);
+                                }                               
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1524,7 +1546,7 @@ namespace Db2Seeder
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                await SaveLOG(ex.Message, null, null, null);
+                await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
             }
         }
         private async Task CovidBenefitClaimCompleted()
@@ -1541,6 +1563,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            if (cancelRequest) return;
                             var document = new Document_Covid19();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
@@ -1577,21 +1600,20 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await SaveLOG(ex.Message, request, document.CovidBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.CovidBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }
-                                await SaveLOG(string.Empty, request, document.CovidBenefitFormId, document.CompletedTime);
+                                }                                
                             }
                             catch (Exception ex)
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await SaveLOG(ex.Message, request, document.CovidBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.CovidBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1604,7 +1626,7 @@ namespace Db2Seeder
                 {
                     Crashes.TrackError(ex);
                     AddTreeViewLogLevel1("Error " + ex.Message, false);
-                    await SaveLOG(ex.Message, null, null, null);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
                 }
             }
             catch (Exception ex)
@@ -1701,28 +1723,7 @@ namespace Db2Seeder
             Application.DoEvents();
             Thread.Sleep(1000);
         }
-        async Task SaveLOG(string errorMessage, SupportRequest request, int? formId, DateTime? completedOn)
-        {
-            Log log = new Log
-            {
-                RequestType = request.supportRequestType,
-                RequestId = request.supportRequestId,
-                FormId = formId,
-                Error = errorMessage.Length > 0,
-                ErrorMessage = errorMessage,
-                CreatedOn = request.createdOn,
-                CompletedOn = completedOn,
-                PostedOn = DateTime.Now
-            };
-            LogsDB logsDB = new LogsDB();
-            await logsDB.InsertLog(log);
-            if ((bool)log.Error)
-            {
-                await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Error", $"<h1>Error Message</h1>" +
-                     $"Please see error message hereunder:</br></br>" +
-                     $"{errorMessage}");
-            }
-        }
+
         private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -1820,6 +1821,12 @@ namespace Db2Seeder
             UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
         }
 
+        #region Logs
+       
+       
+
+
+        #endregion
 
     }
 }
