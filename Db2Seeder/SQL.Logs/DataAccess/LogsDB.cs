@@ -79,17 +79,33 @@ namespace Db2Seeder.SQL.Logs.DataAccess
         {
             return await _context.EmployeeRequestLog.ToListAsync();
         }
+        public async Task<IEnumerable<EmployeeRequestLog>> GetEmployeeLogsListAsync( DateTime from, DateTime to)
+        {
+            return await _context.EmployeeRequestLog.Where(x=> x.PostedOn >=from && x.PostedOn<=to).ToListAsync();
+        }
         public async Task<IEnumerable<EmployerRequestLog>> GetEmployerLogsListAsync()
         {
             return await _context.EmployerRequestLog.ToListAsync();
+        }
+        public async Task<IEnumerable<EmployerRequestLog>> GetEmployerLogsListAsync(DateTime from, DateTime to)
+        {
+            return await _context.EmployerRequestLog.Where(x => x.PostedOn >= from && x.PostedOn <= to).ToListAsync();
         }
         public async Task<IEnumerable<ComplianceCertRequestLog>> GetComplianceLogsListAsync()
         {
             return await _context.ComplianceCertRequestLog.ToListAsync();
         }
+        public async Task<IEnumerable<ComplianceCertRequestLog>> GetComplianceLogsListAsync(DateTime from, DateTime to)
+        {
+            return await _context.ComplianceCertRequestLog.Where(x => x.PostedOn >= from && x.PostedOn <= to).ToListAsync();
+        }
         public async Task<IEnumerable<RemittanceLog>> GetRemittanceLogsListAsync()
         {
             return await _context.RemittanceLog.ToListAsync();
+        }
+        public async Task<IEnumerable<RemittanceLog>> GetRemittanceLogsListAsync(DateTime from, DateTime to)
+        {
+            return await _context.RemittanceLog.Where(x => x.PostedOn >= from && x.PostedOn <= to).ToListAsync();
         }
     }
 }

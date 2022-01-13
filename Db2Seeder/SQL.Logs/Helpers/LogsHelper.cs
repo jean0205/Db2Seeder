@@ -177,7 +177,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
                    "</br ></br> " +
                   $" Total Insurance Earnings: {insEarnings}" +
                    "</br ></br> " +
-                    $" Total Earnings: {insEarnings}" +
+                    $" Total Controbutions: {contribution}" +
                  "</br ></br>");
         }
     }

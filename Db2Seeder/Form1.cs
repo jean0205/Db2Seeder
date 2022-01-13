@@ -5,7 +5,6 @@ using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.Controls;
-using Db2Seeder.SQL.Logs;
 using Db2Seeder.SQL.Logs.DataAccess;
 using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
@@ -237,7 +236,6 @@ namespace Db2Seeder
             }
         }
         #endregion
-
 
         #region Employee-Employer
         private async Task EmployeeRegistrationRequest()
@@ -605,6 +603,7 @@ namespace Db2Seeder
         }
 
         #endregion
+
         #region Compliance Certificate
         private async Task ComplianceCertificateRequest()
         {
@@ -644,7 +643,7 @@ namespace Db2Seeder
                                             <p> Compliance Manager </p>");
                                         //updating worflow state
                                         var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
-                                        await LogsHelper.SaveComplianceLOG(request,document);
+                                        await LogsHelper.SaveComplianceLOG(request, document);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -662,7 +661,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Compliance Details.", false);
-                                }                               
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -724,9 +723,9 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
 
                                         //agregar el mensage cuando me den el text.
-                                        //await CreateCommentToPost(request.supportRequestId, 3, "Employer with number: " + document.employerNo + " successfully created.");
+                                       // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
 
-                                      
+
                                         var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 171);
 
                                         if (responseA.IsSuccess)
@@ -838,7 +837,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                
+
                             }
                             catch (Exception ex)
                             {
@@ -923,7 +922,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }                                
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -1094,7 +1093,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }                               
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -1180,7 +1179,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                
+
                             }
                             catch (Exception ex)
                             {
@@ -1266,7 +1265,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                
+
                             }
                             catch (Exception ex)
                             {
@@ -1352,7 +1351,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-                                
+
                             }
                             catch (Exception ex)
                             {
@@ -1437,7 +1436,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }                                
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -1522,7 +1521,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }                               
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -1607,7 +1606,7 @@ namespace Db2Seeder
                                 else
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
-                                }                                
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -1636,6 +1635,8 @@ namespace Db2Seeder
         }
 
         #endregion
+
+        #region TreeView
         void AddTreeViewLogLevel0(string text)
         {
             working = true;
@@ -1723,40 +1724,9 @@ namespace Db2Seeder
             Application.DoEvents();
             Thread.Sleep(1000);
         }
+        #endregion
 
-        private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (tabControl1.SelectedIndex == 1)
-                {
-                    LogsDB logsDB = new LogsDB();
-                    dataGridView1.DataSource = await logsDB.GetErrorLogsListAsync();
-                }
-                if (tabControl1.SelectedIndex == 2)
-                {
-                    var doc = XDocument.Load("As400Backup.xml");
-                    var days = doc.Descendants().Where(o => o.Name == "Days").Descendants();
-                    UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
-
-                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (working)
-            {
-                e.Cancel = true;
-            }
-        }
-
+        #region Settings
         private void dtpDFrom_ValueChanged(object sender, EventArgs e)
         {
             try
@@ -1777,7 +1747,6 @@ namespace Db2Seeder
             }
 
         }
-
         private void rjToggleButton3_MouseClick(object sender, MouseEventArgs e)
         {
             try
@@ -1808,6 +1777,46 @@ namespace Db2Seeder
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
+        private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (tabControl1.SelectedIndex == 1)
+                {
+                    LogsDB logsDB = new LogsDB();
+                    dataGridView1.DataSource = await logsDB.GetErrorLogsListAsync();
+                }
+                if (tabControl1.SelectedIndex == 2)
+                {
+                    dgv2.DataSource = null;
+                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel8, "DateTimePicker").Cast<DateTimePicker>().Where(o => o.Tag.ToString() == "0").ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel8, "DateTimePicker").Cast<DateTimePicker>().Where(o => o.Tag.ToString() == "1").ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)));
+                }
+
+                if (tabControl1.SelectedIndex == 3)
+                {
+                    var doc = XDocument.Load("As400Backup.xml");
+                    var days = doc.Descendants().Where(o => o.Name == "Days").Descendants();
+                    UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().ToList().ForEach(o => o.Checked = days.Where(x => x.Name == o.Tag.ToString().Split(',')[0] && x.Value == "1").Any());
+
+                    UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (working)
+            {
+                e.Cancel = true;
+            }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -1821,12 +1830,55 @@ namespace Db2Seeder
             UtilRecurrent.FindAllControlsIterative(tableLayoutPanel4, "DateTimePicker").Cast<DateTimePicker>().ToList().ForEach(o => o.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Hour").FirstOrDefault().Value.ToString()), int.Parse(doc.Descendants().Where(x => x.Name == o.Name).FirstOrDefault().Descendants("Minutes").FirstOrDefault().Value.ToString()), 00));
         }
 
-        #region Logs
-       
-       
+        #region PostedLogs
+        private async void rbtnRequest_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+
+
+                if (((RadioButton)sender).Tag.ToString() == "0")
+                {
+                    cmbRequest.Enabled = true;
+                    tpanel0.Enabled = true;
+                    cmbClaims.Enabled = false;
+                    tpanel1.Enabled = false;
+                    tpanel2.Enabled = false;
+                    dgv2.DataSource = null;
+                }
+                if (((RadioButton)sender).Tag.ToString() == "1")
+                {
+                    cmbRequest.Enabled = false;
+                    tpanel0.Enabled = false;
+                    cmbClaims.Enabled = true;
+                    tpanel1.Enabled = true;
+                    tpanel2.Enabled = false;
+                    dgv2.DataSource = null;
+                }
+                if (((RadioButton)sender).Tag.ToString() == "2")
+                {
+                    cmbRequest.Enabled = false;
+                    tpanel0.Enabled = false;
+                    cmbClaims.Enabled = false;
+                    tpanel1.Enabled = false;
+                    tpanel2.Enabled = true;
+
+                    LogsDB logsDB = new LogsDB();
+                    dgv2.DataSource = await logsDB.GetRemittanceLogsListAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
 
 
         #endregion
+
 
     }
 }
