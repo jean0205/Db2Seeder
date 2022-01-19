@@ -42,7 +42,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Covid19 = await GetDetails(guid);
 
                     Document_Covid19.CompletedBy = requestHistory.Last().UserName;
-                    Document_Covid19.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Covid19.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Covid19.SupportRequestId = Request.supportRequestId;
                     return Document_Covid19;
                 }

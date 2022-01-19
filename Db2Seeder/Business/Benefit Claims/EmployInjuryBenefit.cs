@@ -41,7 +41,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
                     Document_EmploymentInjury = await GetDetails(guid);
                     Document_EmploymentInjury.CompletedBy = requestHistory.Last().UserName;
-                    Document_EmploymentInjury.CompletedTime = requestHistory.Last().dateModified;
+                    Document_EmploymentInjury.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_EmploymentInjury.SupportRequestId = Request.supportRequestId;
                     return Document_EmploymentInjury;
                 }

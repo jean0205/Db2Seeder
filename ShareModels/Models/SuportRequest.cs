@@ -16,7 +16,9 @@ namespace ShareModels.Models
         public string currentWorkflowState { get; set; }
         public int ownerId { get; set; }
         public string owner { get; set; }
-        public DateTime? createdOn { get; set; }
+        public DateTime createdOn { get; set; }
+        public DateTime createdOnToLocalTime =>createdOn.ToLocalTime();       
         public DateTime? updatedOn { get; set; }
+        
     }
 }

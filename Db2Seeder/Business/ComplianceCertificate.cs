@@ -42,7 +42,7 @@ namespace Db2Seeder.Business
                     Document_ComplianceCert Document_ComplianceCert = new Document_ComplianceCert();
                     Document_ComplianceCert = await GetRequestDetailsCompliance(guid);
                     Document_ComplianceCert.CompletedBy = requestHistory.Last().UserName;
-                    Document_ComplianceCert.CompletedTime = requestHistory.Last().dateModified;
+                    Document_ComplianceCert.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_ComplianceCert.SupportRequestId = Request.supportRequestId;
                     return Document_ComplianceCert;
                 }

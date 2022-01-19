@@ -42,7 +42,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Maternity = await GetDetails(guid);
 
                     Document_Maternity.CompletedBy = requestHistory.Last().UserName;
-                    Document_Maternity.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Maternity.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Maternity.SupportRequestId = Request.supportRequestId;
                     return Document_Maternity;
                 }

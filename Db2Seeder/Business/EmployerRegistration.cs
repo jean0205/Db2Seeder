@@ -41,7 +41,7 @@ namespace Db2Seeder.Business
                     Document_Employer = await GetRequestDetailsEmployer(guid);
                     validatePhone(Document_Employer);
                     Document_Employer.CompletedBy = requestHistory.Last().UserName;
-                    Document_Employer.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Employer.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Employer.SupportRequestId = Request.supportRequestId;
                     return Document_Employer;
                 }

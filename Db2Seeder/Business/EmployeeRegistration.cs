@@ -40,7 +40,7 @@ namespace Db2Seeder.Business
                     Document_Employee = await GetRequestDetailsEmployee(guid);
                     validatePhone(Document_Employee);
                     Document_Employee.CompletedBy = requestHistory.Last().UserName;
-                    Document_Employee.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Employee.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Employee.SupportRequestId = Request.supportRequestId;
                     return Document_Employee;
                 }

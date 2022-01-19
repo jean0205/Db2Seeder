@@ -39,7 +39,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
                     Document_FuneralBenefit = await GetDetails(guid);
                     Document_FuneralBenefit.CompletedBy = requestHistory.Last().UserName;
-                    Document_FuneralBenefit.CompletedTime = requestHistory.Last().dateModified;
+                    Document_FuneralBenefit.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_FuneralBenefit.SupportRequestId = Request.supportRequestId;
                     return Document_FuneralBenefit;
                 }

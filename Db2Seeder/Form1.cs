@@ -55,7 +55,7 @@ namespace Db2Seeder
             {
                 var xx = (int)DateTime.Now.DayOfWeek;
 
-                if (((dtpDFrom.Value < DateTime.Now && dtpDTo.Value > DateTime.Now) || (dtpNFrom.Value < DateTime.Now && dtpNTo.Value > DateTime.Now)) && UtilRecurrent.FindAllControlsIterative(tpanelDays, "CheckBox").Cast<CheckBox>().Where(x => x.Checked && int.Parse(x.Tag.ToString().Split(',')[1]) == (int)DateTime.Now.DayOfWeek).ToList().Any())
+                if (((dtpDFrom.Value.TimeOfDay < DateTime.Now.TimeOfDay && dtpDTo.Value.TimeOfDay > DateTime.Now.TimeOfDay) || (dtpNFrom.Value.TimeOfDay < DateTime.Now.TimeOfDay && dtpNTo.Value.TimeOfDay > DateTime.Now.TimeOfDay)) && UtilRecurrent.FindAllControlsIterative(tpanelDays, "RJToggleButton").Cast<RJToggleButton>().Where(x => x.Checked && int.Parse(x.Tag.ToString().Split(',')[1]) == (int)DateTime.Now.DayOfWeek).ToList().Any())
                 {
                     label1.Text = "Back-up Time";
                     return;
@@ -583,7 +583,7 @@ namespace Db2Seeder
                 }
             }
         }
-        private async Task<bool> CreateCommentToPost(int supportRequesId, int userAccountId, string commentTest)
+        private async Task<bool> CreateCommentToPost(int supportRequesId, int userAccountId, string commentText)
         {
             try
             {
@@ -591,7 +591,7 @@ namespace Db2Seeder
                 {
                     supportRequestId = supportRequesId,
                     userAccountId = userAccountId,
-                    comment = commentTest
+                    comment = commentText
                 };
                 return await ApiRequest.AddSupportRequestComment(comment);
             }
@@ -641,9 +641,11 @@ namespace Db2Seeder
                                             <p> Kindest regards,</p>
                                             <p> Franca Belle </p>
                                             <p> Compliance Manager </p>");
+                                        await LogsHelper.SaveComplianceLOG(request, document);
+                                       
                                         //updating worflow state
                                         var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
-                                        await LogsHelper.SaveComplianceLOG(request, document);
+
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);

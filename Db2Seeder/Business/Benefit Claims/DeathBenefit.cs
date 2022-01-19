@@ -41,7 +41,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_DeathBenefit = await GetDetails(guid);
 
                     Document_DeathBenefit.CompletedBy = requestHistory.Last().UserName;
-                    Document_DeathBenefit.CompletedTime = requestHistory.Last().dateModified;
+                    Document_DeathBenefit.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_DeathBenefit.SupportRequestId = Request.supportRequestId;
                     return Document_DeathBenefit;
                 }

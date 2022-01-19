@@ -14,6 +14,7 @@ namespace Db2Seeder.SQL.Logs
         public bool? SelfEmployed { get; set; }
         public bool? Voluntary { get; set; }
         public long EmployerNo { get; set; }
+        public int EmployerSub { get; set; }
         public string EmloyerName { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime CompletedOn { get; set; }

@@ -20,7 +20,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
                 RequestId = request.supportRequestId,
                 FormId = formId,
                 ErrorMessage = errorMessage,
-                CreatedOn = request.createdOn,
+                CreatedOn = request.createdOnToLocalTime,
                 CompletedOn = completedOn,
             };
             LogsDB logsDB = new LogsDB();
@@ -39,7 +39,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
                 MiddleName = employee.middleName,
                 LastName = employee.lastName,
                 DateOfBirth = (DateTime)employee.dateOfBirth,
-                CreatedOn = (DateTime)request.createdOn,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
                 CompletedOn = (DateTime)employee.CompletedTime,
                 CompletedBy = employee.CompletedBy,
                 PostedOn = DateTime.Now
@@ -65,7 +65,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
                 Voluntary = false,
                 EmployerNo = (int)employee.nisNo,
                 EmloyerName = $"{employee.firstName} {employee.lastName}",
-                CreatedOn = (DateTime)request.createdOn,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
                 CompletedOn = (DateTime)employee.CompletedTime,
                 CompletedBy = employee.CompletedBy,
                 PostedOn = DateTime.Now
@@ -89,7 +89,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
                 Voluntary = true,
                 EmployerNo = (int)employee.nisNo,
                 EmloyerName = $"{employee.firstName} {employee.lastName}",
-                CreatedOn = (DateTime)request.createdOn,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
                 CompletedOn = (DateTime)employee.CompletedTime,
                 CompletedBy = employee.CompletedBy,
                 PostedOn = DateTime.Now
@@ -111,9 +111,10 @@ namespace Db2Seeder.SQL.Logs.Helpers
                 SupportRequestId = request.supportRequestId,
                 SelfEmployed = false,
                 Voluntary = false,
-                EmployerNo = (int)employer.employerNo,
+                EmployerNo = (long)employer.employerNo,
+                EmployerSub = 0,
                 EmloyerName = employer.employerName,
-                CreatedOn = (DateTime)request.createdOn,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
                 CompletedOn = (DateTime)employer.CompletedTime,
                 CompletedBy = employer.CompletedBy,
                 PostedOn = DateTime.Now
@@ -136,11 +137,12 @@ namespace Db2Seeder.SQL.Logs.Helpers
             ComplianceCertRequestLog log = new ComplianceCertRequestLog
             {
                 SupportRequestId = request.supportRequestId,
-                EmployerNo = long.Parse(compliance.employerNumber),
+                EmployerNo = long.Parse(compliance.employerNumber.Split('-')[0]),
+                EmployerSub = int.Parse(compliance.employerNumber.Split('-')[1]),
                 BusinessName = compliance.businessName,
                 EmailAddress = compliance.emailAddress,
                 PhoneNumber = compliance.phoneNumber,
-                CreatedOn = (DateTime)request.createdOn,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
                 CompletedOn = (DateTime)compliance.CompletedTime,
                 CompletedBy = compliance.CompletedBy,
                 PostedOn = DateTime.Now
@@ -164,7 +166,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
                 Period = period,
                 TotalInsuranceEarning = insEarnings,
                 TotalContribution = contribution,
-                CreatedOn = (DateTime)request.createdOn,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
                 PostedOn = DateTime.Now
             };
             LogsDB logsDB = new LogsDB();

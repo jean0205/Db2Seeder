@@ -41,7 +41,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Sickness = await GetDetails(guid);
 
                     Document_Sickness.CompletedBy = requestHistory.Last().UserName;
-                    Document_Sickness.CompletedTime = requestHistory.Last().dateModified;
+                    Document_Sickness.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Sickness.SupportRequestId = Request.supportRequestId;
                     return Document_Sickness;
                 }

@@ -42,7 +42,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_SurvivorBenefit = await GetDetails(guid);
 
                     Document_SurvivorBenefit.CompletedBy = requestHistory.Last().UserName;
-                    Document_SurvivorBenefit.CompletedTime = requestHistory.Last().dateModified;
+                    Document_SurvivorBenefit.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_SurvivorBenefit.SupportRequestId = Request.supportRequestId;
                     return Document_SurvivorBenefit;
                 }
