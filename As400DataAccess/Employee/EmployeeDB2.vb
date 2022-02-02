@@ -85,7 +85,7 @@ Public Class EmployeeDB2
                 cmd.Parameters("@PHN2").Value = If(Empe.businessPhoneNumber = Nothing, 0, Empe.businessPhoneNumber)
 
                 'Place Of Birth
-                cmd.Parameters("@PLOB").Value = "Place Of Birth".ToUpper
+                cmd.Parameters("@PLOB").Value = Empe.birthPlace.ToUpper
                 cmd.Parameters("@NATL").Value = Empe.nationality.ToUpper
 
                 'Marital Status
@@ -251,7 +251,7 @@ Public Class EmployeeDB2
                 Dim DtDOB As Date = Empe.dateOfBirth
                 cmdINSXPORT.Parameters("@dob").Value = DtDOB.Day.ToString + "/" + DtDOB.Month.ToString + "/" + DtDOB.Year.ToString
                 cmdINSXPORT.Parameters("@natl").Value = Empe.nationality.ToUpper
-                cmdINSXPORT.Parameters("@plob").Value = "Place Of Birth"
+                cmdINSXPORT.Parameters("@plob").Value = Empe.birthPlace
                 cmdINSXPORT.Parameters("@cardprint").Value = 0
                 cmdINSXPORT.Parameters("@lastmod").Value = ""
                 cmdINSXPORT.Parameters("@photo").Value = ""
