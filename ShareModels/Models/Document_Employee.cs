@@ -20,6 +20,7 @@ namespace ShareModels.Models
         public string town { get; set; }
         public string parish { get; set; }
         public string nationality { get; set; }
+        public string birthPlace { get; set; }        
         public string emailAddress { get; set; }
         public string primaryMobileNumber { get; set; }
         public string secondaryMobileNumber { get; set; }
@@ -62,8 +63,7 @@ namespace ShareModels.Models
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
-        public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;
-        public int? ClaimNumber { get; set; }
+        public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;      
 
 
     }
