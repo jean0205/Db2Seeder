@@ -152,7 +152,12 @@ Public Class EmployeeDB2
                     Await cmd.ExecuteNonQueryAsync
                     Await InsertDataCard(Empe, NisNumber)
                     Await InsertEmpeAuxilliary(Empe, NisNumber)
-                    Await InsertBankInformation(Empe, NisNumber)
+
+                    If Empe.bank = Nothing Or Empe.accountNumber = Nothing Or Empe.accountType = Nothing Then
+                    Else
+                        Await InsertBankInformation(Empe, NisNumber)
+                    End If
+
                     Await WebCache.NewEmployee(NisNumber)
                 End If
 
