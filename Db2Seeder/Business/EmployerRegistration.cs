@@ -32,6 +32,7 @@ namespace Db2Seeder.Business
             {
                 DocumentGuid guid = new DocumentGuid();
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
+
                 if (guid.message != Guid.Empty)
                 {
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
@@ -206,6 +207,84 @@ namespace Db2Seeder.Business
             if (Document_Employer.fax != null)
             {
                 Document_Employer.fax = Document_Employer.fax.Length > 10 ? Document_Employer.fax.Substring(Document_Employer.fax.Length - 10) : Document_Employer.fax;
+            }
+        }
+
+
+        public static async Task<Document_Employer> EmployerRegistrationRequestDetailTest()
+        {
+            try
+            {
+                DocumentGuid guid = new DocumentGuid();
+                guid = await ApiRequest.GetRequestGUID(20898);
+
+                if (guid.message != Guid.Empty)
+                {
+                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", 20898);
+
+                    Document_Employer Document_Employer = new Document_Employer();
+                    Document_Employer = await GetRequestDetailsEmployer(guid);
+                    validatePhone(Document_Employer);
+                    Document_Employer.CompletedBy = requestHistory.Last().UserName;
+                    Document_Employer.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
+                    Document_Employer.SupportRequestId = 20898;
+                    return Document_Employer;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public static async Task<int> RequestAttachmentToScannedDocumentstest( )
+        {
+            try
+            {
+                var cant = 0;
+                List<DocumentGuid> attachmentsGuid = await ApiRequest.GetAttachmentsGuid(20898);
+                if (attachmentsGuid.Any())
+                {
+                    List<Document_MetaData> document_MetaDataList = new List<Document_MetaData>();
+                    document_MetaDataList = await ApiRequest.GetDocument_MetaData(attachmentsGuid);
+                    if (document_MetaDataList.Any())
+                    {
+                        List<RequestHistory> requestHistory = new List<RequestHistory>();
+                        requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", 20898);
+                        ImportLog importLog = new ImportLog
+                        {
+                            ImportedBy = requestHistory.Last().UserName,
+                            ImportDatetime = DateTime.Now
+                        };
+                        ScannedDocumentsDB scannedDocumentsDB = new ScannedDocumentsDB();
+                        int importId = 0;
+                        importId = await scannedDocumentsDB.InsertImportLog(importLog);
+                        foreach (var item in document_MetaDataList)
+                        {
+                            Documents documents = new Documents();
+                            documents.ActiveCode = "A";
+                            documents.RegistrantTypeId = 2;
+                            documents.DocTypeId = item.code;
+                            documents.ImportId = importId;
+                            documents.NisNumber = 334755;
+                            documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
+                            documents.ScannedBy = importLog.ImportedBy;
+                            documents.ScanDatetime = DateTime.Now;
+                            documents.ModifiedDatetime = DateTime.Now;
+                            await scannedDocumentsDB.InsertDocumentforRegistration(documents);
+                            cant++;
+                        }
+                        return cant;
+                    }
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

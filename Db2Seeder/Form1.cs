@@ -132,7 +132,7 @@ namespace Db2Seeder
             }
         }
         private async void button2_Click(object sender, EventArgs e)
-        {
+        {            
             if (!working)
             {
                 await EmployerRegistrationRequest();
@@ -642,7 +642,7 @@ namespace Db2Seeder
                                             <p> Franca Belle </p>
                                             <p> Compliance Manager </p>");
                                         await LogsHelper.SaveComplianceLOG(request, document);
-                                       
+
                                         //updating worflow state
                                         var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
 
@@ -725,7 +725,7 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
 
                                         //agregar el mensage cuando me den el text.
-                                       // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
+                                        // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
 
 
                                         var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 171);
@@ -1847,6 +1847,9 @@ namespace Db2Seeder
                     tpanel1.Enabled = false;
                     tpanel2.Enabled = false;
                     dgv2.DataSource = null;
+
+                    LogsDB logsDB = new LogsDB();
+                    dgv2.DataSource = await logsDB.GetEmployeeLogsListAsync();
                 }
                 if (((RadioButton)sender).Tag.ToString() == "1")
                 {
@@ -1856,6 +1859,8 @@ namespace Db2Seeder
                     tpanel1.Enabled = true;
                     tpanel2.Enabled = false;
                     dgv2.DataSource = null;
+
+
                 }
                 if (((RadioButton)sender).Tag.ToString() == "2")
                 {
@@ -1877,10 +1882,14 @@ namespace Db2Seeder
 
         }
 
+        private void button17_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
         #endregion
 
-
+      
     }
 }
