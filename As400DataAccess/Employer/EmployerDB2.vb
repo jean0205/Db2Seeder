@@ -146,7 +146,11 @@ Public Class EmployerDB2
                 If EmprNo <> 0 Then
                     Await cmdEMPR.ExecuteNonQueryAsync
                     Await InsertEmprExtr(EmprNo)
-                    Await InsertBankInformationEmpr(Empr, EmprNo)
+                    If Empr.bank = Nothing Or Empr.accountNo = Nothing Or Empr.accountType = Nothing Then
+                    Else
+                        Await InsertBankInformationEmpr(Empr, EmprNo)
+                    End If
+
                     Await WebCache.NewEmployer(EmprNo, 0)
                 End If
 
@@ -414,7 +418,11 @@ Public Class EmployerDB2
                 If EmprNo <> 0 Then
                     Await cmdEMPR.ExecuteNonQueryAsync
                     Await InsertEmprExtr(EmprNo)
-                    Await InsertBankInfSelfEmpr(Empe, EmprNo)
+                    If Empe.bank = Nothing Or Empe.accountNumber = Nothing Or Empe.accountType = Nothing Then
+                    Else
+                        Await InsertBankInfSelfEmpr(Empe, EmprNo)
+                    End If
+
                 End If
 
                 cmdEMPR.Dispose()
