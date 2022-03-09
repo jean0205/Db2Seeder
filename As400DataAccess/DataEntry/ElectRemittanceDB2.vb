@@ -982,7 +982,7 @@ Public Class ElectRemittanceDB2
                 connection.Open()
                 Dim rs As iDB2DataReader
                 Dim CMDTXT As String = "Select * From ""QS36F"".""" & As400_lib & ".CNTE"" " &
-                                " Where Rreg06 = @Rreg06 And Rrsf06 = @Rrsf06 And EREG06 = @EREG06 And ((Ccen06*100)+ Cony06) = @CONY And Cper06 = @CONM And EGIE06 <> '0.00' AND (ECNB06 + RCNB06) <> '0.00' And (Actv06 = 'A' OR  Actv06 = 'D')"
+                                " Where Rreg06 = @Rreg06 And Rrsf06 = @Rrsf06 And EREG06 = @EREG06 And ((Ccen06*100)+ Cony06) = @CONY And Cper06 = @CONM And (Actv06 = 'A' OR  Actv06 = 'D')"
 
                 Dim cmd As New iDB2Command() With {
                  .CommandText = CMDTXT,
@@ -1048,13 +1048,6 @@ Public Class ElectRemittanceDB2
                             dtfilter.ImportRow(row)
                         End If
                     Next
-
-                    If dtfiltEmpe.Rows.Count > 0 Then
-                        If Trim(Batch) <> "0" Then
-                        Else
-                            Batch = Await GenerarBatchNo()
-                        End If
-                    End If
                 End If
 
 
@@ -1094,6 +1087,11 @@ Public Class ElectRemittanceDB2
                            (w4 = "P" And EmpeCntr.week4.hasWorked = True) OrElse
                            (w5 = "P" And EmpeCntr.week5.hasWorked = True) Then
                             'Upload file
+
+                            If Trim(Batch) <> "0" Then
+                            Else
+                                Batch = Await GenerarBatchNo()
+                            End If
                             Await InsertDATAE(EmpeCntr, EmprNo, EmprSub, Batch)
                             Posted = False
 
