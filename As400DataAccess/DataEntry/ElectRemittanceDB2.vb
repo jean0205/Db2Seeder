@@ -1057,6 +1057,7 @@ Public Class ElectRemittanceDB2
                     End If
                 End If
 
+
                 If dtfilter.Rows.Count > 0 Then
                     For Each row As DataRow In dtfilter.Rows
 
