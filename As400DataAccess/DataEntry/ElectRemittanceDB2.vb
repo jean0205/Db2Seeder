@@ -6,6 +6,7 @@ Public Class ElectRemittanceDB2
     Dim As400_lib = DB2ConnectionS.As400_lib
     Dim dtLoadCnte As New DataTable
     Dim WebCache As New WebPortalDB
+    Dim Batch As String
     Async Function PostRemittances(EmprRemitt As Document_Remittance) As Task
         dtLoadCnte = New DataTable
         Dim lst As List(Of EmployeeContributionRecord) = EmprRemitt.employeeContributionRecords
@@ -27,7 +28,7 @@ Public Class ElectRemittanceDB2
         Dim Frequency = EmprRemitt.employeeContributionRecords.Select(Function(x) New With {x.frequency})
         Dim freq = Frequency(0).frequency
         dtLoadCnte = Await ReadExistCNTE(Periodx, EmprNo, EmprSub)
-        Dim Batch As String
+
         If dtLoadCnte.Rows.Count > 0 Then
             Batch = Await GenerarBatchNo()
         Else
@@ -37,7 +38,7 @@ Public Class ElectRemittanceDB2
         Try
             For Each EmpeCnte As EmployeeContributionRecord In lst
 
-                Dim posted = Await UpdateCNTExx(EmpeCnte, EmprNo, EmprSub, Batch)
+                Dim posted = Await UpdateCNTExx(EmpeCnte, EmprNo, EmprSub)
 
                 If posted = True Then
                     Await UpdEmnfile(EmpeCnte, EmprNo, EmprSub)
@@ -429,7 +430,7 @@ Public Class ElectRemittanceDB2
                 Dim totcontr As Integer = 0
                 Dim cmd As New iDB2Command() With {
                 .CommandText = "Select count(*) as cant  From ""QS36F"".""" & As400_lib & ".ECWE"" " &
-                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM And LIN#09 = @LIN#",
+                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And  Ereg09 = @Ereg And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM And LIN#09 = @LIN#",
                 .Connection = connection,
                 .CommandTimeout = 0
                 }
@@ -437,6 +438,7 @@ Public Class ElectRemittanceDB2
                 cmd.DeriveParameters()
                 cmd.Parameters("@Rreg09").iDB2Value = EmprNo
                 cmd.Parameters("@Rrsf09").iDB2Value = EmprSub
+                cmd.Parameters("@Ereg").iDB2Value = EmpeCntr.employeeNumber
                 cmd.Parameters("@CONY").iDB2Value = EmpeCntr.contributionPeriodYear
                 cmd.Parameters("@CONM").iDB2Value = EmpeCntr.contributionPeriodMonth
                 cmd.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
@@ -444,7 +446,7 @@ Public Class ElectRemittanceDB2
                 If rs.Read Then
                     If rs("cant") > 0 Then
 
-                        Dim cmdU As String = "UPDATE ""QS36F"".""" & As400_lib & ".ECWE"" SET Actv09 = @Actv,  CCEN09 = @CCEN, CONY09 = @CONY, CONM09 = @CONM, EREG09 = @EREG, EGIE09 = @EGIE, ECNB09= @ECNB,  PWK109 = @PWK1, PWK209 = @PWK2, PWK309 = @PWK3, PWK409 = @PWK4, PWK509 = @PWK5, FREQ09 = @FREQ,   ERN109 = @ERN1, ERN209 = @ERN2, ERN309 = @ERN3, ERN409 = @ERN4, ERN509 = @ERN5, WKSW09 = @WKSW, USER09 = @USER Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And((Ccen09*100)+ Cony09) = @CONY09 And CONM09 = @CONM09 And LIN#09 = @LIN# "
+                        Dim cmdU As String = "UPDATE ""QS36F"".""" & As400_lib & ".ECWE"" SET Actv09 = @Actv,  CCEN09 = @CCEN, CONY09 = @CONY, CONM09 = @CONM, EREG09 = @EREG, EGIE09 = @EGIE, ECNB09= @ECNB,  PWK109 = @PWK1, PWK209 = @PWK2, PWK309 = @PWK3, PWK409 = @PWK4, PWK509 = @PWK5, FREQ09 = @FREQ,   ERN109 = @ERN1, ERN209 = @ERN2, ERN309 = @ERN3, ERN409 = @ERN4, ERN509 = @ERN5, WKSW09 = @WKSW, USER09 = @USER Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And Ereg09 = @Ereg And((Ccen09*100)+ Cony09) = @CONY09 And CONM09 = @CONM09 And LIN#09 = @LIN# "
                         Dim cmdup As New iDB2Command() With {
                             .CommandText = cmdU,
                             .Connection = connection,
@@ -453,11 +455,12 @@ Public Class ElectRemittanceDB2
                         cmdup.DeriveParameters()
                         cmdup.Parameters("@Rreg09").iDB2Value = EmprNo
                         cmdup.Parameters("@Rrsf09").iDB2Value = EmprSub
+                        cmdup.Parameters("@Ereg").iDB2Value = EmpeCntr.employeeNumber
                         cmdup.Parameters("@CONY09").iDB2Value = EmpeCntr.contributionPeriodYear
                         cmdup.Parameters("@CONM09").iDB2Value = EmpeCntr.contributionPeriodMonth
                         cmdup.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
                         'UPDATE a
-                        cmdup.Parameters("@ACTV").Value = "A"
+                        cmdup.Parameters("@ACTV").Value = "D"
 
                         Dim centx = EmpeCntr.contributionPeriodYear \ 100
                         Dim yearx = EmpeCntr.contributionPeriodYear - (centx * 100)
@@ -537,7 +540,7 @@ Public Class ElectRemittanceDB2
                             .CommandTimeout = 0
                         }
                 cmd.DeriveParameters()
-                cmd.Parameters("@ACTV").Value = "A"
+                cmd.Parameters("@ACTV").Value = "D"
                 cmd.Parameters("@RREG").Value = EmprNo
                 cmd.Parameters("@RRSF").Value = EmprSub
                 '((Ccen09*100)+ Cony09
@@ -939,7 +942,7 @@ Public Class ElectRemittanceDB2
         Return cantidad
     End Function
 
-    '** Contribution data already exist for Employee
+    '** Contribution data already exist for Employer
     Private Async Function ReadExistCNTE(period As String, EmprNo As String, EmprSub As String) As Task(Of DataTable)
         Dim dtload As New DataTable
         Try
@@ -970,8 +973,40 @@ Public Class ElectRemittanceDB2
         End Try
         Return dtload
     End Function
+    '** Contribution data already exist for Employee
+    Private Async Function ReadExistEmpeCNTE(EmprNo As String, EmprSub As String, EmpeCntr As EmployeeContributionRecord) As Task(Of DataTable)
+        Dim dtload As New DataTable
+        Try
+            Using connection As New iDB2Connection(cn)
 
-    Private Async Function UpdateCNTExx(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String, Batch As String) As Task(Of Boolean)
+                connection.Open()
+                Dim rs As iDB2DataReader
+                Dim CMDTXT As String = "Select * From ""QS36F"".""" & As400_lib & ".CNTE"" " &
+                                " Where Rreg06 = @Rreg06 And Rrsf06 = @Rrsf06 And EREG06 = @EREG06 And ((Ccen06*100)+ Cony06) = @CONY And Cper06 = @CONM And EGIE06 <> '0.00' AND (ECNB06 + RCNB06) <> '0.00' And (Actv06 = 'A' OR  Actv06 = 'D')"
+
+                Dim cmd As New iDB2Command() With {
+                 .CommandText = CMDTXT,
+                 .Connection = connection,
+                 .CommandTimeout = 0
+                }
+                cmd.DeriveParameters()
+                cmd.Parameters("@Rreg06").iDB2Value = EmprNo
+                cmd.Parameters("@Rrsf06").iDB2Value = EmprSub
+                cmd.Parameters("@EREG06").iDB2Value = EmpeCntr.employeeNumber
+                cmd.Parameters("@CONY").iDB2Value = EmpeCntr.contributionPeriodYear
+                cmd.Parameters("@CONM").iDB2Value = EmpeCntr.contributionPeriodMonth
+                rs = Await cmd.ExecuteReaderAsync
+                dtload.Load(rs)
+                cmd.Dispose()
+                rs.Close()
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+        Return dtload
+    End Function
+
+    Private Async Function UpdateCNTExx(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task(Of Boolean)
         Dim Posted As Boolean
         Try
             Using connection As New iDB2Connection(cn)
@@ -994,16 +1029,33 @@ Public Class ElectRemittanceDB2
                 Dim rcnb3 As Decimal = 0.0
                 Dim ACTV As String = ""
                 Dim dtfilter As New DataTable
+                Dim dtfiltEmpe As New DataTable
 
                 Dim value As String = EmpeCntr.employeeNumber
                 dtfilter = dtLoadCnte.Clone()
+
                 'For Each row As DataRow In From row1 As DataRow In dtLoadCnte.Rows Where row1(1).Contains(value)
                 For Each row As DataRow In dtLoadCnte.Rows
                     If row(1) = value Then
                         dtfilter.ImportRow(row)
                     End If
-
                 Next
+                If dtfilter.Rows.Count > 0 Then
+                Else
+                    dtfiltEmpe = Await ReadExistEmpeCNTE(EmprNo, EmprSub, EmpeCntr)
+                    For Each row As DataRow In dtfiltEmpe.Rows
+                        If row(1) = value Then
+                            dtfilter.ImportRow(row)
+                        End If
+                    Next
+
+                    If dtfiltEmpe.Rows.Count > 0 Then
+                        If Trim(Batch) <> "0" Then
+                        Else
+                            Batch = Await GenerarBatchNo()
+                        End If
+                    End If
+                End If
 
                 If dtfilter.Rows.Count > 0 Then
                     For Each row As DataRow In dtfilter.Rows
