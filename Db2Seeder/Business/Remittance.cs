@@ -52,7 +52,6 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
-
         public static async Task PostRemittanceToAs400(SupportRequest Request, Document_Remittance Document_Remittance)
         {
             try
