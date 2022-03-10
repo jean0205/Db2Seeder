@@ -1093,6 +1093,7 @@ Public Class ElectRemittanceDB2
                                 Batch = Await GenerarBatchNo()
                             End If
                             Await InsertDATAE(EmpeCntr, EmprNo, EmprSub, Batch)
+                            Await InsertUPLDF(EmprNo, EmprSub)
                             Posted = False
 
                         Else
@@ -2695,4 +2696,41 @@ Public Class ElectRemittanceDB2
         End Try
 
     End Function
+
+
+
+
+#Region "UpdateReportFile"
+    Async Function InsertUPLDF(EmprNo As String, EmprSub As String) As Task
+        ' Update information about a file
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'UPDATE  FILE
+                Dim cmd As New iDB2Command With {
+                            .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".TUPLDF"" 
+                                                  (BATCH, USERCREATE, CREATIONFILE, NAMEFILE, USERUPLOAD, POSTT, POST09, MODDT, RCVDT )
+                                                   VALUES(@BATCH, @USRCREATE, @CRTFILE, @NMEFILE, @USERUPLOAD, CURRENT TIME, CURRENT DATE, @MODDT, @RCVDT)",
+                            .Connection = connection,
+                            .CommandTimeout = 0
+                        }
+                cmd.DeriveParameters()
+                cmd.Parameters("@BATCH").Value = Batch
+                cmd.Parameters("@USRCREATE").Value = "WEBPORTAL"
+                cmd.Parameters("@CRTFILE").Value = Date.Now
+                cmd.Parameters("@NMEFILE").Value = EmprNo + "-" + EmprSub
+                cmd.Parameters("@USERUPLOAD").Value = "WEBPORTAL"
+                cmd.Parameters("@MODDT").Value = Date.Now
+                cmd.Parameters("@RCVDT").Value = Date.Now
+                Await cmd.ExecuteNonQueryAsync
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+    End Function
+#End Region
+
 End Class
