@@ -951,7 +951,7 @@ Public Class ElectRemittanceDB2
                 connection.Open()
                 Dim rs As iDB2DataReader
                 Dim CMDTXT As String = "Select * From ""QS36F"".""" & As400_lib & ".CNTE"" " &
-                                " Where Rreg06 = @Rreg06 And Rrsf06 = @Rrsf06 And ((Ccen06*100)+ Cony06) = @CONY And Cper06 = @CONM And EGIE06 <> '0.00' AND (ECNB06 + RCNB06) <> '0.00' And (Actv06 = 'A' OR  Actv06 = 'D')"
+                                " Where Rreg06 = @Rreg06 And Rrsf06 = @Rrsf06 And ((Ccen06*100)+ Cony06) = @CONY And Cper06 = @CONM And (Actv06 = 'A' OR  Actv06 = 'D')"
 
                 Dim cmd As New iDB2Command() With {
                  .CommandText = CMDTXT,
