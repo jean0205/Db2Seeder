@@ -50,7 +50,6 @@ Public Class ElectRemittanceDB2
                 Else
                     NoPotsed.Add(EmpeCnte)
                 End If
-
             Next
 
             'Variables
