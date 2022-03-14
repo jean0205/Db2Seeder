@@ -430,7 +430,7 @@ Public Class ElectRemittanceDB2
                 Dim totcontr As Integer = 0
                 Dim cmd As New iDB2Command() With {
                 .CommandText = "Select count(*) as cant  From ""QS36F"".""" & As400_lib & ".ECWE"" " &
-                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And  Ereg09 = @Ereg And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM And LIN#09 = @LIN#",
+                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And  Ereg09 = @Ereg And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM ",
                 .Connection = connection,
                 .CommandTimeout = 0
                 }
@@ -441,7 +441,6 @@ Public Class ElectRemittanceDB2
                 cmd.Parameters("@Ereg").iDB2Value = EmpeCntr.employeeNumber
                 cmd.Parameters("@CONY").iDB2Value = EmpeCntr.contributionPeriodYear
                 cmd.Parameters("@CONM").iDB2Value = EmpeCntr.contributionPeriodMonth
-                cmd.Parameters("@LIN#").iDB2Value = EmpeCntr.rowNumber
                 rs = Await cmd.ExecuteReaderAsync
                 If rs.Read Then
                     If rs("cant") > 0 Then
