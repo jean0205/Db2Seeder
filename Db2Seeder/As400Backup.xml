@@ -2,12 +2,12 @@
 <As400backup>
   <Daily>
     <dtpDFrom>
-      <Hour>11</Hour>
+      <Hour>16</Hour>
       <Minutes>45</Minutes>
     </dtpDFrom>
     <dtpDTo>
-      <Hour>13</Hour>
-      <Minutes>0</Minutes>
+      <Hour>17</Hour>
+      <Minutes>30</Minutes>
     </dtpDTo>
   </Daily>
   <Night>
@@ -21,18 +21,18 @@
     </dtpNTo>
   </Night>
   <Days>
-    <a>0</a>
-    <b>0</b>
-    <c>0</c>
-    <d>0</d>
-    <e>0</e>
+    <a>1</a>
+    <b>1</b>
+    <c>1</c>
+    <d>1</d>
+    <e>1</e>
     <f>0</f>
     <g>0</g>
   </Days>
   <Requests>
-    <a>0</a>
-    <b>0</b>
-    <c>0</c>
+    <a>1</a>
+    <b>1</b>
+    <c>1</c>
     <d>1</d>
     <e>0</e>
     <f>0</f>
