@@ -429,7 +429,7 @@ Public Class ElectRemittanceDB2
                 Dim totcontr As Integer = 0
                 Dim cmd As New iDB2Command() With {
                 .CommandText = "Select count(*) as cant  From ""QS36F"".""" & As400_lib & ".ECWE"" " &
-                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And  Ereg09 = @Ereg And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM ",
+                        " Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09  And ((Ccen09*100)+ Cony09) = @CONY And CONM09 = @CONM AND LIN#09 = @LIN ",
                 .Connection = connection,
                 .CommandTimeout = 0
                 }
@@ -437,14 +437,15 @@ Public Class ElectRemittanceDB2
                 cmd.DeriveParameters()
                 cmd.Parameters("@Rreg09").iDB2Value = EmprNo
                 cmd.Parameters("@Rrsf09").iDB2Value = EmprSub
-                cmd.Parameters("@Ereg").iDB2Value = EmpeCntr.employeeNumber
+                '  cmd.Parameters("@Ereg").iDB2Value = EmpeCntr.employeeNumber
                 cmd.Parameters("@CONY").iDB2Value = EmpeCntr.contributionPeriodYear
                 cmd.Parameters("@CONM").iDB2Value = EmpeCntr.contributionPeriodMonth
+                cmd.Parameters("@LIN").iDB2Value = EmpeCntr.rowNumber
                 rs = Await cmd.ExecuteReaderAsync
                 If rs.Read Then
                     If rs("cant") > 0 Then
 
-                        Dim cmdU As String = "UPDATE ""QS36F"".""" & As400_lib & ".ECWE"" SET Actv09 = @Actv,  CCEN09 = @CCEN, CONY09 = @CONY, CONM09 = @CONM, EREG09 = @EREG, EGIE09 = @EGIE, ECNB09= @ECNB,  PWK109 = @PWK1, PWK209 = @PWK2, PWK309 = @PWK3, PWK409 = @PWK4, PWK509 = @PWK5, FREQ09 = @FREQ,   ERN109 = @ERN1, ERN209 = @ERN2, ERN309 = @ERN3, ERN409 = @ERN4, ERN509 = @ERN5, WKSW09 = @WKSW, USER09 = @USER Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And Ereg09 = @Ereg And((Ccen09*100)+ Cony09) = @CONY09 And CONM09 = @CONM09 And LIN#09 = @LIN# "
+                        Dim cmdU As String = "UPDATE ""QS36F"".""" & As400_lib & ".ECWE"" SET Actv09 = @Actv,  CCEN09 = @CCEN, CONY09 = @CONY, CONM09 = @CONM, EREG09 = @EREG, EGIE09 = @EGIE, ECNB09= @ECNB,  PWK109 = @PWK1, PWK209 = @PWK2, PWK309 = @PWK3, PWK409 = @PWK4, PWK509 = @PWK5, FREQ09 = @FREQ,   ERN109 = @ERN1, ERN209 = @ERN2, ERN309 = @ERN3, ERN409 = @ERN4, ERN509 = @ERN5, WKSW09 = @WKSW, USER09 = @USER Where Rreg09 = @Rreg09 And Rrsf09 = @Rrsf09 And((Ccen09*100)+ Cony09) = @CONY09 And CONM09 = @CONM09 And LIN#09 = @LIN# "
                         Dim cmdup As New iDB2Command() With {
                             .CommandText = cmdU,
                             .Connection = connection,
