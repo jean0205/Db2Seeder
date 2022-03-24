@@ -7,7 +7,6 @@ using ShareModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.Business
@@ -37,7 +36,6 @@ namespace Db2Seeder.Business
                 {
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-
                     Document_Employer Document_Employer = new Document_Employer();
                     Document_Employer = await GetRequestDetailsEmployer(guid);
                     validatePhone(Document_Employer);
@@ -101,7 +99,7 @@ namespace Db2Seeder.Business
             }
         }
 
-        public static async Task<Response> AddNISMapping(SupportRequest Request,int employerNo)
+        public static async Task<Response> AddNISMapping(SupportRequest Request, int employerNo)
         {
             try
             {
@@ -240,7 +238,7 @@ namespace Db2Seeder.Business
         }
 
 
-        public static async Task<int> RequestAttachmentToScannedDocumentstest( )
+        public static async Task<int> RequestAttachmentToScannedDocumentstest()
         {
             try
             {
