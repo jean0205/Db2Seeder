@@ -422,7 +422,7 @@ Public Class EmployerDB2
                     Else
                         Await InsertBankInfSelfEmpr(Empe, EmprNo)
                     End If
-
+                    Await WebCache.NewEmployer(EmprNo, 0)
                 End If
 
                 cmdEMPR.Dispose()
