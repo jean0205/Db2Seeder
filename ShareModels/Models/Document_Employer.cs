@@ -25,7 +25,7 @@ namespace ShareModels.Models
         public DateTime businessCommencedDate { get; set; }
         public string bank { get; set; }
         public string accountNo { get; set; }
-        public int accountType { get; set; }
+        public int? accountType { get; set; }
         public int maleEmployee { get; set; }
         public int femaleEmployee { get; set; }
         public int totalEmployee { get; set; }
