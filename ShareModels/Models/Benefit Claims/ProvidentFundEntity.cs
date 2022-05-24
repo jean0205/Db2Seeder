@@ -11,6 +11,6 @@ namespace ShareModels.Models.Benefit_Claims
         public string address { get; set; }
         public string periodWorked { get; set; }
         public string supervisor { get; set; }
-        public bool status { get; set; }
+        public bool? status { get; set; }
     }
 }

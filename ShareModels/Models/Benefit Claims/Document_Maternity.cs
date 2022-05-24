@@ -26,7 +26,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string OtherName { get; set; }
 
         [JsonProperty("gender")]
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
 
         [JsonProperty("maidenName")]
         public string MaidenName { get; set; }
@@ -41,7 +41,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string EmailAddress { get; set; }
 
         [JsonProperty("maritalStatus")]
-        public int MaritalStatus { get; set; }
+        public int? MaritalStatus { get; set; }
 
         [JsonProperty("tAddress")]
         public string TAddress { get; set; }
@@ -71,19 +71,19 @@ namespace ShareModels.Models.Benefit_Claims
         public string AccountName { get; set; }
 
         [JsonProperty("accountType")]
-        public int AccountType { get; set; }
+        public int? AccountType { get; set; }
 
         [JsonProperty("benefitApply")]
         public string BenefitApply { get; set; }
 
         [JsonProperty("maternityDateFrom")]
-        public DateTime MaternityDateFrom { get; set; }
+        public DateTime? MaternityDateFrom { get; set; }
 
         [JsonProperty("maternityDateTo")]
-        public DateTime MaternityDateTo { get; set; }
+        public DateTime? MaternityDateTo { get; set; }
 
         [JsonProperty("dateOfEmployment")]
-        public DateTime DateOfEmployment { get; set; }
+        public DateTime? DateOfEmployment { get; set; }
 
         [JsonProperty("dateLastWorked")]
         public DateTime DateLastWorked { get; set; }
@@ -98,10 +98,10 @@ namespace ShareModels.Models.Benefit_Claims
         public string BusinessAddressSecTwo { get; set; }
 
         [JsonProperty("expectDeliver")]
-        public DateTime ExpectDeliver { get; set; }
+        public DateTime? ExpectDeliver { get; set; }
 
         [JsonProperty("expectDelivered")]
-        public DateTime ExpectDelivered { get; set; }
+        public DateTime? ExpectDelivered { get; set; }
 
         [JsonProperty("doctorMidwifeName")]
         public string DoctorMidwifeName { get; set; }
@@ -110,10 +110,10 @@ namespace ShareModels.Models.Benefit_Claims
         public string RegistrationNo { get; set; }
 
         [JsonProperty("medicalPracticeId")]
-        public int MedicalPracticeId { get; set; }
+        public int? MedicalPracticeId { get; set; }
 
         [JsonProperty("doctorId")]
-        public int DoctorId { get; set; }
+        public int? DoctorId { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntityM> WorkHistoryEntity { get; set; }
@@ -146,7 +146,7 @@ namespace ShareModels.Models.Benefit_Claims
         public int? CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime { get; set; }
+        public DateTime? CheckInAtTime { get; set; }
 
         [JsonProperty("checkInMessage")]
         public string CheckInMessage { get; set; }
@@ -170,7 +170,7 @@ namespace ShareModels.Models.Benefit_Claims
         public DateTime CreatedOn { get; set; }
 
         [JsonProperty("updatedOn")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }

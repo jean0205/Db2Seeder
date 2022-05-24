@@ -48,7 +48,6 @@ namespace Db2Seeder
             dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.Bisque;
             timer1.Stop();
         }
-
         private async void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -60,7 +59,6 @@ namespace Db2Seeder
                     label1.Text = "Back-up Time";
                     return;
                 }
-
                 if (!working && !cancelRequest)
                 {
                     await Task.Run(() => DoWork());
@@ -99,9 +97,7 @@ namespace Db2Seeder
             if (!cancelRequest && rja.Checked) await EmployeeRegistrationRequest();
             if (!cancelRequest && rjb.Checked) await EmployerRegistrationRequest();
             if (!cancelRequest && rjc.Checked) await ComplianceCertificateRequest();
-
             if (!cancelRequest && rjd.Checked) await GetRemittancePendingReview();
-
             if (!cancelRequest && rje.Checked) await AgeBenefitClaimCompleted();
             if (!cancelRequest && rjf.Checked) await DeathBenefitClaimCompleted();
             if (!cancelRequest && rjg.Checked) await FuneralBenefitClaimCompleted();
@@ -802,7 +798,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document);
+                                    document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document); 
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -811,15 +807,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        // var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 163);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}                                   
+                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 235);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
                                     }
                                     //comentar si no se quieren salvar los documentos nuevamente
                                     try
@@ -1017,7 +1013,6 @@ namespace Db2Seeder
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
                                 await LogsHelper.SaveErrorLOG(ex.Message, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
                             }
-
                         }
                     }
                     else
@@ -1154,18 +1149,18 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await SicknessBenefit.UpdateWorkFlowState(3, request.supportRequestId, 169);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await SicknessBenefit.UpdateWorkFlowState(3, request.supportRequestId, 242);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing " + responseA.Message, false);
+                                        }
                                         try
                                         {
-                                            AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                            AddTreeViewLogLevel2Info("Saving  Documents.");
                                             int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                         }
@@ -1412,15 +1407,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 167);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 241);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employee Documents.");

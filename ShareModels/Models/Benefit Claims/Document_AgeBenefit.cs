@@ -15,12 +15,12 @@ namespace ShareModels.Models.Benefit_Claims
         public string firstName { get; set; }
         public DateTime dateOfBirth { get; set; }
         public string otherName { get; set; }
-        public int gender { get; set; }
+        public int? gender { get; set; }
         public string maidenName { get; set; }
         public string occupation { get; set; }
         public string aliases { get; set; }
         public string emailAddress { get; set; }
-        public int maritalStatus { get; set; }
+        public int? maritalStatus { get; set; }
         public string tAddress { get; set; }
         public string home { get; set; }
         public string work { get; set; }
@@ -39,6 +39,17 @@ namespace ShareModels.Models.Benefit_Claims
         public string workHistoryList { get; set; }
         public int? workOtherCountries { get; set; }
         public string workOtherCountryList { get; set; }
+
+        public object lateReason { get; set; }
+        public int? contributionAcceptance { get; set; }
+        public string contributionReason { get; set; }
+        public int? spouseNisNo { get; set; }
+        public DateTime? spouseDoB { get; set; }
+        public string spouseName { get; set; }
+        public string nextKinName { get; set; }
+        public DateTime? nextKinDoB { get; set; }
+        public int? nextKinNisNo { get; set; }        
+        
         public List<WorkHistoryEntity> workHistoryEntity { get; set; }
         public List<ProvidentFundEntity> providentFundEntity { get; set; }
         public List<WorkOtherCountryEntity> workOtherCountryEntity { get; set; }
@@ -51,7 +62,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string createdBy { get; set; }
         public string updatedBy { get; set; }
         public int? checkInById { get; set; }
-        public DateTime checkInAtTime { get; set; }
+        public DateTime? checkInAtTime { get; set; }
         public object checkInMessage { get; set; }
         public object checkOutById { get; set; }
         public object checkOutTime { get; set; }
@@ -59,7 +70,7 @@ namespace ShareModels.Models.Benefit_Claims
         public object checkOutExpiration { get; set; }
         public int version { get; set; }
         public DateTime createdOn { get; set; }
-        public DateTime updatedOn { get; set; }
+        public DateTime? updatedOn { get; set; }
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }

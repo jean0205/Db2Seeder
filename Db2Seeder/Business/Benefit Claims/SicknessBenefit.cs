@@ -20,7 +20,7 @@ namespace Db2Seeder.Business.Benefit_Claims
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(13, 42);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(13, 225);
             }
             catch (Exception ex)
             {
@@ -40,6 +40,10 @@ namespace Db2Seeder.Business.Benefit_Claims
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
                     Document_Sickness = await GetDetails(guid);
 
+                    if (Document_Sickness==null)
+                    {
+                        return null;
+                    }
                     Document_Sickness.CompletedBy = requestHistory.Last().UserName;
                     Document_Sickness.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Sickness.SupportRequestId = Request.supportRequestId;
