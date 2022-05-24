@@ -46,11 +46,13 @@ Public Class ElectRemittanceDB2
                     Await InsertECXE(EmpeCnte, EmprNo, EmprSub)
                     Await UpdECWE(EmpeCnte, EmprNo, EmprSub)
                     Await UpdateCNTS(EmpeCnte)
-
                 Else
                     NoPotsed.Add(EmpeCnte)
                 End If
             Next
+            If Batch = "0" Then
+            Else Await InsertUPLDF(EmprNo, EmprSub)
+            End If
 
             'Variables
 
@@ -77,7 +79,7 @@ Public Class ElectRemittanceDB2
             Await WebCache.UpdateContributionEmprByPeriod(EmprNo, EmprSub, Periodx)
 
 
-        Catch ex As iDB2Exception
+            Catch ex As iDB2Exception
             Throw ex
         End Try
 
@@ -1092,7 +1094,6 @@ Public Class ElectRemittanceDB2
                                 Batch = Await GenerarBatchNo()
                             End If
                             Await InsertDATAE(EmpeCntr, EmprNo, EmprSub, Batch)
-                            Await InsertUPLDF(EmprNo, EmprSub)
                             Posted = False
 
                         Else
@@ -1292,22 +1293,11 @@ Public Class ElectRemittanceDB2
                 cmd.Parameters("@ECNB").Value = EmpeCntr.contributions.totalRounded
 
 
-                If EmpeCntr.week1.hasWorked = False Then
-                    cmd.Parameters("@PWK1").Value = ""
-                Else
-                    cmd.Parameters("@PWK1").Value = "Y"
-                End If
 
-                If EmpeCntr.week2.hasWorked = False Then
-                    cmd.Parameters("@PWK2").Value = ""
-                Else
-                    cmd.Parameters("@PWK2").Value = "Y"
-                End If
-                If EmpeCntr.week3.hasWorked = False Then
-                    cmd.Parameters("@PWK3").Value = ""
-                Else
-                    cmd.Parameters("@PWK3").Value = "Y"
-                End If
+                cmd.Parameters("@PWK1").Value = If(EmpeCntr.week1.hasWorked = False, "", "Y")
+                cmd.Parameters("@PWK2").Value = If(EmpeCntr.week2.hasWorked = False, "", "Y")
+                cmd.Parameters("@PWK3").Value = If(EmpeCntr.week3.hasWorked = False, "", "Y")
+
 
                 If EmpeCntr.week4.hasWorked = False Then
                     cmd.Parameters("@PWK4").Value = ""
