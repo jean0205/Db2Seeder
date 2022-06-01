@@ -56,6 +56,8 @@ namespace ShareModels.Models.Sickness_Claim
         public string employerData { get; set; }
         public DateTime? claimDate { get; set; }
         public string claimVariationReason { get; set; }
+
+        //pay to the employer(0 pay employee 1 pay employer)
         public int? consent { get; set; }
         public int? consentClaim { get; set; }
         public string gapReason { get; set; }
