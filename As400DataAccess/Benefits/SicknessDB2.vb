@@ -15,7 +15,7 @@ Public Class SicknessDB2
             Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Await SelectLastEmployer(Sickness.nisNo)
+            strCadena = Sickness.employerEntity.First().employerNis
             intPos = InStr(1, strCadena, "-") 'posicion de la "-"
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
@@ -56,7 +56,7 @@ Public Class SicknessDB2
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = Sickness.nisNo
                 cmd1.Parameters("@BENT13").Value = "2"
-                cmd1.Parameters("@NATR13").Value = ""
+                cmd1.Parameters("@NATR13").Value = "S"
 
                 cmd1.Parameters("@CNCC13").Value = Sickness.createdOn.Year \ 100
                 cmd1.Parameters("@CNYY13").Value = Sickness.createdOn.Year Mod 100
@@ -201,9 +201,16 @@ Public Class SicknessDB2
                 cmd.Parameters("@SAVTCS").Value = CDate(Sickness.CompletedTime).Year * 10000 + CDate(Sickness.CompletedTime).Month * 100 + CDate(Sickness.CompletedTime).Day
 
                 'reassingempr
-                cmd.Parameters("@EMPASCS").Value = "N"
-                cmd.Parameters("@EMPRACS").Value = "0"
-                cmd.Parameters("@EMPSACS").Value = "0"
+                If Sickness.consent = 1 Then
+                    cmd.Parameters("@EMPASCS").Value = "Y"
+                    cmd.Parameters("@EMPRACS").Value = EmprNo
+                    cmd.Parameters("@EMPSACS").Value = EmprSub
+                Else
+                    cmd.Parameters("@EMPASCS").Value = "N"
+                    cmd.Parameters("@EMPRACS").Value = "0"
+                    cmd.Parameters("@EMPSACS").Value = "0"
+                End If
+
                 cmd.Parameters("@WBLINKCS").Value = Sickness.WebPortalLink
 
                 Await cmd.ExecuteNonQueryAsync()
