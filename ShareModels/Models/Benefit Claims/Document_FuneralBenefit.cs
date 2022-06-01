@@ -99,6 +99,10 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("accountType")]
         public int? AccountType;
+        public string lateReason { get; set; }
+        public int? payFuneralAgency { get; set; }
+        public int? funeralAgency { get; set; }
+        public DateTime claimantDateOfDeath { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntity1> WorkHistoryEntity;
