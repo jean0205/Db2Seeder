@@ -114,6 +114,7 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("doctorId")]
         public int? DoctorId { get; set; }
+        public string lateReason { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntityM> WorkHistoryEntity { get; set; }

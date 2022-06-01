@@ -41,7 +41,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string EmailAddress;
 
         [JsonProperty("maritalStatus")]
-        public int MaritalStatus;
+        public int? MaritalStatus;
 
         [JsonProperty("tAddress")]
         public string TAddress;
@@ -61,7 +61,7 @@ namespace ShareModels.Models.Benefit_Claims
         [JsonProperty("claimantFirstName")]
         public string ClaimantFirstName;
 
-        [JsonProperty("claimantDateOfBirth")]
+        
         public DateTime ClaimantDateOfBirth;
 
         [JsonProperty("claimantOtherName")]
@@ -98,7 +98,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string AccountName;
 
         [JsonProperty("accountType")]
-        public int AccountType;
+        public int? AccountType;
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntity1> WorkHistoryEntity;
@@ -125,16 +125,16 @@ namespace ShareModels.Models.Benefit_Claims
         public object Description;
 
         [JsonProperty("createdBy")]
-        public int CreatedBy;
+        public int? CreatedBy;
 
         [JsonProperty("updatedBy")]
-        public int UpdatedBy;
+        public int? UpdatedBy;
 
         [JsonProperty("checkInById")]
         public object CheckInById;
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime;
+        public DateTime? CheckInAtTime;
 
         [JsonProperty("checkInMessage")]
         public object CheckInMessage;
@@ -154,11 +154,11 @@ namespace ShareModels.Models.Benefit_Claims
         [JsonProperty("version")]
         public int Version;
 
-        [JsonProperty("createdOn")]
+       
         public DateTime CreatedOn;
 
         [JsonProperty("updatedOn")]
-        public DateTime UpdatedOn;
+        public DateTime? UpdatedOn;
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }

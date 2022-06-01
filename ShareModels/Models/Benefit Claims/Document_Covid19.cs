@@ -21,7 +21,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string FirstName { get; set; }
 
         [JsonProperty("dateOfBirth")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [JsonProperty("otherName")]
         public string OtherName { get; set; }
@@ -130,12 +130,18 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("employerData")]
         public string EmployerData { get; set; }
+        public int? covidType { get; set; }
+        public DateTime? covidStartDate { get; set; }
+        public object consent { get; set; }
+        public DateTime? commenceStartDate { get; set; }
+        public DateTime? commernceEndDate { get; set; }
+        public string gapReason { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntityC> WorkHistoryEntity { get; set; }
 
         [JsonProperty("employerEntity")]
-        public List<EmployerEntity> EmployerEntity { get; set; }
+        public List<EmployerEntityCovid> EmployerEntity { get; set; }
 
         [JsonProperty("documentId")]
         public int? DocumentId { get; set; }
@@ -189,7 +195,7 @@ namespace ShareModels.Models.Benefit_Claims
         public DateTime CreatedOn { get; set; }
 
         [JsonProperty("updatedOn")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public string CompletedBy { get; set; }
         public DateTime CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
@@ -206,5 +212,27 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("status")]
         public bool? Status { get; set; }
+    }
+
+    public class EmployerEntityCovid
+    {
+        public string employerNis { get; set; }
+        public int? employerNumber { get; set; }
+        public DateTime? lastWorkedDate { get; set; }
+        public int? requiredReimburse { get; set; }
+        public string employerBank { get; set; }
+        public string employerAccountNo { get; set; }
+        public string employerAccountName { get; set; }
+        public int? employerAccountType { get; set; }
+        public string employerBusinessName { get; set; }
+        public string registrationNo { get; set; }
+        public string employerPhone { get; set; }
+        public DateTime? commenceEmployment { get; set; }
+        public int? employeePaidFull { get; set; }
+        public int? chkQuarentine { get; set; }
+        public int? chkIsolation { get; set; }
+        public int? chkCovid { get; set; }
+        public DateTime? commenceStartDate { get; set; }
+        public DateTime? commernceEndDate { get; set; }
     }
 }

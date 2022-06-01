@@ -20,7 +20,7 @@ namespace Db2Seeder.Business.Benefit_Claims
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(12, 22);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(12, 121);
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("surname")]
         public string Surname { get; set; }
-
+        
         [JsonProperty("nisNo")]
         public int NisNo { get; set; }
 
@@ -29,7 +29,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string EmailAddress { get; set; }
 
         [JsonProperty("maritalStatus")]
-        public int MaritalStatus { get; set; }
+        public int? MaritalStatus { get; set; }
 
         [JsonProperty("tAddress")]
         public string TAddress { get; set; }
@@ -44,16 +44,16 @@ namespace ShareModels.Models.Benefit_Claims
         public string WhatWayDisabled { get; set; }
 
         [JsonProperty("fitTravel")]
-        public int FitTravel { get; set; }
+        public int? FitTravel { get; set; }
 
         [JsonProperty("attendedHospital")]
-        public int AttendedHospital { get; set; }
+        public int? AttendedHospital { get; set; }
 
         [JsonProperty("hospitalList")]
         public string HospitalList { get; set; }
 
         [JsonProperty("xrayTaken")]
-        public int XrayTaken { get; set; }
+        public int? XrayTaken { get; set; }
 
         [JsonProperty("otherRemarks")]
         public string OtherRemarks { get; set; }
@@ -66,6 +66,19 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("doctorId")]
         public object DoctorId { get; set; }
+        public string medicalPractitionerName { get; set; }
+        public string medicalRegistrationNo { get; set; }
+
+        public string bank { get; set; }
+        public string accountNo { get; set; }
+        public string accountName { get; set; }
+        public int? accountType { get; set; }
+        public string lateReason { get; set; }
+        public string percentage { get; set; }
+        public int? mentalPhysical { get; set; }
+        public int? injuryOccupational { get; set; }
+        public int? facultyLoss { get; set; }
+        public int? provisionalFinal { get; set; }
 
         [JsonProperty("hospitalListEntity")]
         public List<HospitalListEntity> HospitalListEntity { get; set; }
@@ -98,7 +111,7 @@ namespace ShareModels.Models.Benefit_Claims
         public int? CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime { get; set; }
+        public DateTime? CheckInAtTime { get; set; }
 
         [JsonProperty("checkInMessage")]
         public object CheckInMessage { get; set; }
@@ -116,13 +129,13 @@ namespace ShareModels.Models.Benefit_Claims
         public DateTime? CheckOutExpiration { get; set; }
 
         [JsonProperty("version")]
-        public int Version { get; set; }
+        public int? Version { get; set; }
 
         [JsonProperty("createdOn")]
         public DateTime CreatedOn { get; set; }
 
         [JsonProperty("updatedOn")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }

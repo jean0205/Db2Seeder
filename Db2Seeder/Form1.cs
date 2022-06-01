@@ -128,7 +128,7 @@ namespace Db2Seeder
             }
         }
         private async void button2_Click(object sender, EventArgs e)
-        {            
+        {
             if (!working)
             {
                 await EmployerRegistrationRequest();
@@ -775,6 +775,8 @@ namespace Db2Seeder
         #endregion
 
         #region Benefit Claims
+
+        //Completed,modificarla cuando lotek agrege el NIs del survivor si esta cobrando alguno
         private async Task AgeBenefitClaimCompleted()
         {
             try
@@ -798,7 +800,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document); 
+                                    document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -862,6 +864,8 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        
+        //va a ser el mismo q Survivor cuando Lotek lo termine
         private async Task DeathBenefitClaimCompleted()
         {
             try
@@ -947,18 +951,20 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+
+        //lee cuando no hay nulos         
         private async Task FuneralBenefitClaimCompleted()
         {
             try
             {
                 AddTreeViewLogLevel0("Funeral Benefit");
-                AddTreeViewLogLevel1Info("Getting Funeral Benefit Claims Completed");
+                AddTreeViewLogLevel1Info("Getting Funeral Benefit Claims Ready for Processing");
                 try
                 {
                     var requests = await FuneralBenefit.GetClaimsCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
                         foreach (var request in requests)
                         {
                             if (cancelRequest) return;
@@ -979,15 +985,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        // var responseA = await FuneralBenefit.UpdateWorkFlowState(3, request.supportRequestId, 165);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await FuneralBenefit.UpdateWorkFlowState(3, request.supportRequestId, 239);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employee Documents.");
@@ -1032,6 +1038,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        
         private async Task InvalidityBenefitClaimCompleted()
         {
             try
@@ -1117,18 +1124,20 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        
+        //Completed
         private async Task SicknessBenefitClaimCompleted()
         {
             try
             {
                 AddTreeViewLogLevel0("Sickness Benefit");
-                AddTreeViewLogLevel1Info("Getting Sickness Benefit Claims Completed");
+                AddTreeViewLogLevel1Info("Getting Sickness Benefit Claims Ready For Processing");
                 try
                 {
                     var requests = await SicknessBenefit.GetClaimsCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
                             if (cancelRequest) return;
@@ -1203,6 +1212,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        
         private async Task SurvivorBenefitClaimCompleted()
         {
             try
@@ -1289,6 +1299,8 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        
+        //Completed
         private async Task DisablemetBenefitClaimCompleted()
         {
             try
@@ -1300,7 +1312,7 @@ namespace Db2Seeder
                     var requests = await DisablementBenefit.GetClaimsCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
                             if (cancelRequest) return;
@@ -1321,15 +1333,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await DisablementBenefit.UpdateWorkFlowState(3, request.supportRequestId, 168);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await DisablementBenefit.UpdateWorkFlowState(3, request.supportRequestId, 238);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employee Documents.");
@@ -1360,7 +1372,7 @@ namespace Db2Seeder
                     }
                     else
                     {
-                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                        AddTreeViewLogLevel1Info("No Ready For Processing Claims were Found.");
                     }
                 }
                 catch (Exception ex)
@@ -1375,18 +1387,20 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+
+        //funciona bien cuando el last date worked no es nulo
         private async Task MaternityBenefitClaimCompleted()
         {
             try
             {
                 AddTreeViewLogLevel0("Maternity Benefit");
-                AddTreeViewLogLevel1Info("Getting Maternity Benefit Claims Completed");
+                AddTreeViewLogLevel1Info("Getting Maternity Benefit Claims Ready For Processing");
                 try
                 {
                     var requests = await MaternityBenefit.GetClaimsCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
                             if (cancelRequest) return;
@@ -1459,7 +1473,9 @@ namespace Db2Seeder
             {
                 Crashes.TrackError(ex);
             }
-        }
+        }        
+        
+        //esperando respuesta del correo a nigel
         private async Task EmploymentInjuryBenefitClaimCompleted()
         {
             try
@@ -1545,18 +1561,20 @@ namespace Db2Seeder
                 await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
             }
         }
+        
+        //Completed
         private async Task CovidBenefitClaimCompleted()
         {
             try
             {
                 AddTreeViewLogLevel0("Covid Benefit");
-                AddTreeViewLogLevel1Info("Getting Covid Benefit Claims Completed");
+                AddTreeViewLogLevel1Info("Getting Covid Benefit Claims Ready for Processing.");
                 try
                 {
                     var requests = await CovidBenefit.GetClaimsCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
                         foreach (var request in requests)
                         {
                             if (cancelRequest) return;
@@ -1577,15 +1595,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await CovidBenefit.UpdateWorkFlowState(3, request.supportRequestId, 170);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await CovidBenefit.UpdateWorkFlowState(3, request.supportRequestId, 236);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employee Documents.");
@@ -1885,6 +1903,6 @@ namespace Db2Seeder
 
         #endregion
 
-      
+
     }
 }
