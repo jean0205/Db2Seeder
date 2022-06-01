@@ -28,8 +28,8 @@ namespace Db2Seeder.API.Helpers
         }
         public static string OnlineForms()
         {
-            return "OnlineForms_Test";
-            //return "OnlineForms";
+            //return "OnlineForms_Test";
+            return "OnlineForms";
         }
     }
 }

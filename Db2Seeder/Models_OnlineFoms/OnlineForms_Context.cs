@@ -14,6 +14,7 @@ namespace Db2Seeder.Models_OnlineFoms
     {
         public OnlineForms_Context()
         {
+            
         }
 
         public OnlineForms_Context(DbContextOptions<OnlineForms_Context> options)
