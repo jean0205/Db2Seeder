@@ -146,7 +146,7 @@ Public Class SicknessDB2
                 cmd.Parameters("@RTCSCS").Value = " "
 
                 'LAST DAY WORKED
-                cmd.Parameters("@LWRKCS").Value = 0
+                cmd.Parameters("@LWRKCS").Value = CDate(Sickness.lastWorkedDate).Year * 10000 + CDate(Sickness.lastWorkedDate).Month * 100 + CDate(Sickness.lastWorkedDate).Day
 
                 'DATE OF ACCIDENT
                 cmd.Parameters("@ACCDCS").Value = 0

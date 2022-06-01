@@ -154,7 +154,7 @@ Public Class FuneralBenefitDB2
 
                 'DATE OF DEATH
                 cmd.Parameters("@DEADCS").Value = 0
-                'CDate(Funeral.dateOfDeath).Year * 10000 + CDate(Funeral.dateOfDeath).Month * 100 + CDate(Funeral.dateOfDeath).Day
+                'CDate(Funeral.dateOfDe).Year * 10000 + CDate(Funeral.dateOfDeath).Month * 100 + CDate(Funeral.dateOfDeath).Day
                 cmd.Parameters("@UNEMPCS").Value = 0
 
                 'CHILD DATE OF BIRTH
