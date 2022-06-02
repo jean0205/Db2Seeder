@@ -55,7 +55,7 @@ Public Class EmpInjDisableDB2
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = EmpInjDisable.NisNo
                 cmd1.Parameters("@BENT13").Value = "C"
-                cmd1.Parameters("@NATR13").Value = " "
+                cmd1.Parameters("@NATR13").Value = "L"
 
                 cmd1.Parameters("@CNCC13").Value = EmpInjDisable.CreatedOn.Year \ 100
                 cmd1.Parameters("@CNYY13").Value = EmpInjDisable.CreatedOn.Year Mod 100

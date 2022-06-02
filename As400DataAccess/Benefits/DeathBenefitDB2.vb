@@ -57,7 +57,7 @@ Public Class DeathBenefitDB2
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = DeathBenefit.nisNo
                 cmd1.Parameters("@BENT13").Value = "F"
-                cmd1.Parameters("@NATR13").Value = " "
+                cmd1.Parameters("@NATR13").Value = "L"
 
                 cmd1.Parameters("@CNCC13").Value = DeathBenefit.createdOn.Year \ 100
                 cmd1.Parameters("@CNYY13").Value = DeathBenefit.createdOn.Year Mod 100

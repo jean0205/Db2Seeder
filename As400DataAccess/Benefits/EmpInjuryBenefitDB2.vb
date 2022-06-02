@@ -15,7 +15,7 @@ Public Class EmpInjuryBenefitDB2
             Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Await SelectLastEmployer(EmpInjuryBenefit.NisNo)
+            strCadena = EmpInjuryBenefit.EmployerNis
             intPos = InStr(1, strCadena, "-") 'posicion de la "-"
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
@@ -55,8 +55,8 @@ Public Class EmpInjuryBenefitDB2
                 cmd1.Parameters("@ACTV13").Value = "A"
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = EmpInjuryBenefit.NisNo
-                cmd1.Parameters("@BENT13").Value = "C"
-                cmd1.Parameters("@NATR13").Value = " "
+                cmd1.Parameters("@BENT13").Value = "B"
+                cmd1.Parameters("@NATR13").Value = "S"
 
                 cmd1.Parameters("@CNCC13").Value = CDate(EmpInjuryBenefit.CreatedOn).Year \ 100
                 cmd1.Parameters("@CNYY13").Value = CDate(EmpInjuryBenefit.CreatedOn).Year Mod 100
@@ -131,7 +131,7 @@ Public Class EmpInjuryBenefitDB2
                 cmd.Parameters("@ACTVCS").Value = "A"
                 cmd.Parameters("@CLMNCS").Value = Clmn
                 cmd.Parameters("@EREGCS").Value = EmpInjuryBenefit.NisNo
-                cmd.Parameters("@BENTCS").Value = "C"
+                cmd.Parameters("@BENTCS").Value = "B"
                 cmd.Parameters("@CNCCCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Year \ 100
                 cmd.Parameters("@CNYYCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Year Mod 100
                 cmd.Parameters("@CNMMCS").Value = CDate(EmpInjuryBenefit.CreatedOn).Month

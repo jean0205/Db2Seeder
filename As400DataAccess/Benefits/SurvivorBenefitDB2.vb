@@ -53,7 +53,7 @@ Public Class SurvivorBenefitDB2
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = Survivor.NisNo
                 cmd1.Parameters("@BENT13").Value = "8"
-                cmd1.Parameters("@NATR13").Value = ""
+                cmd1.Parameters("@NATR13").Value = "G"
 
                 cmd1.Parameters("@CNCC13").Value = Survivor.CreatedOn.Year \ 100
                 cmd1.Parameters("@CNYY13").Value = Survivor.CreatedOn.Year Mod 100

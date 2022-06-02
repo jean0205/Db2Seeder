@@ -14,7 +14,7 @@ Public Class MaternityDB2
             Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Await SelectLastEmployer(Maternity.NisNo)
+            strCadena = Maternity.EmployerNis
             intPos = InStr(1, strCadena, "-") 'posicion de la "-"
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)

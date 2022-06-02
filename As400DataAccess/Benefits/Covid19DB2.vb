@@ -15,7 +15,7 @@ Public Class Covid19DB2
             Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Await SelectLastEmployer(Covid19.NisNo)
+            strCadena = Covid19.EmployerEntity.First().employerNis
             intPos = InStr(1, strCadena, "-") 'posicion de la "-"
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
@@ -56,7 +56,7 @@ Public Class Covid19DB2
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = Covid19.NisNo
                 cmd1.Parameters("@BENT13").Value = "2"
-                cmd1.Parameters("@NATR13").Value = ""
+                cmd1.Parameters("@NATR13").Value = "S"
 
                 cmd1.Parameters("@CNCC13").Value = CDate(Covid19.CreatedOn).Year \ 100
                 cmd1.Parameters("@CNYY13").Value = CDate(Covid19.CreatedOn).Year Mod 100
@@ -146,7 +146,7 @@ Public Class Covid19DB2
                 cmd.Parameters("@RTCSCS").Value = " "
 
                 'LAST DAY WORKED
-                cmd.Parameters("@LWRKCS").Value = 0
+                cmd.Parameters("@LWRKCS").Value = CDate(Covid19.LastWorkedDate).Year * 10000 + CDate(Covid19.LastWorkedDate).Month * 100 + CDate(Covid19.LastWorkedDate).Day
 
                 'DATE OF ACCIDENT
                 cmd.Parameters("@ACCDCS").Value = 0
