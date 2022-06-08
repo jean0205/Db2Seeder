@@ -19,9 +19,30 @@ Public Class MaternityDB2
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
-            ClaimNo = Await GenerarClaimNo()
-            Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub)
-            Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub)
+            Dim Typeclaim As String
+            ' programar 
+            If Maternity.BenefitApply = "Maternity Allowance" Then
+                Typeclaim = "1"
+                ClaimNo = Await GenerarClaimNo()
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+            ElseIf Maternity.BenefitApply = "Maternity Grant" Then
+                Typeclaim = "A"
+                ClaimNo = Await GenerarClaimNo()
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+
+            ElseIf Maternity.BenefitApply = "Grant & Allowance" Then
+                Typeclaim = "1"
+                ClaimNo = Await GenerarClaimNo()
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Typeclaim = "A"
+                ClaimNo = Await GenerarClaimNo()
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+            End If
+
 
         Catch ex As iDB2Exception
             Throw ex
@@ -30,7 +51,7 @@ Public Class MaternityDB2
         Return ClaimNo
     End Function
 
-    Private Async Function InsertMaternityBenf(Maternity As Document_Maternity, Clmn As String, EmprNo As String, Emprsub As String) As Task
+    Private Async Function InsertMaternityBenf(Maternity As Document_Maternity, Clmn As String, EmprNo As String, Emprsub As String, Typeclmn As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -54,14 +75,8 @@ Public Class MaternityDB2
                 cmd1.Parameters("@ACTV13").Value = "A"
                 cmd1.Parameters("@CLMN13").Value = Clmn
                 cmd1.Parameters("@EREG13").Value = Maternity.NisNo
-                If Maternity.BenefitApply = "Maternity Allowance" Then
-                    cmd1.Parameters("@BENT13").Value = "1"
-                Else
-                    cmd1.Parameters("@BENT13").Value = "A"
-                End If
-
+                cmd1.Parameters("@BENT13").Value = Typeclmn
                 cmd1.Parameters("@NATR13").Value = "S"
-
                 cmd1.Parameters("@CNCC13").Value = Maternity.CreatedOn.Year \ 100
                 cmd1.Parameters("@CNYY13").Value = Maternity.CreatedOn.Year Mod 100
                 cmd1.Parameters("@CNMM13").Value = Maternity.CreatedOn.Month
@@ -107,8 +122,7 @@ Public Class MaternityDB2
             Throw ex
         End Try
     End Function
-
-    Private Async Function InsertMaternityCLMNCS(Maternity As Document_Maternity, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    Private Async Function InsertMaternityCLMNCS(Maternity As Document_Maternity, Clmn As String, EmprNo As String, EmprSub As String, Typeclmn As String) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -134,11 +148,7 @@ Public Class MaternityDB2
                 cmd.Parameters("@ACTVCS").Value = "A"
                 cmd.Parameters("@CLMNCS").Value = Clmn
                 cmd.Parameters("@EREGCS").Value = Maternity.NisNo
-                If Maternity.BenefitApply = "Maternity Allowance" Then
-                    cmd.Parameters("@BENTCS").Value = "1"
-                Else
-                    cmd.Parameters("@BENTCS").Value = "A"
-                End If
+                cmd.Parameters("@BENTCS").Value = Typeclmn
                 cmd.Parameters("@CNCCCS").Value = Maternity.CreatedOn.Year \ 100
                 cmd.Parameters("@CNYYCS").Value = Maternity.CreatedOn.Year Mod 100
                 cmd.Parameters("@CNMMCS").Value = Maternity.CreatedOn.Month
