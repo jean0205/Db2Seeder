@@ -44,7 +44,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string EmailAddress { get; set; }
 
         [JsonProperty("maritalStatus")]
-        public int MaritalStatus { get; set; }
+        public int? MaritalStatus { get; set; }
 
         [JsonProperty("tAddress")]
         public string TAddress { get; set; }
@@ -74,31 +74,31 @@ namespace ShareModels.Models.Benefit_Claims
         public int AccountType { get; set; }
 
         [JsonProperty("chkbxAge")]
-        public int ChkbxAge { get; set; }
+        public int? ChkbxAge { get; set; }
 
         [JsonProperty("chkbxInvalidity")]
-        public object ChkbxInvalidity { get; set; }
+        public int? ChkbxInvalidity { get; set; }
 
         [JsonProperty("chkbxSurvivors")]
-        public object ChkbxSurvivors { get; set; }
+        public int? ChkbxSurvivors { get; set; }
 
         [JsonProperty("chkbxSickness")]
-        public object ChkbxSickness { get; set; }
+        public int? ChkbxSickness { get; set; }
 
         [JsonProperty("chkbxEmploymentInjury")]
-        public int ChkbxEmploymentInjury { get; set; }
+        public int? ChkbxEmploymentInjury { get; set; }
 
         [JsonProperty("chkbxDisablement")]
-        public object ChkbxDisablement { get; set; }
+        public int? ChkbxDisablement { get; set; }
 
         [JsonProperty("chkbxNone")]
-        public object ChkbxNone { get; set; }
+        public int? ChkbxNone { get; set; }
 
         [JsonProperty("providentFund")]
         public int ProvidentFund { get; set; }
 
         [JsonProperty("receivedInvalidityBenefit")]
-        public int ReceivedInvalidityBenefit { get; set; }
+        public int? ReceivedInvalidityBenefit { get; set; }
 
         [JsonProperty("providentFundList")]
         public string ProvidentFundList { get; set; }
@@ -113,34 +113,40 @@ namespace ShareModels.Models.Benefit_Claims
         public string WorkOtherCountryList { get; set; }
 
         [JsonProperty("periodStart")]
-        public object PeriodStart { get; set; }
+        public DateTime? PeriodStart { get; set; }
 
         [JsonProperty("periodEnd")]
-        public object PeriodEnd { get; set; }
-
+        public DateTime? PeriodEnd { get; set; }
+        
         [JsonProperty("findings")]
-        public object Findings { get; set; }
-
+        public string Findings { get; set; }
+        
         [JsonProperty("medicalSurname")]
-        public object MedicalSurname { get; set; }
+        public string MedicalSurname { get; set; }
 
         [JsonProperty("medicalName")]
-        public object MedicalName { get; set; }
+        public string MedicalName { get; set; }
 
         [JsonProperty("medicalPhone")]
-        public object MedicalPhone { get; set; }
+        public string MedicalPhone { get; set; }
 
         [JsonProperty("medicalRegistrationNo")]
-        public object MedicalRegistrationNo { get; set; }
+        public string MedicalRegistrationNo { get; set; }
 
         [JsonProperty("medicalAddress")]
-        public object MedicalAddress { get; set; }
+        public string MedicalAddress { get; set; }
 
         [JsonProperty("medicalPracticeId")]
-        public object MedicalPracticeId { get; set; }
+        public string MedicalPracticeId { get; set; }
 
         [JsonProperty("doctorId")]
-        public object DoctorId { get; set; }
+        public string DoctorId { get; set; }
+        public string lateReason { get; set; }
+        public int? contributionAcceptance { get; set; }
+        public string contributionReason { get; set; }
+        public string deceasedNisNo { get; set; }
+        public string deceasedName { get; set; }
+        public DateTime? deceasedDoB { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntity2> WorkHistoryEntity { get; set; }
@@ -179,7 +185,7 @@ namespace ShareModels.Models.Benefit_Claims
         public object CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime { get; set; }
+        public DateTime? CheckInAtTime { get; set; }
 
         [JsonProperty("checkInMessage")]
         public object CheckInMessage { get; set; }
