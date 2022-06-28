@@ -631,12 +631,12 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2("Compliance Certificate successfully saved to SQL.", true);
                                         await CreateCommentToPost(request.supportRequestId, 3,
                                             @"Dear Employer,
-                                        <p> Your application for a Compliance Certificate has been received.
-                                            Please note, for your application to be approved, all remittances and payments must be             submitted. Once your records are up to date, your Compliance Certificate would be                  provided within 24 hours.
-                                           For any comments, questions or feedback, please reply to compliance@nisgrenada.org </p>
-                                            <p> Kindest regards,</p>
-                                            <p> Franca Belle </p>
-                                            <p> Compliance Manager </p>");
+                                        Your application for a Compliance Certificate has been received.
+                                         Please note, for your application to be approved, all remittances and                  payments must be submitted. Once your records are up to date, your                     Compliance Certificate would be provided within 24 hours.
+                                           For any comments, questions or feedback, please reply to                               compliance@nisgrenada.org
+                                            Kindest regards,
+                                            Franca Belle
+                                            Compliance Manager");
                                         await LogsHelper.SaveComplianceLOG(request, document);
 
                                         //updating worflow state
@@ -1575,7 +1575,7 @@ namespace Db2Seeder
                     if (requests.Any())
                     {
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
-                        foreach (var request in requests)
+                        foreach ( var request in requests)
                         {
                             if (cancelRequest) return;
                             var document = new Document_Covid19();
