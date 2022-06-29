@@ -80,7 +80,7 @@ namespace ShareModels.Models.Benefit_Claims
         public DateTime? IncapableDateTo { get; set; }
 
         [JsonProperty("specifySickness")]
-        public object SpecifySickness { get; set; }
+        public string SpecifySickness { get; set; }
 
         [JsonProperty("icdCode")]
         public string IcdCode { get; set; }
@@ -126,6 +126,20 @@ namespace ShareModels.Models.Benefit_Claims
 
         [JsonProperty("doctorId")]
         public int? DoctorId { get; set; }
+
+        
+        public string lateReason { get; set; }
+        public int? consent { get; set; }
+        public DateTime? accidentDateTime { get; set; }
+        public DateTime? reportDateTime { get; set; }
+        public string location { get; set; }
+        public string injurySustained { get; set; }
+        public string witness { get; set; }
+        public string incidentDetail { get; set; }
+        public int? claimantRequiredInPlaceWork { get; set; }
+        public string claimantNormalHours { get; set; }
+        public string claimantNatureOfJob { get; set; }
+        public int? reportedToSupervisorTimeOccured { get; set; }
 
         [JsonProperty("workHistoryEntity")]
         public List<WorkHistoryEntityE> WorkHistoryEntity { get; set; }
