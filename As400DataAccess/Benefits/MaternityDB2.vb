@@ -26,6 +26,7 @@ Public Class MaternityDB2
                 ClaimNo = Await GenerarClaimNo()
                 Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
                 Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+
             ElseIf Maternity.BenefitApply = "Maternity Grant" Then
                 Typeclaim = "A"
                 ClaimNo = Await GenerarClaimNo()
