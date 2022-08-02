@@ -175,7 +175,12 @@ Public Class MaternityDB2
                 cmd.Parameters("@UNEMPCS").Value = 0
 
                 'CHILD DATE OF BIRTH
-                cmd.Parameters("@CHIDCS").Value = CDate(Maternity.ExpectDelivered).Year * 10000 + CDate(Maternity.ExpectDelivered).Month * 100 + CDate(Maternity.ExpectDelivered).Day
+                If Maternity.ExpectDelivered Is Nothing Then
+                    cmd.Parameters("@CHIDCS").Value = CDate(Maternity.ExpectDeliver).Year * 10000 + CDate(Maternity.ExpectDeliver).Month * 100 + CDate(Maternity.ExpectDeliver).Day
+                Else
+                    cmd.Parameters("@CHIDCS").Value = CDate(Maternity.ExpectDelivered).Year * 10000 + CDate(Maternity.ExpectDelivered).Month * 100 + CDate(Maternity.ExpectDelivered).Day
+                End If
+
 
                 'DATE OF CLAIM RECEIVED
                 cmd.Parameters("@CRDCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day

@@ -90,8 +90,7 @@ Public Class EmpInjuryBenefitDB2
                 'LAST DAY WORKED
                 cmd1.Parameters("@LWRK13").Value = CDate(EmpInjuryBenefit.LastWorkedDate).Year * 10000 + CDate(EmpInjuryBenefit.LastWorkedDate).Month * 100 + CDate(EmpInjuryBenefit.LastWorkedDate).Day
                 'DATE OF ACCIDENT
-                cmd1.Parameters("@ACCD13").Value = 0 '
-                'CDate(EmpInjuryBenefit.DateAccident).Year * 10000 + CDate(EmpInjuryBenefit.DateAccident).Month * 100 + CDate(EmpInjuryBenefit.DateAccident).Day
+                cmd1.Parameters("@ACCD13").Value = CDate(EmpInjuryBenefit.accidentDateTime).Year * 10000 + CDate(EmpInjuryBenefit.accidentDateTime).Month * 100 + CDate(EmpInjuryBenefit.accidentDateTime).Day
 
 
                 'DIAGNOSIS COD
@@ -152,8 +151,7 @@ Public Class EmpInjuryBenefitDB2
 
 
                 'DATE OF ACCIDENT
-                cmd.Parameters("@ACCDCS").Value = 0
-                'CDate(EmpInjuryBenefit.DateAccident).Year * 10000 + CDate(EmpInjuryBenefit.DateAccident).Month * 100 + CDate(EmpInjuryBenefit.CompletedTime).Day
+                cmd.Parameters("@ACCDCS").Value = CDate(EmpInjuryBenefit.accidentDateTime).Year * 10000 + CDate(EmpInjuryBenefit.accidentDateTime).Month * 100 + CDate(EmpInjuryBenefit.accidentDateTime).Day
 
 
                 'DATE OF DEATH
