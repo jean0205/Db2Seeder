@@ -2,20 +2,17 @@
 using ShareModels.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShareModels.Models.Benefit_Claims
 {
     public class Document_SurvivorBenefit
     {
         [JsonProperty("survivorBenefitFormId")]
-        public int SurvivorBenefitFormId { get; set; }
+        public int? SurvivorBenefitFormId { get; set; }
 
         [JsonProperty("surname")]
         public string Surname { get; set; }
-
+        
         [JsonProperty("nisNo")]
         public int NisNo { get; set; }
 
@@ -29,7 +26,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string OtherName { get; set; }
 
         [JsonProperty("gender")]
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
 
         [JsonProperty("maidenName")]
         public string MaidenName { get; set; }
@@ -44,7 +41,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string EmailAddress { get; set; }
 
         [JsonProperty("maritalStatus")]
-        public int MaritalStatus { get; set; }
+        public int? MaritalStatus { get; set; }
 
         [JsonProperty("tAddress")]
         public string TAddress { get; set; }
@@ -71,7 +68,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string AccountName { get; set; }
 
         [JsonProperty("accountType")]
-        public int AccountType { get; set; }
+        public int? AccountType { get; set; }
 
         [JsonProperty("chkbxSurvivor")]
         public int? ChkbxSurvivor { get; set; }
@@ -95,22 +92,22 @@ namespace ShareModels.Models.Benefit_Claims
         public string WorkHistoryList { get; set; }
 
         [JsonProperty("workOtherCountries")]
-        public int WorkOtherCountries { get; set; }
+        public int? WorkOtherCountries { get; set; }
 
         [JsonProperty("workOtherCountryList")]
         public string WorkOtherCountryList { get; set; }
 
         [JsonProperty("residingMakingClaim")]
-        public string ResidingMakingClaim { get; set; }
+        public int? ResidingMakingClaim { get; set; }
 
         [JsonProperty("widowerMarried")]
-        public string WidowerMarried { get; set; }
+        public int? WidowerMarried { get; set; }
 
         [JsonProperty("widowerMarriedAnyone")]
-        public string WidowerMarriedAnyone { get; set; }
+        public int? WidowerMarriedAnyone { get; set; }
 
         [JsonProperty("widowerRemarried")]
-        public string WidowerRemarried { get; set; }
+        public int? WidowerRemarried { get; set; }
 
         [JsonProperty("widowerChkbxAge")]
         public int? WidowerChkbxAge { get; set; }
@@ -170,7 +167,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string DependentSurname { get; set; }
 
         [JsonProperty("dependentNisNo")]
-        public string DependentNisNo { get; set; }
+        public int? DependentNisNo { get; set; }
 
         [JsonProperty("dependentFirstName")]
         public string DependentFirstName { get; set; }
@@ -182,7 +179,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string DependentOtherName { get; set; }
 
         [JsonProperty("dependentGender")]
-        public int DependentGender { get; set; }
+        public int? DependentGender { get; set; }
 
         [JsonProperty("dependentMaidenName")]
         public string DependentMaidenName { get; set; }
@@ -197,7 +194,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string DependentEmailAddress { get; set; }
 
         [JsonProperty("dependentMaritalStatus")]
-        public int DependentMaritalStatus { get; set; }
+        public string DependentMaritalStatus { get; set; }
 
         [JsonProperty("dependentTAddress")]
         public string DependentTAddress { get; set; }
@@ -215,10 +212,16 @@ namespace ShareModels.Models.Benefit_Claims
         public string DependentPostalAddress { get; set; }
 
         [JsonProperty("dependentResidingMakingClaim")]
-        public int? DependentResidingMakingClaim { get; set; }
+        public string DependentResidingMakingClaim { get; set; }
 
         [JsonProperty("dependentWidowerMarried")]
-        public int? DependentWidowerMarried { get; set; }
+        public string DependentWidowerMarried { get; set; }
+
+        [JsonProperty("dependingWidowLivingDeceasedYrs")]
+        public int? DependingWidowLivingDeceasedYrs { get; set; }
+
+        [JsonProperty("dependingWidowLivingDeceasedMonths")]
+        public int? DependingWidowLivingDeceasedMonths { get; set; }
 
         [JsonProperty("dependentWidowerMarriedAnyone")]
         public int? DependentWidowerMarriedAnyone { get; set; }
@@ -230,7 +233,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string DependentParentSurname { get; set; }
 
         [JsonProperty("dependentParentNisNo")]
-        public string DependentParentNisNo { get; set; }
+        public int? DependentParentNisNo { get; set; }
 
         [JsonProperty("dependentParentFirstName")]
         public string DependentParentFirstName { get; set; }
@@ -290,7 +293,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string ApplicableOtherName { get; set; }
 
         [JsonProperty("applicableGender")]
-        public int ApplicableGender { get; set; }
+        public int? ApplicableGender { get; set; }
 
         [JsonProperty("applicableMaidenName")]
         public string ApplicableMaidenName { get; set; }
@@ -305,7 +308,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string ApplicableEmailAddress { get; set; }
 
         [JsonProperty("applicableMaritalStatus")]
-        public object ApplicableMaritalStatus { get; set; }
+        public string ApplicableMaritalStatus { get; set; }
 
         [JsonProperty("applicableTAddress")]
         public string ApplicableTAddress { get; set; }
@@ -322,65 +325,128 @@ namespace ShareModels.Models.Benefit_Claims
         [JsonProperty("applicablePostalAddress")]
         public string ApplicablePostalAddress { get; set; }
 
+        [JsonProperty("lateReason")]
+        public string LateReason { get; set; }
+
+        [JsonProperty("injuryRelatedDeath")]
+        public int? InjuryRelatedDeath { get; set; }
+
+        [JsonProperty("injuryRelatedDeathDateOfAccident")]
+        public DateTime? InjuryRelatedDeathDateOfAccident { get; set; }
+
+        [JsonProperty("injuryRelatedDeathTimeOfAccident")]
+        public string InjuryRelatedDeathTimeOfAccident { get; set; }
+
+        [JsonProperty("injuryRelatedDeathLocation")]
+        public string InjuryRelatedDeathLocation { get; set; }
+
+        [JsonProperty("injuryRelatedDeathWitness")]
+        public string InjuryRelatedDeathWitness { get; set; }
+
+        [JsonProperty("injuryRelatedDeathDetailsOfAccident")]
+        public string InjuryRelatedDeathDetailsOfAccident { get; set; }
+
+        [JsonProperty("onBehalfOfSomeone")]
+        public int? OnBehalfOfSomeone { get; set; }
+
+        [JsonProperty("onBehalfOfSomeoneFullName")]
+        public string OnBehalfOfSomeoneFullName { get; set; }
+
+        [JsonProperty("onBehalfOfSomeonePhoneNumber")]
+        public string OnBehalfOfSomeonePhoneNumber { get; set; }
+
+        [JsonProperty("onBehalfOfSomeoneEmailAddress")]
+        public string OnBehalfOfSomeoneEmailAddress { get; set; }
+
+        [JsonProperty("onBehalfOfSomeoneRelationToClaimant")]
+        public string OnBehalfOfSomeoneRelationToClaimant { get; set; }
+
+        [JsonProperty("childInvalidMentally")]
+        public int? ChildInvalidMentally { get; set; }
+
+        [JsonProperty("fullOrphan")]
+        public int? FullOrphan { get; set; }
+
+        [JsonProperty("fullOrphanOtherDeceasedParentName")]
+        public string FullOrphanOtherDeceasedParentName { get; set; }
+
+        [JsonProperty("fullOrphanOtherDeceasedParentNisNo")]
+        public string FullOrphanOtherDeceasedParentNisNo { get; set; }
+
+        [JsonProperty("madeForChild")]
+        public int? MadeForChild { get; set; }
+
+        [JsonProperty("madeForChildFullName")]
+        public string MadeForChildFullName { get; set; }
+
+        [JsonProperty("madeForChildDateOfBirth")]
+        public DateTime MadeForChildDateOfBirth { get; set; }
+
+        [JsonProperty("madeForChildSchoolAttending")]
+        public string MadeForChildSchoolAttending { get; set; }
+
+        [JsonProperty("madeForChildOtherEligibleChildren")]
+        public string MadeForChildOtherEligibleChildren { get; set; }
+
         [JsonProperty("workHistoryEntity")]
-        public List<WorkHistoryEntity> WorkHistoryEntity { get; set; }
+        public List<WorkHistoryEntityS> WorkHistoryEntity { get; set; }
 
         [JsonProperty("providentFundEntity")]
-        public List<ProvidentFundEntity> ProvidentFundEntity { get; set; }
+        public List<ProvidentFundEntityS> ProvidentFundEntity { get; set; }
 
         [JsonProperty("workOtherCountryEntity")]
-        public List<object> WorkOtherCountryEntity { get; set; }
+        public List<WorkOtherCountryEntity> WorkOtherCountryEntity { get; set; }
 
         [JsonProperty("claimChildEntity")]
         public List<ClaimChildEntity> ClaimChildEntity { get; set; }
 
         [JsonProperty("documentId")]
-        public int DocumentId { get; set; }
+        public int? DocumentId { get; set; }
 
         [JsonProperty("documentGuid")]
         public string DocumentGuid { get; set; }
 
         [JsonProperty("documentTypeId")]
-        public int DocumentTypeId { get; set; }
+        public int? DocumentTypeId { get; set; }
 
         [JsonProperty("documentCode")]
         public string DocumentCode { get; set; }
 
         [JsonProperty("name")]
-        public object Name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("description")]
-        public object Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("createdBy")]
-        public object CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         [JsonProperty("updatedBy")]
-        public object UpdatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
 
         [JsonProperty("checkInById")]
-        public object CheckInById { get; set; }
+        public string CheckInById { get; set; }
 
         [JsonProperty("checkInAtTime")]
-        public DateTime CheckInAtTime { get; set; }
+        public DateTime? CheckInAtTime { get; set; }
 
         [JsonProperty("checkInMessage")]
-        public object CheckInMessage { get; set; }
+        public string CheckInMessage { get; set; }
 
         [JsonProperty("checkOutById")]
-        public object CheckOutById { get; set; }
+        public string CheckOutById { get; set; }
 
         [JsonProperty("checkOutTime")]
-        public object CheckOutTime { get; set; }
+        public string CheckOutTime { get; set; }
 
         [JsonProperty("checkOutMessage")]
-        public object CheckOutMessage { get; set; }
+        public string CheckOutMessage { get; set; }
 
         [JsonProperty("checkOutExpiration")]
-        public object CheckOutExpiration { get; set; }
+        public string CheckOutExpiration { get; set; }
 
         [JsonProperty("version")]
-        public int Version { get; set; }
+        public int? Version { get; set; }
 
         [JsonProperty("createdOn")]
         public DateTime CreatedOn { get; set; }
