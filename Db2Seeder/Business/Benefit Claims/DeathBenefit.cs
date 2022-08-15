@@ -20,7 +20,7 @@ namespace Db2Seeder.Business.Benefit_Claims
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(7, 20);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(7, 226);
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.RegistrantTypeId = 1;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = Document_DeathBenefit.nisNo;
+                            documents.NisNumber = Document_DeathBenefit.NisNo;
                             documents.ClaimNumber = Document_DeathBenefit.ClaimNumber;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
                             documents.ScannedBy = importLog.ImportedBy;

@@ -153,7 +153,7 @@ Public Class DeathBenefitDB2
                 cmd.Parameters("@ACCDCS").Value = 0
 
                 'DATE OF DEATH
-                cmd.Parameters("@DEADCS").Value = CDate(DeathBenefit.dateOfDeath).Year * 10000 + CDate(DeathBenefit.dateOfDeath).Month * 100 + CDate(DeathBenefit.dateOfDeath).Day
+                cmd.Parameters("@DEADCS").Value = CDate(DeathBenefit.InjuryRelatedDeathDateOfAccident).Year * 10000 + CDate(DeathBenefit.InjuryRelatedDeathDateOfAccident).Month * 100 + CDate(DeathBenefit.InjuryRelatedDeathDateOfAccident).Day
 
                 cmd.Parameters("@UNEMPCS").Value = 0
 

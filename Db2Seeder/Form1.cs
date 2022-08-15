@@ -898,15 +898,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        // var responseA = await DeathBenefit.UpdateWorkFlowState(3, request.supportRequestId, 164);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                        var responseA = await DeathBenefit.UpdateWorkFlowState(3, request.supportRequestId, 96);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employee Documents.");
@@ -917,7 +917,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.deathBenefitFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
                                         }
                                     }
                                 }
@@ -930,7 +930,7 @@ namespace Db2Seeder
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.deathBenefitFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
                             }
                         }
                     }
@@ -1244,16 +1244,16 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
-                                        //updating worflow state
-                                        //var responseA = await InvalidityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 159);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
-                                        //}
+                                       // updating worflow state
+                                        var responseA = await SurvivorBenefit.UpdateWorkFlowState(11, request.supportRequestId, 189);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Employee Documents.");

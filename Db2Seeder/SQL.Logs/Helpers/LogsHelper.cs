@@ -25,9 +25,12 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertErrorLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Error", $"<h1>Error Message</h1>" +
-                 $"Please see error message hereunder:</br></br>" +
-                 $"{errorMessage}");
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Error", $"<h1>Error Message</h1>" +
+            //     $"Please see error message hereunder:</br></br>" +
+            //     $"{errorMessage}");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Error", $"<h1>Error Message</h1>" +
+                $"Please see error message hereunder:</br></br>" +
+                $"{errorMessage}");
         }
         public static async Task SaveEmployeeLOG(SupportRequest request, Document_Employee employee)
         {
@@ -46,14 +49,22 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertEmployeeRequestLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employee Posted", $"<h1>New Employee Posted</h1>" +
-                 $"Please see Information below:</br></br>" +
-                 $"Employee Number: {employee.nisNo}" +
-                 "</br ></br> " +
-                  $"Employee Name: {employee.firstName} {employee.lastName}" +
-                 "</br ></br> " +
-                  $" Date Of Birth: {employee.dateOfBirth}" +
-                 "</br ></br> ");
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employee Posted", $"<h1>New Employee Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employee Number: {employee.nisNo}" +
+            //     "</br ></br> " +
+            //      $"Employee Name: {employee.firstName} {employee.lastName}" +
+            //     "</br ></br> " +
+            //      $" Date Of Birth: {employee.dateOfBirth}" +
+            //     "</br ></br> ");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Employee Posted", $"<h1>New Employee Posted</h1>" +
+                $"Please see Information below:</br></br>" +
+                $"Employee Number: {employee.nisNo}" +
+                "</br ></br> " +
+                 $"Employee Name: {employee.firstName} {employee.lastName}" +
+                "</br ></br> " +
+                 $" Date Of Birth: {employee.dateOfBirth}" +
+                "</br ></br> ");
 
         }
         public static async Task SaveSelfEmployeeLOG(SupportRequest request, Document_Employee employee)
@@ -72,12 +83,18 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertEmployerRequestLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employer(Self-Employee) Posted", $"<h1>New Employer Posted</h1>" +
-                 $"Please see Information below:</br></br>" +
-                 $"Employer Number {employee.nisNo}" +
-                 "</br ></br> " +
-                  $" Employer Name: {employee.firstName} {employee.lastName}" +
-                 "</br ></br> ");
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employer(Self-Employee) Posted", $"<h1>New Employer Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employer Number {employee.nisNo}" +
+            //     "</br ></br> " +
+            //      $" Employer Name: {employee.firstName} {employee.lastName}" +
+            //     "</br ></br> ");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Employer(Self-Employee) Posted", $"<h1>New Employer Posted</h1>" +
+                $"Please see Information below:</br></br>" +
+                $"Employer Number {employee.nisNo}" +
+                "</br ></br> " +
+                 $" Employer Name: {employee.firstName} {employee.lastName}" +
+                "</br ></br> ");
 
         }
         public static async Task SaveVoluntaryLOG(SupportRequest request, Document_Employee employee)
@@ -96,12 +113,18 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertEmployerRequestLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employer(Voluntary) Posted", $"<h1>New Employer Posted</h1>" +
-                 $"Please see Information below:</br></br>" +
-                 $"Employer Number {employee.nisNo}" +
-                 "</br ></br> " +
-                  $" Employer Name: {employee.firstName} {employee.lastName}" +
-                 "</br ></br> ");
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employer(Voluntary) Posted", $"<h1>New Employer Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employer Number {employee.nisNo}" +
+            //     "</br ></br> " +
+            //      $" Employer Name: {employee.firstName} {employee.lastName}" +
+            //     "</br ></br> ");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Employer(Voluntary) Posted", $"<h1>New Employer Posted</h1>" +
+                $"Please see Information below:</br></br>" +
+                $"Employer Number {employee.nisNo}" +
+                "</br ></br> " +
+                 $" Employer Name: {employee.firstName} {employee.lastName}" +
+                "</br ></br> ");
 
         }
         public static async Task SaveEmployerLOG(SupportRequest request, Document_Employer employer)
@@ -121,16 +144,26 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertEmployerRequestLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employer Posted", $"<h1>New Employer Posted</h1>" +
-                 $"Please see Information below:</br></br>" +
-                 $"Employer Number: {employer.employerNo}" +
-                 "</br ></br> " +
-                  $"Employer Name: {employer.employerName}" +
-                 "</br ></br> " +
-                  $"Self-Employee:0" +
-                 "</br ></br> " +
-                  $"Voluntary:0" +
-                 "</br ></br> ");
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Employer Posted", $"<h1>New Employer Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employer Number: {employer.employerNo}" +
+            //     "</br ></br> " +
+            //      $"Employer Name: {employer.employerName}" +
+            //     "</br ></br> " +
+            //      $"Self-Employee:0" +
+            //     "</br ></br> " +
+            //      $"Voluntary:0" +
+            //     "</br ></br> ");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Employer Posted", $"<h1>New Employer Posted</h1>" +
+                $"Please see Information below:</br></br>" +
+                $"Employer Number: {employer.employerNo}" +
+                "</br ></br> " +
+                 $"Employer Name: {employer.employerName}" +
+                "</br ></br> " +
+                 $"Self-Employee:0" +
+                "</br ></br> " +
+                 $"Voluntary:0" +
+                "</br ></br> ");
         }
         public static async Task SaveComplianceLOG(SupportRequest request, Document_ComplianceCert compliance)
         {
@@ -149,12 +182,18 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertComplianceCertificateLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Compliance Certificate", $"<h1>New Compliance Certificate Posted</h1>" +
-                 $"Please see Information below:</br></br>" +
-                 $"Employer Number: {compliance.employerNumber}" +
-                 "</br ></br> " +
-                  $"Business Name: {compliance.businessName}" +
-                 "</br ></br>");
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Compliance Certificate", $"<h1>New Compliance Certificate Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employer Number: {compliance.employerNumber}" +
+            //     "</br ></br> " +
+            //      $"Business Name: {compliance.businessName}" +
+            //     "</br ></br>");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Compliance Certificate", $"<h1>New Compliance Certificate Posted</h1>" +
+                $"Please see Information below:</br></br>" +
+                $"Employer Number: {compliance.employerNumber}" +
+                "</br ></br> " +
+                 $"Business Name: {compliance.businessName}" +
+                "</br ></br>");
         }
         public static async Task SaveRemittanceLOG(SupportRequest request, Document_Remittance remittance, int period, decimal insEarnings, decimal contribution)
         {
@@ -171,7 +210,17 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertRemittanceLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Remittance", $"<h1>New Remittance Posted</h1>" +
+            //await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Remittance", $"<h1>New Remittance Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employer Number: {remittance.employerNumber}" +
+            //     "</br ></br> " +
+            //      $" Period: {period}" +
+            //       "</br ></br> " +
+            //      $" Total Insurance Earnings: {insEarnings}" +
+            //       "</br ></br> " +
+            //        $" Total Controbutions: {contribution}" +
+            //     "</br ></br>");
+            await UtilRecurrent.SendMail("spalacio@nisgrenada.org", "DB2 Seeder Remittance", $"<h1>New Remittance Posted</h1>" +
                  $"Please see Information below:</br></br>" +
                  $"Employer Number: {remittance.employerNumber}" +
                  "</br ></br> " +
