@@ -47,7 +47,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@rrgn").Value = ""
                 'Employer phone
 
-                cmdEMPR.Parameters("@rtno").Value = 0 ' If(Empr.mobile = Nothing, 0, Empr.mobile)
+                cmdEMPR.Parameters("@rtno").Value = If(Empr.mobile = Nothing, 0, Empr.mobile)
                 ' Business address
                 cmdEMPR.Parameters("@badd").Value = Empr.businessAddress.ToUpper
                 ' Business Town
