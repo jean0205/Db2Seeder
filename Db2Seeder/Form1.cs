@@ -103,11 +103,11 @@ namespace Db2Seeder
             if (!cancelRequest && rjg.Checked) await FuneralBenefitClaimCompleted();
             if (!cancelRequest && rjh.Checked) await InvalidityBenefitClaimCompleted();
             if (!cancelRequest && rji.Checked) await SicknessBenefitClaimCompleted();
-            if (!cancelRequest && rjl.Checked) await MaternityBenefitClaimCompleted();
-            if (!cancelRequest && rjm.Checked) await EmploymentInjuryBenefitClaimCompleted();
-            if (!cancelRequest && rjn.Checked) await CovidBenefitClaimCompleted();
-            if (!cancelRequest && rjj.Checked) await SurvivorBenefitClaimCompleted();
-            if (!cancelRequest && rjk.Checked) await DisablemetBenefitClaimCompleted();
+            if (!cancelRequest && rjj.Checked) await MaternityBenefitClaimCompleted();
+            if (!cancelRequest && rjk.Checked) await EmploymentInjuryBenefitClaimCompleted();
+            if (!cancelRequest && rjl.Checked) await CovidBenefitClaimCompleted();
+            if (!cancelRequest && rjm.Checked) await SurvivorBenefitClaimCompleted();
+            if (!cancelRequest && rjn.Checked) await DisablemetBenefitClaimCompleted();
 
             working = false;
             if (cancelRequest) BeginInvoke(new Action(() =>

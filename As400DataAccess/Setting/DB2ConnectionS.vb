@@ -9,5 +9,4 @@
         Return If(enviroment = "Test", "TT", If(enviroment = "Live", "NI", ""))
     End Function
 
-
 End Class
