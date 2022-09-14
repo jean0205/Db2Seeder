@@ -47,6 +47,10 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Sickness.CompletedBy = requestHistory.Last().UserName;
                     Document_Sickness.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Sickness.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_Sickness.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Employer Complete")).First().dateModified.ToLocalTime();
+
                     return Document_Sickness;
                 }
                 return null;

@@ -1149,6 +1149,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
+
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document);
                                     if (document.ClaimNumber == 0)
                                     {

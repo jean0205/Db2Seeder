@@ -44,6 +44,11 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Maternity.CompletedBy = requestHistory.Last().UserName;
                     Document_Maternity.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Maternity.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_Maternity.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).First().dateModified.ToLocalTime();
+
+
                     return Document_Maternity;
                 }
                 return null;

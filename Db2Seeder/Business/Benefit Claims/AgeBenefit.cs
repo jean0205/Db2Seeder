@@ -5,6 +5,7 @@ using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
+using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,11 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_AgeBenefit.CompletedBy = requestHistory.Last().UserName;
                     Document_AgeBenefit.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_AgeBenefit.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_AgeBenefit.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).First().dateModified.ToLocalTime();
+
+
                     return Document_AgeBenefit;
                 }
                 return null;

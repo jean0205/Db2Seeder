@@ -41,6 +41,10 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Invalidity.CompletedBy = requestHistory.Last().UserName;
                     Document_Invalidity.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_Invalidity.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_Invalidity.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).First().dateModified.ToLocalTime();
+
                     return Document_Invalidity;
                 }
                 return null;

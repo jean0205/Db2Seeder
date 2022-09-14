@@ -43,6 +43,10 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_EmploymentInjury.CompletedBy = requestHistory.Last().UserName;
                     Document_EmploymentInjury.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_EmploymentInjury.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_EmploymentInjury.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).First().dateModified.ToLocalTime();
+
                     return Document_EmploymentInjury;
                 }
                 return null;

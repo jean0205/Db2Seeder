@@ -43,6 +43,11 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_DeathBenefit.CompletedBy = requestHistory.Last().UserName;
                     Document_DeathBenefit.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                     Document_DeathBenefit.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_DeathBenefit.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).First().dateModified.ToLocalTime();
+
+
                     return Document_DeathBenefit;
                 }
                 return null;

@@ -11,7 +11,7 @@ namespace Db2Seeder.API.Helpers
             //var _configuration = ConfigurationManager.AppSettings;
             //return _configuration["APIURL"];
 
-            //  return "http://192.168.210.90:24266"; // test
+            // return "http://192.168.210.90:24266"; // test
 
             return "http://192.168.215.10:24266";
         }

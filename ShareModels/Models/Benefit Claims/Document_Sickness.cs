@@ -86,6 +86,7 @@ namespace ShareModels.Models.Sickness_Claim
         public int SupportRequestId { get; set; }
         public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;
         public int? ClaimNumber { get; set; }
+        public DateTime readyTime { get; set; }
     }
     public class EmployerEntity
     {
