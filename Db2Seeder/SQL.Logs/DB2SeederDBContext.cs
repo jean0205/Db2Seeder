@@ -12,11 +12,13 @@ namespace Db2Seeder.SQL.Logs
     {
         public DB2SeederDBContext()
         {
+
         }
 
         public DB2SeederDBContext(DbContextOptions<DB2SeederDBContext> options)
             : base(options)
         {
+
         }
 
         public virtual DbSet<ComplianceCertRequestLog> ComplianceCertRequestLog { get; set; }

@@ -94,7 +94,7 @@ Public Class EmpInjuryBenefitDB2
 
 
                 'DIAGNOSIS COD
-                cmd1.Parameters("@DIAN13").Value = EmpInjuryBenefit.IcdCode
+                cmd1.Parameters("@DIAN13").Value = If(EmpInjuryBenefit.IcdCode IsNot Nothing, EmpInjuryBenefit.IcdCode, 0)
 
                 Await cmd1.ExecuteNonQueryAsync()
                 cmd1.Dispose()
