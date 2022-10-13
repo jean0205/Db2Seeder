@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Helpers\UtilRecurrent.cs" />
+    <Compile Include="Models\Benefit Claims\BasicClaim.cs" />
     <Compile Include="Models\Benefit Claims\Document_AgeBenefit.cs" />
     <Compile Include="Models\Benefit Claims\Document_Covid19.cs" />
     <Compile Include="Models\Benefit Claims\Document_DeathBenefit.cs" />

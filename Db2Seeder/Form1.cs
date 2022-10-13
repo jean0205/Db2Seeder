@@ -9,12 +9,14 @@ using Db2Seeder.SQL.Logs.DataAccess;
 using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.EntityFrameworkCore.Internal;
+using Org.BouncyCastle.Asn1.Ocsp;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -246,6 +248,7 @@ namespace Db2Seeder
                     AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                     foreach (var request in requests)
                     {
+                        playExclamation();
                         if (cancelRequest) return;
                         var document = new Document_Employee();
                         AddTreeViewLogLevel1Info("Getting Employee Details");
@@ -376,6 +379,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Employer();
                             AddTreeViewLogLevel1Info("Getting Employer Details");
@@ -615,6 +619,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Request Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_ComplianceCert();
                             AddTreeViewLogLevel1Info("Getting Request Details");
@@ -706,6 +711,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Remittance Pending Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             AddTreeViewLogLevel1Info("Getting Remittance Pending Details");
                             try
@@ -791,6 +797,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_AgeBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -818,6 +825,8 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request,(int)document.ClaimNumber,"AGE","0",document.nisNo,document.firstName+document.otherName,(DateTime)document.CompletedTime,document.CompletedBy);
                                     }
                                     //comentar si no se quieren salvar los documentos nuevamente
                                     try
@@ -880,6 +889,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_DeathBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -919,6 +929,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "DEATH", "0", document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -967,6 +979,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_FuneralBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1006,6 +1019,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.FuneralGrantBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "FUNERAL", "0", document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1053,6 +1068,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Invalidity();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1092,6 +1108,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.InvalidityBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "INVALIDITY", "0", document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1140,6 +1158,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Sickness();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1180,6 +1199,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "SICKNESS",  document.employerNis, document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1228,6 +1249,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_SurvivorBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1267,6 +1289,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.SurvivorBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "survivor", "0", document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1316,6 +1340,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Disablemet();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1355,6 +1380,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.DisablementBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "DISABLEMENT", "0", document.NisNo, document.FirstName + document.Name, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1404,6 +1431,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Maternity();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1443,6 +1471,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "MATERNITY", document.EmployerNis, document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1491,6 +1521,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_EmploymentInjury();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1530,6 +1561,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "EMPLOYMENTINJ", document.EmployerNis, document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1578,6 +1611,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
                         foreach ( var request in requests)
                         {
+                            playExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Covid19();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1617,6 +1651,8 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.CovidBenefitFormId, document.CompletedTime);
                                         }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "COVID", document.EmployerNis, document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1904,6 +1940,13 @@ namespace Db2Seeder
 
         #endregion
 
+        public void playExclamation()
+        {
+            SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
+            simpleSound.Play();
+        }
+
+       
 
     }
 }

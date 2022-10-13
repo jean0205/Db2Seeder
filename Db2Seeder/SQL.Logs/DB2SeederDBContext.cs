@@ -12,15 +12,14 @@ namespace Db2Seeder.SQL.Logs
     {
         public DB2SeederDBContext()
         {
-
         }
 
         public DB2SeederDBContext(DbContextOptions<DB2SeederDBContext> options)
             : base(options)
         {
-
         }
 
+        public virtual DbSet<ClaimRequestLog> ClaimRequestLog { get; set; }
         public virtual DbSet<ComplianceCertRequestLog> ComplianceCertRequestLog { get; set; }
         public virtual DbSet<EmployeeRequestLog> EmployeeRequestLog { get; set; }
         public virtual DbSet<EmployerRequestLog> EmployerRequestLog { get; set; }
@@ -38,6 +37,31 @@ namespace Db2Seeder.SQL.Logs
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ClaimRequestLog>(entity =>
+            {
+                entity.Property(e => e.ApprovedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ApprovedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.BenefitType)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EmployeeName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EmployerNumber)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<ComplianceCertRequestLog>(entity =>
             {
                 entity.Property(e => e.BusinessName)

@@ -71,6 +71,18 @@ namespace Db2Seeder.SQL.Logs.DataAccess
                 throw ex;
             }
         }
+        public async Task InsertClaimLog(ClaimRequestLog log)
+        {
+            try
+            {
+                _context.ClaimRequestLog.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<IEnumerable<Log>>GetErrorLogsListAsync()
         {           
             return await _context.Log.ToListAsync();

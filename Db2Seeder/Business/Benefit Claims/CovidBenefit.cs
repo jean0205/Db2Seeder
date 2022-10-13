@@ -47,7 +47,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_Covid19.SupportRequestId = Request.supportRequestId;
 
                     //actualizar la fecha de creada a cuando esta lista 
-                    Document_Covid19.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Employer Approved")).First().dateModified.ToLocalTime();
+                    Document_Covid19.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Employer Approved")).Last().dateModified.ToLocalTime();
 
                     return Document_Covid19;
                 }

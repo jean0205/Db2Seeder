@@ -1,7 +1,11 @@
 ﻿using Db2Seeder.API.Helpers;
 using Db2Seeder.SQL.Logs.DataAccess;
+using Newtonsoft.Json;
 using ShareModels.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.SQL.Logs.Helpers
@@ -228,5 +232,37 @@ namespace Db2Seeder.SQL.Logs.Helpers
             //        $" Total Controbutions: {contribution}" +
             //     "</br ></br>");
         }
+
+        public static async Task SaveClaimLOG(SupportRequest request, long claimNumber,string benType,string employerNumber,long employeeNumber,string employeeName,DateTime approvedOn,string approvedBy)
+        {
+            string emprNo = employerNumber;
+            //if (employerNumber !="0")
+            //{
+            //    Match match = Regex.Match(employerNumber, @"^[0-9-]*$");
+            //    emprNo = match.Value;               
+            //}           
+            ClaimRequestLog log = new ClaimRequestLog
+            {
+                SupportRequestId = request.supportRequestId,
+                ClaimNumber = claimNumber,
+                BenefitType = benType,
+                EmployerNumber=emprNo,
+                EmployeeNumber=employeeNumber,
+                EmployeeName=employeeName,
+                CreatedOn = (DateTime)request.createdOnToLocalTime,
+                ApprovedOn = approvedOn,
+                ApprovedBy = approvedBy,
+                PostedOn = DateTime.Now
+            };
+            LogsDB logsDB = new LogsDB();
+            await logsDB.InsertClaimLog(log);
+            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Claim", $"<h1>New Claim Posted</h1>" +
+                 $"Please see Information below:</br></br>" +
+                 $"Employee Number: {log.EmployeeNumber}" +
+                 "</br ></br> " +
+                  $"Employee Name: {log.EmployeeName}" +
+                 "</br ></br>");            
+        }
+       
     }
 }

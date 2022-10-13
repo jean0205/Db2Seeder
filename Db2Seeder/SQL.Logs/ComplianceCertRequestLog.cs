@@ -12,7 +12,7 @@ namespace Db2Seeder.SQL.Logs
         public int Id { get; set; }
         public int SupportRequestId { get; set; }
         public long EmployerNo { get; set; }
-        public int EmployerSub { get; set; }
+        public int? EmployerSub { get; set; }
         public string BusinessName { get; set; }
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
