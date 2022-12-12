@@ -248,7 +248,7 @@ namespace Db2Seeder
                     AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                     foreach (var request in requests)
                     {
-                        playExclamation();
+                        PlayExclamation();
                         if (cancelRequest) return;
                         var document = new Document_Employee();
                         AddTreeViewLogLevel1Info("Getting Employee Details");
@@ -379,7 +379,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Employer();
                             AddTreeViewLogLevel1Info("Getting Employer Details");
@@ -541,7 +541,7 @@ namespace Db2Seeder
         private async Task MappAndAssingEmployeeRol(SupportRequest request, Document_Employee document)
         {
             //si no es employer y no tiene  employee link entonces hago el link automatico
-            if (!await ApiRequest.IsEmployer(request.ownerId) || !await ApiRequest.IsEmployee(request.ownerId))
+            if (!await ApiRequest.IsEmployer(request.ownerId) && !await ApiRequest.IsEmployee(request.ownerId))
             {
                 try
                 {
@@ -619,7 +619,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Request Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_ComplianceCert();
                             AddTreeViewLogLevel1Info("Getting Request Details");
@@ -711,7 +711,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Remittance Pending Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             AddTreeViewLogLevel1Info("Getting Remittance Pending Details");
                             try
@@ -797,7 +797,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_AgeBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -889,7 +889,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_DeathBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -979,7 +979,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_FuneralBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1068,7 +1068,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Invalidity();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1158,7 +1158,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Sickness();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1249,7 +1249,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_SurvivorBenefit();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1340,7 +1340,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Disablemet();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1431,7 +1431,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Maternity();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1521,7 +1521,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
                         foreach (var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_EmploymentInjury();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1611,7 +1611,7 @@ namespace Db2Seeder
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
                         foreach ( var request in requests)
                         {
-                            playExclamation();
+                            PlayExclamation();
                             if (cancelRequest) return;
                             var document = new Document_Covid19();
                             AddTreeViewLogLevel1Info("Getting Claim Details");
@@ -1940,7 +1940,7 @@ namespace Db2Seeder
 
         #endregion
 
-        public void playExclamation()
+        public void PlayExclamation()
         {
             SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
             simpleSound.Play();

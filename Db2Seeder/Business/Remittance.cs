@@ -26,7 +26,8 @@ namespace Db2Seeder.Business
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(15, 9);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(15, 231);
+
             }
             catch (Exception ex)
             {

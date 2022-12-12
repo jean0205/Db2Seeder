@@ -51,7 +51,7 @@ Public Class EmployerDB2
                 ' Business address
                 cmdEMPR.Parameters("@badd").Value = Empr.businessAddress.ToUpper
                 ' Business Town
-                cmdEMPR.Parameters("@btwn").Value = Empr.businessTown.ToUpper
+                cmdEMPR.Parameters("@btwn").Value = Empr.businessTown.ToUpper.Replace("'", String.Empty)
                 ' Business Postal Code
                 cmdEMPR.Parameters("@bpcd").Value = ""
                 ' Business Area
@@ -60,7 +60,7 @@ Public Class EmployerDB2
                 cmdEMPR.Parameters("@btno").Value = If(Empr.businessPhone = Nothing, 0, Val(Empr.businessPhone))
 
                 'Type of Business
-                cmdEMPR.Parameters("@indc").Value = If(Empr.typeOfBusiness = Nothing, 0, Empr.typeOfBusiness)
+                cmdEMPR.Parameters("@indc").Value = If(Empr.typeOfBusiness = Nothing, 0, Val(Empr.typeOfBusiness))
 
                 ' Number of Employees
                 cmdEMPR.Parameters("@nome").Value = Empr.maleEmployee

@@ -108,7 +108,7 @@ Public Class MaternityDB2
                 cmd1.Parameters("@FILL13").Value = " "
 
                 'LAST DAY WORKED
-                cmd1.Parameters("@LWRK13").Value = CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day
+                cmd1.Parameters("@LWRK13").Value = If(Typeclmn = "1", CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day, 0)
 
                 cmd1.Parameters("@ACCD13").Value = 0
 
@@ -166,7 +166,7 @@ Public Class MaternityDB2
                 cmd.Parameters("@RTCSCS").Value = " "
 
                 'LAST DAY WORKED
-                cmd.Parameters("@LWRKCS").Value = CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day
+                cmd.Parameters("@LWRKCS").Value = If(Typeclmn = "1", CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day, 0)
 
                 'DATE OF ACCIDENT
                 cmd.Parameters("@ACCDCS").Value = 0
