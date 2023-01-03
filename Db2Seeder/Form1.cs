@@ -610,7 +610,7 @@ namespace Db2Seeder
             try
             {
                 AddTreeViewLogLevel0("Compliance Certificate");
-                AddTreeViewLogLevel1Info("Getting Compliance Certificate Request Completed");
+                AddTreeViewLogLevel1Info("Getting Compliance Certificate Request Approved");
                 try
                 {
                     var requests = await ComplianceCertificate.GetComplianceCertfCompleted();
@@ -840,6 +840,7 @@ namespace Db2Seeder
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         await LogsHelper.SaveErrorLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
+
                                     }
                                 }
                                 else

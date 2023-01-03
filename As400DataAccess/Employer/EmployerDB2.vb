@@ -210,6 +210,7 @@ Public Class EmployerDB2
 
         Return EmprNo
     End Function
+
     Async Function InsertBankInformationEmpr(Empr As Document_Employer, Emprn As Integer) As Task
 
         Try

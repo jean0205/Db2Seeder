@@ -38,6 +38,7 @@ namespace Db2Seeder.Business
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
                     Document_Employer Document_Employer = new Document_Employer();
                     Document_Employer = await GetRequestDetailsEmployer(guid);
+                    Document_Employer.businessAddress = Document_Employer.businessAddress.Replace("’", " ");
                     validatePhone(Document_Employer);
                     Document_Employer.CompletedBy = requestHistory.Last().UserName;
                     Document_Employer.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;

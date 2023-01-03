@@ -43,12 +43,12 @@ namespace ShareModels.Models.Benefit_Claims
         public object lateReason { get; set; }
         public int? contributionAcceptance { get; set; }
         public string contributionReason { get; set; }
-        public int? spouseNisNo { get; set; }
+        public string spouseNisNo { get; set; }
         public DateTime? spouseDoB { get; set; }
         public string spouseName { get; set; }
         public string nextKinName { get; set; }
         public DateTime? nextKinDoB { get; set; }
-        public int? nextKinNisNo { get; set; }        
+        public string nextKinNisNo { get; set; }        
         
         public List<WorkHistoryEntity> workHistoryEntity { get; set; }
         public List<ProvidentFundEntity> providentFundEntity { get; set; }
