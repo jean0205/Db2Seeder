@@ -62,7 +62,7 @@ namespace Db2Seeder.Business
                 //TODO                                
                 certificate.ImportedId = 100000 + Document_ComplianceCert.documentId;
                 certificate.EmployerNo = Document_ComplianceCert.employerNumber.Split('-')[0];
-                certificate.EmployerSub = Document_ComplianceCert.employerNumber.Split('-')[1];
+                certificate.EmployerSub = Document_ComplianceCert.employerNumber.Contains("-")? Document_ComplianceCert.employerNumber.Split('-')[1]:"0";
                 certificate.BusinessName = Document_ComplianceCert.businessName.ToUpper();
                 certificate.BusinessAddress = Document_ComplianceCert.businessAddress.ToUpper();
                 certificate.Telephone = Document_ComplianceCert.phoneNumber;

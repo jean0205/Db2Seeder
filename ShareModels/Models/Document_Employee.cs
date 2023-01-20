@@ -1,6 +1,5 @@
 ﻿using ShareModels.Helpers;
 using System;
-using System.Text.RegularExpressions;
 
 namespace ShareModels.Models
 {
@@ -17,19 +16,12 @@ namespace ShareModels.Models
         public int sex { get; set; }
         public int maritalStatus { get; set; }
         public DateTime? dateOfMarriage { get; set; }
-        public string address
-        {
-            get { return name; }
-            set { name = Regex.Replace(value, @"[^\w]", ""); }
-        }
-        public string town
-        {
-            get { return name; }
-            set { name = Regex.Replace(value, @"[^\w]", ""); }
-        }
+        public string address { get; set; }
+        public string town { get; set; }
+
         public string parish { get; set; }
         public string nationality { get; set; }
-        public string birthPlace { get; set; }        
+        public string birthPlace { get; set; }
         public string emailAddress { get; set; }
         public string primaryMobileNumber { get; set; }
         public string secondaryMobileNumber { get; set; }
@@ -72,7 +64,7 @@ namespace ShareModels.Models
         public string CompletedBy { get; set; }
         public DateTime? CompletedTime { get; set; }
         public int SupportRequestId { get; set; }
-        public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;      
+        public string WebPortalLink => Settings.GetPortalUrl() + SupportRequestId;
 
 
     }

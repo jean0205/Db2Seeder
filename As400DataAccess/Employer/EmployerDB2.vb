@@ -146,7 +146,7 @@ Public Class EmployerDB2
                 If EmprNo <> 0 Then
                     Await cmdEMPR.ExecuteNonQueryAsync
                     Await InsertEmprExtr(EmprNo)
-                    If Empr.bank = Nothing Or Empr.accountNo = Nothing Or Empr.accountType = Nothing Then
+                    If Empr.bank = Nothing Or Empr.accountNo = Nothing Or Empr.accountType Is Nothing Then
                     Else
                         Await InsertBankInformationEmpr(Empr, EmprNo)
                     End If

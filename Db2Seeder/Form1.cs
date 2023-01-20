@@ -642,7 +642,13 @@ namespace Db2Seeder
                                             Kindest regards,
                                             Franca Belle
                                             Compliance Manager");
-                                        await LogsHelper.SaveComplianceLOG(request, document);
+                                        try
+                                        {
+                                            await LogsHelper.SaveComplianceLOG(request, document);
+                                        }
+                                        catch (Exception)
+                                        {                                           
+                                        }                                      
 
                                         //updating worflow state
                                         var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);

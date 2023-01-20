@@ -172,7 +172,7 @@ namespace Db2Seeder.SQL.Logs.Helpers
             {
                 SupportRequestId = request.supportRequestId,
                 EmployerNo = long.Parse(compliance.employerNumber.Split('-')[0]),
-                EmployerSub = int.Parse(compliance.employerNumber.Split('-')[1]),
+                EmployerSub = compliance.employerNumber.Contains("-")?int.Parse(compliance.employerNumber.Split('-')[1]):0,
                 BusinessName = compliance.businessName,
                 EmailAddress = compliance.emailAddress,
                 PhoneNumber = compliance.phoneNumber,

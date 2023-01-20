@@ -2,7 +2,6 @@
 using ShareModels.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace ShareModels.Models
 {
@@ -13,17 +12,9 @@ namespace ShareModels.Models
         public string firmName { get; set; }
         public int? employerNo { get; set; }
         public string employerName { get; set; }
-        public string businessAddress
-        {
-            get { return name; }
-            set { name = Regex.Replace(value, @"[^\w]", ""); }
-        }
-       
-        public string businessTown
-        {
-            get { return name; }
-            set { name = Regex.Replace(value, @"[^\w]", ""); }
-        }
+        public string businessAddress { get; set; }
+
+        public string businessTown { get; set; }
         public string businessParish { get; set; }
         public string mailingAddress { get; set; }
         public string mobile { get; set; }
