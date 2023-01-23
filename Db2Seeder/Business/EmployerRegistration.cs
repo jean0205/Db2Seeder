@@ -193,19 +193,23 @@ namespace Db2Seeder.Business
         {
             if (Document_Employer.businessPhone != null)
             {
-                Document_Employer.businessPhone = Document_Employer.businessPhone.Length > 10 ? Document_Employer.businessPhone.Substring(Document_Employer.businessPhone.Length - 10) : Document_Employer.businessPhone;
+                Document_Employer.businessPhone = Document_Employer.businessPhone.Replace("-",string.Empty).Length > 10 ? Document_Employer.businessPhone.Replace("-", string.Empty).Substring(Document_Employer.businessPhone.Length - 10) : Document_Employer.businessPhone.Replace("-", string.Empty);
+                Document_Employer.businessPhone = Int64.Parse(Document_Employer.businessPhone).ToString();
             }
             if (Document_Employer.mobile != null)
             {
-                Document_Employer.mobile = Document_Employer.mobile.Length > 10 ? Document_Employer.mobile.Substring(Document_Employer.mobile.Length - 10) : Document_Employer.mobile;
+                Document_Employer.mobile = Document_Employer.mobile.Replace("-", string.Empty).Length > 10 ? Document_Employer.mobile.Replace("-", string.Empty).Substring(Document_Employer.mobile.Length - 10) : Document_Employer.mobile.Replace("-", string.Empty);
+                Document_Employer.mobile = Int64.Parse(Document_Employer.mobile).ToString();
             }
             if (Document_Employer.secondMobile != null)
             {
-                Document_Employer.secondMobile = Document_Employer.secondMobile.Length > 10 ? Document_Employer.secondMobile.Substring(Document_Employer.secondMobile.Length - 10) : Document_Employer.secondMobile;
+                Document_Employer.secondMobile = Document_Employer.secondMobile.Replace("-", string.Empty).Length > 10 ? Document_Employer.secondMobile.Replace("-", string.Empty).Substring(Document_Employer.secondMobile.Length - 10) : Document_Employer.secondMobile.Replace("-", string.Empty);
+                Document_Employer.secondMobile = Int64.Parse(Document_Employer.secondMobile).ToString();
             }
             if (Document_Employer.fax != null)
             {
-                Document_Employer.fax = Document_Employer.fax.Length > 10 ? Document_Employer.fax.Substring(Document_Employer.fax.Length - 10) : Document_Employer.fax;
+                Document_Employer.fax = Document_Employer.fax.Replace("-", string.Empty).Length > 10 ? Document_Employer.fax.Replace("-", string.Empty).Substring(Document_Employer.fax.Length - 10) : Document_Employer.fax.Replace("-", string.Empty);
+                Document_Employer.fax = Int64.Parse(Document_Employer.fax).ToString();
             }
         }
 

@@ -197,18 +197,22 @@ namespace Db2Seeder.Business
         {
             if (Document_Employee.homePhoneNumber != null)
             {
+                Document_Employee.homePhoneNumber = Int64.Parse(Document_Employee.homePhoneNumber).ToString();
                 Document_Employee.homePhoneNumber = Document_Employee.homePhoneNumber.Length > 10 ? Document_Employee.homePhoneNumber.Substring(Document_Employee.homePhoneNumber.Length - 10) : Document_Employee.homePhoneNumber;
             }
             if (Document_Employee.businessPhoneNumber != null)
             {
+                Document_Employee.businessPhoneNumber = Int64.Parse(Document_Employee.businessPhoneNumber).ToString();
                 Document_Employee.businessPhoneNumber = Document_Employee.businessPhoneNumber.Length > 10 ? Document_Employee.businessPhoneNumber.Substring(Document_Employee.businessPhoneNumber.Length - 10) : Document_Employee.businessPhoneNumber;
             }
             if (Document_Employee.businessMobile != null)
             {
+                Document_Employee.businessMobile = Int64.Parse(Document_Employee.businessMobile).ToString();
                 Document_Employee.businessMobile = Document_Employee.businessMobile.Length > 10 ? Document_Employee.businessMobile.Substring(Document_Employee.businessMobile.Length - 10) : Document_Employee.businessMobile;
             }
             if (Document_Employee.primaryMobileNumber != null) 
             {
+                Document_Employee.primaryMobileNumber = Int64.Parse(Document_Employee.primaryMobileNumber).ToString();
                 Document_Employee.primaryMobileNumber = Document_Employee.primaryMobileNumber.Length > 10 ? Document_Employee.primaryMobileNumber.Substring(Document_Employee.primaryMobileNumber.Length - 10) : Document_Employee.primaryMobileNumber;
             }  
         }
