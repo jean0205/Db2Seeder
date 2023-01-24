@@ -205,10 +205,21 @@ Public Class SicknessDB2
                     cmd.Parameters("@EMPASCS").Value = "Y"
                     cmd.Parameters("@EMPRACS").Value = EmprNo
                     cmd.Parameters("@EMPSACS").Value = EmprSub
+                    If Sickness.employerBank = Nothing Or Sickness.employerAccountNo = Nothing Or Sickness.employerAccountType Is Nothing Then
+                    Else
+                        Await InsertBankInformationEmpr(Sickness, EmprNo, EmprSub)
+                    End If
+
                 Else
                     cmd.Parameters("@EMPASCS").Value = "N"
                     cmd.Parameters("@EMPRACS").Value = "0"
                     cmd.Parameters("@EMPSACS").Value = "0"
+
+                    If Sickness.bank = Nothing Or Sickness.accountNo = Nothing Or Sickness.accountType Is Nothing Then
+                    Else
+                        Await InsertBankInformationEmpe(Sickness, Clmn)
+                    End If
+
                 End If
 
                 cmd.Parameters("@WBLINKCS").Value = Sickness.WebPortalLink
@@ -220,6 +231,196 @@ Public Class SicknessDB2
         Catch ex As iDB2Exception
             Throw ex
         End Try
+    End Function
+
+
+    'Private Async Function InsertSickCLMNBF(Sickness As Document_Sickness, Clmn As String, EmprNo As String, EmprSub As String) As Task
+    '    Try
+
+    '        Using connection As New iDB2Connection(cn)
+
+    '            If connection.State = ConnectionState.Closed Then
+    '                connection.Open()
+    '            End If
+
+    '            Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNBF""  (ACTVBF, CLMNBF, EREGBF, BENTBF, BTRMBF,CNCCBF,CNYYBF,CNMMBF, CNDDBF, STATBF, DIANBF, LWRKBF, ACCDBF, DEADBF, CHIDBF, CRDBF, CPFDBF, CPTDBF, 
+    '                                                                                           DEGDBF, PRMDBF, RREGBF, RRSFBF, RREGBF2, RRSFBF2, RREGBF3, RRSFBF3, RREGBF4, RRSFBF4, RREGBF5, RRSFBF5,
+    '                                                                                           PROVFBF, RECPABF, GOVWBF, STAQBF, CMPQBF, MPAYBF, BANKBF, ACNOBF, WBLINKCS)
+    '                                                                                    VALUES(@ACTVBF, @CLMNBF, @EREGBF, @BENTBF, @BTRMBF, @CNCCBF, @CNYYBF, @CNMMBF, @CNDDBF, @STATBF, @DIANBF, @LWRKBF, @ACCDBF, @DEADBF, @CHIDBF, @CRDBF, @CPFDBF, @CPTDBF,
+    '                                                                                           @DEGDBF, @PRMDBF, @RREGBF, @RRSFBF, @RREGBF2, @RRSFBF2, @RREGBF3, @RRSFBF3, @RREGBF4, @RRSFBF4, @RREGBF5, @RRSFBF5,
+    '                                                                                           @PROVFBF, @RECPABF, @GOVWBF, @STAQBF, @CMPQBF, @MPAYBF, @BANKBF, @ACNOBF, @WBLINKCS)"
+
+    '            Dim cmd As New iDB2Command() With {
+    '                        .CommandText = cmdtext,
+    '                        .Connection = connection,
+    '                        .CommandTimeout = 0
+    '                    }
+
+
+    '            cmd.DeriveParameters()
+    '            cmd.Parameters("@ACTVBF").Value = "A"
+    '            cmd.Parameters("@CLMNBF").Value = Clmn
+    '            cmd.Parameters("@EREGBF").Value = Sickness.nisNo
+    '            cmd.Parameters("@BENTBF").Value = "2"
+    '                    'BENEFIT CLASSIFICATION L,S
+    '            cmd.Parameters("@BTRMBF").Value = "S"
+
+    '            cmd.Parameters("@CNCCBF").Value = Sickness.createdOn.Year \ 100
+    '            cmd.Parameters("@CNYYBF").Value = Sickness.createdOn.Year Mod 100
+    '            cmd.Parameters("@CNMMBF").Value = Sickness.createdOn.Month
+    '            cmd.Parameters("@CNDDBF").Value = Sickness.createdOn.Day
+
+    '            cmd.Parameters("@STATBF").Value = " "
+
+    '            'LAST DAY WORKED
+    '            cmd.Parameters("@LWRKBF").Value = CDate(Sickness.lastWorkedDate).Year * 10000 + CDate(Sickness.lastWorkedDate).Month * 100 + CDate(Sickness.lastWorkedDate).Day
+
+    '            'Diagnosis code
+    '            cmd.Parameters("@DIANBF").Value = 0
+
+    '            'DATE OF ACCIDENT
+    '            cmd.Parameters("@ACCDBF").Value = 0
+
+    '            'DATE OF DEATH
+    '            cmd.Parameters("@DEADBF").Value = 0
+
+    '            'CHILD DATE OF BIRTH
+    '            cmd.Parameters("@CHIDBF").Value = 0
+
+    '            'DATE OF CLAIM RECEIVED
+    '            cmd.Parameters("@CRDBF").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
+
+    '            'DATE OF CLAIM PERIODO FROM
+    '            Dim Datefrom As Date = Sickness.incapableDateFrom
+    '            cmd.Parameters("@CPFDBF").Value = Datefrom.Year * 10000 + Datefrom.Month * 100 + Datefrom.Day
+
+    '            'DATE OF CLAIM PERIODO TO
+    '            Dim DateTo As Date = Sickness.incapableDateTo
+    '            cmd.Parameters("@CPTDBF").Value = DateTo.Year * 10000 + DateTo.Month * 100 + DateTo.Day
+
+    '            'DEGREE OF DISABLEMENT
+    '            cmd.Parameters("@DEGDBF").Value = 0
+
+    '            'PERMANENTLY OF INCAPABLE
+    '            cmd.Parameters("@PRMDBF").Value = " "
+
+    '            'EMPLOYERS REG
+    '            cmd.Parameters("@RREGBF").Value = EmprNo
+    '            cmd.Parameters("@RRSFBF").Value = EmprSub
+    '            cmd.Parameters("@RREGBF2").Value = 0
+    '            cmd.Parameters("@RRSFBF2").Value = 0
+    '            cmd.Parameters("@RREGBF3").Value = 0
+    '            cmd.Parameters("@RRSFBF3").Value = 0
+    '            cmd.Parameters("@RREGBF4").Value = 0
+    '            cmd.Parameters("@RRSFBF4").Value = 0
+    '            cmd.Parameters("@RREGBF5").Value = 0
+    '            cmd.Parameters("@RRSFBF5").Value = 0
+
+    '            'PROVIDENT FUND CLAIM
+
+    '            cmd.Parameters("@PROVFBF").Value = " "
+
+    '            'PRECIPROCAL AGREEMENT
+
+    '            cmd.Parameters("@RECPABF").Value = ""
+    '            'GOVERNMENT CLAIM
+    '            cmd.Parameters("@GOVWBF").Value = " "
+
+    '            'STATEMENT QUERY
+    '            cmd.Parameters("@STAQBF").Value = " "
+
+    '            'COMPLIANCE QUERY
+    '            cmd.Parameters("@CMPQBF").Value = " "
+
+    '            ' Bank
+    '            cmd.Parameters("@MPAYBF").Value = "B"
+    '            'reassingempr
+    '            If Sickness.consent = 1 Then
+    '                cmd.Parameters("@BANKBF").Value = " "
+    '                cmd.Parameters("@ACNOBF").Value = "0"
+
+    '            Else
+    '                cmd.Parameters("@BANKBF").Value = Mid(Sickness.bank, 5, 4)
+    '                cmd.Parameters("@ACNOBF").Value = Sickness.accountNo
+
+    '                If Sickness.bank = Nothing Or Sickness.accountNo = Nothing Or Sickness.accountType Is Nothing Then
+    '                Else
+    '                    Await InsertBankInformationEmpe(Sickness, Clmn)
+    '                End If
+
+    '            End If
+
+    '            cmd.Parameters("@WBLINKCS").Value = Sickness.WebPortalLink
+    '            Await cmd.ExecuteNonQueryAsync()
+    '            cmd.Dispose()
+
+    '        End Using
+    '    Catch ex As iDB2Exception
+    '        Throw ex
+    '    End Try
+    'End Function
+
+    Async Function InsertBankInformationEmpe(Sickness As Document_Sickness, Clmn As String) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'insert in ni.xport for datacard
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ACCTYPE"" 
+                                                 (ACTV, EMPE, CLMN, BANK, ACCN, ACCTYP)
+                                          VALUES (@ACTV, @EMPE, @CLMN, @BANK, @ACCN, @ACCTYP)",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTV").Value = "A"
+                cmd.Parameters("@EMPE").Value = Sickness.nisNo
+                cmd.Parameters("@CLMN").Value = Clmn
+                cmd.Parameters("@BANK").Value = Sickness.bank
+                cmd.Parameters("@ACCN").Value = Sickness.accountNo
+                cmd.Parameters("@ACCTYP").Value = Sickness.accountType
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+    End Function
+    Async Function InsertBankInformationEmpr(Sickness As Document_Sickness, Emprn As Integer, Emprsub As Integer) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'insert in ni.xport for datacard
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ACCEMPR"" 
+                                                 (ACTV1, EMPR1, EMPS1, BANK1, ACCN1, ACCTYP1, VEND1)
+                                          VALUES (@ACTV, @EMPR, @EMPS, @BANK, @ACCN, @ACCTYP, @VEND)",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTV").Value = "A"
+                cmd.Parameters("@EMPR").Value = Emprn
+                cmd.Parameters("@EMPS").Value = Emprsub
+                cmd.Parameters("@BANK").Value = Sickness.employerBank
+                cmd.Parameters("@ACCN").Value = Sickness.employerAccountNo
+                cmd.Parameters("@ACCTYP").Value = Sickness.employerAccountType
+                cmd.Parameters("@VEND").Value = "0"
+
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
     End Function
 
 
