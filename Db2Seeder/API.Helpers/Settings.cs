@@ -19,13 +19,13 @@ namespace Db2Seeder.API.Helpers
 
         public static string SQLDocuments()
         {
-           return "Scanned_Documents_test";
-           // return "Scanned_Documents";
+           //return "Scanned_Documents_test";
+            return "Scanned_Documents";
         }
         public static string OnlineForms()
         {
-           return "OnlineForms_Test";
-          //  return "OnlineForms";
+          // return "OnlineForms_Test";
+           return "OnlineForms";
         }
     }
 }

@@ -1185,15 +1185,15 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        //var responseA = await SicknessBenefit.UpdateWorkFlowState(3, request.supportRequestId, 242);
-                                        //if (responseA.IsSuccess)
-                                        //{
-                                        //    AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
-                                        //}
-                                        //else
-                                        //{
-                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to Processing " + responseA.Message, false);
-                                        //}
+                                        var responseA = await SicknessBenefit.UpdateWorkFlowState(3, request.supportRequestId, 242);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing " + responseA.Message, false);
+                                        }
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
