@@ -3,6 +3,7 @@ using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
+
 using ShareModels.Models;
 using ShareModels.Models.Sickness_Claim;
 using System;
@@ -15,6 +16,7 @@ namespace Db2Seeder.Business.Benefit_Claims
     public class SicknessBenefit
     {
         //SupportRequest/GetByState/Type/13/State/42
+
         public static async Task<List<SupportRequest>> GetClaimsCompleted()
         {
             try
@@ -27,6 +29,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
+
         public static async Task<Document_Sickness> ClaimDetail(SupportRequest Request)
         {
             try
@@ -127,6 +130,59 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.ScanDatetime = DateTime.Now;
                             documents.ModifiedDatetime = DateTime.Now;
                             await scannedDocumentsDB.InsertDocumentforRegistration(documents);
+                            cant++;
+                        }
+                        return cant;
+                    }
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        //testing sickness parallel
+        public static async Task<int> RequestAttachmentToScannedDocumentsTest(SupportRequest Request, Document_Sickness Document_Sickness)
+        {
+            try
+            {
+                var cant = 0;
+                List<DocumentGuid> attachmentsGuid = await ApiRequest.GetAttachmentsGuid(Request.supportRequestId);
+                if (attachmentsGuid.Any())
+                {
+                    List<Document_MetaData> document_MetaDataList = new List<Document_MetaData>();
+                    document_MetaDataList = await ApiRequest.GetDocument_MetaData(attachmentsGuid);
+                    if (document_MetaDataList.Any())
+                    {
+                        List<RequestHistory> requestHistory = new List<RequestHistory>();
+                        requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
+
+                        NIS.SQL.DocumentsTest.ImportLog importLog = new NIS.SQL.DocumentsTest.ImportLog
+                        {
+                            ImportedBy = requestHistory.Last().UserName,
+                            ImportDatetime = DateTime.Now
+                        };
+                        ScannedDocumentsDB scannedDocumentsDB = new ScannedDocumentsDB();
+                        int importId = 0;
+                        importId = await scannedDocumentsDB.InsertImportLogTest(importLog);
+
+                        foreach (var item in document_MetaDataList)
+                        {
+                            NIS.SQL.DocumentsTest.Documents documents = new NIS.SQL.DocumentsTest.Documents();
+                            documents.ActiveCode = "A";
+                            documents.RegistrantTypeId = 1;
+                            documents.DocTypeId = item.code;
+                            documents.ImportId = importId;
+                            documents.NisNumber = Document_Sickness.nisNo;
+                            documents.ClaimNumber = Document_Sickness.ClaimNumber;
+                            documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
+                            documents.ScannedBy = importLog.ImportedBy;
+                            documents.ScanDatetime = DateTime.Now;
+                            documents.ModifiedDatetime = DateTime.Now;
+                            await scannedDocumentsDB.InsertDocumentforRegistrationTest(documents);
                             cant++;
                         }
                         return cant;

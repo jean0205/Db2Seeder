@@ -9,7 +9,6 @@ using Db2Seeder.SQL.Logs.DataAccess;
 using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.EntityFrameworkCore.Internal;
-using Org.BouncyCastle.Asn1.Ocsp;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
@@ -38,6 +37,7 @@ namespace Db2Seeder
         readonly MaternityDB2 as400maternityBenefit = new MaternityDB2();
         readonly EmpInjuryBenefitDB2 as400EmploymentInjurBenefit = new EmpInjuryBenefitDB2();
         readonly Covid19DB2 as400CovidBenefit = new Covid19DB2();
+        
 
         bool working = false;
         bool cancelRequest = false;
@@ -647,8 +647,8 @@ namespace Db2Seeder
                                             await LogsHelper.SaveComplianceLOG(request, document);
                                         }
                                         catch (Exception)
-                                        {                                           
-                                        }                                      
+                                        {
+                                        }
 
                                         //updating worflow state
                                         var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
@@ -832,7 +832,7 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
                                         }
                                         //save log send email
-                                        await LogsHelper.SaveClaimLOG(request,(int)document.ClaimNumber,"AGE","0",document.nisNo,document.firstName+document.otherName,(DateTime)document.CompletedTime,document.CompletedBy);
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "AGE", "0", document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                     //comentar si no se quieren salvar los documentos nuevamente
                                     try
@@ -880,7 +880,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-        
+
         //va a ser el mismo q Survivor cuando Lotek lo termine
         private async Task DeathBenefitClaimCompleted()
         {
@@ -1060,7 +1060,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-        
+
         private async Task InvalidityBenefitClaimCompleted()
         {
             try
@@ -1149,7 +1149,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-        
+
         //Completed
         private async Task SicknessBenefitClaimCompleted()
         {
@@ -1176,7 +1176,10 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                    document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document);
+                                    as400sicknessBenefit.As400_lib = "NI";
+                                    document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document,false);
+
+
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1197,7 +1200,17 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
+
                                             int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
+
+                                            
+
+                                            //posting in testing
+                                            as400sicknessBenefit.As400_lib = "TT";
+
+                                            document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, true);
+                                            await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                         }
                                         catch (Exception ex)
@@ -1207,7 +1220,7 @@ namespace Db2Seeder
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
                                         }
                                         //save log send email
-                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "SICKNESS",  document.employerNis, document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "SICKNESS", document.employerNis, document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
@@ -1241,7 +1254,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-        
+
         private async Task SurvivorBenefitClaimCompleted()
         {
             try
@@ -1274,7 +1287,7 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
-                                       // updating worflow state
+                                        // updating worflow state
                                         var responseA = await SurvivorBenefit.UpdateWorkFlowState(11, request.supportRequestId, 189);
                                         if (responseA.IsSuccess)
                                         {
@@ -1331,7 +1344,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-        
+
         //Completed
         private async Task DisablemetBenefitClaimCompleted()
         {
@@ -1511,8 +1524,8 @@ namespace Db2Seeder
             {
                 Crashes.TrackError(ex);
             }
-        }        
-        
+        }
+
         //esperando respuesta del correo a nigel
         private async Task EmploymentInjuryBenefitClaimCompleted()
         {
@@ -1602,7 +1615,7 @@ namespace Db2Seeder
                 await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
             }
         }
-        
+
         //Completed
         private async Task CovidBenefitClaimCompleted()
         {
@@ -1616,7 +1629,7 @@ namespace Db2Seeder
                     if (requests.Any())
                     {
                         AddTreeViewLogLevel1(requests.Count + " Claims Ready for Processing Found", true);
-                        foreach ( var request in requests)
+                        foreach (var request in requests)
                         {
                             PlayExclamation();
                             if (cancelRequest) return;
@@ -1953,7 +1966,7 @@ namespace Db2Seeder
             simpleSound.Play();
         }
 
-       
+
 
     }
 }

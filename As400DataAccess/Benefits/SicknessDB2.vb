@@ -3,9 +3,9 @@ Imports IBM.Data.DB2.iSeries
 Imports ShareModels.Models.Sickness_Claim
 Public Class SicknessDB2
     Dim cn = DB2ConnectionS.as400
-    Dim As400_lib = DB2ConnectionS.As400_lib
+    Public As400_lib = DB2ConnectionS.As400_lib
 
-    Async Function InsertSickness(Sickness As Document_Sickness) As Task(Of Integer)
+    Async Function InsertSickness(Sickness As Document_Sickness, testing As Boolean) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
@@ -20,8 +20,12 @@ Public Class SicknessDB2
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
+            If testing Then
+                ClaimNo = Await GenerarClaimNoTest()
+            Else
+                ClaimNo = Await GenerarClaimNo()
+            End If
 
-            ClaimNo = Await GenerarClaimNo()
             Await InsertSickBenf(Sickness, ClaimNo, EmprNo, EmprSub)
             Await InsertSickCLMNCS(Sickness, ClaimNo, EmprNo, EmprSub)
 
