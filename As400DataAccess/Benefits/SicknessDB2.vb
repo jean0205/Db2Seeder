@@ -384,7 +384,12 @@ Public Class SicknessDB2
                 cmd.Parameters("@CLMN").Value = Clmn
                 cmd.Parameters("@BANK").Value = Sickness.bank
                 cmd.Parameters("@ACCN").Value = Sickness.accountNo
-                cmd.Parameters("@ACCTYP").Value = Sickness.accountType
+                If Sickness.accountType = 1 Then
+                    cmd.Parameters("@ACCTYP").Value = "SAV"
+                Else
+                    cmd.Parameters("@ACCTYP").Value = "DDA"
+                End If
+
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
 
