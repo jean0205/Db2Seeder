@@ -285,7 +285,9 @@ namespace Db2Seeder
                                         }
                                     }
                                     AddTreeViewLogLevel1("Posting Self-Employee (Employer)", true);
+
                                     document.EmployerNo = await as400Empr.InsertSelfEmployers(document);
+
                                     if (document.EmployerNo != 0)
                                     {
                                         await MappAndAssingSelfEmployer(request, document);
@@ -1176,7 +1178,8 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                    as400sicknessBenefit.As400_lib = "NI";
+                                    //as400sicknessBenefit.As400_lib = "NI";
+                                    as400sicknessBenefit.As400_lib = "TT";
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document,false);
 
 
@@ -1201,15 +1204,15 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
 
-                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            //int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
-                                            
+
 
                                             //posting in testing
-                                            as400sicknessBenefit.As400_lib = "TT";
+                                            //as400sicknessBenefit.As400_lib = "TT";
 
-                                            document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, true);
-                                            await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                            //document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, true);
+                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                         }
