@@ -455,7 +455,13 @@ Public Class EmployerDB2
                 cmd.Parameters("@EMPS").Value = "0"
                 cmd.Parameters("@BANK").Value = Empe.bank
                 cmd.Parameters("@ACCN").Value = Empe.accountNumber
-                cmd.Parameters("@ACCTYP").Value = Empe.accountType
+
+                If Empe.accountType = 1 Then
+                    cmd.Parameters("@ACCTYP").Value = "SAV"
+                Else
+                    cmd.Parameters("@ACCTYP").Value = "DDA"
+                End If
+
                 cmd.Parameters("@VEND").Value = "0"
 
                 Await cmd.ExecuteNonQueryAsync()

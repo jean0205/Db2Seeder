@@ -400,7 +400,22 @@ Public Class SicknessDB2
             Using connection As New iDB2Connection(cn)
                 connection.Open()
                 'insert in ni.xport for datacard
+
+                Dim rsclm As iDB2DataReader
                 Dim cmd As New iDB2Command() With {
+                .CommandText = "Select * From ""QS36F"".""" & As400_lib & ".ACCEMPR"" WHERE EMPR1 = @EMPR1 And EMPS1 = @EMPS1",
+                 .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@EMPR1").Value = Trim(Emprn)
+                cmd.Parameters("@EMPS1").Value = Trim(Emprsub)
+                rsclm = cmd.ExecuteReader
+                If rsclm.Read() = True Then
+                Else
+
+                    Dim cmdX As New iDB2Command() With {
                 .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ACCEMPR"" 
                                                  (ACTV1, EMPR1, EMPS1, BANK1, ACCN1, ACCTYP1, VEND1)
                                           VALUES (@ACTV, @EMPR, @EMPS, @BANK, @ACCN, @ACCTYP, @VEND)",
@@ -408,17 +423,25 @@ Public Class SicknessDB2
                 .CommandTimeout = 0
                 }
 
-                cmd.DeriveParameters()
-                cmd.Parameters("@ACTV").Value = "A"
-                cmd.Parameters("@EMPR").Value = Emprn
-                cmd.Parameters("@EMPS").Value = Emprsub
-                cmd.Parameters("@BANK").Value = Sickness.employerBank
-                cmd.Parameters("@ACCN").Value = Sickness.employerAccountNo
-                cmd.Parameters("@ACCTYP").Value = Sickness.employerAccountType
-                cmd.Parameters("@VEND").Value = "0"
+                cmdX.DeriveParameters()
+                cmdX.Parameters("@ACTV").Value = "A"
+                cmdX.Parameters("@EMPR").Value = Emprn
+                cmdX.Parameters("@EMPS").Value = Emprsub
+                cmdX.Parameters("@BANK").Value = Sickness.employerBank
+                cmdX.Parameters("@ACCN").Value = Sickness.employerAccountNo
+                If Sickness.employerAccountType = 1 Then
+                    cmdX.Parameters("@ACCTYP").Value = "SAV"
+                Else
+                    cmdX.Parameters("@ACCTYP").Value = "DDA"
+                End If
 
-                Await cmd.ExecuteNonQueryAsync()
-                cmd.Dispose()
+                cmdX.Parameters("@VEND").Value = "0"
+
+                Await cmdX.ExecuteNonQueryAsync()
+                cmdX.Dispose()
+
+                End If
+              
 
             End Using
         Catch ex As iDB2Exception
