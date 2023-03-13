@@ -1178,11 +1178,8 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                    //as400sicknessBenefit.As400_lib = "NI";
-                                    as400sicknessBenefit.As400_lib = "TT";
+                                    as400sicknessBenefit.As400_lib = "NI";                                    
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document,false);
-
-
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1204,15 +1201,15 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
 
-                                            //int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
 
 
                                             //posting in testing
-                                            //as400sicknessBenefit.As400_lib = "TT";
+                                           // as400sicknessBenefit.As400_lib = "TT";
 
                                             //document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, true);
-                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                            //int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                         }

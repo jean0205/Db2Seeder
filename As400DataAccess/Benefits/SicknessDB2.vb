@@ -428,25 +428,25 @@ Public Class SicknessDB2
                 .CommandTimeout = 0
                 }
 
-                cmdX.DeriveParameters()
-                cmdX.Parameters("@ACTV").Value = "A"
-                cmdX.Parameters("@EMPR").Value = Emprn
-                cmdX.Parameters("@EMPS").Value = Emprsub
-                cmdX.Parameters("@BANK").Value = Sickness.employerBank
-                cmdX.Parameters("@ACCN").Value = Sickness.employerAccountNo
-                If Sickness.employerAccountType = 1 Then
-                    cmdX.Parameters("@ACCTYP").Value = "SAV"
-                Else
-                    cmdX.Parameters("@ACCTYP").Value = "DDA"
+                    cmdX.DeriveParameters()
+                    cmdX.Parameters("@ACTV").Value = "A"
+                    cmdX.Parameters("@EMPR").Value = Emprn
+                    cmdX.Parameters("@EMPS").Value = Emprsub
+                    cmdX.Parameters("@BANK").Value = Sickness.employerBank
+                    cmdX.Parameters("@ACCN").Value = Sickness.employerAccountNo
+                    If Sickness.employerAccountType = 1 Then
+                        cmdX.Parameters("@ACCTYP").Value = "SAV"
+                    Else
+                        cmdX.Parameters("@ACCTYP").Value = "DDA"
+                    End If
+
+                    cmdX.Parameters("@VEND").Value = "0"
+
+                    Await cmdX.ExecuteNonQueryAsync()
+                    cmdX.Dispose()
+
                 End If
 
-                cmdX.Parameters("@VEND").Value = "0"
-
-                Await cmdX.ExecuteNonQueryAsync()
-                cmdX.Dispose()
-
-                End If
-              
 
             End Using
         Catch ex As iDB2Exception
