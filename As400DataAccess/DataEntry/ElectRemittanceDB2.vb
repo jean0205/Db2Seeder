@@ -3,7 +3,7 @@ Imports ShareModels.Models
 
 Public Class ElectRemittanceDB2
     Dim cn = DB2ConnectionS.as400
-    Dim As400_lib = DB2ConnectionS.As400_lib
+    Public As400_lib = DB2ConnectionS.As400_lib
     Dim dtLoadCnte As New DataTable
     Dim WebCache As New WebPortalDB
     Dim Batch As String

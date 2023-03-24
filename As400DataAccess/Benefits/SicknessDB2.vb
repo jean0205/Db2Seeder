@@ -5,7 +5,7 @@ Public Class SicknessDB2
     Dim cn = DB2ConnectionS.as400
     Public As400_lib = DB2ConnectionS.As400_lib
 
-    Async Function InsertSickness(Sickness As Document_Sickness, testing As Boolean) As Task(Of Integer)
+    Async Function InsertSickness(Sickness As Document_Sickness, ClaimNumber As Integer?) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
@@ -20,10 +20,11 @@ Public Class SicknessDB2
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
-            If testing Then
-                ClaimNo = Await GenerarClaimNoTest()
-            Else
+
+            If ClaimNumber Is Nothing Then
                 ClaimNo = Await GenerarClaimNo()
+            Else
+                ClaimNo = ClaimNumber
             End If
 
             Await InsertSickBenf(Sickness, ClaimNo, EmprNo, EmprSub)

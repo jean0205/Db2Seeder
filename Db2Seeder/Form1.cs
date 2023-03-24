@@ -37,7 +37,8 @@ namespace Db2Seeder
         readonly MaternityDB2 as400maternityBenefit = new MaternityDB2();
         readonly EmpInjuryBenefitDB2 as400EmploymentInjurBenefit = new EmpInjuryBenefitDB2();
         readonly Covid19DB2 as400CovidBenefit = new Covid19DB2();
-        
+        readonly ElectRemittanceDB2 as400remittances = new ElectRemittanceDB2();
+
 
         bool working = false;
         bool cancelRequest = false;
@@ -730,9 +731,10 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Remittance details successfully loaded", true);
                                     try
                                     {
+                                        as400remittances.As400_lib = "NI";
                                         AddTreeViewLogLevel2Info("Posting Remittance to As400.");
                                         await Remittance.PostRemittanceToAs400(request, document);
-                                        AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
+                                        AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);                                       
 
                                         //agregar el mensage cuando me den el text.
                                         // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
@@ -1179,7 +1181,7 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
                                     as400sicknessBenefit.As400_lib = "NI";                                    
-                                    document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document,false);
+                                    document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document,null);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1206,12 +1208,12 @@ namespace Db2Seeder
 
 
                                             //posting in testing
-                                           // as400sicknessBenefit.As400_lib = "TT";
+                                            as400sicknessBenefit.As400_lib = "TT";
 
-                                            //document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, true);
-                                            //int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                            await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
+                                            int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
-                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                            AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
                                         }
                                         catch (Exception ex)
                                         {

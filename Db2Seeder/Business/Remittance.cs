@@ -129,6 +129,9 @@ namespace Db2Seeder.Business
         }
         private async Task PostAS400(Document_Remittance Document_Remittance)
         {
+            as400Remittance.As400_lib = "NI";
+            await as400Remittance.PostRemittances(Document_Remittance);
+            as400Remittance.As400_lib = "TT";
             await as400Remittance.PostRemittances(Document_Remittance);
         }
 
