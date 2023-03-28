@@ -217,8 +217,8 @@ Public Class SicknessDB2
 
                 Else
                     cmd.Parameters("@EMPASCS").Value = "N"
-                    cmd.Parameters("@EMPRACS").Value = "0"
-                    cmd.Parameters("@EMPSACS").Value = "0"
+                    cmd.Parameters("@EMPRACS").Value = EmprNo
+                    cmd.Parameters("@EMPSACS").Value = EmprSub
 
                     If Sickness.bank = Nothing Or Sickness.accountNo = Nothing Or Sickness.accountType Is Nothing Then
                     Else
