@@ -79,6 +79,8 @@
     <Compile Include="Benefits\ModBenfHelps.vb" />
     <Compile Include="Benefits\SicknessDB2.vb" />
     <Compile Include="Benefits\SurvivorBenefitDB2.vb" />
+    <Compile Include="Benefits\UnemploymentBenefitDB2.vb" />
+    <Compile Include="Benefits\UnemploymentSEPBenefitDB2.vb" />
     <Compile Include="DataEntry\ElectRemittanceDB2.vb" />
     <Compile Include="Employer\EmployerDB2.vb" />
     <Compile Include="Employee\EmployeeDB2.vb" />

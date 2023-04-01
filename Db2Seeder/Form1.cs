@@ -37,6 +37,8 @@ namespace Db2Seeder
         readonly MaternityDB2 as400maternityBenefit = new MaternityDB2();
         readonly EmpInjuryBenefitDB2 as400EmploymentInjurBenefit = new EmpInjuryBenefitDB2();
         readonly Covid19DB2 as400CovidBenefit = new Covid19DB2();
+        readonly UnemploymentBenefitDB2 as400UnemploymentBenefit = new UnemploymentBenefitDB2();
+        readonly UnemploymentSEPBenefitDB2 as400UnemploymentSEPBenefit = new UnemploymentSEPBenefitDB2();
         readonly ElectRemittanceDB2 as400remittances = new ElectRemittanceDB2();
 
 
@@ -233,6 +235,34 @@ namespace Db2Seeder
                 await CovidBenefitClaimCompleted();
                 working = false;
             }
+        }
+        private async void button21_Click(object sender, EventArgs e)
+        {
+            if (!working)
+            {
+                await UEB_EmployeesClaimPendingProcessing();
+
+                working = false;
+            }
+        }
+        private async  void button20_Click(object sender, EventArgs e)
+        {
+            if (!working)
+            {
+                await UEB_DeclarationsPendingProcessing();
+
+                working = false;
+            }
+        }
+        private async void button22_Click(object sender, EventArgs e)
+        {
+            if (!working)
+            {
+                await UEB_SEPClaimPendingProcessing();
+
+                working = false;
+            }
+
         }
         #endregion
 
@@ -1707,6 +1737,278 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        private async Task UEB_EmployeesClaimPendingProcessing()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Unemployment Benefit EMPLOYEES");
+                AddTreeViewLogLevel1Info("Getting UEB EMPLOYEES Benefit Claims Pending  Processing.");
+                try
+                {
+                    var requests = await UEB_EmpeBenefit.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Pending Processing Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_UEB_Empe();
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            try
+                            {
+                                document = await UEB_EmpeBenefit.ClaimDetail(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Claim details successfully loaded", true);
+
+                                    document.ClaimNumber = await as400UnemploymentBenefit.InsertUnemployment(document, null);
+
+                                    if (document.ClaimNumber == 0 )
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        //updating worflow state
+                                        var responseA = await UEB_EmpeBenefit.UpdateWorkFlowState(3, request.supportRequestId, 287);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving Claim Documents.");
+                                            int savedAtt = await UEB_EmpeBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeeClaimFormId, document.CompletedTime);
+                                        }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "UEB_Employees", document.ClaimNumber.ToString(), long.Parse(document.nisNo), document.firstName + document.surname, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeeClaimFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+        private async Task UEB_DeclarationsPendingProcessing()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Unemployment DECLARATIONS");
+                AddTreeViewLogLevel1Info("Getting UEB DECLARATIONS Pending  Processing.");
+                try
+                {
+                    var requests = await UEB_Declaration.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " DECLARATIONS Pending Processing Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_UEB_Declaration();
+                            AddTreeViewLogLevel1Info("Getting DECLARATION Details");
+                            try
+                            {
+                                document = await UEB_Declaration.ClaimDetail(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("DECLARATION details successfully loaded", true);
+
+                                    document.ClaimNumber = 5;// await as400UnemploymentBenefit.InsertUnemployment(document, null);
+
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting DECLARATION to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("DECLARATION with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        //updating worflow state
+                                        var responseA = await UEB_Declaration.UpdateWorkFlowState(3, request.supportRequestId, 305);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Posted. " + responseA.Message, false);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving DECLARATION Documents.");
+                                            int savedAtt = await UEB_Declaration.RequestAttachmentToScannedDocuments(request, document);
+                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeeClaimFormId, document.CompletedTime);
+                                        }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "UEB_DECLARATION", document.ClaimNumber.ToString(), long.Parse(document.nisNo), document.firstName + document.surname, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting DECLARATION Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeeClaimFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+        private async Task UEB_SEPClaimPendingProcessing()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Unemployment Benefit SEP");
+                AddTreeViewLogLevel1Info("Getting UEB SEP Benefit Claims Pending  Processing.");
+                try
+                {
+                    var requests = await UEB_SEPBenefit.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Pending Processing Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_UEB_SEP();
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            try
+                            {
+                                document = await UEB_SEPBenefit.ClaimDetail(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Claim details successfully loaded", true);
+
+                                    document.ClaimNumber = await as400UnemploymentSEPBenefit.InsertUnemployment(document, null);
+
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        //updating worflow state
+                                        //TODO si los voy a coger en pending processing tengo q moverlos dos veces hasta posted, o cambiar los actions para q mueva para el stae 246 de una sola vez
+                                        var responseA = await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 295);
+                                        await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 298);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving Claim Documents.");
+                                            int savedAtt = await UEB_SEPBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentSelfEmployedClaimFormId, document.CompletedTime);
+                                        }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "UEB_SEP", document.ClaimNumber.ToString(), long.Parse(document.nisNo), document.firstName + document.surname, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentSelfEmployedClaimFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
 
         #endregion
 
@@ -1968,7 +2270,8 @@ namespace Db2Seeder
             simpleSound.Play();
         }
 
+        
 
-
+       
     }
 }

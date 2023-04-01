@@ -58,6 +58,9 @@
     <Compile Include="Models\Benefit Claims\Document_Invalidity.cs" />
     <Compile Include="Models\Benefit Claims\Document_Maternity.cs" />
     <Compile Include="Models\Benefit Claims\Document_SurvivorBenefit.cs" />
+    <Compile Include="Models\Benefit Claims\Document_UEB_Declaration.cs" />
+    <Compile Include="Models\Benefit Claims\Document_UEB_Empe.cs" />
+    <Compile Include="Models\Benefit Claims\Document_UEB_SEP.cs" />
     <Compile Include="Models\Benefit Claims\ProvidentFundEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkOtherCountryEntity.cs" />
     <Compile Include="Models\Benefit Claims\WorkHistoryEntity.cs" />

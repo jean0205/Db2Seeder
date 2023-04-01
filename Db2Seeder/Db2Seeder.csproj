@@ -105,6 +105,9 @@
     <Compile Include="Business\Benefit Claims\MaternityBenefit.cs" />
     <Compile Include="Business\Benefit Claims\SicknessBenefit.cs" />
     <Compile Include="Business\Benefit Claims\SurvivorBenefit.cs" />
+    <Compile Include="Business\Benefit Claims\UEB_Declaration.cs" />
+    <Compile Include="Business\Benefit Claims\UEB_EmpeBenefit.cs" />
+    <Compile Include="Business\Benefit Claims\UEB_SEPBenefit.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\EmployeeRegistration.cs" />
     <Compile Include="Business\EmployerRegistration.cs" />
