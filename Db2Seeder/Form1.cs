@@ -264,6 +264,15 @@ namespace Db2Seeder
             }
 
         }
+        private async void button23_Click(object sender, EventArgs e)
+        {
+            if (!working)
+            {
+                await UEB_TerminationCertificatePendingProcessing();
+
+                working = false;
+            }
+        }
         #endregion
 
         #region Employee-Employer
@@ -2009,6 +2018,114 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
+        private async Task UEB_TerminationCertificatePendingProcessing()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Termination Certificates");
+                AddTreeViewLogLevel1Info("Getting Termination Certificates Pending  Processing.");
+                try
+                {
+                    var requests = await UEB_TerminationCert.GetClaimsCompleted();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Termination Certificates Pending Processing Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_TerminationCertificate();
+                            AddTreeViewLogLevel1Info("Getting Termination Certificates Details");
+                            try
+                            {
+                                document = await UEB_TerminationCert.ClaimDetail(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Termination Certificates details successfully loaded", true);
+
+                                    document.ClaimNumber = 5;// await as400UnemploymentSEPBenefit.InsertUnemployment(document, null);
+
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting Termination Certificates to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Termination Certificates with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        //updating worflow state
+                                        
+                                        //var responseA = await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 295);
+                                        //await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 307);
+                                        //if (responseA.IsSuccess)
+                                        //{
+                                        //    AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        //}
+                                        //else
+                                        //{
+                                        //    AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        //}
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving Termination Certificates Documents.");
+                                            if (await UEB_TerminationCert.SaveJsoninNISDataBase(request,document))
+                                            {
+                                                AddTreeViewLogLevel2("Json Succesfully Saved.", true);
+                                            }
+                                           
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.certificateTerminationLayoffFormId, document.CompletedTime);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving Claim Documents.");
+                                            int savedAtt = await UEB_TerminationCert.RequestAttachmentToScannedDocuments(request, document);
+                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.certificateTerminationLayoffFormId, document.CompletedTime);
+                                        }
+
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "UEB_Termination Certificates", document.ClaimNumber.ToString(), long.Parse(document.nisNo), document.firstName + document.surname, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Termination Certificates Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.certificateTerminationLayoffFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
 
         #endregion
 
@@ -2269,8 +2386,6 @@ namespace Db2Seeder
             SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
             simpleSound.Play();
         }
-
-        
 
        
     }

@@ -108,6 +108,7 @@
     <Compile Include="Business\Benefit Claims\UEB_Declaration.cs" />
     <Compile Include="Business\Benefit Claims\UEB_EmpeBenefit.cs" />
     <Compile Include="Business\Benefit Claims\UEB_SEPBenefit.cs" />
+    <Compile Include="Business\Benefit Claims\UEB_TerminationCert.cs" />
     <Compile Include="Business\ComplianceCertificate.cs" />
     <Compile Include="Business\EmployeeRegistration.cs" />
     <Compile Include="Business\EmployerRegistration.cs" />
@@ -161,6 +162,10 @@
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\ImportLog.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\RegistrantTypes.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\scanned_documents_Context.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\DataAccess\UnemploymentDB.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\TerminationCertificate.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\UnempDeclaration.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\UnemploymentContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQL.Logs\ClaimRequestLog.cs" />
@@ -274,6 +279,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="_CopySNIFilesToPublishFolder" AfterTargets="_CopyFilesToPublishFolder" Condition="'$(CopySNIFiles)' != 'false' And&#xD;&#xA;                      '$(_CopySNIFilesToPublishFolder)' != 'false' And&#xD;&#xA;                      '$(_DeploymentApplicationDir)' != '' And&#xD;&#xA;                      HasTrailingSlash('$(_DeploymentApplicationDir)') And&#xD;&#xA;                      Exists('$(_DeploymentApplicationDir)')" Inputs="@(SNIFiles)" Outputs="@(SNIFiles -> '$(_DeploymentApplicationDir)%(RecursiveDir)%(Filename)%(Extension)')">
     <Copy SourceFiles="@(SNIFiles)" DestinationFiles="@(SNIFiles -> '$(_DeploymentApplicationDir)%(RecursiveDir)%(Filename)%(Extension)')" />

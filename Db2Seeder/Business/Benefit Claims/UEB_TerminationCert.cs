@@ -3,8 +3,8 @@ using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
-using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment.DataAccess;
 using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment;
+using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment.DataAccess;
 using Newtonsoft.Json;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
@@ -15,23 +15,21 @@ using System.Threading.Tasks;
 
 namespace Db2Seeder.Business.Benefit_Claims
 {
-    public class UEB_Declaration
+    public class UEB_TerminationCert
     {
-        //SupportRequest/GetByState/Type/18/State/237 pending processing usar 238 si quiero cogerlas en ready for processing, en caso de que customer services necesite revisarlas 
-
         public static async Task<List<SupportRequest>> GetClaimsCompleted()
         {
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(19, 261);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(22, 264);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static async Task<Document_UEB_Declaration> ClaimDetail(SupportRequest Request)
+        public static async Task<Document_TerminationCertificate> ClaimDetail(SupportRequest Request)
         {
             try
             {
@@ -39,23 +37,23 @@ namespace Db2Seeder.Business.Benefit_Claims
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
-                    Document_UEB_Declaration declaration = new Document_UEB_Declaration();
+                    Document_TerminationCertificate certificate = new Document_TerminationCertificate();
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-                    declaration = await GetDetails(guid);
+                    certificate = await GetDetails(guid);
 
-                    if (declaration == null)
+                    if (certificate == null)
                     {
                         return null;
                     }
-                    declaration.CompletedBy = requestHistory.Last().UserName;
-                    declaration.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
-                    declaration.SupportRequestId = Request.supportRequestId;
+                    certificate.CompletedBy = requestHistory.Last().UserName;
+                    certificate.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
+                    certificate.SupportRequestId = Request.supportRequestId;
 
                     //actualizar la fecha de creada a cuando esta lista 
-                    declaration.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                    certificate.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
 
-                    return declaration;
+                    return certificate;
                 }
                 return null;
             }
@@ -64,17 +62,17 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<Document_UEB_Declaration> GetDetails(DocumentGuid guid)
+        public static async Task<Document_TerminationCertificate> GetDetails(DocumentGuid guid)
         {
             try
             {
-                Response response = await ApiServices.FindAsyncByGuid<Document_UEB_Declaration>("Document/Get?id", guid.message);
+                Response response = await ApiServices.FindAsyncByGuid<Document_TerminationCertificate>("Document/Get?id", guid.message);
 
                 if (!response.IsSuccess)
                 {
                     return null;
                 }
-                return (Document_UEB_Declaration)response.Result;
+                return (Document_TerminationCertificate)response.Result;
             }
             catch (Exception ex)
             {
@@ -94,8 +92,29 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-
-        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_UEB_Declaration declaration)
+        public static async Task<bool> SaveJsoninNISDataBase(SupportRequest Request,Document_TerminationCertificate certificate)
+        {
+            try
+            {
+                UnemploymentDB unemploymentDB = new UnemploymentDB();
+                TerminationCertificate cert = new TerminationCertificate();
+                cert.NisNumber = long.Parse(certificate.nisNo);
+                cert.EmployerNumber = long.Parse(certificate.employerNisNo);
+                cert.EmployerSub = 0;//TODO update when the portal issue with employernis be fixed
+                cert.CertificateJson = JsonConvert.SerializeObject(certificate);               
+                cert.SavedTime = DateTime.Now;
+                cert.SupportrequestId = Request.supportRequestId;
+                await unemploymentDB.InsertTerminationCertificate(cert);
+                return true;
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;                
+            }
+            
+        }
+        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_TerminationCertificate Document_UEB)
         {
             try
             {
@@ -126,8 +145,8 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.RegistrantTypeId = 1;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = int.Parse(declaration.nisNo);
-                            documents.ClaimNumber = declaration.ClaimNumber;
+                            documents.NisNumber = int.Parse(Document_UEB.nisNo);
+                            //documents.ClaimNumber = Document_UEB.ClaimNumber;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
                             documents.ScannedBy = importLog.ImportedBy;
                             documents.ScanDatetime = DateTime.Now;
@@ -144,26 +163,6 @@ namespace Db2Seeder.Business.Benefit_Claims
             {
                 throw ex;
             }
-        }
-        public static async Task<bool> SaveJsoninNISDataBase(SupportRequest Request, Document_UEB_Declaration declaration)
-        {
-            try
-            {
-                UnemploymentDB unemploymentDB = new UnemploymentDB();
-                UnempDeclaration decl = new UnempDeclaration();
-                decl.NisNumber = long.Parse(declaration.nisNo);               
-                decl.DeclarationJson = JsonConvert.SerializeObject(declaration);
-                decl.SavedTime = DateTime.Now;
-                decl.SupportrequestId = Request.supportRequestId;
-                await unemploymentDB.InsertUnemploymentDeclaration(decl);
-                return true;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
         }
     }
 }
