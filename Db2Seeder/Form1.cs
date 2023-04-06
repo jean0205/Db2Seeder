@@ -1882,6 +1882,21 @@ namespace Db2Seeder
                                         }
                                         try
                                         {
+                                            AddTreeViewLogLevel2Info("Saving Termination Certificates Documents.");
+                                            if (await UEB_Declaration.SaveJsoninNISDataBase(request, document))
+                                            {
+                                                AddTreeViewLogLevel2("Json Succesfully Saved.", true);
+                                            }
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeedeclarationFormId, document.CompletedTime);
+                                        }
+                                        try
+                                        {
                                             AddTreeViewLogLevel2Info("Saving DECLARATION Documents.");
                                             int savedAtt = await UEB_Declaration.RequestAttachmentToScannedDocuments(request, document);
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
@@ -1890,7 +1905,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeeClaimFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeedeclarationFormId, document.CompletedTime);
                                         }
                                         //save log send email
                                         await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "UEB_DECLARATION", document.ClaimNumber.ToString(), long.Parse(document.nisNo), document.firstName + document.surname, (DateTime)document.CompletedTime, document.CompletedBy);
@@ -1905,7 +1920,7 @@ namespace Db2Seeder
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeeClaimFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeedeclarationFormId, document.CompletedTime);
                             }
                         }
                     }

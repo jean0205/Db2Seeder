@@ -69,7 +69,7 @@ Public Class UnemploymentSEPBenefitDB2
                 cmd1.Parameters("@COTC13").Value = ""
 
                 'USER INITIALS
-                cmd1.Parameters("@INTL13").Value = "Webportal"    'claim.CompletedBy si se decide revisar el CS cambiar aqui, sino se postearia el nombre del claimant 
+                cmd1.Parameters("@INTL13").Value = "Webportal"    'TODO claim.CompletedBy si se decide revisar el CS cambiar aqui, sino se postearia el nombre del claimant 
 
                 'DIAGNOSIS COD
                 cmd1.Parameters("@DIAG13").Value = 0
@@ -406,3 +406,4 @@ Public Class UnemploymentSEPBenefitDB2
     End Function
 
 End Class
+
