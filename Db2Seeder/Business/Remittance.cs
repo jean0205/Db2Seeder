@@ -119,7 +119,15 @@ namespace Db2Seeder.Business
                     decimal totalIE = (decimal)Math.Round(RemittanceCopy.employeeContributionRecords.Sum(x => x.insurableEarnings), 2);
                     decimal totalCont = (decimal)Math.Round(RemittanceCopy.employeeContributionRecords.Sum(x => x.contributions.total), 2);
 
-                    await LogsHelper.SaveRemittanceLOG(Request, Document_Remittance, yyyyMM, totalIE, totalCont);
+                    try
+                    {
+                        await LogsHelper.SaveRemittanceLOG(Request, Document_Remittance, yyyyMM, totalIE, totalCont);
+                    }
+                    catch (Exception)
+                    {
+                       
+                    }
+                    
                 }
             }
             catch (Exception ex)

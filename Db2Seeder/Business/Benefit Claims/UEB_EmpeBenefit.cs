@@ -3,13 +3,12 @@ using Db2Seeder.API.Models;
 using Db2Seeder.API.Request;
 using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
+using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment.DataAccess;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
-using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Db2Seeder.Business.Benefit_Claims
@@ -143,5 +142,22 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
+
+        public static async Task<bool> SaveRequestClaimMapping(long requestId, long claimNumber)
+        {
+            try
+            {
+                UnemploymentDB unemploymentDB = new UnemploymentDB();
+
+                return await unemploymentDB.InsertRequestClaimMapping(requestId, claimNumber);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }

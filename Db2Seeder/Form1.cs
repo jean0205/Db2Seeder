@@ -889,7 +889,6 @@ namespace Db2Seeder
                                         Crashes.TrackError(ex);
                                         AddTreeViewLogLevel2("Error " + ex.Message, false);
                                         await LogsHelper.SaveErrorLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
-
                                     }
                                 }
                                 else
@@ -1773,6 +1772,8 @@ namespace Db2Seeder
 
                                     document.ClaimNumber = await as400UnemploymentBenefit.InsertUnemployment(document, null);
 
+                                    await UEB_EmpeBenefit.SaveRequestClaimMapping(request.supportRequestId, (int)document.ClaimNumber);
+
                                     if (document.ClaimNumber == 0 )
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1847,7 +1848,7 @@ namespace Db2Seeder
                     var requests = await UEB_Declaration.GetClaimsCompleted();
                     if (requests.Any())
                     {
-                        AddTreeViewLogLevel1(requests.Count + " DECLARATIONS Pending Processing Found", true);
+                        AddTreeViewLogLevel1(requests.Count + "DECLARATIONS Pending Processing Found", true);
                         foreach (var request in requests)
                         {
                             PlayExclamation();
@@ -1861,15 +1862,24 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("DECLARATION details successfully loaded", true);
 
-                                    document.ClaimNumber = 5;// await as400UnemploymentBenefit.InsertUnemployment(document, null);
-
-                                    if (document.ClaimNumber == 0)
+                                    var claimMapping = await UEB_Declaration.GetClaimRequestMappingByRequestId(document.unemploymentRegularEmployeeClaimFormId);
+                                    if (claimMapping != null)
                                     {
-                                        AddTreeViewLogLevel1("Error inserting DECLARATION to the  DB2 database.", false);
+                                        document.ClaimNumber = int.Parse(claimMapping.ClaimNumber.ToString());
                                     }
                                     else
                                     {
-                                        AddTreeViewLogLevel1("DECLARATION with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        document.ClaimNumber = 0;
+                                    }
+                                   
+
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error getting claim mapping.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("DECLARATION for claim number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
                                         var responseA = await UEB_Declaration.UpdateWorkFlowState(3, request.supportRequestId, 305);
                                         if (responseA.IsSuccess)
@@ -1883,7 +1893,7 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Termination Certificates Documents.");
-                                            if (await UEB_Declaration.SaveJsoninNISDataBase(request, document))
+                                            if (await UEB_Declaration.SaveJsoninNISDataBase(request, document, document.unemploymentRegularEmployeeClaimFormId))
                                             {
                                                 AddTreeViewLogLevel2("Json Succesfully Saved.", true);
                                             }
@@ -1967,6 +1977,8 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
                                     document.ClaimNumber = await as400UnemploymentSEPBenefit.InsertUnemployment(document, null);
+
+                                    await UEB_EmpeBenefit.SaveRequestClaimMapping(request.supportRequestId, (int)document.ClaimNumber);
 
                                     if (document.ClaimNumber == 0)
                                     {

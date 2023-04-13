@@ -145,18 +145,36 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<bool> SaveJsoninNISDataBase(SupportRequest Request, Document_UEB_Declaration declaration)
+        public static async Task<bool> SaveJsoninNISDataBase(SupportRequest Request, Document_UEB_Declaration declaration, long claimSupportRequestId)
         {
             try
             {
                 UnemploymentDB unemploymentDB = new UnemploymentDB();
                 UnempDeclaration decl = new UnempDeclaration();
-                decl.NisNumber = long.Parse(declaration.nisNo);               
+
+                decl.NisNumber = long.Parse(declaration.nisNo);  
+                decl.ClaimNumber = declaration.ClaimNumber;
+                decl.ClaimSupportRequestId = claimSupportRequestId;
                 decl.DeclarationJson = JsonConvert.SerializeObject(declaration);
                 decl.SavedTime = DateTime.Now;
                 decl.SupportrequestId = Request.supportRequestId;
+                decl.Status = "PENDING";
                 await unemploymentDB.InsertUnemploymentDeclaration(decl);
                 return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public static async Task<RequestClaimMapping> GetClaimRequestMappingByRequestId( long claimSupportRequestId)
+        {
+            try
+            {
+                UnemploymentDB unemploymentDB = new UnemploymentDB();
+               return await unemploymentDB.GetClaimRequestMappingByRequestId(claimSupportRequestId);
 
             }
             catch (Exception ex)

@@ -19,5 +19,7 @@ namespace Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment
         public byte[] CertificatePdf { get; set; }
         public DateTime SavedTime { get; set; }
         public string LinkedBy { get; set; }
+        public DateTime? LinkedTime { get; set; }
+        public long? ClaimSupportRequestId { get; set; }
     }
 }

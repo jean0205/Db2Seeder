@@ -163,6 +163,10 @@
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\RegistrantTypes.cs" />
     <Compile Include="NIS.SQL.Documents\Models_ScannedDocuments\scanned_documents_Context.cs" />
     <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\DataAccess\UnemploymentDB.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\DeclarationStatus.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\RejectionCodes.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\RequestClaimMapping.cs" />
+    <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\Status.cs" />
     <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\TerminationCertificate.cs" />
     <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\UnempDeclaration.cs" />
     <Compile Include="NIS.SQL.Unemployment\ModelsUnemployment\UnemploymentContext.cs" />
