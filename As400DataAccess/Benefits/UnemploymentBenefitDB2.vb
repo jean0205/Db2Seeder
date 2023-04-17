@@ -326,10 +326,11 @@ Public Class UnemploymentBenefitDB2
 
                 'MPAYBF, BANKBF, ACNOBF
                 cmd.Parameters("@MPAYBF").Value = "B"
-                cmd.Parameters("@BANKBF").Value = claim.bank
+                cmd.Parameters("@BANKBF").Value = CInt(Val(New Text.StringBuilder((From ch In claim.bank.ToCharArray Where IsNumeric(ch)).ToArray).ToString))
                 cmd.Parameters("@ACNOBF").Value = claim.accountNo
 
                 cmd.Parameters("@WBLINKCS").Value = claim.WebPortalLink
+
 
 
 
