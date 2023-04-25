@@ -70,5 +70,34 @@ namespace Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment.DataAccess
                 throw ex;
             }
         }
+
+        //update linked claim, linked by and linkedtime
+        public async Task<bool> UpdateTerminationCertificateLinkedClaim(long SupportrequestId, long ClaimSupportRequestId, long claimNumber, string user)
+        {
+            try
+            {
+                var result = await _contextUnemployment.TerminationCertificate
+                    .FirstOrDefaultAsync(x => x.SupportrequestId == SupportrequestId);
+                if (result != null)
+                {
+                    result.ClaimNumber = claimNumber;
+                    result.ClaimSupportRequestId= ClaimSupportRequestId;
+                    result.LinkedBy = user;
+                    result.LinkedTime = DateTime.Now;
+                    _contextUnemployment.Entry(result).State = EntityState.Modified;
+                    await _contextUnemployment.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

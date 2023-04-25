@@ -113,6 +113,7 @@
     <Compile Include="Business\EmployeeRegistration.cs" />
     <Compile Include="Business\EmployerRegistration.cs" />
     <Compile Include="Business\Remittance.cs" />
+    <Compile Include="Business\Benefit Claims\UEB_Declaration_SEP.cs" />
     <Compile Include="Controls\RJToggleButton.cs">
       <SubType>Component</SubType>
     </Compile>

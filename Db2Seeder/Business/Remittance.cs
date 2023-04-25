@@ -126,8 +126,7 @@ namespace Db2Seeder.Business
                     catch (Exception)
                     {
                        
-                    }
-                    
+                    }                    
                 }
             }
             catch (Exception ex)

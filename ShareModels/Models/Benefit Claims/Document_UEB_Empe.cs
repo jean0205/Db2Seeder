@@ -34,9 +34,9 @@ namespace ShareModels.Models.Benefit_Claims
         public int? chkbxMaternity { get; set; }
         public int? chkbxInjury { get; set; }
         public int? chkbxNone { get; set; }
-        public int spareTimeWork { get; set; }
-        public int involvedInBusiness { get; set; }
-        public int contributedAsEmployedPerson { get; set; }
+        public int? spareTimeWork { get; set; }
+        public int? involvedInBusiness { get; set; }
+        public int? contributedAsEmployedPerson { get; set; }
         public string workHistoryList { get; set; }
         public object lastEmployerList { get; set; }
         public object nisNoLastEmployer { get; set; }

@@ -46,12 +46,18 @@ namespace Db2Seeder.Business.Benefit_Claims
                     {
                         return null;
                     }
-                    certificate.CompletedBy = requestHistory.Last().UserName;
-                    certificate.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
-                    certificate.SupportRequestId = Request.supportRequestId;
+                    if (requestHistory.Any())
+                    {
+                        certificate.CompletedBy = requestHistory.Last().UserName;
+                        certificate.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
+                        certificate.SupportRequestId = Request.supportRequestId;
 
-                    //actualizar la fecha de creada a cuando esta lista 
-                    certificate.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                        if (requestHistory.Any(x=>x.description.Contains("Pending Processing")))
+                        {
+                            //actualizar la fecha de creada a cuando esta lista 
+                            certificate.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                        }
+                    }                 
 
                     return certificate;
                 }
@@ -99,8 +105,8 @@ namespace Db2Seeder.Business.Benefit_Claims
                 UnemploymentDB unemploymentDB = new UnemploymentDB();
                 TerminationCertificate cert = new TerminationCertificate();
                 cert.NisNumber = long.Parse(certificate.nisNo);
-                cert.EmployerNumber = long.Parse(certificate.employerNisNo);
-                cert.EmployerSub = 0;//TODO update when the portal issue with employernis be fixed
+                cert.EmployerNumber = long.Parse(certificate.employerNisNo.Split('-').First());
+                cert.EmployerSub = int.Parse(certificate.employerNisNo.Split('-').Last());//TODO update when the portal issue with employernis be fixed
                 cert.CertificateJson = JsonConvert.SerializeObject(certificate);               
                 cert.SavedTime = DateTime.Now;
                 cert.SupportrequestId = Request.supportRequestId;

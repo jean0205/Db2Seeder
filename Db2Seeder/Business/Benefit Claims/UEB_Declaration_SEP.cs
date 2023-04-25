@@ -4,32 +4,31 @@ using Db2Seeder.API.Request;
 using Db2Seeder.NIS.SQL.Documents.DataAccess;
 using Db2Seeder.NIS.SQL.Documents.Models_ScannedDocuments;
 using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment.DataAccess;
+using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment;
+using Newtonsoft.Json;
 using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-namespace Db2Seeder.Business.Benefit_Claims
+namespace Db2Seeder.Business
 {
-    public class UEB_EmpeBenefit
+    public class UEB_Declaration_SEP
     {
-        //SupportRequest/GetByState/Type/18/State/237 pending processing usar 238 si quiero cogerlas en ready for processing, en caso de que customer services necesite revisarlas 
-
         public static async Task<List<SupportRequest>> GetClaimsCompleted()
         {
             try
             {
                 List<SupportRequest> RequestList = new List<SupportRequest>();
-                return RequestList = await ApiRequest.GetSupportRequestTypeByState(18, 237);
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(21, 260);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static async Task<Document_UEB_Empe> ClaimDetail(SupportRequest Request)
+        public static async Task<Document_UEB_Declaration> ClaimDetail(SupportRequest Request)
         {
             try
             {
@@ -37,23 +36,34 @@ namespace Db2Seeder.Business.Benefit_Claims
                 guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
                 if (guid.message != Guid.Empty)
                 {
-                    Document_UEB_Empe Document_UEB_Empe = new Document_UEB_Empe();
+                    Document_UEB_Declaration declaration = new Document_UEB_Declaration();
                     List<RequestHistory> requestHistory = new List<RequestHistory>();
                     requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
-                    Document_UEB_Empe = await GetDetails(guid);
+                    declaration = await GetDetails(guid);
 
-                    if (Document_UEB_Empe == null)
+                    if (declaration == null)
                     {
                         return null;
                     }
-                    Document_UEB_Empe.CompletedBy = requestHistory.Last().UserName;
-                    Document_UEB_Empe.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
-                    Document_UEB_Empe.SupportRequestId = Request.supportRequestId;
+                    if (requestHistory.Any())
+                    {
 
-                    //actualizar la fecha de creada a cuando esta lista 
-                    Document_UEB_Empe.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                        declaration.CompletedBy = requestHistory.Last().UserName;
+                        declaration.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
+                        declaration.SupportRequestId = Request.supportRequestId;
 
-                    return Document_UEB_Empe;
+                        if (requestHistory.Any(x => x.description.Contains("Pending Processing")))
+                        {
+                            declaration.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                        }
+
+                            //actualizar la fecha de creada a cuando esta lista 
+                           
+                    }
+
+                     
+
+                    return declaration;
                 }
                 return null;
             }
@@ -62,17 +72,17 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<Document_UEB_Empe> GetDetails(DocumentGuid guid)
+        public static async Task<Document_UEB_Declaration> GetDetails(DocumentGuid guid)
         {
             try
             {
-                Response response = await ApiServices.FindAsyncByGuid<Document_UEB_Empe>("Document/Get?id", guid.message);
+                Response response = await ApiServices.FindAsyncByGuid<Document_UEB_Declaration>("Document/Get?id", guid.message);
 
                 if (!response.IsSuccess)
                 {
                     return null;
                 }
-                return (Document_UEB_Empe)response.Result;
+                return (Document_UEB_Declaration)response.Result;
             }
             catch (Exception ex)
             {
@@ -92,7 +102,8 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_UEB_Empe Document_UEB)
+
+        public static async Task<int> RequestAttachmentToScannedDocuments(SupportRequest Request, Document_UEB_Declaration declaration)
         {
             try
             {
@@ -123,8 +134,8 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.RegistrantTypeId = 1;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = int.Parse(Document_UEB.nisNo);
-                            documents.ClaimNumber = Document_UEB.ClaimNumber;
+                            documents.NisNumber = int.Parse(declaration.nisNo);
+                            documents.ClaimNumber = declaration.ClaimNumber;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
                             documents.ScannedBy = importLog.ImportedBy;
                             documents.ScanDatetime = DateTime.Now;
@@ -142,14 +153,22 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
-
-        public static async Task<bool> SaveRequestClaimMapping(long requestId, long claimNumber)
+        public static async Task<bool> SaveJsoninNISDataBase(SupportRequest Request, Document_UEB_Declaration declaration, long claimSupportRequestId)
         {
             try
             {
                 UnemploymentDB unemploymentDB = new UnemploymentDB();
+                UnempDeclaration decl = new UnempDeclaration();
 
-                return await unemploymentDB.InsertRequestClaimMapping(requestId, claimNumber);
+                decl.NisNumber = long.Parse(declaration.nisNo);
+                decl.ClaimNumber = declaration.ClaimNumber;
+                decl.ClaimSupportRequestId = claimSupportRequestId;
+                decl.DeclarationJson = JsonConvert.SerializeObject(declaration);
+                decl.SavedTime = DateTime.Now;
+                decl.SupportrequestId = Request.supportRequestId;
+                decl.Status = "PENDING";
+                await unemploymentDB.InsertUnemploymentDeclaration(decl);
+                return true;
 
             }
             catch (Exception ex)
@@ -158,13 +177,12 @@ namespace Db2Seeder.Business.Benefit_Claims
             }
 
         }
-        public static async Task<bool> UpdateTerminationCertificateLinkedClaim(long requestId, long ClaimSupportRequestId, long claimNumber)
+        public static async Task<RequestClaimMapping> GetClaimRequestMappingByRequestId(long claimSupportRequestId)
         {
             try
             {
                 UnemploymentDB unemploymentDB = new UnemploymentDB();
-
-                return await unemploymentDB.UpdateTerminationCertificateLinkedClaim(requestId,ClaimSupportRequestId ,claimNumber,"WebPortal");
+                return await unemploymentDB.GetClaimRequestMappingByRequestId(claimSupportRequestId);
 
             }
             catch (Exception ex)
@@ -173,6 +191,5 @@ namespace Db2Seeder.Business.Benefit_Claims
             }
 
         }
-
     }
 }

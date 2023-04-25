@@ -9,7 +9,7 @@ namespace ShareModels.Models.Benefit_Claims
 {
     public class Document_UEB_SEP
     {
-        public int unemploymentSelfEmployedClaimFormId { get; set; }
+        public int? unemploymentSelfEmployedClaimFormId { get; set; }
         public string surname { get; set; }
         public string nisNo { get; set; }
         public string firstName { get; set; }
@@ -41,7 +41,7 @@ namespace ShareModels.Models.Benefit_Claims
         public int? chkbxNone { get; set; }
         public int contributedAsEmployedPerson { get; set; }
         public int stillSelfEmployed { get; set; }
-        public int selfEmployedType { get; set; }
+        public int? selfEmployedType { get; set; }
         public int engagedtherEmployment { get; set; }
         public string workHistoryList { get; set; }
         public DateTime? ceasedSelfEmploymentDate { get; set; }
@@ -51,6 +51,7 @@ namespace ShareModels.Models.Benefit_Claims
         public int willingFormalEmployment { get; set; }
         public string lateReason { get; set; }
         public List<object> workHistoryEntity { get; set; }
+        public int? certificateTerminationLayoffFormSupportRequestId { get; set; }
         public int documentId { get; set; }
         public string documentGuid { get; set; }
         public int documentTypeId { get; set; }

@@ -12,7 +12,7 @@ namespace ShareModels.Models.Benefit_Claims
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
        
             public int unemploymentRegularEmployeedeclarationFormId { get; set; }
-            public int unemploymentRegularEmployeeClaimFormId { get; set; }
+            public int? unemploymentRegularEmployeeClaimFormId { get; set; }
             public string surname { get; set; }
             public string nisNo { get; set; }
             public string firstName { get; set; }
