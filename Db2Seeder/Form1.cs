@@ -2094,12 +2094,9 @@ namespace Db2Seeder
                                 document = await UEB_Declaration_SEP.ClaimDetail(request);
                                 if (document != null)
                                 {
-                                    var claimMapping = new RequestClaimMapping();
-                                    AddTreeViewLogLevel1("DECLARATIONS SEP details successfully loaded", true);
-                                    if(document.unemploymentRegularEmployeeClaimFormId!= null)
-                                    {
-                                         claimMapping = await UEB_Declaration_SEP.GetClaimRequestMappingByRequestId((long)document.unemploymentRegularEmployeeClaimFormId);
-                                    }                                    
+                                    var claimMapping = await UEB_Declaration_SEP.GetClaimRequestMappingByRequestId((long)document.UnemploymentSelfEmployedClaimFormId);
+
+                                    AddTreeViewLogLevel1("DECLARATIONS SEP details successfully loaded", true);                                                                       
                                     if (claimMapping != null)
                                     {
                                         document.ClaimNumber = int.Parse(claimMapping.ClaimNumber.ToString());
@@ -2108,7 +2105,6 @@ namespace Db2Seeder
                                     {
                                         document.ClaimNumber = 0;
                                     }
-
 
                                     if (document.ClaimNumber == 0)
                                     {
@@ -2130,7 +2126,7 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving DECLARATIONS SEP Documents.");
-                                            if (await UEB_Declaration_SEP.SaveJsoninNISDataBase(request, document,(long) document.unemploymentRegularEmployeeClaimFormId))
+                                            if (await UEB_Declaration_SEP.SaveJsoninNISDataBase(request, document,(long) document.UnemploymentSelfEmployedClaimFormId))
                                             {
                                                 AddTreeViewLogLevel2("Json Succesfully Saved.", true);
                                             }
@@ -2140,7 +2136,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeedeclarationFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.UnemploymentSelfEmployedClaimFormId, document.CompletedTime);
                                         }
                                         try
                                         {
@@ -2152,7 +2148,7 @@ namespace Db2Seeder
                                         {
                                             Crashes.TrackError(ex);
                                             AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeedeclarationFormId, document.CompletedTime);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.UnemploymentSelfEmployedClaimFormId, document.CompletedTime);
                                         }
                                         //save log send email
                                         await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "UEB_DECLARATION", document.ClaimNumber.ToString(), long.Parse(document.nisNo), document.firstName + document.surname, (DateTime)document.CompletedTime, document.CompletedBy);
@@ -2167,7 +2163,7 @@ namespace Db2Seeder
                             {
                                 Crashes.TrackError(ex);
                                 AddTreeViewLogLevel2("Error " + ex.Message, false);
-                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.unemploymentRegularEmployeedeclarationFormId, document.CompletedTime);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.UnemploymentSelfEmployedClaimFormId, document.CompletedTime);
                             }
                         }
                     }
