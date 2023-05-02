@@ -114,6 +114,12 @@ namespace Db2Seeder
             if (!cancelRequest && rjl.Checked) await CovidBenefitClaimCompleted();
             if (!cancelRequest && rjm.Checked) await SurvivorBenefitClaimCompleted();
             if (!cancelRequest && rjn.Checked) await DisablemetBenefitClaimCompleted();
+            if (!cancelRequest && rjo.Checked) await UEB_EmployeesClaimPendingProcessing();
+            if (!cancelRequest && rjp.Checked) await UEB_SEPClaimPendingProcessing();
+            if (!cancelRequest && rjq.Checked) await UEB_TerminationCertificatePendingProcessing();
+            if (!cancelRequest && rjr.Checked) await UEB_DeclarationsPendingProcessing();
+            if (!cancelRequest && rjs.Checked) await UEB_DeclarationsSEPPendingProcessing();
+
 
             working = false;
             if (cancelRequest) BeginInvoke(new Action(() =>
@@ -1783,6 +1789,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
+                                    as400UnemploymentBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400UnemploymentBenefit.InsertUnemployment(document, null);
                                    
                                     await UEB_EmpeBenefit.SaveRequestClaimMapping(request.supportRequestId, (int)document.ClaimNumber);
@@ -1813,6 +1820,11 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2Info("Saving Claim Documents.");
                                             int savedAtt = await UEB_EmpeBenefit.RequestAttachmentToScannedDocuments(request, document);
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+
+
+                                            //saving in testing
+                                            as400UnemploymentBenefit.As400_lib = "TT";
+                                           await as400UnemploymentBenefit.InsertUnemployment(document,document.ClaimNumber);
                                         }
                                         catch (Exception ex)
                                         {
@@ -1875,6 +1887,7 @@ namespace Db2Seeder
                             AddTreeViewLogLevel1Info("Getting Claim Details");
                             try
                             {
+                                as400UnemploymentSEPBenefit.As400_lib = "NI";
                                 document = await UEB_SEPBenefit.ClaimDetail(request);
                                 if (document != null)
                                 {
@@ -1913,6 +1926,10 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2Info("Saving Claim Documents.");
                                             int savedAtt = await UEB_SEPBenefit.RequestAttachmentToScannedDocuments(request, document);
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+
+                                            //saving in testing
+                                            as400UnemploymentSEPBenefit.As400_lib = "TT";
+                                            await as400UnemploymentSEPBenefit.InsertUnemployment(document, document.ClaimNumber);
                                         }
                                         catch (Exception ex)
                                         {

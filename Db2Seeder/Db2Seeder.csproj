@@ -182,6 +182,7 @@
     <Compile Include="SQL.Logs\EmployerRequestLog.cs" />
     <Compile Include="SQL.Logs\Log.cs" />
     <Compile Include="SQL.Logs\RemittanceLog.cs" />
+    <Compile Include="testcode.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

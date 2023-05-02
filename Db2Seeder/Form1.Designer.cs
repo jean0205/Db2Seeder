@@ -152,6 +152,17 @@
             this.rjl = new Db2Seeder.Controls.RJToggleButton();
             this.rjm = new Db2Seeder.Controls.RJToggleButton();
             this.rjn = new Db2Seeder.Controls.RJToggleButton();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.rjo = new Db2Seeder.Controls.RJToggleButton();
+            this.rjp = new Db2Seeder.Controls.RJToggleButton();
+            this.rjq = new Db2Seeder.Controls.RJToggleButton();
+            this.rjr = new Db2Seeder.Controls.RJToggleButton();
+            this.label41 = new System.Windows.Forms.Label();
+            this.rjs = new Db2Seeder.Controls.RJToggleButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -174,6 +185,7 @@
             this.tableLayoutPanel5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tRquestPanel.SuspendLayout();
+            this.tableLayoutPanel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -632,7 +644,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(1393, 705);
+            this.dataGridView1.Size = new System.Drawing.Size(1393, 700);
             this.dataGridView1.TabIndex = 0;
             // 
             // tabPage4
@@ -659,7 +671,7 @@
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1393, 705);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1393, 700);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // dgv2
@@ -671,7 +683,7 @@
             this.dgv2.Name = "dgv2";
             this.dgv2.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgv2.RowTemplate.Height = 30;
-            this.dgv2.Size = new System.Drawing.Size(1387, 575);
+            this.dgv2.Size = new System.Drawing.Size(1387, 570);
             this.dgv2.TabIndex = 1;
             // 
             // tableLayoutPanel8
@@ -796,7 +808,7 @@
             this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.72585F));
             this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.31593F));
             this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.63542F));
-            this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 274F));
+            this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 299F));
             this.tpanel1.Controls.Add(this.label33, 0, 0);
             this.tpanel1.Controls.Add(this.dtpClaimsTo, 3, 0);
             this.tpanel1.Controls.Add(this.label34, 2, 0);
@@ -818,7 +830,7 @@
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.Location = new System.Drawing.Point(5, 2);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(24, 41);
+            this.label33.Size = new System.Drawing.Size(20, 41);
             this.label33.TabIndex = 3;
             this.label33.Text = "From:";
             // 
@@ -827,9 +839,9 @@
             this.dtpClaimsTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpClaimsTo.CustomFormat = "yyyy-MMM-dd";
             this.dtpClaimsTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpClaimsTo.Location = new System.Drawing.Point(125, 10);
+            this.dtpClaimsTo.Location = new System.Drawing.Point(109, 10);
             this.dtpClaimsTo.Name = "dtpClaimsTo";
-            this.dtpClaimsTo.Size = new System.Drawing.Size(55, 24);
+            this.dtpClaimsTo.Size = new System.Drawing.Size(46, 24);
             this.dtpClaimsTo.TabIndex = 2;
             this.dtpClaimsTo.Tag = "1";
             // 
@@ -838,9 +850,9 @@
             this.label34.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(100, 2);
+            this.label34.Location = new System.Drawing.Point(87, 2);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(17, 41);
+            this.label34.Size = new System.Drawing.Size(14, 41);
             this.label34.TabIndex = 4;
             this.label34.Text = "To:";
             // 
@@ -849,9 +861,9 @@
             this.dtpClaimsFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpClaimsFrom.CustomFormat = "yyyy-MMM-dd";
             this.dtpClaimsFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpClaimsFrom.Location = new System.Drawing.Point(37, 10);
+            this.dtpClaimsFrom.Location = new System.Drawing.Point(33, 10);
             this.dtpClaimsFrom.Name = "dtpClaimsFrom";
-            this.dtpClaimsFrom.Size = new System.Drawing.Size(55, 24);
+            this.dtpClaimsFrom.Size = new System.Drawing.Size(46, 24);
             this.dtpClaimsFrom.TabIndex = 1;
             this.dtpClaimsFrom.Tag = "0";
             // 
@@ -862,10 +874,10 @@
             this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button18.ForeColor = System.Drawing.Color.Black;
-            this.button18.Location = new System.Drawing.Point(189, 6);
+            this.button18.Location = new System.Drawing.Point(164, 6);
             this.button18.Margin = new System.Windows.Forms.Padding(4);
             this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(268, 33);
+            this.button18.Size = new System.Drawing.Size(293, 33);
             this.button18.TabIndex = 6;
             this.button18.Text = "Go";
             this.button18.UseVisualStyleBackColor = false;
@@ -878,7 +890,7 @@
             this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.06557F));
             this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
             this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.06011F));
-            this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 288F));
+            this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 312F));
             this.tpanel0.Controls.Add(this.label35, 0, 0);
             this.tpanel0.Controls.Add(this.dtpRequestTo, 3, 0);
             this.tpanel0.Controls.Add(this.label36, 2, 0);
@@ -900,7 +912,7 @@
             this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label35.Location = new System.Drawing.Point(5, 2);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(21, 41);
+            this.label35.Size = new System.Drawing.Size(17, 41);
             this.label35.TabIndex = 3;
             this.label35.Text = "From:";
             // 
@@ -909,9 +921,9 @@
             this.dtpRequestTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRequestTo.CustomFormat = "yyyy-MMM-dd";
             this.dtpRequestTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRequestTo.Location = new System.Drawing.Point(116, 10);
+            this.dtpRequestTo.Location = new System.Drawing.Point(100, 10);
             this.dtpRequestTo.Name = "dtpRequestTo";
-            this.dtpRequestTo.Size = new System.Drawing.Size(46, 24);
+            this.dtpRequestTo.Size = new System.Drawing.Size(38, 24);
             this.dtpRequestTo.TabIndex = 2;
             this.dtpRequestTo.Tag = "1";
             // 
@@ -920,9 +932,9 @@
             this.label36.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label36.Location = new System.Drawing.Point(93, 2);
+            this.label36.Location = new System.Drawing.Point(80, 2);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(15, 41);
+            this.label36.Size = new System.Drawing.Size(12, 41);
             this.label36.TabIndex = 4;
             this.label36.Text = "To:";
             // 
@@ -931,9 +943,9 @@
             this.dtpRequestFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRequestFrom.CustomFormat = "yyyy-MMM-dd";
             this.dtpRequestFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRequestFrom.Location = new System.Drawing.Point(34, 10);
+            this.dtpRequestFrom.Location = new System.Drawing.Point(30, 10);
             this.dtpRequestFrom.Name = "dtpRequestFrom";
-            this.dtpRequestFrom.Size = new System.Drawing.Size(51, 24);
+            this.dtpRequestFrom.Size = new System.Drawing.Size(42, 24);
             this.dtpRequestFrom.TabIndex = 1;
             this.dtpRequestFrom.Tag = "0";
             // 
@@ -944,10 +956,10 @@
             this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button17.ForeColor = System.Drawing.Color.Black;
-            this.button17.Location = new System.Drawing.Point(171, 6);
+            this.button17.Location = new System.Drawing.Point(147, 6);
             this.button17.Margin = new System.Windows.Forms.Padding(4);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(282, 33);
+            this.button17.Size = new System.Drawing.Size(306, 33);
             this.button17.TabIndex = 5;
             this.button17.Text = "Go";
             this.button17.UseVisualStyleBackColor = false;
@@ -961,7 +973,7 @@
             this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.2F));
             this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.56684F));
             this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.95722F));
-            this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 265F));
+            this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 290F));
             this.tpanel2.Controls.Add(this.label31, 0, 0);
             this.tpanel2.Controls.Add(this.dtpRemitTo, 3, 0);
             this.tpanel2.Controls.Add(this.label32, 2, 0);
@@ -981,9 +993,9 @@
             this.label31.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(6, 2);
+            this.label31.Location = new System.Drawing.Point(5, 2);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(24, 41);
+            this.label31.Size = new System.Drawing.Size(20, 41);
             this.label31.TabIndex = 3;
             this.label31.Text = "From:";
             // 
@@ -992,9 +1004,9 @@
             this.dtpRemitTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRemitTo.CustomFormat = "yyyy-MMM-dd";
             this.dtpRemitTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRemitTo.Location = new System.Drawing.Point(122, 10);
+            this.dtpRemitTo.Location = new System.Drawing.Point(105, 10);
             this.dtpRemitTo.Name = "dtpRemitTo";
-            this.dtpRemitTo.Size = new System.Drawing.Size(51, 24);
+            this.dtpRemitTo.Size = new System.Drawing.Size(43, 24);
             this.dtpRemitTo.TabIndex = 2;
             this.dtpRemitTo.Tag = "1";
             // 
@@ -1003,9 +1015,9 @@
             this.label32.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(99, 2);
+            this.label32.Location = new System.Drawing.Point(85, 2);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(15, 41);
+            this.label32.Size = new System.Drawing.Size(12, 41);
             this.label32.TabIndex = 4;
             this.label32.Text = "To:";
             // 
@@ -1014,9 +1026,9 @@
             this.dtpRemitFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRemitFrom.CustomFormat = "yyyy-MMM-dd";
             this.dtpRemitFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRemitFrom.Location = new System.Drawing.Point(38, 10);
+            this.dtpRemitFrom.Location = new System.Drawing.Point(33, 10);
             this.dtpRemitFrom.Name = "dtpRemitFrom";
-            this.dtpRemitFrom.Size = new System.Drawing.Size(53, 24);
+            this.dtpRemitFrom.Size = new System.Drawing.Size(44, 24);
             this.dtpRemitFrom.TabIndex = 1;
             this.dtpRemitFrom.Tag = "0";
             // 
@@ -1027,10 +1039,10 @@
             this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button19.ForeColor = System.Drawing.Color.Black;
-            this.button19.Location = new System.Drawing.Point(182, 6);
+            this.button19.Location = new System.Drawing.Point(157, 6);
             this.button19.Margin = new System.Windows.Forms.Padding(4);
             this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(259, 33);
+            this.button19.Size = new System.Drawing.Size(284, 33);
             this.button19.TabIndex = 6;
             this.button19.Text = "Go";
             this.button19.UseVisualStyleBackColor = false;
@@ -1054,6 +1066,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.81264F));
             this.tableLayoutPanel3.Controls.Add(this.groupBox1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.groupBox2, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel9, 1, 1);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
@@ -1388,11 +1401,11 @@
             // tRquestPanel
             // 
             this.tRquestPanel.ColumnCount = 5;
-            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.79775F));
-            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.20225F));
+            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.47927F));
+            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.60365F));
             this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
             this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
+            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tRquestPanel.Controls.Add(this.label17, 0, 0);
             this.tRquestPanel.Controls.Add(this.label18, 0, 1);
             this.tRquestPanel.Controls.Add(this.label19, 0, 2);
@@ -1487,7 +1500,7 @@
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(427, 4);
+            this.label21.Location = new System.Drawing.Point(417, 4);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(108, 22);
             this.label21.TabIndex = 6;
@@ -1498,7 +1511,7 @@
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(411, 35);
+            this.label22.Location = new System.Drawing.Point(401, 35);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(124, 22);
             this.label22.TabIndex = 7;
@@ -1509,7 +1522,7 @@
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(398, 66);
+            this.label23.Location = new System.Drawing.Point(388, 66);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(137, 22);
             this.label23.TabIndex = 8;
@@ -1520,7 +1533,7 @@
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(451, 97);
+            this.label24.Location = new System.Drawing.Point(441, 97);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(84, 22);
             this.label24.TabIndex = 9;
@@ -1531,7 +1544,7 @@
             this.label25.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(448, 128);
+            this.label25.Location = new System.Drawing.Point(438, 128);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(87, 22);
             this.label25.TabIndex = 10;
@@ -1542,7 +1555,7 @@
             this.label26.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(447, 159);
+            this.label26.Location = new System.Drawing.Point(437, 159);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(88, 22);
             this.label26.TabIndex = 11;
@@ -1553,7 +1566,7 @@
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(374, 190);
+            this.label27.Location = new System.Drawing.Point(364, 190);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(161, 22);
             this.label27.TabIndex = 12;
@@ -1564,7 +1577,7 @@
             this.label28.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(449, 221);
+            this.label28.Location = new System.Drawing.Point(439, 221);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(86, 22);
             this.label28.TabIndex = 13;
@@ -1575,7 +1588,7 @@
             this.label29.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(454, 252);
+            this.label29.Location = new System.Drawing.Point(444, 252);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(81, 22);
             this.label29.TabIndex = 14;
@@ -1586,7 +1599,7 @@
             this.label30.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(421, 284);
+            this.label30.Location = new System.Drawing.Point(411, 284);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(114, 22);
             this.label30.TabIndex = 15;
@@ -1715,7 +1728,7 @@
             // 
             this.rja.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rja.AutoSize = true;
-            this.rja.Location = new System.Drawing.Point(241, 3);
+            this.rja.Location = new System.Drawing.Point(239, 3);
             this.rja.MinimumSize = new System.Drawing.Size(50, 25);
             this.rja.Name = "rja";
             this.rja.OffBackColor = System.Drawing.Color.Gray;
@@ -1732,7 +1745,7 @@
             // 
             this.rjb.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjb.AutoSize = true;
-            this.rjb.Location = new System.Drawing.Point(241, 34);
+            this.rjb.Location = new System.Drawing.Point(239, 34);
             this.rjb.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjb.Name = "rjb";
             this.rjb.OffBackColor = System.Drawing.Color.Gray;
@@ -1749,7 +1762,7 @@
             // 
             this.rjc.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjc.AutoSize = true;
-            this.rjc.Location = new System.Drawing.Point(241, 65);
+            this.rjc.Location = new System.Drawing.Point(239, 65);
             this.rjc.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjc.Name = "rjc";
             this.rjc.OffBackColor = System.Drawing.Color.Gray;
@@ -1766,7 +1779,7 @@
             // 
             this.rjd.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjd.AutoSize = true;
-            this.rjd.Location = new System.Drawing.Point(241, 96);
+            this.rjd.Location = new System.Drawing.Point(239, 96);
             this.rjd.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjd.Name = "rjd";
             this.rjd.OffBackColor = System.Drawing.Color.Gray;
@@ -1783,7 +1796,7 @@
             // 
             this.rje.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rje.AutoSize = true;
-            this.rje.Location = new System.Drawing.Point(551, 3);
+            this.rje.Location = new System.Drawing.Point(540, 3);
             this.rje.MinimumSize = new System.Drawing.Size(50, 25);
             this.rje.Name = "rje";
             this.rje.OffBackColor = System.Drawing.Color.Gray;
@@ -1800,7 +1813,7 @@
             // 
             this.rjf.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjf.AutoSize = true;
-            this.rjf.Location = new System.Drawing.Point(551, 34);
+            this.rjf.Location = new System.Drawing.Point(540, 34);
             this.rjf.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjf.Name = "rjf";
             this.rjf.OffBackColor = System.Drawing.Color.Gray;
@@ -1817,7 +1830,7 @@
             // 
             this.rjg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjg.AutoSize = true;
-            this.rjg.Location = new System.Drawing.Point(551, 65);
+            this.rjg.Location = new System.Drawing.Point(540, 65);
             this.rjg.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjg.Name = "rjg";
             this.rjg.OffBackColor = System.Drawing.Color.Gray;
@@ -1834,7 +1847,7 @@
             // 
             this.rjh.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjh.AutoSize = true;
-            this.rjh.Location = new System.Drawing.Point(551, 96);
+            this.rjh.Location = new System.Drawing.Point(540, 96);
             this.rjh.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjh.Name = "rjh";
             this.rjh.OffBackColor = System.Drawing.Color.Gray;
@@ -1851,7 +1864,7 @@
             // 
             this.rji.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rji.AutoSize = true;
-            this.rji.Location = new System.Drawing.Point(551, 127);
+            this.rji.Location = new System.Drawing.Point(540, 127);
             this.rji.MinimumSize = new System.Drawing.Size(50, 25);
             this.rji.Name = "rji";
             this.rji.OffBackColor = System.Drawing.Color.Gray;
@@ -1868,7 +1881,7 @@
             // 
             this.rjj.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjj.AutoSize = true;
-            this.rjj.Location = new System.Drawing.Point(551, 158);
+            this.rjj.Location = new System.Drawing.Point(540, 158);
             this.rjj.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjj.Name = "rjj";
             this.rjj.OffBackColor = System.Drawing.Color.Gray;
@@ -1885,7 +1898,7 @@
             // 
             this.rjk.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjk.AutoSize = true;
-            this.rjk.Location = new System.Drawing.Point(551, 189);
+            this.rjk.Location = new System.Drawing.Point(540, 189);
             this.rjk.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjk.Name = "rjk";
             this.rjk.OffBackColor = System.Drawing.Color.Gray;
@@ -1902,7 +1915,7 @@
             // 
             this.rjl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjl.AutoSize = true;
-            this.rjl.Location = new System.Drawing.Point(551, 220);
+            this.rjl.Location = new System.Drawing.Point(540, 220);
             this.rjl.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjl.Name = "rjl";
             this.rjl.OffBackColor = System.Drawing.Color.Gray;
@@ -1919,7 +1932,7 @@
             // 
             this.rjm.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjm.AutoSize = true;
-            this.rjm.Location = new System.Drawing.Point(551, 251);
+            this.rjm.Location = new System.Drawing.Point(540, 251);
             this.rjm.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjm.Name = "rjm";
             this.rjm.OffBackColor = System.Drawing.Color.Gray;
@@ -1936,7 +1949,7 @@
             // 
             this.rjn.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjn.AutoSize = true;
-            this.rjn.Location = new System.Drawing.Point(551, 282);
+            this.rjn.Location = new System.Drawing.Point(540, 282);
             this.rjn.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjn.Name = "rjn";
             this.rjn.OffBackColor = System.Drawing.Color.Gray;
@@ -1948,6 +1961,176 @@
             this.rjn.Tag = "n,2";
             this.rjn.UseVisualStyleBackColor = true;
             this.rjn.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton8_MouseClick);
+            // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.ColumnCount = 5;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.47927F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.60365F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel9.Controls.Add(this.label37, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.label38, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.label39, 0, 2);
+            this.tableLayoutPanel9.Controls.Add(this.label40, 0, 3);
+            this.tableLayoutPanel9.Controls.Add(this.rjo, 1, 0);
+            this.tableLayoutPanel9.Controls.Add(this.rjp, 1, 1);
+            this.tableLayoutPanel9.Controls.Add(this.rjq, 1, 2);
+            this.tableLayoutPanel9.Controls.Add(this.rjr, 1, 3);
+            this.tableLayoutPanel9.Controls.Add(this.label41, 0, 4);
+            this.tableLayoutPanel9.Controls.Add(this.rjs, 1, 4);
+            this.tableLayoutPanel9.ForeColor = System.Drawing.Color.Gainsboro;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(635, 343);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 10;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(755, 311);
+            this.tableLayoutPanel9.TabIndex = 2;
+            // 
+            // label37
+            // 
+            this.label37.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label37.AutoSize = true;
+            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label37.Location = new System.Drawing.Point(10, 4);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(213, 22);
+            this.label37.TabIndex = 2;
+            this.label37.Text = "Unemployment Employee";
+            // 
+            // label38
+            // 
+            this.label38.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label38.AutoSize = true;
+            this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label38.Location = new System.Drawing.Point(53, 35);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(170, 22);
+            this.label38.TabIndex = 3;
+            this.label38.Text = "Unemployment SEP";
+            // 
+            // label39
+            // 
+            this.label39.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label39.AutoSize = true;
+            this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label39.Location = new System.Drawing.Point(32, 66);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(191, 22);
+            this.label39.TabIndex = 4;
+            this.label39.Text = "Termination Certificate";
+            // 
+            // label40
+            // 
+            this.label40.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label40.AutoSize = true;
+            this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label40.Location = new System.Drawing.Point(38, 97);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(185, 22);
+            this.label40.TabIndex = 5;
+            this.label40.Text = "Declaration Employee";
+            // 
+            // rjo
+            // 
+            this.rjo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjo.AutoSize = true;
+            this.rjo.Location = new System.Drawing.Point(239, 3);
+            this.rjo.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjo.Name = "rjo";
+            this.rjo.OffBackColor = System.Drawing.Color.Gray;
+            this.rjo.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjo.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjo.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjo.Size = new System.Drawing.Size(50, 25);
+            this.rjo.TabIndex = 16;
+            this.rjo.Tag = "o,2";
+            this.rjo.UseVisualStyleBackColor = true;
+            // 
+            // rjp
+            // 
+            this.rjp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjp.AutoSize = true;
+            this.rjp.Location = new System.Drawing.Point(239, 34);
+            this.rjp.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjp.Name = "rjp";
+            this.rjp.OffBackColor = System.Drawing.Color.Gray;
+            this.rjp.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjp.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjp.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjp.Size = new System.Drawing.Size(50, 25);
+            this.rjp.TabIndex = 17;
+            this.rjp.Tag = "p,2";
+            this.rjp.UseVisualStyleBackColor = true;
+            // 
+            // rjq
+            // 
+            this.rjq.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjq.AutoSize = true;
+            this.rjq.Location = new System.Drawing.Point(239, 65);
+            this.rjq.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjq.Name = "rjq";
+            this.rjq.OffBackColor = System.Drawing.Color.Gray;
+            this.rjq.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjq.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjq.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjq.Size = new System.Drawing.Size(50, 25);
+            this.rjq.TabIndex = 18;
+            this.rjq.Tag = "q,2";
+            this.rjq.UseVisualStyleBackColor = true;
+            // 
+            // rjr
+            // 
+            this.rjr.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjr.AutoSize = true;
+            this.rjr.Location = new System.Drawing.Point(239, 96);
+            this.rjr.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjr.Name = "rjr";
+            this.rjr.OffBackColor = System.Drawing.Color.Gray;
+            this.rjr.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjr.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjr.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjr.Size = new System.Drawing.Size(50, 25);
+            this.rjr.TabIndex = 19;
+            this.rjr.Tag = "r,2";
+            this.rjr.UseVisualStyleBackColor = true;
+            // 
+            // label41
+            // 
+            this.label41.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label41.AutoSize = true;
+            this.label41.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label41.Location = new System.Drawing.Point(81, 128);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(142, 22);
+            this.label41.TabIndex = 20;
+            this.label41.Text = "Declaration SEP";
+            // 
+            // rjs
+            // 
+            this.rjs.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjs.AutoSize = true;
+            this.rjs.Location = new System.Drawing.Point(239, 127);
+            this.rjs.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjs.Name = "rjs";
+            this.rjs.OffBackColor = System.Drawing.Color.Gray;
+            this.rjs.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjs.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjs.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjs.Size = new System.Drawing.Size(50, 25);
+            this.rjs.TabIndex = 21;
+            this.rjs.Tag = "s,2";
+            this.rjs.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1993,6 +2176,8 @@
             this.groupBox2.ResumeLayout(false);
             this.tRquestPanel.ResumeLayout(false);
             this.tRquestPanel.PerformLayout();
+            this.tableLayoutPanel9.ResumeLayout(false);
+            this.tableLayoutPanel9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2121,6 +2306,17 @@
         private System.Windows.Forms.Button button22;
         private System.Windows.Forms.Button button23;
         private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label40;
+        private Controls.RJToggleButton rjo;
+        private Controls.RJToggleButton rjp;
+        private Controls.RJToggleButton rjq;
+        private Controls.RJToggleButton rjr;
+        private System.Windows.Forms.Label label41;
+        private Controls.RJToggleButton rjs;
     }
 }
 
