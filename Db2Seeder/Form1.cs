@@ -5,7 +5,6 @@ using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.Controls;
-using Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment;
 using Db2Seeder.SQL.Logs.DataAccess;
 using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
@@ -223,6 +222,7 @@ namespace Db2Seeder
         {
             if (!working)
             {
+                //TODO: actializar para q lea y postee los maternity grant, otro support request y otro workflow tambien, no employer number. Esperar a q aprueben el q esta pending. 
                 await MaternityBenefitClaimCompleted();
                 working = false;
             }
@@ -252,7 +252,7 @@ namespace Db2Seeder
                 working = false;
             }
         }
-        private async  void button20_Click(object sender, EventArgs e)
+        private async void button20_Click(object sender, EventArgs e)
         {
             if (!working)
             {
@@ -270,7 +270,7 @@ namespace Db2Seeder
 
                 working = false;
             }
-          
+
         }
         private async void button22_Click(object sender, EventArgs e)
         {
@@ -291,7 +291,7 @@ namespace Db2Seeder
                 working = false;
             }
         }
-     
+
         #endregion
 
         #region Employee-Employer
@@ -302,6 +302,10 @@ namespace Db2Seeder
             try
             {
                 var requests = await EmployeeRegistration.GetEmployeeRegistrationSupportRequestCompleted();
+                requests.AddRange(await EmployeeRegistration.GetSEPSupportRequestCompleted());
+                requests.AddRange(await EmployeeRegistration.GetVoluntarySupportRequestCompleted());
+
+
                 if (requests.Any())
                 {
                     AddTreeViewLogLevel1(requests.Count + " Requests Completed Found", true);
@@ -364,7 +368,6 @@ namespace Db2Seeder
                                         await CreateCommentToPost(request.supportRequestId, 3, "Employer (Voluntary Contributor) with number: " + document.EmployerNo + " successfully created.");
                                         await LogsHelper.SaveVoluntaryLOG(request, document);
                                     }
-
                                 }
 
                                 if (document.nisNo == 0 && document.EmployerNo == 0)
@@ -792,7 +795,7 @@ namespace Db2Seeder
                                         as400remittances.As400_lib = "NI";
                                         AddTreeViewLogLevel2Info("Posting Remittance to As400.");
                                         await Remittance.PostRemittanceToAs400(request, document);
-                                        AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);                                       
+                                        AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
 
                                         //agregar el mensage cuando me den el text.
                                         // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
@@ -1237,8 +1240,8 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                    as400sicknessBenefit.As400_lib = "NI";                                    
-                                    document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document,null);
+                                    as400sicknessBenefit.As400_lib = "NI";
+                                    document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, null);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1789,16 +1792,16 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                   // as400UnemploymentBenefit.As400_lib = "NI";
+                                    // as400UnemploymentBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400UnemploymentBenefit.InsertUnemployment(document, null);
-                                   
+
                                     await UEB_EmpeBenefit.SaveRequestClaimMapping(request.supportRequestId, (int)document.ClaimNumber);
                                     //salvar el mapping para el termination certificate tambien
-                                    if (document.certificateTerminationLayoffFormSupportRequestId!=null)
+                                    if (document.certificateTerminationLayoffFormSupportRequestId != null)
                                     {
                                         await UEB_EmpeBenefit.UpdateTerminationCertificateLinkedClaim((long)document.certificateTerminationLayoffFormSupportRequestId, request.supportRequestId, (int)document.ClaimNumber);
-                                    }  
-                                    if (document.ClaimNumber == 0 )
+                                    }
+                                    if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
                                     }
@@ -1822,9 +1825,9 @@ namespace Db2Seeder
                                             AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
 
 
-                                           // //saving in testing
-                                           // as400UnemploymentBenefit.As400_lib = "TT";
-                                           //await as400UnemploymentBenefit.InsertUnemployment(document,document.ClaimNumber);
+                                            // //saving in testing
+                                            // as400UnemploymentBenefit.As400_lib = "TT";
+                                            //await as400UnemploymentBenefit.InsertUnemployment(document,document.ClaimNumber);
                                         }
                                         catch (Exception ex)
                                         {
@@ -2006,7 +2009,7 @@ namespace Db2Seeder
                                     {
                                         document.ClaimNumber = 0;
                                     }
-                                   
+
 
                                     if (document.ClaimNumber == 0)
                                     {
@@ -2028,7 +2031,7 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Termination Certificates Documents.");
-                                            if (await UEB_Declaration.SaveJsoninNISDataBase(request, document,(long) document.unemploymentRegularEmployeeClaimFormId))
+                                            if (await UEB_Declaration.SaveJsoninNISDataBase(request, document, (long)document.unemploymentRegularEmployeeClaimFormId))
                                             {
                                                 AddTreeViewLogLevel2("Json Succesfully Saved.", true);
                                             }
@@ -2086,7 +2089,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-     
+
         //se estan salvando en la misma tabla de employees, pero con el formid en null, no es possible mappearla.
         private async Task UEB_DeclarationsSEPPendingProcessing()
         {
@@ -2113,7 +2116,7 @@ namespace Db2Seeder
                                 {
                                     var claimMapping = await UEB_Declaration_SEP.GetClaimRequestMappingByRequestId((long)document.UnemploymentSelfEmployedClaimFormId);
 
-                                    AddTreeViewLogLevel1("DECLARATIONS SEP details successfully loaded", true);                                                                       
+                                    AddTreeViewLogLevel1("DECLARATIONS SEP details successfully loaded", true);
                                     if (claimMapping != null)
                                     {
                                         document.ClaimNumber = int.Parse(claimMapping.ClaimNumber.ToString());
@@ -2143,7 +2146,7 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving DECLARATIONS SEP Documents.");
-                                            if (await UEB_Declaration_SEP.SaveJsoninNISDataBase(request, document,(long) document.UnemploymentSelfEmployedClaimFormId))
+                                            if (await UEB_Declaration_SEP.SaveJsoninNISDataBase(request, document, (long)document.UnemploymentSelfEmployedClaimFormId))
                                             {
                                                 AddTreeViewLogLevel2("Json Succesfully Saved.", true);
                                             }
@@ -2201,7 +2204,7 @@ namespace Db2Seeder
                 Crashes.TrackError(ex);
             }
         }
-        
+
         private async Task UEB_TerminationCertificatePendingProcessing()
         {
             try
@@ -2251,11 +2254,11 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving Termination Certificates Documents.");
-                                            if (await UEB_TerminationCert.SaveJsoninNISDataBase(request,document))
+                                            if (await UEB_TerminationCert.SaveJsoninNISDataBase(request, document))
                                             {
                                                 AddTreeViewLogLevel2("Json Succesfully Saved.", true);
                                             }
-                                           
+
                                         }
                                         catch (Exception ex)
                                         {
@@ -2571,6 +2574,6 @@ namespace Db2Seeder
             simpleSound.Play();
         }
 
-      
+
     }
 }

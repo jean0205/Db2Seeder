@@ -20,7 +20,7 @@ Public Class EmpInjuryBenefitDB2
             EmprNo = Mid(strCadena, 1, intPos - 1)
             EmprSub = Mid(strCadena, intPos + 1)
 
-            ClaimNo = Await GenerarClaimNo() + 10000
+            ClaimNo = Await GenerarClaimNo()
             Await InsertEmpInjDisableBENF(EmpInjuryBenefit, ClaimNo, EmprNo, EmprSub)
             Await InsertEmpInjDisableCLMNCS(EmpInjuryBenefit, ClaimNo, EmprNo, EmprSub)
 

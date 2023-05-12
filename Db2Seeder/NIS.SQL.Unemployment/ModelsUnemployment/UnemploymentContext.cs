@@ -1,4 +1,5 @@
 ﻿using System;
+using Db2Seeder.API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -30,8 +31,7 @@ namespace Db2Seeder.NIS.SQL.Unemployment.ModelsUnemployment
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=NISSQLSRV-01;Database=Unemployment_Test;User Id=document;Password=as400_s10479fr;TrustServerCertificate=yes");
+                optionsBuilder.UseSqlServer($"Server=NISSQLSRV-01;Database={Settings.Unemployment()};User Id=document;Password=as400_s10479fr;TrustServerCertificate=yes");
             }
         }
 

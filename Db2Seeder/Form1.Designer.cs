@@ -95,13 +95,20 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tpanelDays = new System.Windows.Forms.TableLayoutPanel();
+            this.rjToggleButton3 = new Db2Seeder.Controls.RJToggleButton();
             this.label5 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.rjToggleButton1 = new Db2Seeder.Controls.RJToggleButton();
             this.label11 = new System.Windows.Forms.Label();
+            this.rjToggleButton2 = new Db2Seeder.Controls.RJToggleButton();
             this.label15 = new System.Windows.Forms.Label();
+            this.rjToggleButton5 = new Db2Seeder.Controls.RJToggleButton();
             this.label14 = new System.Windows.Forms.Label();
+            this.rjToggleButton6 = new Db2Seeder.Controls.RJToggleButton();
             this.label12 = new System.Windows.Forms.Label();
+            this.rjToggleButton7 = new Db2Seeder.Controls.RJToggleButton();
             this.label10 = new System.Windows.Forms.Label();
+            this.rjToggleButton4 = new Db2Seeder.Controls.RJToggleButton();
             this.label13 = new System.Windows.Forms.Label();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.dtpDTo = new System.Windows.Forms.DateTimePicker();
@@ -131,13 +138,6 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
-            this.rjToggleButton3 = new Db2Seeder.Controls.RJToggleButton();
-            this.rjToggleButton1 = new Db2Seeder.Controls.RJToggleButton();
-            this.rjToggleButton2 = new Db2Seeder.Controls.RJToggleButton();
-            this.rjToggleButton5 = new Db2Seeder.Controls.RJToggleButton();
-            this.rjToggleButton6 = new Db2Seeder.Controls.RJToggleButton();
-            this.rjToggleButton7 = new Db2Seeder.Controls.RJToggleButton();
-            this.rjToggleButton4 = new Db2Seeder.Controls.RJToggleButton();
             this.rja = new Db2Seeder.Controls.RJToggleButton();
             this.rjb = new Db2Seeder.Controls.RJToggleButton();
             this.rjc = new Db2Seeder.Controls.RJToggleButton();
@@ -808,7 +808,7 @@
             this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.72585F));
             this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.31593F));
             this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.63542F));
-            this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 299F));
+            this.tpanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 303F));
             this.tpanel1.Controls.Add(this.label33, 0, 0);
             this.tpanel1.Controls.Add(this.dtpClaimsTo, 3, 0);
             this.tpanel1.Controls.Add(this.label34, 2, 0);
@@ -830,7 +830,7 @@
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.Location = new System.Drawing.Point(5, 2);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(20, 41);
+            this.label33.Size = new System.Drawing.Size(19, 41);
             this.label33.TabIndex = 3;
             this.label33.Text = "From:";
             // 
@@ -839,9 +839,9 @@
             this.dtpClaimsTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpClaimsTo.CustomFormat = "yyyy-MMM-dd";
             this.dtpClaimsTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpClaimsTo.Location = new System.Drawing.Point(109, 10);
+            this.dtpClaimsTo.Location = new System.Drawing.Point(106, 10);
             this.dtpClaimsTo.Name = "dtpClaimsTo";
-            this.dtpClaimsTo.Size = new System.Drawing.Size(46, 24);
+            this.dtpClaimsTo.Size = new System.Drawing.Size(45, 24);
             this.dtpClaimsTo.TabIndex = 2;
             this.dtpClaimsTo.Tag = "1";
             // 
@@ -850,9 +850,9 @@
             this.label34.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(87, 2);
+            this.label34.Location = new System.Drawing.Point(85, 2);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(14, 41);
+            this.label34.Size = new System.Drawing.Size(13, 41);
             this.label34.TabIndex = 4;
             this.label34.Text = "To:";
             // 
@@ -861,9 +861,9 @@
             this.dtpClaimsFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpClaimsFrom.CustomFormat = "yyyy-MMM-dd";
             this.dtpClaimsFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpClaimsFrom.Location = new System.Drawing.Point(33, 10);
+            this.dtpClaimsFrom.Location = new System.Drawing.Point(32, 10);
             this.dtpClaimsFrom.Name = "dtpClaimsFrom";
-            this.dtpClaimsFrom.Size = new System.Drawing.Size(46, 24);
+            this.dtpClaimsFrom.Size = new System.Drawing.Size(45, 24);
             this.dtpClaimsFrom.TabIndex = 1;
             this.dtpClaimsFrom.Tag = "0";
             // 
@@ -874,10 +874,10 @@
             this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button18.ForeColor = System.Drawing.Color.Black;
-            this.button18.Location = new System.Drawing.Point(164, 6);
+            this.button18.Location = new System.Drawing.Point(160, 6);
             this.button18.Margin = new System.Windows.Forms.Padding(4);
             this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(293, 33);
+            this.button18.Size = new System.Drawing.Size(297, 33);
             this.button18.TabIndex = 6;
             this.button18.Text = "Go";
             this.button18.UseVisualStyleBackColor = false;
@@ -890,7 +890,7 @@
             this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.06557F));
             this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
             this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.06011F));
-            this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 312F));
+            this.tpanel0.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 316F));
             this.tpanel0.Controls.Add(this.label35, 0, 0);
             this.tpanel0.Controls.Add(this.dtpRequestTo, 3, 0);
             this.tpanel0.Controls.Add(this.label36, 2, 0);
@@ -912,7 +912,7 @@
             this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label35.Location = new System.Drawing.Point(5, 2);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(17, 41);
+            this.label35.Size = new System.Drawing.Size(16, 41);
             this.label35.TabIndex = 3;
             this.label35.Text = "From:";
             // 
@@ -921,9 +921,9 @@
             this.dtpRequestTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRequestTo.CustomFormat = "yyyy-MMM-dd";
             this.dtpRequestTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRequestTo.Location = new System.Drawing.Point(100, 10);
+            this.dtpRequestTo.Location = new System.Drawing.Point(97, 10);
             this.dtpRequestTo.Name = "dtpRequestTo";
-            this.dtpRequestTo.Size = new System.Drawing.Size(38, 24);
+            this.dtpRequestTo.Size = new System.Drawing.Size(37, 24);
             this.dtpRequestTo.TabIndex = 2;
             this.dtpRequestTo.Tag = "1";
             // 
@@ -932,9 +932,9 @@
             this.label36.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label36.Location = new System.Drawing.Point(80, 2);
+            this.label36.Location = new System.Drawing.Point(78, 2);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(12, 41);
+            this.label36.Size = new System.Drawing.Size(11, 41);
             this.label36.TabIndex = 4;
             this.label36.Text = "To:";
             // 
@@ -943,9 +943,9 @@
             this.dtpRequestFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRequestFrom.CustomFormat = "yyyy-MMM-dd";
             this.dtpRequestFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRequestFrom.Location = new System.Drawing.Point(30, 10);
+            this.dtpRequestFrom.Location = new System.Drawing.Point(29, 10);
             this.dtpRequestFrom.Name = "dtpRequestFrom";
-            this.dtpRequestFrom.Size = new System.Drawing.Size(42, 24);
+            this.dtpRequestFrom.Size = new System.Drawing.Size(41, 24);
             this.dtpRequestFrom.TabIndex = 1;
             this.dtpRequestFrom.Tag = "0";
             // 
@@ -956,10 +956,10 @@
             this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button17.ForeColor = System.Drawing.Color.Black;
-            this.button17.Location = new System.Drawing.Point(147, 6);
+            this.button17.Location = new System.Drawing.Point(143, 6);
             this.button17.Margin = new System.Windows.Forms.Padding(4);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(306, 33);
+            this.button17.Size = new System.Drawing.Size(310, 33);
             this.button17.TabIndex = 5;
             this.button17.Text = "Go";
             this.button17.UseVisualStyleBackColor = false;
@@ -973,7 +973,7 @@
             this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.2F));
             this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.56684F));
             this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.95722F));
-            this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 290F));
+            this.tpanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 294F));
             this.tpanel2.Controls.Add(this.label31, 0, 0);
             this.tpanel2.Controls.Add(this.dtpRemitTo, 3, 0);
             this.tpanel2.Controls.Add(this.label32, 2, 0);
@@ -995,7 +995,7 @@
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.Location = new System.Drawing.Point(5, 2);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(20, 41);
+            this.label31.Size = new System.Drawing.Size(19, 41);
             this.label31.TabIndex = 3;
             this.label31.Text = "From:";
             // 
@@ -1004,9 +1004,9 @@
             this.dtpRemitTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRemitTo.CustomFormat = "yyyy-MMM-dd";
             this.dtpRemitTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRemitTo.Location = new System.Drawing.Point(105, 10);
+            this.dtpRemitTo.Location = new System.Drawing.Point(102, 10);
             this.dtpRemitTo.Name = "dtpRemitTo";
-            this.dtpRemitTo.Size = new System.Drawing.Size(43, 24);
+            this.dtpRemitTo.Size = new System.Drawing.Size(41, 24);
             this.dtpRemitTo.TabIndex = 2;
             this.dtpRemitTo.Tag = "1";
             // 
@@ -1015,9 +1015,9 @@
             this.label32.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(85, 2);
+            this.label32.Location = new System.Drawing.Point(83, 2);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(12, 41);
+            this.label32.Size = new System.Drawing.Size(11, 41);
             this.label32.TabIndex = 4;
             this.label32.Text = "To:";
             // 
@@ -1026,9 +1026,9 @@
             this.dtpRemitFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpRemitFrom.CustomFormat = "yyyy-MMM-dd";
             this.dtpRemitFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRemitFrom.Location = new System.Drawing.Point(33, 10);
+            this.dtpRemitFrom.Location = new System.Drawing.Point(32, 10);
             this.dtpRemitFrom.Name = "dtpRemitFrom";
-            this.dtpRemitFrom.Size = new System.Drawing.Size(44, 24);
+            this.dtpRemitFrom.Size = new System.Drawing.Size(43, 24);
             this.dtpRemitFrom.TabIndex = 1;
             this.dtpRemitFrom.Tag = "0";
             // 
@@ -1039,10 +1039,10 @@
             this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button19.ForeColor = System.Drawing.Color.Black;
-            this.button19.Location = new System.Drawing.Point(157, 6);
+            this.button19.Location = new System.Drawing.Point(152, 6);
             this.button19.Margin = new System.Windows.Forms.Padding(4);
             this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(284, 33);
+            this.button19.Size = new System.Drawing.Size(289, 33);
             this.button19.TabIndex = 6;
             this.button19.Text = "Go";
             this.button19.UseVisualStyleBackColor = false;
@@ -1142,6 +1142,23 @@
             this.tpanelDays.Size = new System.Drawing.Size(614, 76);
             this.tpanelDays.TabIndex = 1;
             // 
+            // rjToggleButton3
+            // 
+            this.rjToggleButton3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton3.AutoSize = true;
+            this.rjToggleButton3.Location = new System.Drawing.Point(89, 48);
+            this.rjToggleButton3.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton3.Name = "rjToggleButton3";
+            this.rjToggleButton3.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton3.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton3.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton3.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton3.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton3.TabIndex = 11;
+            this.rjToggleButton3.Tag = "a,1";
+            this.rjToggleButton3.UseVisualStyleBackColor = true;
+            this.rjToggleButton3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
+            // 
             // label5
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -1164,6 +1181,23 @@
             this.label16.TabIndex = 22;
             this.label16.Text = "Mon";
             // 
+            // rjToggleButton1
+            // 
+            this.rjToggleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton1.AutoSize = true;
+            this.rjToggleButton1.Location = new System.Drawing.Point(165, 48);
+            this.rjToggleButton1.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton1.Name = "rjToggleButton1";
+            this.rjToggleButton1.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton1.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton1.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton1.TabIndex = 1;
+            this.rjToggleButton1.Tag = "b,2";
+            this.rjToggleButton1.UseVisualStyleBackColor = true;
+            this.rjToggleButton1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
+            // 
             // label11
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1174,6 +1208,23 @@
             this.label11.Size = new System.Drawing.Size(42, 22);
             this.label11.TabIndex = 17;
             this.label11.Text = "Tue";
+            // 
+            // rjToggleButton2
+            // 
+            this.rjToggleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton2.AutoSize = true;
+            this.rjToggleButton2.Location = new System.Drawing.Point(241, 48);
+            this.rjToggleButton2.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton2.Name = "rjToggleButton2";
+            this.rjToggleButton2.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton2.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton2.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton2.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton2.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton2.TabIndex = 10;
+            this.rjToggleButton2.Tag = "c,3";
+            this.rjToggleButton2.UseVisualStyleBackColor = true;
+            this.rjToggleButton2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
             // 
             // label15
             // 
@@ -1186,6 +1237,23 @@
             this.label15.TabIndex = 21;
             this.label15.Text = "Wen";
             // 
+            // rjToggleButton5
+            // 
+            this.rjToggleButton5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton5.AutoSize = true;
+            this.rjToggleButton5.Location = new System.Drawing.Point(317, 48);
+            this.rjToggleButton5.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton5.Name = "rjToggleButton5";
+            this.rjToggleButton5.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton5.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton5.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton5.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton5.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton5.TabIndex = 13;
+            this.rjToggleButton5.Tag = "d,4";
+            this.rjToggleButton5.UseVisualStyleBackColor = true;
+            this.rjToggleButton5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
+            // 
             // label14
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1196,6 +1264,23 @@
             this.label14.Size = new System.Drawing.Size(42, 22);
             this.label14.TabIndex = 20;
             this.label14.Text = "Thu";
+            // 
+            // rjToggleButton6
+            // 
+            this.rjToggleButton6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton6.AutoSize = true;
+            this.rjToggleButton6.Location = new System.Drawing.Point(393, 48);
+            this.rjToggleButton6.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton6.Name = "rjToggleButton6";
+            this.rjToggleButton6.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton6.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton6.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton6.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton6.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton6.TabIndex = 14;
+            this.rjToggleButton6.Tag = "e,5";
+            this.rjToggleButton6.UseVisualStyleBackColor = true;
+            this.rjToggleButton6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
             // 
             // label12
             // 
@@ -1208,6 +1293,23 @@
             this.label12.TabIndex = 18;
             this.label12.Text = "Fri";
             // 
+            // rjToggleButton7
+            // 
+            this.rjToggleButton7.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton7.AutoSize = true;
+            this.rjToggleButton7.Location = new System.Drawing.Point(471, 48);
+            this.rjToggleButton7.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton7.Name = "rjToggleButton7";
+            this.rjToggleButton7.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton7.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton7.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton7.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton7.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton7.TabIndex = 15;
+            this.rjToggleButton7.Tag = "f,6";
+            this.rjToggleButton7.UseVisualStyleBackColor = true;
+            this.rjToggleButton7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
+            // 
             // label10
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1218,6 +1320,23 @@
             this.label10.Size = new System.Drawing.Size(37, 22);
             this.label10.TabIndex = 23;
             this.label10.Text = "Sat";
+            // 
+            // rjToggleButton4
+            // 
+            this.rjToggleButton4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rjToggleButton4.AutoSize = true;
+            this.rjToggleButton4.Location = new System.Drawing.Point(549, 48);
+            this.rjToggleButton4.MinimumSize = new System.Drawing.Size(50, 25);
+            this.rjToggleButton4.Name = "rjToggleButton4";
+            this.rjToggleButton4.OffBackColor = System.Drawing.Color.Gray;
+            this.rjToggleButton4.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.rjToggleButton4.OnBackColor = System.Drawing.Color.LimeGreen;
+            this.rjToggleButton4.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.rjToggleButton4.Size = new System.Drawing.Size(50, 25);
+            this.rjToggleButton4.TabIndex = 12;
+            this.rjToggleButton4.Tag = "g,7";
+            this.rjToggleButton4.UseVisualStyleBackColor = true;
+            this.rjToggleButton4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
             // 
             // label13
             // 
@@ -1405,7 +1524,7 @@
             this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.60365F));
             this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
             this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tRquestPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tRquestPanel.Controls.Add(this.label17, 0, 0);
             this.tRquestPanel.Controls.Add(this.label18, 0, 1);
             this.tRquestPanel.Controls.Add(this.label19, 0, 2);
@@ -1456,7 +1575,7 @@
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(12, 4);
+            this.label17.Location = new System.Drawing.Point(11, 4);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(211, 22);
             this.label17.TabIndex = 2;
@@ -1467,7 +1586,7 @@
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(32, 35);
+            this.label18.Location = new System.Drawing.Point(31, 35);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(191, 22);
             this.label18.TabIndex = 3;
@@ -1478,7 +1597,7 @@
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(28, 66);
+            this.label19.Location = new System.Drawing.Point(27, 66);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(195, 22);
             this.label19.TabIndex = 4;
@@ -1489,7 +1608,7 @@
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(25, 97);
+            this.label20.Location = new System.Drawing.Point(24, 97);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(198, 22);
             this.label20.TabIndex = 5;
@@ -1500,7 +1619,7 @@
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(417, 4);
+            this.label21.Location = new System.Drawing.Point(414, 4);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(108, 22);
             this.label21.TabIndex = 6;
@@ -1511,7 +1630,7 @@
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(401, 35);
+            this.label22.Location = new System.Drawing.Point(398, 35);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(124, 22);
             this.label22.TabIndex = 7;
@@ -1522,7 +1641,7 @@
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(388, 66);
+            this.label23.Location = new System.Drawing.Point(385, 66);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(137, 22);
             this.label23.TabIndex = 8;
@@ -1533,7 +1652,7 @@
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(441, 97);
+            this.label24.Location = new System.Drawing.Point(438, 97);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(84, 22);
             this.label24.TabIndex = 9;
@@ -1544,7 +1663,7 @@
             this.label25.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(438, 128);
+            this.label25.Location = new System.Drawing.Point(435, 128);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(87, 22);
             this.label25.TabIndex = 10;
@@ -1555,7 +1674,7 @@
             this.label26.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(437, 159);
+            this.label26.Location = new System.Drawing.Point(434, 159);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(88, 22);
             this.label26.TabIndex = 11;
@@ -1566,7 +1685,7 @@
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(364, 190);
+            this.label27.Location = new System.Drawing.Point(361, 190);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(161, 22);
             this.label27.TabIndex = 12;
@@ -1577,7 +1696,7 @@
             this.label28.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(439, 221);
+            this.label28.Location = new System.Drawing.Point(436, 221);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(86, 22);
             this.label28.TabIndex = 13;
@@ -1588,7 +1707,7 @@
             this.label29.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(444, 252);
+            this.label29.Location = new System.Drawing.Point(441, 252);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(81, 22);
             this.label29.TabIndex = 14;
@@ -1599,136 +1718,17 @@
             this.label30.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(411, 284);
+            this.label30.Location = new System.Drawing.Point(408, 284);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(114, 22);
             this.label30.TabIndex = 15;
             this.label30.Text = "Disabelment:";
             // 
-            // rjToggleButton3
-            // 
-            this.rjToggleButton3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton3.AutoSize = true;
-            this.rjToggleButton3.Location = new System.Drawing.Point(89, 48);
-            this.rjToggleButton3.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton3.Name = "rjToggleButton3";
-            this.rjToggleButton3.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton3.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton3.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton3.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton3.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton3.TabIndex = 11;
-            this.rjToggleButton3.Tag = "a,1";
-            this.rjToggleButton3.UseVisualStyleBackColor = true;
-            this.rjToggleButton3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
-            // rjToggleButton1
-            // 
-            this.rjToggleButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton1.AutoSize = true;
-            this.rjToggleButton1.Location = new System.Drawing.Point(165, 48);
-            this.rjToggleButton1.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton1.Name = "rjToggleButton1";
-            this.rjToggleButton1.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton1.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton1.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton1.TabIndex = 1;
-            this.rjToggleButton1.Tag = "b,2";
-            this.rjToggleButton1.UseVisualStyleBackColor = true;
-            this.rjToggleButton1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
-            // rjToggleButton2
-            // 
-            this.rjToggleButton2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton2.AutoSize = true;
-            this.rjToggleButton2.Location = new System.Drawing.Point(241, 48);
-            this.rjToggleButton2.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton2.Name = "rjToggleButton2";
-            this.rjToggleButton2.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton2.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton2.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton2.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton2.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton2.TabIndex = 10;
-            this.rjToggleButton2.Tag = "c,3";
-            this.rjToggleButton2.UseVisualStyleBackColor = true;
-            this.rjToggleButton2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
-            // rjToggleButton5
-            // 
-            this.rjToggleButton5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton5.AutoSize = true;
-            this.rjToggleButton5.Location = new System.Drawing.Point(317, 48);
-            this.rjToggleButton5.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton5.Name = "rjToggleButton5";
-            this.rjToggleButton5.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton5.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton5.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton5.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton5.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton5.TabIndex = 13;
-            this.rjToggleButton5.Tag = "d,4";
-            this.rjToggleButton5.UseVisualStyleBackColor = true;
-            this.rjToggleButton5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
-            // rjToggleButton6
-            // 
-            this.rjToggleButton6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton6.AutoSize = true;
-            this.rjToggleButton6.Location = new System.Drawing.Point(393, 48);
-            this.rjToggleButton6.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton6.Name = "rjToggleButton6";
-            this.rjToggleButton6.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton6.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton6.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton6.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton6.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton6.TabIndex = 14;
-            this.rjToggleButton6.Tag = "e,5";
-            this.rjToggleButton6.UseVisualStyleBackColor = true;
-            this.rjToggleButton6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
-            // rjToggleButton7
-            // 
-            this.rjToggleButton7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton7.AutoSize = true;
-            this.rjToggleButton7.Location = new System.Drawing.Point(471, 48);
-            this.rjToggleButton7.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton7.Name = "rjToggleButton7";
-            this.rjToggleButton7.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton7.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton7.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton7.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton7.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton7.TabIndex = 15;
-            this.rjToggleButton7.Tag = "f,6";
-            this.rjToggleButton7.UseVisualStyleBackColor = true;
-            this.rjToggleButton7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
-            // rjToggleButton4
-            // 
-            this.rjToggleButton4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rjToggleButton4.AutoSize = true;
-            this.rjToggleButton4.Location = new System.Drawing.Point(549, 48);
-            this.rjToggleButton4.MinimumSize = new System.Drawing.Size(50, 25);
-            this.rjToggleButton4.Name = "rjToggleButton4";
-            this.rjToggleButton4.OffBackColor = System.Drawing.Color.Gray;
-            this.rjToggleButton4.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.rjToggleButton4.OnBackColor = System.Drawing.Color.LimeGreen;
-            this.rjToggleButton4.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.rjToggleButton4.Size = new System.Drawing.Size(50, 25);
-            this.rjToggleButton4.TabIndex = 12;
-            this.rjToggleButton4.Tag = "g,7";
-            this.rjToggleButton4.UseVisualStyleBackColor = true;
-            this.rjToggleButton4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rjToggleButton3_MouseClick);
-            // 
             // rja
             // 
             this.rja.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rja.AutoSize = true;
-            this.rja.Location = new System.Drawing.Point(239, 3);
+            this.rja.Location = new System.Drawing.Point(237, 3);
             this.rja.MinimumSize = new System.Drawing.Size(50, 25);
             this.rja.Name = "rja";
             this.rja.OffBackColor = System.Drawing.Color.Gray;
@@ -1745,7 +1745,7 @@
             // 
             this.rjb.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjb.AutoSize = true;
-            this.rjb.Location = new System.Drawing.Point(239, 34);
+            this.rjb.Location = new System.Drawing.Point(237, 34);
             this.rjb.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjb.Name = "rjb";
             this.rjb.OffBackColor = System.Drawing.Color.Gray;
@@ -1762,7 +1762,7 @@
             // 
             this.rjc.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjc.AutoSize = true;
-            this.rjc.Location = new System.Drawing.Point(239, 65);
+            this.rjc.Location = new System.Drawing.Point(237, 65);
             this.rjc.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjc.Name = "rjc";
             this.rjc.OffBackColor = System.Drawing.Color.Gray;
@@ -1779,7 +1779,7 @@
             // 
             this.rjd.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjd.AutoSize = true;
-            this.rjd.Location = new System.Drawing.Point(239, 96);
+            this.rjd.Location = new System.Drawing.Point(237, 96);
             this.rjd.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjd.Name = "rjd";
             this.rjd.OffBackColor = System.Drawing.Color.Gray;
@@ -1796,7 +1796,7 @@
             // 
             this.rje.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rje.AutoSize = true;
-            this.rje.Location = new System.Drawing.Point(540, 3);
+            this.rje.Location = new System.Drawing.Point(537, 3);
             this.rje.MinimumSize = new System.Drawing.Size(50, 25);
             this.rje.Name = "rje";
             this.rje.OffBackColor = System.Drawing.Color.Gray;
@@ -1813,7 +1813,7 @@
             // 
             this.rjf.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjf.AutoSize = true;
-            this.rjf.Location = new System.Drawing.Point(540, 34);
+            this.rjf.Location = new System.Drawing.Point(537, 34);
             this.rjf.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjf.Name = "rjf";
             this.rjf.OffBackColor = System.Drawing.Color.Gray;
@@ -1830,7 +1830,7 @@
             // 
             this.rjg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjg.AutoSize = true;
-            this.rjg.Location = new System.Drawing.Point(540, 65);
+            this.rjg.Location = new System.Drawing.Point(537, 65);
             this.rjg.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjg.Name = "rjg";
             this.rjg.OffBackColor = System.Drawing.Color.Gray;
@@ -1847,7 +1847,7 @@
             // 
             this.rjh.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjh.AutoSize = true;
-            this.rjh.Location = new System.Drawing.Point(540, 96);
+            this.rjh.Location = new System.Drawing.Point(537, 96);
             this.rjh.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjh.Name = "rjh";
             this.rjh.OffBackColor = System.Drawing.Color.Gray;
@@ -1864,7 +1864,7 @@
             // 
             this.rji.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rji.AutoSize = true;
-            this.rji.Location = new System.Drawing.Point(540, 127);
+            this.rji.Location = new System.Drawing.Point(537, 127);
             this.rji.MinimumSize = new System.Drawing.Size(50, 25);
             this.rji.Name = "rji";
             this.rji.OffBackColor = System.Drawing.Color.Gray;
@@ -1881,7 +1881,7 @@
             // 
             this.rjj.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjj.AutoSize = true;
-            this.rjj.Location = new System.Drawing.Point(540, 158);
+            this.rjj.Location = new System.Drawing.Point(537, 158);
             this.rjj.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjj.Name = "rjj";
             this.rjj.OffBackColor = System.Drawing.Color.Gray;
@@ -1898,7 +1898,7 @@
             // 
             this.rjk.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjk.AutoSize = true;
-            this.rjk.Location = new System.Drawing.Point(540, 189);
+            this.rjk.Location = new System.Drawing.Point(537, 189);
             this.rjk.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjk.Name = "rjk";
             this.rjk.OffBackColor = System.Drawing.Color.Gray;
@@ -1915,7 +1915,7 @@
             // 
             this.rjl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjl.AutoSize = true;
-            this.rjl.Location = new System.Drawing.Point(540, 220);
+            this.rjl.Location = new System.Drawing.Point(537, 220);
             this.rjl.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjl.Name = "rjl";
             this.rjl.OffBackColor = System.Drawing.Color.Gray;
@@ -1932,7 +1932,7 @@
             // 
             this.rjm.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjm.AutoSize = true;
-            this.rjm.Location = new System.Drawing.Point(540, 251);
+            this.rjm.Location = new System.Drawing.Point(537, 251);
             this.rjm.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjm.Name = "rjm";
             this.rjm.OffBackColor = System.Drawing.Color.Gray;
@@ -1949,7 +1949,7 @@
             // 
             this.rjn.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjn.AutoSize = true;
-            this.rjn.Location = new System.Drawing.Point(540, 282);
+            this.rjn.Location = new System.Drawing.Point(537, 282);
             this.rjn.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjn.Name = "rjn";
             this.rjn.OffBackColor = System.Drawing.Color.Gray;
@@ -1969,7 +1969,7 @@
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.60365F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tableLayoutPanel9.Controls.Add(this.label37, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.label38, 0, 1);
             this.tableLayoutPanel9.Controls.Add(this.label39, 0, 2);
@@ -2002,7 +2002,7 @@
             this.label37.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label37.AutoSize = true;
             this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label37.Location = new System.Drawing.Point(10, 4);
+            this.label37.Location = new System.Drawing.Point(9, 4);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(213, 22);
             this.label37.TabIndex = 2;
@@ -2013,7 +2013,7 @@
             this.label38.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label38.Location = new System.Drawing.Point(53, 35);
+            this.label38.Location = new System.Drawing.Point(52, 35);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(170, 22);
             this.label38.TabIndex = 3;
@@ -2024,7 +2024,7 @@
             this.label39.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label39.AutoSize = true;
             this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label39.Location = new System.Drawing.Point(32, 66);
+            this.label39.Location = new System.Drawing.Point(31, 66);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(191, 22);
             this.label39.TabIndex = 4;
@@ -2035,7 +2035,7 @@
             this.label40.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label40.Location = new System.Drawing.Point(38, 97);
+            this.label40.Location = new System.Drawing.Point(37, 97);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(185, 22);
             this.label40.TabIndex = 5;
@@ -2045,7 +2045,7 @@
             // 
             this.rjo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjo.AutoSize = true;
-            this.rjo.Location = new System.Drawing.Point(239, 3);
+            this.rjo.Location = new System.Drawing.Point(237, 3);
             this.rjo.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjo.Name = "rjo";
             this.rjo.OffBackColor = System.Drawing.Color.Gray;
@@ -2061,7 +2061,7 @@
             // 
             this.rjp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjp.AutoSize = true;
-            this.rjp.Location = new System.Drawing.Point(239, 34);
+            this.rjp.Location = new System.Drawing.Point(237, 34);
             this.rjp.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjp.Name = "rjp";
             this.rjp.OffBackColor = System.Drawing.Color.Gray;
@@ -2077,7 +2077,7 @@
             // 
             this.rjq.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjq.AutoSize = true;
-            this.rjq.Location = new System.Drawing.Point(239, 65);
+            this.rjq.Location = new System.Drawing.Point(237, 65);
             this.rjq.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjq.Name = "rjq";
             this.rjq.OffBackColor = System.Drawing.Color.Gray;
@@ -2093,7 +2093,7 @@
             // 
             this.rjr.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjr.AutoSize = true;
-            this.rjr.Location = new System.Drawing.Point(239, 96);
+            this.rjr.Location = new System.Drawing.Point(237, 96);
             this.rjr.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjr.Name = "rjr";
             this.rjr.OffBackColor = System.Drawing.Color.Gray;
@@ -2110,7 +2110,7 @@
             this.label41.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label41.Location = new System.Drawing.Point(81, 128);
+            this.label41.Location = new System.Drawing.Point(80, 128);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(142, 22);
             this.label41.TabIndex = 20;
@@ -2120,7 +2120,7 @@
             // 
             this.rjs.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rjs.AutoSize = true;
-            this.rjs.Location = new System.Drawing.Point(239, 127);
+            this.rjs.Location = new System.Drawing.Point(237, 127);
             this.rjs.MinimumSize = new System.Drawing.Size(50, 25);
             this.rjs.Name = "rjs";
             this.rjs.OffBackColor = System.Drawing.Color.Gray;
@@ -2140,6 +2140,7 @@
             this.ClientSize = new System.Drawing.Size(1407, 737);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "DB2Seeder";

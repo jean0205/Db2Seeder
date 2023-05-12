@@ -9,7 +9,7 @@ Public Class UnemploymentBenefitDB2
         Dim ClaimNo As Integer
         Try
             If ClaimNumber Is Nothing Then
-                ClaimNo = Await GenerarClaimNo() + 10000
+                ClaimNo = Await GenerarClaimNo()
             Else
                 ClaimNo = ClaimNumber
             End If

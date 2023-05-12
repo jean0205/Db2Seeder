@@ -25,6 +25,30 @@ namespace Db2Seeder.Business
                 throw ex;
             }
         }
+        public static async Task<List<SupportRequest>> GetSEPSupportRequestCompleted()
+        {
+            try
+            {
+                List<SupportRequest> RequestList = new List<SupportRequest>();
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(27, 8);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<List<SupportRequest>> GetVoluntarySupportRequestCompleted()
+        {
+            try
+            {
+                List<SupportRequest> RequestList = new List<SupportRequest>();
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(28, 8);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static async Task<Document_Employee> EmployeeRegistrationRequestDetail(SupportRequest Request)
         {
             try
