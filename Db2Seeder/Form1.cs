@@ -5,6 +5,7 @@ using Db2Seeder.API.Request;
 using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.Controls;
+using Db2Seeder.NIS.SQL.Webportal.DataAccess;
 using Db2Seeder.SQL.Logs.DataAccess;
 using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
@@ -20,6 +21,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Windows.UI.Xaml;
+using Application = System.Windows.Forms.Application;
 
 namespace Db2Seeder
 {
@@ -40,6 +43,7 @@ namespace Db2Seeder
         readonly UnemploymentBenefitDB2 as400UnemploymentBenefit = new UnemploymentBenefitDB2();
         readonly UnemploymentSEPBenefitDB2 as400UnemploymentSEPBenefit = new UnemploymentSEPBenefitDB2();
         readonly ElectRemittanceDB2 as400remittances = new ElectRemittanceDB2();
+        readonly WebPortalSQLDB webPortalSQLDB = new WebPortalSQLDB();
 
 
         bool working = false;
@@ -1239,8 +1243,8 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-
-                                    as400sicknessBenefit.As400_lib = "NI";
+                                   
+                                   // as400sicknessBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, null);
                                     if (document.ClaimNumber == 0)
                                     {
@@ -1263,14 +1267,14 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
 
-                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                           // int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
 
 
                                             //posting in testing
-                                            as400sicknessBenefit.As400_lib = "TT";
+                                           // as400sicknessBenefit.As400_lib = "TT";
 
-                                            await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
+                                            //await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
                                             int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
@@ -1523,7 +1527,21 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document);
+                                    //find if the person is SEP
+                                    bool SEP = false;
+                                    if (document.EmployerNis!= null)
+                                    {
+                                        if (document.EmployerNis.Split('-')[0] ==document.NisNo.ToString())
+                                        {
+                                            SEP = true;
+                                        }                                        
+                                    }
+                                    else
+                                    {
+                                        SEP = await webPortalSQLDB.IsSelfEmployedPerson(document.NisNo.ToString());
+                                    }
+
+                                    document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document,SEP);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);

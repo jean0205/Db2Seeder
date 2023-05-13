@@ -113,10 +113,10 @@ Public Class UnemploymentSEPBenefitDB2
 
                 Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNCS""  (ACTVCS, CLMNCS, EREGCS, BENTCS, CNCCCS, CNYYCS, CNMMCS, CNDDCS, STATCS,
                                                   RFRCCS, RCOMCS, RTCSCS, LWRKCS, ACCDCS, DEADCS, UNEMPCS, CHIDCS, CRDCS, DEGDCS, PRMDCS, RREGCS, RRSFCS, RREGCS2, RRSFCS2,RREGCS3,
-                                                  RRSFCS3, RREGCS4, RRSFCS4, RREGCS5, RRSFCS5, PROVFCS, RECPACS, GOVWCS, STAQCS, CMPQCS, SAVBCS, SAVTCS, EMPASCS, EMPRACS, EMPSACS, WBLINKCS)
+                                                  RRSFCS3, RREGCS4, RRSFCS4, RREGCS5, RRSFCS5, PROVFCS, RECPACS, GOVWCS, STAQCS, CMPQCS, SAVBCS, SAVTCS, EMPASCS, EMPRACS, EMPSACS, WBLINKCS,SELFCS)
                                         VALUES(@ACTVCS, @CLMNCS, @EREGCS, @BENTCS, @CNCCCS, @CNYYCS, @CNMMCS, @CNDDCS, @STATCS,
                                               @RFRCCS, @RCOMCS, @RTCSCS,  @LWRKCS, @ACCDCS, @DEADCS, @UNEMPCS, @CHIDCS, @CRDCS, @DEGDCS, @PRMDCS, @RREGCS, @RRSFCS, @RREGCS2, @RRSFCS2,
-                                              @RREGCS3, @RRSFCS3, @RREGCS4, @RRSFCS4, @RREGCS5, @RRSFCS5, @PROVFCS, @RECPACS, @GOVWCS, @STAQCS, @CMPQCS, @SAVBCS,@SAVTCS, @EMPASCS, @EMPRACS, @EMPSACS, @WBLINKCS)"
+                                              @RREGCS3, @RRSFCS3, @RREGCS4, @RRSFCS4, @RREGCS5, @RRSFCS5, @PROVFCS, @RECPACS, @GOVWCS, @STAQCS, @CMPQCS, @SAVBCS,@SAVTCS, @EMPASCS, @EMPRACS, @EMPSACS, @WBLINKCS,@SELFCS)"
 
                 Dim cmd As New iDB2Command() With {
                             .CommandText = cmdtext,
@@ -221,6 +221,7 @@ Public Class UnemploymentSEPBenefitDB2
                 End If
 
                 cmd.Parameters("@WBLINKCS").Value = claim.WebPortalLink
+                cmd.Parameters("@SELFCS").Value = 1
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
 
@@ -239,8 +240,8 @@ Public Class UnemploymentSEPBenefitDB2
                 End If
 
                 Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNBF""  
-                                                      (ACTVBF, CLMNBF, EREGBF, BENTBF, BTRMBF,CNCCBF,CNYYBF,CNMMBF, CNDDBF, STATBF, DIANBF,  LWRKBF, ACCDBF, DEADBF, CHIDBF, CRDBF, CPFDBF, CPTDBF, DEGDBF,PRMDBF,RREGBF, RRSFBF, RREGBF2, RRSFBF2, RREGBF3, RRSFBF3, RREGBF4, RRSFBF4, RREGBF5, RRSFBF5, PROVFBF, RECPABF, GOVWBF, STAQBF, CMPQBF, MPAYBF, BANKBF, ACNOBF, WBLINKCS,UNEMPBF)
-                                            VALUES(@ACTVBF, @CLMNBF, @EREGBF, @BENTBF, @BTRMBF, @CNCCBF, @CNYYBF, @CNMMBF, @CNDDBF, @STATBF,@DIANBF, @LWRKBF, @ACCDBF, @DEADBF, @CHIDBF, @CRDBF, @CPFDBF, @CPTDBF, @DEGDBF, @PRMDBF, @RREGBF, @RRSFBF, @RREGBF2, @RRSFBF2, @RREGBF3, @RRSFBF3, @RREGBF4, @RRSFBF4,@RREGBF5, @RRSFBF5, @PROVFBF, @RECPABF, @GOVWBF, @STAQBF, @CMPQBF, @MPAYBF, @BANKBF, @ACNOBF, @WBLINKCS,@UNEMPBF)"
+                                                      (ACTVBF, CLMNBF, EREGBF, BENTBF, BTRMBF,CNCCBF,CNYYBF,CNMMBF, CNDDBF, STATBF, DIANBF,  LWRKBF, ACCDBF, DEADBF, CHIDBF, CRDBF, CPFDBF, CPTDBF, DEGDBF,PRMDBF,RREGBF, RRSFBF, RREGBF2, RRSFBF2, RREGBF3, RRSFBF3, RREGBF4, RRSFBF4, RREGBF5, RRSFBF5, PROVFBF, RECPABF, GOVWBF, STAQBF, CMPQBF, MPAYBF, BANKBF, ACNOBF, WBLINKCS,UNEMPBF,SELFBF)
+                                            VALUES(@ACTVBF, @CLMNBF, @EREGBF, @BENTBF, @BTRMBF, @CNCCBF, @CNYYBF, @CNMMBF, @CNDDBF, @STATBF,@DIANBF, @LWRKBF, @ACCDBF, @DEADBF, @CHIDBF, @CRDBF, @CPFDBF, @CPTDBF, @DEGDBF, @PRMDBF, @RREGBF, @RRSFBF, @RREGBF2, @RRSFBF2, @RREGBF3, @RRSFBF3, @RREGBF4, @RRSFBF4,@RREGBF5, @RRSFBF5, @PROVFBF, @RECPABF, @GOVWBF, @STAQBF, @CMPQBF, @MPAYBF, @BANKBF, @ACNOBF, @WBLINKCS,@UNEMPBF,@SELFBF)"
 
                 Dim cmd As New iDB2Command() With {
                             .CommandText = cmdtext,
@@ -331,7 +332,7 @@ Public Class UnemploymentSEPBenefitDB2
                 cmd.Parameters("@ACNOBF").Value = claim.accountNo
 
                 cmd.Parameters("@WBLINKCS").Value = claim.WebPortalLink
-
+                cmd.Parameters("@SELFBF").Value = 1
 
 
                 Await cmd.ExecuteNonQueryAsync()

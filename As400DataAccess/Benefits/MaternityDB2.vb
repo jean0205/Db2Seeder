@@ -4,20 +4,23 @@ Public Class MaternityDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
 
-    Async Function InsertMaternity(Maternity As Document_Maternity) As Task(Of Integer)
+    Async Function InsertMaternity(Maternity As Document_Maternity, ClaimAsSEP As Boolean) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
-
-            'EMPLOYERS REG
-            Dim strCadena As String
-            Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = Maternity.EmployerNis
-            intPos = InStr(1, strCadena, "-") 'posicion de la "-"
-            EmprNo = Mid(strCadena, 1, intPos - 1)
-            EmprSub = Mid(strCadena, intPos + 1)
+
+            If ClaimAsSEP Then
+                EmprNo = Maternity.NisNo
+                EmprSub = 0
+            ElseIf Maternity.EmployerNis IsNot Nothing Then
+                EmprNo = Maternity.EmployerNis.Split("-")(0)
+                EmprSub = 0
+            Else
+                EmprNo = 0
+                EmprSub = 0
+            End If
 
             Dim Typeclaim As String
             ' programar 
@@ -25,23 +28,23 @@ Public Class MaternityDB2
                 Typeclaim = "1"
                 ClaimNo = Await GenerarClaimNo()
                 Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
-                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
 
             ElseIf Maternity.BenefitApply = "Maternity Grant" Then
                 Typeclaim = "A"
                 ClaimNo = Await GenerarClaimNo()
                 Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
-                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
 
             ElseIf Maternity.BenefitApply = "Grant & Allowance" Then
                 Typeclaim = "1"
                 ClaimNo = Await GenerarClaimNo()
                 Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
-                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
                 Typeclaim = "A"
                 ClaimNo = Await GenerarClaimNo()
                 Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
-                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
             End If
 
 
@@ -123,7 +126,7 @@ Public Class MaternityDB2
             Throw ex
         End Try
     End Function
-    Private Async Function InsertMaternityCLMNCS(Maternity As Document_Maternity, Clmn As String, EmprNo As String, EmprSub As String, Typeclmn As String) As Task
+    Private Async Function InsertMaternityCLMNCS(Maternity As Document_Maternity, Clmn As String, EmprNo As String, EmprSub As String, Typeclmn As String, SEP As Boolean) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -134,10 +137,10 @@ Public Class MaternityDB2
 
                 Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNCS""  (ACTVCS, CLMNCS, EREGCS, BENTCS, CNCCCS, CNYYCS, CNMMCS, CNDDCS, STATCS,
                                                   RFRCCS, RCOMCS, RTCSCS, LWRKCS, ACCDCS, DEADCS, UNEMPCS, CHIDCS, CRDCS, DEGDCS, PRMDCS, RREGCS, RRSFCS, RREGCS2, RRSFCS2,RREGCS3,
-                                                  RRSFCS3, RREGCS4, RRSFCS4, RREGCS5, RRSFCS5, PROVFCS, RECPACS, GOVWCS, STAQCS, CMPQCS, SAVBCS, SAVTCS, EMPASCS, EMPRACS, EMPSACS, WBLINKCS)
+                                                  RRSFCS3, RREGCS4, RRSFCS4, RREGCS5, RRSFCS5, PROVFCS, RECPACS, GOVWCS, STAQCS, CMPQCS, SAVBCS, SAVTCS, EMPASCS, EMPRACS, EMPSACS, WBLINKCS,SELFCS)
                                         VALUES(@ACTVCS, @CLMNCS, @EREGCS, @BENTCS, @CNCCCS, @CNYYCS, @CNMMCS, @CNDDCS, @STATCS,
                                               @RFRCCS, @RCOMCS, @RTCSCS,  @LWRKCS, @ACCDCS, @DEADCS, @UNEMPCS, @CHIDCS, @CRDCS, @DEGDCS, @PRMDCS, @RREGCS, @RRSFCS, @RREGCS2, @RRSFCS2,
-                                              @RREGCS3, @RRSFCS3, @RREGCS4, @RRSFCS4, @RREGCS5, @RRSFCS5, @PROVFCS, @RECPACS, @GOVWCS, @STAQCS, @CMPQCS, @SAVBCS,@SAVTCS, @EMPASCS, @EMPRACS, @EMPSACS, @WBLINKCS)"
+                                              @RREGCS3, @RRSFCS3, @RREGCS4, @RRSFCS4, @RREGCS5, @RRSFCS5, @PROVFCS, @RECPACS, @GOVWCS, @STAQCS, @CMPQCS, @SAVBCS,@SAVTCS, @EMPASCS, @EMPRACS, @EMPSACS, @WBLINKCS,@SELFCS)"
 
                 Dim cmd As New iDB2Command() With {
                             .CommandText = cmdtext,
@@ -230,7 +233,7 @@ Public Class MaternityDB2
                 cmd.Parameters("@EMPRACS").Value = "0"
                 cmd.Parameters("@EMPSACS").Value = "0"
                 cmd.Parameters("@WBLINKCS").Value = Maternity.WebPortalLink
-
+                cmd.Parameters("@SELFCS").Value = If(SEP, 1, 0)
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
 

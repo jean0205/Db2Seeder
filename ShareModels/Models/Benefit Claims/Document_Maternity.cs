@@ -86,7 +86,7 @@ namespace ShareModels.Models.Benefit_Claims
         public DateTime? DateOfEmployment { get; set; }
 
         [JsonProperty("dateLastWorked")]
-        public DateTime DateLastWorked { get; set; }
+        public DateTime? DateLastWorked { get; set; }
 
         [JsonProperty("employersBusinessNameSecTwo")]
         public string EmployersBusinessNameSecTwo { get; set; }
