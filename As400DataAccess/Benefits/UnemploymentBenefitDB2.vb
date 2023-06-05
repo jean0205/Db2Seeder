@@ -14,7 +14,7 @@ Public Class UnemploymentBenefitDB2
                 ClaimNo = ClaimNumber
             End If
             Await InsertClaimBENF(claim, ClaimNo)
-            Await InsertClaimCLMNCS(claim, ClaimNo)
+            'Await InsertClaimCLMNCS(claim, ClaimNo)
             Await InsertClaimCLMNBF(claim, ClaimNo)
             Await InsertBankInformationBADT(ClaimNo)
 

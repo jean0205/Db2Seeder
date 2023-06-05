@@ -21,7 +21,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using Windows.UI.Xaml;
 using Application = System.Windows.Forms.Application;
 
 namespace Db2Seeder
@@ -796,7 +795,7 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Remittance details successfully loaded", true);
                                     try
                                     {
-                                        as400remittances.As400_lib = "NI";
+
                                         AddTreeViewLogLevel2Info("Posting Remittance to As400.");
                                         await Remittance.PostRemittanceToAs400(request, document);
                                         AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
@@ -1243,8 +1242,8 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                   
-                                   // as400sicknessBenefit.As400_lib = "NI";
+
+                                    as400sicknessBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, null);
                                     if (document.ClaimNumber == 0)
                                     {
@@ -1267,14 +1266,11 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
 
-                                           // int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
-
-
+                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
                                             //posting in testing
-                                           // as400sicknessBenefit.As400_lib = "TT";
-
-                                            //await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
+                                             as400sicknessBenefit.As400_lib = "TT";                                           
+                                           await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
                                             int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
@@ -1529,19 +1525,19 @@ namespace Db2Seeder
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
                                     //find if the person is SEP
                                     bool SEP = false;
-                                    if (document.EmployerNis!= null)
+                                    if (document.EmployerNis != null)
                                     {
-                                        if (document.EmployerNis.Split('-')[0] ==document.NisNo.ToString())
+                                        if (document.EmployerNis.Split('-')[0] == document.NisNo.ToString())
                                         {
                                             SEP = true;
-                                        }                                        
+                                        }
                                     }
                                     else
                                     {
                                         SEP = await webPortalSQLDB.IsSelfEmployedPerson(document.NisNo.ToString());
                                     }
 
-                                    document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document,SEP);
+                                    document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document, SEP);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1549,8 +1545,19 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
-                                        //updating worflow state
-                                        var responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 241);
+                                        //updating worflow state for Grant & Allowance and Maternity Allowance is one, for Grant allong is other
+                                        var responseA = document.BenefitApply == "Maternity Grant" ? await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 313) : await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 241);
+
+                                        //var responseA = new Response();
+                                        //if (document.BenefitApply== "Maternity Grant")
+                                        //{
+                                        //    responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 313);
+                                        //}
+                                        //else
+                                        //{
+                                        //    responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 241);
+                                        //}
+
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
@@ -1827,7 +1834,9 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        var responseA = await UEB_EmpeBenefit.UpdateWorkFlowState(3, request.supportRequestId, 287);
+                                        var responseA = await UEB_EmpeBenefit.UpdateWorkFlowState(3, request.supportRequestId, 286);
+                                        await UEB_EmpeBenefit.UpdateWorkFlowState(3, request.supportRequestId, 287);
+
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to Processing", true);

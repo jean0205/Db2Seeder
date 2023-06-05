@@ -23,10 +23,11 @@ Public Class SicknessDB2
 
             If ClaimNumber Is Nothing Then
                 ClaimNo = Await GenerarClaimNo()
+
             Else
                 ClaimNo = ClaimNumber
-            End If
 
+            End If
             Await InsertSickBenf(Sickness, ClaimNo, EmprNo, EmprSub)
             Await InsertSickCLMNCS(Sickness, ClaimNo, EmprNo, EmprSub)
 
@@ -226,7 +227,6 @@ Public Class SicknessDB2
                     End If
 
                 End If
-
                 cmd.Parameters("@WBLINKCS").Value = Sickness.WebPortalLink
                 'si es el mismo numero el del employee and employer lo tomo como SEP claims
                 cmd.Parameters("@SELFCS").Value = If(Sickness.nisNo.ToString() = Sickness.employerEntity.First().employerNis.Split("-")(0), 1, 0)

@@ -15,7 +15,7 @@ namespace Db2Seeder.NIS.SQL.Webportal.DataAccess
         {
             try
             {
-                var selfEmployedPerson = await _contextWebPortal.NiEmpr.FirstAsync(x => x.Rreg02.ToString() == niNumber && x.Rrsf02==0 && x.Sect02 == 3 && x.Tcen02==0 && x.Tdat02==0 );
+                var selfEmployedPerson = await _contextWebPortal.NiEmpr.FirstOrDefaultAsync(x => x.Rreg02.ToString() == niNumber && x.Rrsf02==0 && x.Sect02 == 3 && x.Tcen02==0 && x.Tdat02==0 );
 
                 if (selfEmployedPerson != null)
                 {
