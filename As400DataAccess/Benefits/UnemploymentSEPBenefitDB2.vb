@@ -15,7 +15,7 @@ Public Class UnemploymentSEPBenefitDB2
                 ClaimNo = ClaimNumber
             End If
             Await InsertClaimBENF(claim, ClaimNo)
-            Await InsertClaimCLMNCS(claim, ClaimNo)
+            'Await InsertClaimCLMNCS(claim, ClaimNo)
             Await InsertClaimCLMNBF(claim, ClaimNo)
             Await InsertBankInformationBADT(ClaimNo)
 
@@ -249,6 +249,7 @@ Public Class UnemploymentSEPBenefitDB2
                             .CommandTimeout = 0
                         }
 
+
                 cmd.DeriveParameters()
                 cmd.Parameters("@ACTVBF").Value = "A"
                 cmd.Parameters("@CLMNBF").Value = Clmn
@@ -268,9 +269,11 @@ Public Class UnemploymentSEPBenefitDB2
                 'Mientras no se recoge el dato en el claim se deja en 0
                 If claim.ceasedSelfEmploymentDate.HasValue Then
                     Dim lwd = CDate(claim.ceasedSelfEmploymentDate).Year * 10000 + CDate(claim.ceasedSelfEmploymentDate).Month * 100 + CDate(claim.ceasedSelfEmploymentDate).Day
+                    Dim dat = claim.ceasedSelfEmploymentDate.Value.AddDays(1)
+                    Dim unempDate = dat.Year * 10000 + dat.Month * 100 + dat.Day
 
                     cmd.Parameters("@LWRKBF").Value = lwd
-                    cmd.Parameters("@UNEMPBF").Value = lwd
+                    cmd.Parameters("@UNEMPBF").Value = unempDate
                 Else
                     cmd.Parameters("@LWRKBF").Value = 0
                     cmd.Parameters("@UNEMPBF").Value = 0
@@ -332,8 +335,8 @@ Public Class UnemploymentSEPBenefitDB2
                 cmd.Parameters("@ACNOBF").Value = claim.accountNo
 
                 cmd.Parameters("@WBLINKCS").Value = claim.WebPortalLink
-                cmd.Parameters("@SELFBF").Value = 1
 
+                cmd.Parameters("@SELFBF").Value = 1
 
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()

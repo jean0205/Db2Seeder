@@ -238,8 +238,8 @@ Public Class UnemploymentBenefitDB2
                 End If
 
                 Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNBF""  
-                                                      (ACTVBF, CLMNBF, EREGBF, BENTBF, BTRMBF,CNCCBF,CNYYBF,CNMMBF, CNDDBF, STATBF, DIANBF,  LWRKBF, ACCDBF, DEADBF, CHIDBF, CRDBF, CPFDBF, CPTDBF, DEGDBF,PRMDBF,RREGBF, RRSFBF, RREGBF2, RRSFBF2, RREGBF3, RRSFBF3, RREGBF4, RRSFBF4, RREGBF5, RRSFBF5, PROVFBF, RECPABF, GOVWBF, STAQBF, CMPQBF, MPAYBF, BANKBF, ACNOBF, WBLINKCS,UNEMPBF)
-                                            VALUES(@ACTVBF, @CLMNBF, @EREGBF, @BENTBF, @BTRMBF, @CNCCBF, @CNYYBF, @CNMMBF, @CNDDBF, @STATBF,@DIANBF, @LWRKBF, @ACCDBF, @DEADBF, @CHIDBF, @CRDBF, @CPFDBF, @CPTDBF, @DEGDBF, @PRMDBF, @RREGBF, @RRSFBF, @RREGBF2, @RRSFBF2, @RREGBF3, @RRSFBF3, @RREGBF4, @RRSFBF4,@RREGBF5, @RRSFBF5, @PROVFBF, @RECPABF, @GOVWBF, @STAQBF, @CMPQBF, @MPAYBF, @BANKBF, @ACNOBF, @WBLINKCS,@UNEMPBF)"
+                                                      (ACTVBF, CLMNBF, EREGBF, BENTBF, BTRMBF,CNCCBF,CNYYBF,CNMMBF, CNDDBF, STATBF, DIANBF,  LWRKBF, ACCDBF, DEADBF, CHIDBF, CRDBF, CPFDBF, CPTDBF, DEGDBF,PRMDBF,RREGBF, RRSFBF, RREGBF2, RRSFBF2, RREGBF3, RRSFBF3, RREGBF4, RRSFBF4, RREGBF5, RRSFBF5, PROVFBF, RECPABF, GOVWBF, STAQBF, CMPQBF, MPAYBF, BANKBF, ACNOBF, WBLINKCS,UNEMPBF,SELFBF)
+                                            VALUES(@ACTVBF, @CLMNBF, @EREGBF, @BENTBF, @BTRMBF, @CNCCBF, @CNYYBF, @CNMMBF, @CNDDBF, @STATBF,@DIANBF, @LWRKBF, @ACCDBF, @DEADBF, @CHIDBF, @CRDBF, @CPFDBF, @CPTDBF, @DEGDBF, @PRMDBF, @RREGBF, @RRSFBF, @RREGBF2, @RRSFBF2, @RREGBF3, @RRSFBF3, @RREGBF4, @RRSFBF4,@RREGBF5, @RRSFBF5, @PROVFBF, @RECPABF, @GOVWBF, @STAQBF, @CMPQBF, @MPAYBF, @BANKBF, @ACNOBF, @WBLINKCS,@UNEMPBF,@SELFBF)"
 
                 Dim cmd As New iDB2Command() With {
                             .CommandText = cmdtext,
@@ -266,9 +266,11 @@ Public Class UnemploymentBenefitDB2
                 'Mientras no se recoge el dato en el claim se deja en 0
                 If claim.lastDateOfWorkLastEmployer.HasValue Then
                     Dim lwd = CDate(claim.lastDateOfWorkLastEmployer).Year * 10000 + CDate(claim.lastDateOfWorkLastEmployer).Month * 100 + CDate(claim.lastDateOfWorkLastEmployer).Day
+                    Dim dat = claim.lastDateOfWorkLastEmployer.Value.AddDays(1)
+                    Dim unempDate = dat.Year * 10000 + dat.Month * 100 + dat.Day
 
                     cmd.Parameters("@LWRKBF").Value = lwd
-                    cmd.Parameters("@UNEMPBF").Value = lwd
+                    cmd.Parameters("@UNEMPBF").Value = unempDate
                 Else
                     cmd.Parameters("@LWRKBF").Value = 0
                     cmd.Parameters("@UNEMPBF").Value = 0
@@ -330,6 +332,7 @@ Public Class UnemploymentBenefitDB2
                 cmd.Parameters("@ACNOBF").Value = claim.accountNo
 
                 cmd.Parameters("@WBLINKCS").Value = claim.WebPortalLink
+                cmd.Parameters("@SELFBF").Value = 0
 
 
 

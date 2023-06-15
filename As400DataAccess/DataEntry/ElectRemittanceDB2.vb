@@ -672,11 +672,11 @@ Public Class ElectRemittanceDB2
                 cmdCNTE.Parameters("@RCNB06").Value = EmpeCntr.contributions.employerPortionRounded
                 cmdCNTE.Parameters("@PAGE06").Value = " "
                 cmdCNTE.Parameters("@FREQ06").Value = Trim(EmpeCntr.frequency)
-                cmdCNTE.Parameters("@ERN106").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
-                cmdCNTE.Parameters("@ERN206").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
-                cmdCNTE.Parameters("@ERN306").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
-                cmdCNTE.Parameters("@ERN406").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
-                cmdCNTE.Parameters("@ERN506").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
+                cmdCNTE.Parameters("@ERN106").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, If(EmpeCntr.week1.amount IsNot Nothing, EmpeCntr.week1.amount, 0.00))
+                cmdCNTE.Parameters("@ERN206").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, If(EmpeCntr.week2.amount IsNot Nothing, EmpeCntr.week2.amount, 0.00))
+                cmdCNTE.Parameters("@ERN306").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, If(EmpeCntr.week3.amount IsNot Nothing, EmpeCntr.week3.amount, 0.00))
+                cmdCNTE.Parameters("@ERN406").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, If(EmpeCntr.week4.amount IsNot Nothing, EmpeCntr.week4.amount, 0.00))
+                cmdCNTE.Parameters("@ERN506").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, If(EmpeCntr.week5.amount IsNot Nothing, EmpeCntr.week5.amount, 0.00))
                 cmdCNTE.Parameters("@ERN606").Value = 0.00
                 cmdCNTE.Parameters("@WKSW06").Value = EmpeCntr.weeksWorked
                 cmdCNTE.Parameters("@CRIE06").Value = 0.0
@@ -1152,11 +1152,11 @@ Public Class ElectRemittanceDB2
                                 cmdup1.Parameters("@ECNB").Value = empe + ecnb2
                                 cmdup1.Parameters("@RCNB").Value = empr + rcnb3
 
-                                cmdup1.Parameters("@ERN1").Value = ern1 + If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
-                                cmdup1.Parameters("@ERN2").Value = ern2 + If(EmpeCntr.week2.hasWorked = False, 0.00, EmpeCntr.week2.amount)
-                                cmdup1.Parameters("@ERN3").Value = ern3 + If(EmpeCntr.week3.hasWorked = False, 0.00, EmpeCntr.week3.amount)
-                                cmdup1.Parameters("@ERN4").Value = ern4 + If(EmpeCntr.week4.hasWorked = False, 0.00, EmpeCntr.week4.amount)
-                                cmdup1.Parameters("@ERN5").Value = ern5 + If(EmpeCntr.week5.hasWorked = False, 0.00, EmpeCntr.week5.amount)
+                                cmdup1.Parameters("@ERN1").Value = ern1 + If(EmpeCntr.week1.hasWorked = False, 0.00, If(EmpeCntr.week1.amount IsNot Nothing, EmpeCntr.week1.amount, 0.00))
+                                cmdup1.Parameters("@ERN2").Value = ern2 + If(EmpeCntr.week2.hasWorked = False, 0.00, If(EmpeCntr.week2.amount IsNot Nothing, EmpeCntr.week2.amount, 0.00))
+                                cmdup1.Parameters("@ERN3").Value = ern3 + If(EmpeCntr.week3.hasWorked = False, 0.00, If(EmpeCntr.week3.amount IsNot Nothing, EmpeCntr.week3.amount, 0.00))
+                                cmdup1.Parameters("@ERN4").Value = ern4 + If(EmpeCntr.week4.hasWorked = False, 0.00, If(EmpeCntr.week4.amount IsNot Nothing, EmpeCntr.week4.amount, 0.00))
+                                cmdup1.Parameters("@ERN5").Value = ern5 + If(EmpeCntr.week5.hasWorked = False, 0.00, If(EmpeCntr.week5.amount IsNot Nothing, EmpeCntr.week5.amount, 0.00))
                                 'week
                                 If EmpeCntr.week1.hasWorked = False Then
                                     cmdup1.Parameters("@CT#106").Value = Trim(w1)
@@ -1221,11 +1221,11 @@ Public Class ElectRemittanceDB2
                                 cmdup1.Parameters("@ECNB").Value = empe + ecnb2
                                 cmdup1.Parameters("@RCNB").Value = empr + rcnb3
 
-                                cmdup1.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week1.amount)
-                                cmdup1.Parameters("@ERN2").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week2.amount)
-                                cmdup1.Parameters("@ERN3").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week3.amount)
-                                cmdup1.Parameters("@ERN4").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week4.amount)
-                                cmdup1.Parameters("@ERN5").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, EmpeCntr.week5.amount)
+                                cmdup1.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, if(EmpeCntr.week1.amount IsNot Nothing,EmpeCntr.week1.amount,0.00))
+                                cmdup1.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00,if(EmpeCntr.week2.amount IsNot Nothing,EmpeCntr.week2.amount,0.00))
+                                cmdup1.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, if(EmpeCntr.week3.amount IsNot Nothing,EmpeCntr.week3.amount,0.00))
+                                cmdup1.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, if(EmpeCntr.week4.amount IsNot Nothing,EmpeCntr.week4.amount,0.00))
+                                cmdup1.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, if(EmpeCntr.week5.amount IsNot Nothing,EmpeCntr.week5.amount,0.00))
                                 'week
                                 cmdup1.Parameters("@CT#106").Value = If(EmpeCntr.week1.hasWorked = False, " ", "P")
                                 cmdup1.Parameters("@CT#206").Value = If(EmpeCntr.week2.hasWorked = False, " ", "P")

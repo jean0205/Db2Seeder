@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\nisgrenada.org\shar01\Shar01\palacio\Webportal\</PublishUrl>
+    <PublishUrl>\\nisgrenada.org\shar01\Shar01\palacio\Webportal\Test\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -25,11 +25,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\nisgrenada.org\shar01\Shar01\palacio\Webportal\</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>95</ApplicationRevision>
+    <ApplicationRevision>98</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -132,6 +131,16 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModelsTest\ComplianceInterview.cs" />
+    <Compile Include="ModelsTest\ComplianceInterviewUserAccess.cs" />
+    <Compile Include="ModelsTest\DecObservations.cs" />
+    <Compile Include="ModelsTest\RejectionCodes.cs" />
+    <Compile Include="ModelsTest\RequestClaimMapping.cs" />
+    <Compile Include="ModelsTest\ScannedTermCertificate.cs" />
+    <Compile Include="ModelsTest\Status.cs" />
+    <Compile Include="ModelsTest\TerminationCertificate.cs" />
+    <Compile Include="ModelsTest\UnempDeclaration.cs" />
+    <Compile Include="ModelsTest\Unemployment_TestContext.cs" />
     <Compile Include="Models_OnlineFoms\ClaimEmpe.cs" />
     <Compile Include="Models_OnlineFoms\ClaimEmpr.cs" />
     <Compile Include="Models_OnlineFoms\ComplianceCert.cs" />
