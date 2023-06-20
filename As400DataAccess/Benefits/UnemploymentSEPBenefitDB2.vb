@@ -338,6 +338,12 @@ Public Class UnemploymentSEPBenefitDB2
 
                 cmd.Parameters("@SELFBF").Value = 1
 
+
+                If claim.bank = Nothing Or claim.accountNo = Nothing Or claim.accountType Is Nothing Then
+                Else
+                    Await InsertBankInformationEmpe(claim, Clmn)
+                End If
+
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
 

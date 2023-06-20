@@ -334,8 +334,10 @@ Public Class UnemploymentBenefitDB2
                 cmd.Parameters("@WBLINKCS").Value = claim.WebPortalLink
                 cmd.Parameters("@SELFBF").Value = 0
 
-
-
+                If claim.bank = Nothing Or claim.accountNo = Nothing Or claim.accountType Is Nothing Then
+                Else
+                    Await InsertBankInformationEmpe(claim, Clmn)
+                End If
 
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
