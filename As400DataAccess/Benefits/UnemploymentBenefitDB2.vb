@@ -263,7 +263,7 @@ Public Class UnemploymentBenefitDB2
                 cmd.Parameters("@STATBF").Value = " "
 
                 'LAST DAY WORKED
-                'Mientras no se recoge el dato en el claim se deja en 0
+
                 If claim.lastDateOfWorkLastEmployer.HasValue Then
                     Dim lwd = CDate(claim.lastDateOfWorkLastEmployer).Year * 10000 + CDate(claim.lastDateOfWorkLastEmployer).Month * 100 + CDate(claim.lastDateOfWorkLastEmployer).Day
                     Dim dat = claim.lastDateOfWorkLastEmployer.Value.AddDays(1)

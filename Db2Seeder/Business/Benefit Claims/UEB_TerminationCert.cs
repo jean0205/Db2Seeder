@@ -46,6 +46,18 @@ namespace Db2Seeder.Business.Benefit_Claims
                     {
                         return null;
                     }
+                    if( certificate.vacationWeekPaid == null)
+                    {
+                        certificate.vacationWeekPaid=0;
+                    }
+                    if (certificate.severanceWeekPaid == null)
+                    {
+                        certificate.severanceWeekPaid = 0;
+                    }
+                    if (certificate.payInLieuWeekPaid == null)
+                    {
+                        certificate.payInLieuWeekPaid = 0;
+                    }
                     if (requestHistory.Any())
                     {
                         certificate.CompletedBy = requestHistory.Last().UserName;

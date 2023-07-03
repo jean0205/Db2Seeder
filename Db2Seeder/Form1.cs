@@ -804,7 +804,7 @@ namespace Db2Seeder
                                         // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
 
 
-                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 171);
+                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 7);
 
                                         if (responseA.IsSuccess)
                                         {
@@ -982,7 +982,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        var responseA = await DeathBenefit.UpdateWorkFlowState(3, request.supportRequestId, 96);
+                                        var responseA = await DeathBenefit.UpdateWorkFlowState(3, request.supportRequestId, 237);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1350,7 +1350,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         // updating worflow state
-                                        var responseA = await SurvivorBenefit.UpdateWorkFlowState(11, request.supportRequestId, 189);
+                                        var responseA = await SurvivorBenefit.UpdateWorkFlowState(11, request.supportRequestId, 243);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -2268,8 +2268,8 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel1("Termination Certificates with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
 
-                                        var responseA = await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 295);
-                                        await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 307);
+                                        //var responseA = await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 295);
+                                        var responseA = await UEB_SEPBenefit.UpdateWorkFlowState(3, request.supportRequestId, 307);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
