@@ -718,7 +718,7 @@ namespace Db2Seeder
                                         }
 
                                         //updating worflow state
-                                        var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 160);
+                                        var responseA = await ComplianceCertificate.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 3);
 
                                         if (responseA.IsSuccess)
                                         {
