@@ -2032,8 +2032,8 @@ Public Class ElectRemittanceDB2
                     cmdCNTR.Parameters("@CONY07").Value = Year1
                     cmdCNTR.Parameters("@CONM07").Value = Mid(Period, 5, 2)
                     cmdCNTR.Parameters("@RGIE07").Value = totalins
-                    cmdCNTR.Parameters("@RCNB07").Value = empecntr
-                    cmdCNTR.Parameters("@ECNT07").Value = emprcntr
+                    cmdCNTR.Parameters("@RCNB07").Value = emprcntr
+                    cmdCNTR.Parameters("@ECNT07").Value = empecntr
                     cmdCNTR.Parameters("@FINE07").Value = 0.0
                     cmdCNTR.Parameters("@RINT07").Value = 0.0
                     cmdCNTR.Parameters("@AMPD07").Value = 0.0

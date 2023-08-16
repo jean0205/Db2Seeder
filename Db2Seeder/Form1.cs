@@ -1243,7 +1243,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                    as400sicknessBenefit.As400_lib = "NI";
+                                   // as400sicknessBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, null);
                                     if (document.ClaimNumber == 0)
                                     {
@@ -1266,12 +1266,12 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
 
-                                            int savedAtt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
-                                            //posting in testing
-                                             as400sicknessBenefit.As400_lib = "TT";                                           
-                                           await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
-                                            int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                           // //posting in testing
+                                           //  as400sicknessBenefit.As400_lib = "TT";                                           
+                                           //await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
+                                           // int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
                                         }
