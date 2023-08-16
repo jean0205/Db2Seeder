@@ -249,27 +249,27 @@ namespace Db2Seeder.API.Helpers
         {
             try
             {
-                var _configuration= ConfigurationManager.AppSettings;
-                string smtp = _configuration["Smtp"];
-                MailMessage Email = new MailMessage();
-                using (SmtpClient client = new SmtpClient(smtp))
-                {
-                    client.Port = 587;
-                    client.EnableSsl = true;
-                    Email.From = new MailAddress(_configuration["From"], "DB2-Seeder");
-                    Email.To.Add(new MailAddress(to));
-                    Email.Subject = subject;
-                    Email.Body = body;
-                    Email.IsBodyHtml = true;
-                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    client.UseDefaultCredentials = false;
-                    client.TargetName = "STARTTLS/smtp.office365.com";
-                    client.Credentials = new NetworkCredential(_configuration["User"], _configuration["Password"]);
-                    System.Net.ServicePointManager.ServerCertificateValidationCallback = (object se, System.Security.Cryptography.X509Certificates.X509Certificate cert, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslerror) => true;
-                   await  client.SendMailAsync(Email);
-                    Email.Dispose();
-                    client.Dispose();
-                }               
+                //var _configuration= ConfigurationManager.AppSettings;
+                //string smtp = _configuration["Smtp"];
+                //MailMessage Email = new MailMessage();
+                //using (SmtpClient client = new SmtpClient(smtp))
+                //{
+                //    client.Port = 587;
+                //    client.EnableSsl = true;
+                //    Email.From = new MailAddress(_configuration["From"], "DB2-Seeder");
+                //    Email.To.Add(new MailAddress(to));
+                //    Email.Subject = subject;
+                //    Email.Body = body;
+                //    Email.IsBodyHtml = true;
+                //    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //    client.UseDefaultCredentials = false;
+                //    client.TargetName = "STARTTLS/smtp.office365.com";
+                //    client.Credentials = new NetworkCredential(_configuration["User"], _configuration["Password"]);
+                //    System.Net.ServicePointManager.ServerCertificateValidationCallback = (object se, System.Security.Cryptography.X509Certificates.X509Certificate cert, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslerror) => true;
+                //   await  client.SendMailAsync(Email);
+                //    Email.Dispose();
+                //    client.Dispose();
+                //}               
             }
             catch (Exception ex)
             {
