@@ -455,7 +455,7 @@ Public Class EmployerDB2
                 cmd.Parameters("@EMPS").Value = "0"
                 cmd.Parameters("@BANK").Value = Empe.bank
                 cmd.Parameters("@ACCN").Value = Empe.accountNumber
-
+                ' review  el tipo de account esta viniendo como sav y dda no como 1 y 0 ok  revisar 
                 If Empe.accountType = 1 Then
                     cmd.Parameters("@ACCTYP").Value = "SAV"
                 Else
