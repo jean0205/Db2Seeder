@@ -256,12 +256,12 @@ namespace Db2Seeder.SQL.Logs.Helpers
             };
             LogsDB logsDB = new LogsDB();
             await logsDB.InsertClaimLog(log);
-            await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Claim", $"<h1>New Claim Posted</h1>" +
-                 $"Please see Information below:</br></br>" +
-                 $"Employee Number: {log.EmployeeNumber}" +
-                 "</br ></br> " +
-                  $"Employee Name: {log.EmployeeName}" +
-                 "</br ></br>");            
+            ////await UtilRecurrent.SendMail("jcsoto@nisgrenada.org", "DB2 Seeder Claim", $"<h1>New Claim Posted</h1>" +
+            //     $"Please see Information below:</br></br>" +
+            //     $"Employee Number: {log.EmployeeNumber}" +
+            //     "</br ></br> " +
+            //      $"Employee Name: {log.EmployeeName}" +
+            //     "</br ></br>");            
         }
        
     }

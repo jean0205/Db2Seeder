@@ -1289,7 +1289,6 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting Claim Details.", false);
                                 }
-
                             }
                             catch (Exception ex)
                             {
