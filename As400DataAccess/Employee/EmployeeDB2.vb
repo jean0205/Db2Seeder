@@ -325,7 +325,8 @@ Public Class EmployeeDB2
                 cmd.Parameters("@CLMN").Value = "0"
                 cmd.Parameters("@BANK").Value = Empe.bank
                 cmd.Parameters("@ACCN").Value = Empe.accountNumber
-                If Empe.accountType = "1" Then
+
+                If Empe.accountType = "SAV" Then
                     cmd.Parameters("@ACCTYP").Value = "SAV"
                 Else
                     cmd.Parameters("@ACCTYP").Value = "DDA"
