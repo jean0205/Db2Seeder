@@ -202,6 +202,7 @@ namespace Db2Seeder
             if (!working)
             {
                 await SicknessBenefitClaimCompleted();
+                await SicknessBenefitClaimCompletedSEForms();
                 working = false;
             }
         }
@@ -1352,7 +1353,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        var responseA = await SicknessBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 31700);
+                                        var responseA = await SicknessBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 1339);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
@@ -1376,7 +1377,7 @@ namespace Db2Seeder
                                             await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
                                         }
                                         //save log send email
-                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "SICKNESS", document.employerNis, document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "SICKNESS-SEP", document.employerNis, document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
                                     }
                                 }
                                 else
