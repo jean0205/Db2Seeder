@@ -2205,6 +2205,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Error Getting DECLARATION Details.", false);
                                 }
+
                             }
                             catch (Exception ex)
                             {
