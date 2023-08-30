@@ -195,5 +195,66 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
+
+        #region SEP Form
+
+        public static async Task<List<SupportRequest>> GetClaimsCompletedSEP()
+        {
+            try
+            {
+                List<SupportRequest> RequestList = new List<SupportRequest>();
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(29, 31800);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Document_Sickness> ClaimDetailSEP(SupportRequest Request)
+        {
+            try
+            {
+                DocumentGuid guid = new DocumentGuid();
+                guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
+                if (guid.message != Guid.Empty)
+                {
+                    Document_Sickness Document_Sickness = new Document_Sickness();
+                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
+                    Document_Sickness = await GetDetails(guid);
+
+                    if (Document_Sickness == null)
+                    {
+                        return null;
+                    }
+                    Document_Sickness.CompletedBy = requestHistory.Last().UserName;
+                    Document_Sickness.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
+                    Document_Sickness.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_Sickness.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+
+                    return Document_Sickness;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Response> UpdateWorkFlowStateSEP(int userId, int requestId, int actionId)
+        {
+            try
+            {
+                Response response = await ApiRequest.UpdateWorkFlowState(userId, requestId, actionId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

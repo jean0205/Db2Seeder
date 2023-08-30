@@ -1317,6 +1317,100 @@ namespace Db2Seeder
             }
         }
 
+        private async Task SicknessBenefitClaimCompletedSEForms()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Sickness Benefit-SE Forms");
+                AddTreeViewLogLevel1Info("Getting Sickness Benefit SEP Claims Ready For Processing");
+                try
+                {
+                    var requests = await SicknessBenefit.GetClaimsCompletedSEP();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_Sickness();
+                            AddTreeViewLogLevel1Info("Getting Claim Details SEP");
+                            try
+                            {
+                                document = await SicknessBenefit.ClaimDetailSEP(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Claim details successfully loaded SEP", true);
+
+                                  
+                                    document.ClaimNumber = await as400sicknessBenefit.InsertSicknessSEP(document, null);
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        //updating worflow state
+                                        var responseA = await SicknessBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 31700);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing " + responseA.Message, false);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving  Documents.");
+                                            
+                                            int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+
+                                            AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
+                                        }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "SICKNESS", document.employerNis, document.nisNo, document.firstName + document.otherName, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                }
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.sicknessBenefitFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
         private async Task SurvivorBenefitClaimCompleted()
         {
             try
