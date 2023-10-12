@@ -114,7 +114,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                             documents.RegistrantTypeId = 1;
                             documents.DocTypeId = item.code;
                             documents.ImportId = importId;
-                            documents.NisNumber = int.Parse(Document_FuneralBenefit.ClaimantNisNo);
+                            documents.NisNumber = Document_FuneralBenefit.NisNo;
                             documents.ClaimNumber = Document_FuneralBenefit.ClaimNumber;
                             documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
                             documents.ScannedBy = importLog.ImportedBy;
