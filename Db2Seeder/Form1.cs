@@ -1061,8 +1061,13 @@ namespace Db2Seeder
                             try
                             {
                                 document = await FuneralBenefit.ClaimDetail(request);
-                                if (document != null)
+                                if (document != null )
                                 {
+                                    if (string.IsNullOrEmpty(document.ClaimantNisNo))
+                                    {
+                                        AddTreeViewLogLevel1("Claimant NIS not provided.", false);
+                                        return;
+                                    }
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
                                     document.ClaimNumber = await as400FuneralBenefit.InsertFuneral(document);
                                     if (document.ClaimNumber == 0)
