@@ -459,4 +459,222 @@ Public Class SicknessDB2
     End Function
 
 
+#Region "SEP Forms"
+
+    Async Function InsertSicknessSEP(Sickness As Document_Sickness, ClaimNumber As Integer?) As Task(Of Integer)
+
+        Dim ClaimNo As Integer
+        Try
+
+            'EMPLOYERS REG
+            If ClaimNumber Is Nothing Then
+                ClaimNo = Await GenerarClaimNo()
+            Else
+                ClaimNo = ClaimNumber
+            End If
+            Await InsertSickBenfSEP(Sickness, ClaimNo)
+            Await InsertSickCLMNCSSEP(Sickness, ClaimNo)
+
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+        Return ClaimNo
+    End Function
+    Private Async Function InsertSickCLMNCSSEP(Sickness As Document_Sickness, Clmn As String) As Task
+        Try
+
+            Using connection As New iDB2Connection(cn)
+
+                If connection.State = ConnectionState.Closed Then
+                    connection.Open()
+                End If
+
+                Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".CLMNCS""  (ACTVCS, CLMNCS, EREGCS, BENTCS, CNCCCS, CNYYCS, CNMMCS, CNDDCS, STATCS,
+                                                  RFRCCS, RCOMCS, RTCSCS, LWRKCS, ACCDCS, DEADCS, UNEMPCS, CHIDCS, CRDCS, DEGDCS, PRMDCS, RREGCS, RRSFCS, RREGCS2, RRSFCS2,RREGCS3,
+                                                  RRSFCS3, RREGCS4, RRSFCS4, RREGCS5, RRSFCS5, PROVFCS, RECPACS, GOVWCS, STAQCS, CMPQCS, SAVBCS, SAVTCS, EMPASCS, EMPRACS, EMPSACS, WBLINKCS,SELFCS)
+                                        VALUES(@ACTVCS, @CLMNCS, @EREGCS, @BENTCS, @CNCCCS, @CNYYCS, @CNMMCS, @CNDDCS, @STATCS,
+                                              @RFRCCS, @RCOMCS, @RTCSCS,  @LWRKCS, @ACCDCS, @DEADCS, @UNEMPCS, @CHIDCS, @CRDCS, @DEGDCS, @PRMDCS, @RREGCS, @RRSFCS, @RREGCS2, @RRSFCS2,
+                                              @RREGCS3, @RRSFCS3, @RREGCS4, @RRSFCS4, @RREGCS5, @RRSFCS5, @PROVFCS, @RECPACS, @GOVWCS, @STAQCS, @CMPQCS, @SAVBCS,@SAVTCS, @EMPASCS, @EMPRACS, @EMPSACS, @WBLINKCS,@SELFCS)"
+
+                Dim cmd As New iDB2Command() With {
+                            .CommandText = cmdtext,
+                            .Connection = connection,
+                            .CommandTimeout = 0
+                        }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTVCS").Value = "A"
+                cmd.Parameters("@CLMNCS").Value = Clmn
+                cmd.Parameters("@EREGCS").Value = Sickness.nisNo
+                cmd.Parameters("@BENTCS").Value = "2"
+                cmd.Parameters("@CNCCCS").Value = Sickness.createdOn.Year \ 100
+                cmd.Parameters("@CNYYCS").Value = Sickness.createdOn.Year Mod 100
+                cmd.Parameters("@CNMMCS").Value = Sickness.createdOn.Month
+                cmd.Parameters("@CNDDCS").Value = Sickness.createdOn.Day
+                cmd.Parameters("@STATCS").Value = " "
+
+                'REASON FOR REJECT
+                cmd.Parameters("@RFRCCS").Value = " "
+
+                'REJECT COMMENTS
+                cmd.Parameters("@RCOMCS").Value = " "
+
+                'REASON TO CLOSE
+                cmd.Parameters("@RTCSCS").Value = " "
+
+                'LAST DAY WORKED
+                cmd.Parameters("@LWRKCS").Value = CDate(Sickness.lastWorkedDate).Year * 10000 + CDate(Sickness.lastWorkedDate).Month * 100 + CDate(Sickness.lastWorkedDate).Day
+
+                'DATE OF ACCIDENT
+                cmd.Parameters("@ACCDCS").Value = 0
+
+                'DATE OF DEATH
+                cmd.Parameters("@DEADCS").Value = 0
+                cmd.Parameters("@UNEMPCS").Value = 0
+
+                'CHILD DATE OF BIRTH
+                cmd.Parameters("@CHIDCS").Value = 0
+
+                'DATE OF CLAIM RECEIVED
+                cmd.Parameters("@CRDCS").Value = Now.Year * 10000 + Now.Month * 100 + Now.Day
+
+                'DEGREE OF DISABLEMENT
+                cmd.Parameters("@DEGDCS").Value = 0
+
+                'PERMANENTLY OF INCAPABLE
+                cmd.Parameters("@PRMDCS").Value = " "
+
+                'EMPLOYERS REG
+                cmd.Parameters("@RREGCS").Value = Sickness.nisNo
+                cmd.Parameters("@RRSFCS").Value = 0
+                cmd.Parameters("@RREGCS2").Value = 0
+                cmd.Parameters("@RRSFCS2").Value = 0
+                cmd.Parameters("@RREGCS3").Value = 0
+                cmd.Parameters("@RRSFCS3").Value = 0
+                cmd.Parameters("@RREGCS4").Value = 0
+                cmd.Parameters("@RRSFCS4").Value = 0
+                cmd.Parameters("@RREGCS5").Value = 0
+                cmd.Parameters("@RRSFCS5").Value = 0
+
+                'PROVIDENT FUND CLAIM
+
+                cmd.Parameters("@PROVFCS").Value = " "
+
+                'PRECIPROCAL AGREEMENT
+
+                cmd.Parameters("@RECPACS").Value = ""
+
+
+                'GOVERNMENT CLAIM
+                cmd.Parameters("@GOVWCS").Value = " "
+
+                'STATEMENT QUERY
+                cmd.Parameters("@STAQCS").Value = " "
+
+                'COMPLIANCE QUERY
+                cmd.Parameters("@CMPQCS").Value = " "
+
+                cmd.Parameters("@SAVBCS").Value = Sickness.CompletedBy
+                cmd.Parameters("@SAVTCS").Value = CDate(Sickness.CompletedTime).Year * 10000 + CDate(Sickness.CompletedTime).Month * 100 + CDate(Sickness.CompletedTime).Day
+
+
+                cmd.Parameters("@EMPASCS").Value = "N"
+                cmd.Parameters("@EMPRACS").Value = Sickness.nisNo
+                cmd.Parameters("@EMPSACS").Value = 0
+
+                If Sickness.bank = Nothing Or Sickness.accountNo = Nothing Or Sickness.accountType Is Nothing Then
+
+                Else
+                    Await InsertBankInformationEmpe(Sickness, Clmn)
+                End If
+
+
+                cmd.Parameters("@WBLINKCS").Value = Sickness.WebPortalLink
+                'siempre q llenen el form de SEP va a ser 1
+                cmd.Parameters("@SELFCS").Value = 1
+
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+    End Function
+    Private Async Function InsertSickBenfSEP(Sickness As Document_Sickness, Clmn As String) As Task
+        Try
+
+            Using connection As New iDB2Connection(cn)
+
+                If connection.State = ConnectionState.Closed Then
+                    connection.Open()
+                End If
+
+                Dim cmdtext As String = " INSERT INTO  ""QS36F"".""" & As400_lib & ".BENF""  " &
+                                                                        " (ACTV13, CLMN13, EREG13, BENT13, NATR13, CNCC13, CNYY13, CNMM13, CNDD13, STAT13, " &
+                                                                         "DIAG13, RFRC13, RCOM13, RTCS13, COTC13, INTL13, RREG13, RRSF13, FILL13, DIAN13, LWRK13, ACCD13)" &
+                                                                        " VALUES(@ACTV13, @CLMN13, @EREG13, @BENT13, @NATR13, @CNCC13, @CNYY13, @CNMM13, @CNDD13, @STAT13, " &
+                                                                        " @DIAG13, @RFRC13, @RCOM13, @RTCS13, @COTC13, @INTL13, @RREG13, @RRSF13, @FILL13, @DIAN13, @LWRK13, @ACCD13)"
+                Dim cmd1 As New iDB2Command() With {
+                            .CommandText = cmdtext,
+                            .Connection = connection,
+                            .CommandTimeout = 0
+                        }
+
+                cmd1.DeriveParameters()
+                cmd1.Parameters("@ACTV13").Value = "A"
+                cmd1.Parameters("@CLMN13").Value = Clmn
+                cmd1.Parameters("@EREG13").Value = Sickness.nisNo
+                cmd1.Parameters("@BENT13").Value = "2"
+                cmd1.Parameters("@NATR13").Value = "S"
+
+                cmd1.Parameters("@CNCC13").Value = Sickness.createdOn.Year \ 100
+                cmd1.Parameters("@CNYY13").Value = Sickness.createdOn.Year Mod 100
+                cmd1.Parameters("@CNMM13").Value = Sickness.createdOn.Month
+                cmd1.Parameters("@CNDD13").Value = Sickness.createdOn.Day
+                cmd1.Parameters("@STAT13").Value = " "
+
+                'REASON FOR REJECT
+                cmd1.Parameters("@RFRC13").Value = " "
+
+                'REJECT COMMENTS
+                cmd1.Parameters("@RCOM13").Value = " "
+
+                'REASON TO CLOSE
+                cmd1.Parameters("@RTCS13").Value = " "
+
+                'CAUSE OF TYPE
+                cmd1.Parameters("@COTC13").Value = " "
+
+                'USER INITIALS
+                cmd1.Parameters("@INTL13").Value = Sickness.CompletedBy
+
+                'DIAGNOSIS COD
+                cmd1.Parameters("@DIAG13").Value = 0
+
+                cmd1.Parameters("@RREG13").Value = Sickness.nisNo
+                cmd1.Parameters("@RRSF13").Value = 0
+
+                cmd1.Parameters("@FILL13").Value = " "
+
+                'LAST DAY WORKED
+                cmd1.Parameters("@LWRK13").Value = CDate(Sickness.lastWorkedDate).Year * 10000 + CDate(Sickness.lastWorkedDate).Month * 100 + CDate(Sickness.lastWorkedDate).Day
+
+                cmd1.Parameters("@ACCD13").Value = 0
+
+                'DIAGNOSIS COD
+                cmd1.Parameters("@DIAN13").Value = If(Sickness.icdCode = Nothing, 0, Sickness.icdCode)
+
+                Await cmd1.ExecuteNonQueryAsync()
+                cmd1.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+    End Function
+#End Region
+
+
 End Class

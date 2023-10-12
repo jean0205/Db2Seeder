@@ -55,7 +55,7 @@ Public Class FuneralBenefitDB2
                 cmd1.DeriveParameters()
                 cmd1.Parameters("@ACTV13").Value = "A"
                 cmd1.Parameters("@CLMN13").Value = Clmn
-                cmd1.Parameters("@EREG13").Value = Funeral.NisNo
+                cmd1.Parameters("@EREG13").Value = Funeral.ClaimantNisNo
                 cmd1.Parameters("@BENT13").Value = "3"
                 cmd1.Parameters("@NATR13").Value = "S"
 
@@ -129,7 +129,7 @@ Public Class FuneralBenefitDB2
                 cmd.DeriveParameters()
                 cmd.Parameters("@ACTVCS").Value = "A"
                 cmd.Parameters("@CLMNCS").Value = Clmn
-                cmd.Parameters("@EREGCS").Value = Funeral.NisNo
+                cmd.Parameters("@EREGCS").Value = Funeral.ClaimantNisNo
                 cmd.Parameters("@BENTCS").Value = "3"
                 cmd.Parameters("@CNCCCS").Value = Funeral.CreatedOn.Year \ 100
                 cmd.Parameters("@CNYYCS").Value = Funeral.CreatedOn.Year Mod 100
