@@ -1272,12 +1272,12 @@ namespace Db2Seeder
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
 
-                                            //int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
                                            // //posting in testing
                                            //  as400sicknessBenefit.As400_lib = "TT";                                           
                                            //await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
-                                            int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                           // int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
                                         }
