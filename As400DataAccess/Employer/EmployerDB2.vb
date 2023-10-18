@@ -51,7 +51,7 @@ Public Class EmployerDB2
                 ' Business address
                 cmdEMPR.Parameters("@badd").Value = Empr.businessAddress.ToUpper
                 ' Business Town
-                cmdEMPR.Parameters("@btwn").Value = Empr.businessTown.ToUpper.Replace("'", String.Empty)
+                cmdEMPR.Parameters("@btwn").Value = Empr.businessTown.ToUpper.Replace("'", String.Empty).Replace("’", String.Empty)
                 ' Business Postal Code
                 cmdEMPR.Parameters("@bpcd").Value = ""
                 ' Business Area
@@ -93,6 +93,9 @@ Public Class EmployerDB2
 
                 'Business Commenced
                 Dim BusComm As Date = Empr.businessCommencedDate
+                'If BusComm > Now Then
+                '    BusComm = Now
+                'End If
                 cmdEMPR.Parameters("@stdt").Value = BusComm.Year * 10000 + BusComm.Month * 100 + BusComm.Day
 
                 ' Business fax

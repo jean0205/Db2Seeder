@@ -608,6 +608,7 @@ namespace Db2Seeder
         }
         private async Task MappAndAssingEmployeeRol(SupportRequest request, Document_Employee document)
         {
+            //TODO: validar tambien q no sea sub account since voy a pedir q el employee registration sea agregado a las opciones de los sub accounts
             //si no es employer y no tiene  employee link entonces hago el link automatico
             if (!await ApiRequest.IsEmployer(request.ownerId) && !await ApiRequest.IsEmployee(request.ownerId))
             {
