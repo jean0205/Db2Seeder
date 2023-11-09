@@ -892,7 +892,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 235);
+                                        var responseA = await AgeBenefit.UpdateWorkFlowState(3, request.supportRequestId, 235);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
@@ -1748,6 +1748,94 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
                                         var responseA = await EmployInjuryBenefit.UpdateWorkFlowState(3, request.supportRequestId, 244);
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                            int savedAtt = await EmployInjuryBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
+                                        }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "EMPLOYMENTINJ", document.EmployerNis, document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.InjuryBenefitFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+            }
+        }
+        private async Task EmploymentInjuryBenefitClaimCompletedSEPForm()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Employment Injury Benefit");
+                AddTreeViewLogLevel1Info("Getting Employment Injury Benefit Claims Completed");
+                try
+                {
+                    var requests = await EmployInjuryBenefit.GetClaimsCompletedSEP();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_EmploymentInjury();
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            try
+                            {
+                                document = await EmployInjuryBenefit.ClaimDetailSEP(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document);
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        //updating worflow state
+                                        var responseA = await EmployInjuryBenefit.UpdateWorkFlowState(3, request.supportRequestId, 1358);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);

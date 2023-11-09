@@ -8,6 +8,7 @@ using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -134,5 +135,62 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
+
+        #region SEP 
+
+        public static async Task<List<SupportRequest>> GetClaimsCompletedSEP()
+        {
+            try
+            {
+                List<SupportRequest> RequestList = new List<SupportRequest>();
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(30, 32800);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Document_EmploymentInjury> ClaimDetailSEP(SupportRequest Request)
+        {
+            try
+            {
+                DocumentGuid guid = new DocumentGuid();
+                guid = await ApiRequest.GetRequestGUID(Request.supportRequestId);
+                if (guid.message != Guid.Empty)
+                {
+                    Document_EmploymentInjury Document_EmploymentInjury = new Document_EmploymentInjury();
+                    List<RequestHistory> requestHistory = new List<RequestHistory>();
+                    requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
+                    Document_EmploymentInjury = await GetDetails(guid);
+                    Document_EmploymentInjury.CompletedBy = requestHistory.Last().UserName;
+                    Document_EmploymentInjury.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
+                    Document_EmploymentInjury.SupportRequestId = Request.supportRequestId;
+
+                    //actualizar la fecha de creada a cuando esta lista 
+                    Document_EmploymentInjury.CreatedOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+
+                    return Document_EmploymentInjury;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Response> UpdateWorkFlowStateSEP(int userId, int requestId, int actionId)
+        {
+            try
+            {
+                Response response = await ApiRequest.UpdateWorkFlowState(userId, requestId, actionId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
     }
 }
