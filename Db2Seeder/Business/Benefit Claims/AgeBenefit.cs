@@ -135,6 +135,56 @@ namespace Db2Seeder.Business.Benefit_Claims
                 throw ex;
             }
         }
+        public static async Task<int> RequestAttachmentToScannedDocumentsTest(SupportRequest Request, Document_AgeBenefit Document_AgeBenefit)
+        {
+            try
+            {
+                var cant = 0;
+                List<DocumentGuid> attachmentsGuid = await ApiRequest.GetAttachmentsGuid(Request.supportRequestId);
+                if (attachmentsGuid.Any())
+                {
+                    List<Document_MetaData> document_MetaDataList = new List<Document_MetaData>();
+                    document_MetaDataList = await ApiRequest.GetDocument_MetaData(attachmentsGuid);
+                    if (document_MetaDataList.Any())
+                    {
+                        List<RequestHistory> requestHistory = new List<RequestHistory>();
+                        requestHistory = await ApiRequest.GetRequestHistory("SupportRequest/History?id", Request.supportRequestId);
+
+                        NIS.SQL.DocumentsTest.ImportLog importLog = new NIS.SQL.DocumentsTest.ImportLog
+                        {
+                            ImportedBy = requestHistory.Last().UserName,
+                            ImportDatetime = DateTime.Now
+                        };
+                        ScannedDocumentsDB scannedDocumentsDB = new ScannedDocumentsDB();
+                        int importId = 0;
+                        importId = await scannedDocumentsDB.InsertImportLogTest(importLog);
+
+                        foreach (var item in document_MetaDataList)
+                        {
+                            NIS.SQL.DocumentsTest.Documents documents = new NIS.SQL.DocumentsTest.Documents();
+                            documents.ActiveCode = "A";
+                            documents.RegistrantTypeId = 1;
+                            documents.DocTypeId = item.code;
+                            documents.ImportId = importId;
+                            documents.NisNumber = Document_AgeBenefit.nisNo;
+                            documents.ClaimNumber = Document_AgeBenefit.ClaimNumber;
+                            documents.PdfData = await ApiRequest.GetDocument_Data(item.documentImageGuid, item.fileType);
+                            documents.ScannedBy = importLog.ImportedBy;
+                            documents.ScanDatetime = DateTime.Now;
+                            documents.ModifiedDatetime = DateTime.Now;
+                            await scannedDocumentsDB.InsertDocumentforRegistrationTest(documents);
+                            cant++;
+                        }
+                        return cant;
+                    }
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

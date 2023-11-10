@@ -2,7 +2,8 @@
 Imports ShareModels.Models.Benefit_Claims
 Public Class AgePensionDB2
     Dim cn = DB2ConnectionS.as400
-    Dim As400_lib = DB2ConnectionS.As400_lib
+    Public As400_lib = DB2ConnectionS.As400_lib
+
 
     Async Function InsertAgePension(Agepension As Document_AgeBenefit) As Task(Of Integer)
 

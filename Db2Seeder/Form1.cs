@@ -202,7 +202,7 @@ namespace Db2Seeder
             if (!working)
             {
                 await SicknessBenefitClaimCompleted();
-                //await SicknessBenefitClaimCompletedSEForms();
+                await SicknessBenefitClaimCompletedSEForms();
                 working = false;
             }
         }
@@ -228,6 +228,7 @@ namespace Db2Seeder
             {
                 //TODO: actializar para q lea y postee los maternity grant, otro support request y otro workflow tambien, no employer number. Esperar a q aprueben el q esta pending. 
                 await MaternityBenefitClaimCompleted();
+                await MaternityBenefitClaimCompletedSEP();
                 working = false;
             }
         }
@@ -236,6 +237,7 @@ namespace Db2Seeder
             if (!working)
             {
                 await EmploymentInjuryBenefitClaimCompleted();
+                await EmploymentInjuryBenefitClaimCompletedSEP();
                 working = false;
             }
         }
@@ -883,7 +885,10 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                    as400AgeBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document);
+
+
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -910,6 +915,13 @@ namespace Db2Seeder
                                         AddTreeViewLogLevel2Info("Saving Employee Documents.");
                                         int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, document);
                                         AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+
+
+
+                                        // //posting in testing
+                                        as400AgeBenefit.As400_lib = "TT";                                           
+                                        await as400AgeBenefit.InsertAgePension(document);
+                                        int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
                                     }
                                     catch (Exception ex)
                                     {
@@ -1327,7 +1339,7 @@ namespace Db2Seeder
         {
             try
             {
-                AddTreeViewLogLevel0("Sickness Benefit-SE Forms");
+                AddTreeViewLogLevel0("Sickness Benefit-SEP Forms");
                 AddTreeViewLogLevel1Info("Getting Sickness Benefit SEP Claims Ready For Processing");
                 try
                 {
@@ -1648,15 +1660,96 @@ namespace Db2Seeder
                                         //updating worflow state for Grant & Allowance and Maternity Allowance is one, for Grant allong is other
                                         var responseA = document.BenefitApply == "Maternity Grant" ? await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 313) : await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 241);
 
-                                        //var responseA = new Response();
-                                        //if (document.BenefitApply== "Maternity Grant")
-                                        //{
-                                        //    responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 313);
-                                        //}
-                                        //else
-                                        //{
-                                        //    responseA = await MaternityBenefit.UpdateWorkFlowState(3, request.supportRequestId, 241);
-                                        //}
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to Processing", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to Processing. " + responseA.Message, false);
+                                        }
+                                        try
+                                        {
+                                            AddTreeViewLogLevel2Info("Saving Employee Documents.");
+                                            int savedAtt = await MaternityBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                            AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Crashes.TrackError(ex);
+                                            AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                            await LogsHelper.SaveErrorLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
+                                        }
+                                        //save log send email
+                                        await LogsHelper.SaveClaimLOG(request, (int)document.ClaimNumber, "MATERNITY", document.EmployerNis, document.NisNo, document.FirstName + document.OtherName, (DateTime)document.CompletedTime, document.CompletedBy);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.MaternityBenefitFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+        private async Task MaternityBenefitClaimCompletedSEP()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Maternity Benefit SEP");
+                AddTreeViewLogLevel1Info("Getting Maternity Benefit SEP Claims Ready For Processing");
+                try
+                {
+                    var requests = await MaternityBenefit.GetClaimsCompletedSEP();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Ready For Processing Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_Maternity();
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            try
+                            {
+                                document = await MaternityBenefit.ClaimDetailSEP(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                   
+                                    document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document, true);
+
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
+                                        
+                                        var responseA = await MaternityBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 1366); 
 
                                         if (responseA.IsSuccess)
                                         {
@@ -1802,12 +1895,12 @@ namespace Db2Seeder
                 await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
             }
         }
-        private async Task EmploymentInjuryBenefitClaimCompletedSEPForm()
+        private async Task EmploymentInjuryBenefitClaimCompletedSEP()
         {
             try
             {
                 AddTreeViewLogLevel0("Employment Injury Benefit");
-                AddTreeViewLogLevel1Info("Getting Employment Injury Benefit Claims Completed");
+                AddTreeViewLogLevel1Info("Getting Employment Injury Benefit SEP Claims Completed");
                 try
                 {
                     var requests = await EmployInjuryBenefit.GetClaimsCompletedSEP();
@@ -1835,7 +1928,7 @@ namespace Db2Seeder
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                         //updating worflow state
-                                        var responseA = await EmployInjuryBenefit.UpdateWorkFlowState(3, request.supportRequestId, 1358);
+                                        var responseA = await EmployInjuryBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 1358);
                                         if (responseA.IsSuccess)
                                         {
                                             AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
