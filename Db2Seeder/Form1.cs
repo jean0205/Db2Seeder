@@ -111,8 +111,11 @@ namespace Db2Seeder
             if (!cancelRequest && rjg.Checked) await FuneralBenefitClaimCompleted();
             if (!cancelRequest && rjh.Checked) await InvalidityBenefitClaimCompleted();
             if (!cancelRequest && rji.Checked) await SicknessBenefitClaimCompleted();
+            if (!cancelRequest && rji.Checked) await SicknessBenefitClaimCompletedSEForms();
             if (!cancelRequest && rjj.Checked) await MaternityBenefitClaimCompleted();
+            if (!cancelRequest && rjj.Checked) await MaternityBenefitClaimCompletedSEP();
             if (!cancelRequest && rjk.Checked) await EmploymentInjuryBenefitClaimCompleted();
+            if (!cancelRequest && rjk.Checked) await EmploymentInjuryBenefitClaimCompletedSEP();
             if (!cancelRequest && rjl.Checked) await CovidBenefitClaimCompleted();
             if (!cancelRequest && rjm.Checked) await SurvivorBenefitClaimCompleted();
             if (!cancelRequest && rjn.Checked) await DisablemetBenefitClaimCompleted();
