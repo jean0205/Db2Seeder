@@ -5,20 +5,24 @@ Imports ShareModels.Models.Benefit_Claims
 Public Class EmpInjuryBenefitDB2
     Dim cn = DB2ConnectionS.as400
     Dim As400_lib = DB2ConnectionS.As400_lib
-    Async Function InsertEmpInjuryBenefit(EmpInjuryBenefit As Document_EmploymentInjury) As Task(Of Integer)
+    Async Function InsertEmpInjuryBenefit(EmpInjuryBenefit As Document_EmploymentInjury, ClaimAsSEP As Boolean) As Task(Of Integer)
 
         Dim ClaimNo As Integer
         Try
-
             'EMPLOYERS REG
-            Dim strCadena As String
-            Dim intPos As Integer
             Dim EmprNo As String
             Dim EmprSub As String
-            strCadena = EmpInjuryBenefit.EmployerNis
-            intPos = InStr(1, strCadena, "-") 'posicion de la "-"
-            EmprNo = Mid(strCadena, 1, intPos - 1)
-            EmprSub = Mid(strCadena, intPos + 1)
+
+            If ClaimAsSEP Then
+                EmprNo = EmpInjuryBenefit.NisNo
+                EmprSub = 0
+            ElseIf EmpInjuryBenefit.EmployerNis IsNot Nothing Then
+                EmprNo = EmpInjuryBenefit.EmployerNis.Split("-")(0)
+                EmprSub = 0
+            Else
+                EmprNo = 0
+                EmprSub = 0
+            End If
 
             ClaimNo = Await GenerarClaimNo()
             Await InsertEmpInjDisableBENF(EmpInjuryBenefit, ClaimNo, EmprNo, EmprSub)
@@ -209,7 +213,7 @@ Public Class EmpInjuryBenefitDB2
                 cmd.Parameters("@EMPRACS").Value = "0"
                 cmd.Parameters("@EMPSACS").Value = "0"
                 cmd.Parameters("@WBLINKCS").Value = EmpInjuryBenefit.WebPortalLink
-                cmd.Parameters("@SELFCS").Value = If(EmpInjuryBenefit.NisNo.ToString() = EmpInjuryBenefit.RegistrationNo.Split("-")(0), 1, 0)
+                cmd.Parameters("@SELFCS").Value = If(EmpInjuryBenefit.NisNo.ToString() = EmprNo, 1, 0)
 
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()

@@ -1831,7 +1831,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document);
+                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document,false);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -1919,7 +1919,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document);
+                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document,true);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
