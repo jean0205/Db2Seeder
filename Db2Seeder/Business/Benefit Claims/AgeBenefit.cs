@@ -186,5 +186,22 @@ namespace Db2Seeder.Business.Benefit_Claims
             }
         }
 
+
+        public static async Task<List<SupportRequest>> GetPensionToTesting(int type, int state)
+        {
+            try
+            {
+                List<SupportRequest> RequestList = new List<SupportRequest>();
+                return RequestList = await ApiRequest.GetSupportRequestTypeByState(type, state);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
+
+
+   
 }

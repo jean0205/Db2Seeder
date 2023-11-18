@@ -165,6 +165,7 @@ namespace Db2Seeder
             if (!working)
             {
                 await AgeBenefitClaimCompleted();
+                //await AgeBenefitClaimTesting();
                 working = false;
             }
         }
@@ -2884,6 +2885,88 @@ namespace Db2Seeder
         {
             SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
             simpleSound.Play();
+        }
+
+        private async Task AgeBenefitClaimTesting()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Age Benefit");
+                AddTreeViewLogLevel1Info("Getting Age Benefit Claims Completed");
+                try
+                {
+                    var requests = await AgeBenefit.GetPensionToTesting(6,16);
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            var document = new Document_AgeBenefit();
+                            AddTreeViewLogLevel1Info("Getting Claim Details");
+                            try
+                            {
+                                document = await AgeBenefit.ClaimDetail(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Claim details successfully loaded", true);
+                                   
+                                    document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document);
+
+
+                                    if (document.ClaimNumber == 0)
+                                    {
+                                        AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
+                                    }
+                                    else
+                                    {
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);                                       
+                                    }
+                                    //comentar si no se quieren salvar los documentos nuevamente
+                                    try
+                                    {
+                                        // //posting in testing                                      
+                                        int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                        AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                        await LogsHelper.SaveErrorLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Claim Details.", false);
+                                }
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, document.ageBenefitFormId, document.CompletedTime);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Completed Claims were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
 
