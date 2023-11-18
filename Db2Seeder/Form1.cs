@@ -1902,7 +1902,7 @@ namespace Db2Seeder
         {
             try
             {
-                AddTreeViewLogLevel0("Employment Injury Benefit");
+                AddTreeViewLogLevel0("Employment Injury Benefit SEP");
                 AddTreeViewLogLevel1Info("Getting Employment Injury Benefit SEP Claims Completed");
                 try
                 {
