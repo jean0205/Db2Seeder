@@ -14,6 +14,8 @@ using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -142,8 +144,13 @@ namespace Db2Seeder
             {
                 await EmployeeRegistrationRequest();
                 working = false;
+
+                
+
             }
         }
+
+       
         private async void button2_Click(object sender, EventArgs e)
         {
             if (!working)
@@ -290,6 +297,9 @@ namespace Db2Seeder
 
                 working = false;
             }
+            
+
+            
 
         }
         private async void button23_Click(object sender, EventArgs e)
@@ -1652,7 +1662,14 @@ namespace Db2Seeder
                                     {
                                         SEP = await webPortalSQLDB.IsSelfEmployedPerson(document.NisNo.ToString());
                                     }
-
+                                    if (request.supportRequestTypeId==10 && document.Gender==2)
+                                    {
+                                        document.BenefitApply = "Grant & Allowance";
+                                    }
+                                    else
+                                    {
+                                           document.BenefitApply ="Maternity Grant";
+                                    }
                                     document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document, SEP);
                                     if (document.ClaimNumber == 0)
                                     {
@@ -1742,7 +1759,16 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                   
+
+                                    if (document.Gender == 2)
+                                    {
+                                        document.BenefitApply = "Grant & Allowance";
+                                    }
+                                    else
+                                    {
+                                        document.BenefitApply = "Maternity Grant";
+                                    }
+
                                     document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document, true);
 
                                     if (document.ClaimNumber == 0)
@@ -2969,6 +2995,6 @@ namespace Db2Seeder
             }
         }
 
-
+       
     }
 }

@@ -8,6 +8,7 @@ using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -60,6 +61,7 @@ namespace Db2Seeder.Business.Benefit_Claims
         {
             try
             {
+              
                 Response response = await ApiServices.FindAsyncByGuid<Document_AgeBenefit>("Document/Get?id", guid.message);
 
                 if (!response.IsSuccess)
