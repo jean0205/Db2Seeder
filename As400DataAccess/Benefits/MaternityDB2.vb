@@ -27,23 +27,23 @@ Public Class MaternityDB2
             If Maternity.BenefitApply = "Maternity Allowance" Then
                 Typeclaim = "1"
                 ClaimNo = Await GenerarClaimNo()
-                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
                 Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
 
             ElseIf Maternity.BenefitApply = "Maternity Grant" Then
                 Typeclaim = "A"
                 ClaimNo = Await GenerarClaimNo()
-                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
                 Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
 
             ElseIf Maternity.BenefitApply = "Grant & Allowance" Then
                 Typeclaim = "1"
                 ClaimNo = Await GenerarClaimNo()
-                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
                 Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
                 Typeclaim = "A"
                 ClaimNo = Await GenerarClaimNo()
-                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim)
+                Await InsertMaternityBenf(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
                 Await InsertMaternityCLMNCS(Maternity, ClaimNo, EmprNo, EmprSub, Typeclaim, ClaimAsSEP)
             End If
 
@@ -55,7 +55,7 @@ Public Class MaternityDB2
         Return ClaimNo
     End Function
 
-    Private Async Function InsertMaternityBenf(Maternity As Document_Maternity, Clmn As String, EmprNo As String, Emprsub As String, Typeclmn As String) As Task
+    Private Async Function InsertMaternityBenf(Maternity As Document_Maternity, Clmn As String, EmprNo As String, Emprsub As String, Typeclmn As String, ClaimAsSEP As Boolean) As Task
         Try
 
             Using connection As New iDB2Connection(cn)
@@ -111,7 +111,7 @@ Public Class MaternityDB2
                 cmd1.Parameters("@FILL13").Value = " "
 
                 'LAST DAY WORKED
-                cmd1.Parameters("@LWRK13").Value = If(Typeclmn = "1", CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day, 0)
+                cmd1.Parameters("@LWRK13").Value = If(Typeclmn = "1" AndAlso Not ClaimAsSEP, CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day, 0)
 
                 cmd1.Parameters("@ACCD13").Value = 0
 
@@ -169,7 +169,7 @@ Public Class MaternityDB2
                 cmd.Parameters("@RTCSCS").Value = " "
 
                 'LAST DAY WORKED
-                cmd.Parameters("@LWRKCS").Value = If(Typeclmn = "1", CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day, 0)
+                cmd.Parameters("@LWRKCS").Value = If(Typeclmn = "1" AndAlso Not SEP, CDate(Maternity.DateLastWorked).Year * 10000 + CDate(Maternity.DateLastWorked).Month * 100 + CDate(Maternity.DateLastWorked).Day, 0)
 
                 'DATE OF ACCIDENT
                 cmd.Parameters("@ACCDCS").Value = 0
