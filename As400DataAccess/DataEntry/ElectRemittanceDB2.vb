@@ -7,7 +7,9 @@ Public Class ElectRemittanceDB2
     Dim dtLoadCnte As New DataTable
     Dim WebCache As New WebPortalDB
     Dim Batch As String
+    Dim SEP As Boolean = False
     Async Function PostRemittances(EmprRemitt As Document_Remittance) As Task
+        SEP = False
         dtLoadCnte = New DataTable
         Dim lst As List(Of EmployeeContributionRecord) = EmprRemitt.employeeContributionRecords
         Dim NoPotsed As New List(Of EmployeeContributionRecord)
@@ -27,6 +29,15 @@ Public Class ElectRemittanceDB2
         'frequency
         Dim Frequency = EmprRemitt.employeeContributionRecords.Select(Function(x) New With {x.frequency})
         Dim freq = Frequency(0).frequency
+
+
+        'si es sep, borrar primero lo q haya en el periodo
+        If EmprNo = lst.First().employeeNumber Then
+            If lst.Count > 1 Then Return
+            SEP = True
+            Await DeleteSEPPeriod(lst.First())
+        End If
+
         dtLoadCnte = Await ReadExistCNTE(Periodx, EmprNo, EmprSub)
 
         If dtLoadCnte.Rows.Count > 0 Then
@@ -79,12 +90,44 @@ Public Class ElectRemittanceDB2
             Await WebCache.UpdateContributionEmprByPeriod(EmprNo, EmprSub, Periodx)
 
 
-            Catch ex As iDB2Exception
+        Catch ex As iDB2Exception
             Throw ex
         End Try
 
 
     End Function
+
+
+    'delete cnte for SEP if the same period is comming in the remittances.
+
+    Async Function DeleteSEPPeriod(record As EmployeeContributionRecord) As Task
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                Dim totcontr As Integer = 0
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "Delete  from ""QS36F"".""" & As400_lib & ".CNTE"" 
+                                WHERE EREG06=@EREG06 
+                                AND RREG06=@RREG06 
+                                AND RRSF06 = 0
+                                AND (CCEN06 * 10000 + CONY06 * 100 + CPER06)=@Period",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@EREG06").iDB2Value = record.employeeNumber
+                cmd.Parameters("@RREG06").iDB2Value = record.employeeNumber
+                cmd.Parameters("@Period").iDB2Value = record.contributionPeriodYear * 100 + record.contributionPeriodMonth
+
+                Await cmd.ExecuteNonQueryAsync
+                cmd.Dispose()
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+    End Function
+
 
 #Region "EmploymentRecord"
     Async Function UpdEmnfile(EmpeCntr As EmployeeContributionRecord, EmprNo As String, EmprSub As String) As Task
@@ -686,7 +729,7 @@ Public Class ElectRemittanceDB2
                 cmdCNTE.Parameters("@CRD406").Value = 0.0
                 cmdCNTE.Parameters("@CRD506").Value = 0.0
                 cmdCNTE.Parameters("@CRD606").Value = 0.0
-                cmdCNTE.Parameters("@FILL06").Value = ""
+                cmdCNTE.Parameters("@FILL06").Value = If(SEP, "SEP", "")
 
                 Await cmdCNTE.ExecuteNonQueryAsync
                 cmdCNTE.Dispose()
@@ -1221,11 +1264,11 @@ Public Class ElectRemittanceDB2
                                 cmdup1.Parameters("@ECNB").Value = empe + ecnb2
                                 cmdup1.Parameters("@RCNB").Value = empr + rcnb3
 
-                                cmdup1.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, if(EmpeCntr.week1.amount IsNot Nothing,EmpeCntr.week1.amount,0.00))
-                                cmdup1.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00,if(EmpeCntr.week2.amount IsNot Nothing,EmpeCntr.week2.amount,0.00))
-                                cmdup1.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, if(EmpeCntr.week3.amount IsNot Nothing,EmpeCntr.week3.amount,0.00))
-                                cmdup1.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, if(EmpeCntr.week4.amount IsNot Nothing,EmpeCntr.week4.amount,0.00))
-                                cmdup1.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, if(EmpeCntr.week5.amount IsNot Nothing,EmpeCntr.week5.amount,0.00))
+                                cmdup1.Parameters("@ERN1").Value = If(EmpeCntr.week1.hasWorked = False, 0.00, If(EmpeCntr.week1.amount IsNot Nothing, EmpeCntr.week1.amount, 0.00))
+                                cmdup1.Parameters("@ERN2").Value = If(EmpeCntr.week2.hasWorked = False, 0.00, If(EmpeCntr.week2.amount IsNot Nothing, EmpeCntr.week2.amount, 0.00))
+                                cmdup1.Parameters("@ERN3").Value = If(EmpeCntr.week3.hasWorked = False, 0.00, If(EmpeCntr.week3.amount IsNot Nothing, EmpeCntr.week3.amount, 0.00))
+                                cmdup1.Parameters("@ERN4").Value = If(EmpeCntr.week4.hasWorked = False, 0.00, If(EmpeCntr.week4.amount IsNot Nothing, EmpeCntr.week4.amount, 0.00))
+                                cmdup1.Parameters("@ERN5").Value = If(EmpeCntr.week5.hasWorked = False, 0.00, If(EmpeCntr.week5.amount IsNot Nothing, EmpeCntr.week5.amount, 0.00))
                                 'week
                                 cmdup1.Parameters("@CT#106").Value = If(EmpeCntr.week1.hasWorked = False, " ", "P")
                                 cmdup1.Parameters("@CT#206").Value = If(EmpeCntr.week2.hasWorked = False, " ", "P")
@@ -1245,7 +1288,6 @@ Public Class ElectRemittanceDB2
                                 Posted = True
                             End If
                         End If
-
                     Next
                 Else
                     'insert cnte

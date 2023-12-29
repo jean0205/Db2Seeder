@@ -311,6 +311,15 @@ namespace Db2Seeder
                 working = false;
             }
         }
+        private async void button25_Click(object sender, EventArgs e)
+        {
+
+            if (!working)
+            {
+                await GetRemittanceSEPPendingReview();
+                working = false;
+            }
+        }
 
         #endregion
 
@@ -823,6 +832,88 @@ namespace Db2Seeder
 
 
                                         var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 7);
+
+                                        if (responseA.IsSuccess)
+                                        {
+                                            AddTreeViewLogLevel1("WorkFlow updated to DB2 Posted", true);
+                                        }
+                                        else
+                                        {
+                                            AddTreeViewLogLevel1("Error updating WorkFlow to DB2 Posted. " + responseA.Message, false);
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Crashes.TrackError(ex);
+                                        AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                        await LogsHelper.SaveErrorLOG(ex.Message, request, document.remittanceFormId, DateTime.Now);
+                                    }
+                                }
+                                else
+                                {
+                                    AddTreeViewLogLevel1("Error Getting Remittance Details.", false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Crashes.TrackError(ex);
+                                AddTreeViewLogLevel2("Error " + ex.Message, false);
+                                await LogsHelper.SaveErrorLOG(ex.Message, request, null, DateTime.Now);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddTreeViewLogLevel1Info("No Pending Remittance were Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    AddTreeViewLogLevel1("Error " + ex.Message, false);
+                    await LogsHelper.SaveErrorLOG(ex.Message, null, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+        private async Task GetRemittanceSEPPendingReview()
+        {
+            try
+            {
+                AddTreeViewLogLevel0("Electronic Remittance SEP");
+                AddTreeViewLogLevel1Info("Getting Electronic Remittance SEP");
+                try
+                {
+                    var requests = await Remittance.GetRemittancePendingSEP();
+                    if (requests.Any())
+                    {
+                        AddTreeViewLogLevel1(requests.Count + " Remittance Pending Found", true);
+                        foreach (var request in requests)
+                        {
+                            PlayExclamation();
+                            if (cancelRequest) return;
+                            AddTreeViewLogLevel1Info("Getting Remittance Pending Details");
+                            try
+                            {
+                                var document = await Remittance.RemittanceDetail(request);
+                                if (document != null)
+                                {
+                                    AddTreeViewLogLevel1("Remittance details successfully loaded", true);
+                                    try
+                                    {
+
+                                        AddTreeViewLogLevel2Info("Posting Remittance to As400.");
+                                        await Remittance.PostRemittanceToAs400(request, document);
+                                        AddTreeViewLogLevel2("Remittance Succesfully Posted.", true);
+
+                                        //agregar el mensage cuando me den el text.
+                                        // await CreateCommentToPost(request.supportRequestId, 3, "this is a test.");
+
+
+                                        var responseA = await EmployerRegistration.UpdateWorkFlowStateEmployee(3, request.supportRequestId, 2340);
 
                                         if (responseA.IsSuccess)
                                         {
