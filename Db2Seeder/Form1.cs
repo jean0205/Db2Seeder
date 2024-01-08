@@ -1016,14 +1016,14 @@ namespace Db2Seeder
                                     try
                                     {
                                         AddTreeViewLogLevel2Info("Saving Employee Documents.");
-                                        int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, document);
+                                        //int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, document);
 
                                         // //posting in testing
                                         //as400AgeBenefit.As400_lib = "TT";                                           
                                         //await as400AgeBenefit.InsertAgePension(document);
-                                       // int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                        int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
-                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
+                                        AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
                                     }
                                     catch (Exception ex)
                                     {
