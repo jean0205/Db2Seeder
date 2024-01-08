@@ -14,8 +14,6 @@ using ShareModels.Models;
 using ShareModels.Models.Benefit_Claims;
 using ShareModels.Models.Sickness_Claim;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -145,12 +143,12 @@ namespace Db2Seeder
                 await EmployeeRegistrationRequest();
                 working = false;
 
-                
+
 
             }
         }
 
-       
+
         private async void button2_Click(object sender, EventArgs e)
         {
             if (!working)
@@ -297,9 +295,9 @@ namespace Db2Seeder
 
                 working = false;
             }
-            
 
-            
+
+
 
         }
         private async void button23_Click(object sender, EventArgs e)
@@ -990,7 +988,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    as400AgeBenefit.As400_lib = "NI";
+                                    //as400AgeBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document);
 
 
@@ -1018,15 +1016,14 @@ namespace Db2Seeder
                                     try
                                     {
                                         AddTreeViewLogLevel2Info("Saving Employee Documents.");
-                                        int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, document);
-                                        AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
-
-
+                                        //int savedAtt = await AgeBenefit.RequestAttachmentToScannedDocuments(request, document);
 
                                         // //posting in testing
-                                        as400AgeBenefit.As400_lib = "TT";                                           
-                                        await as400AgeBenefit.InsertAgePension(document);
+                                        //as400AgeBenefit.As400_lib = "TT";                                           
+                                        //await as400AgeBenefit.InsertAgePension(document);
                                         int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+
+                                        AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
                                     }
                                     catch (Exception ex)
                                     {
@@ -1179,7 +1176,7 @@ namespace Db2Seeder
                             try
                             {
                                 document = await FuneralBenefit.ClaimDetail(request);
-                                if (document != null )
+                                if (document != null)
                                 {
                                     if (string.IsNullOrEmpty(document.ClaimantNisNo))
                                     {
@@ -1367,7 +1364,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
 
-                                   // as400sicknessBenefit.As400_lib = "NI";
+                                    // as400sicknessBenefit.As400_lib = "NI";
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSickness(document, null);
                                     if (document.ClaimNumber == 0)
                                     {
@@ -1392,10 +1389,10 @@ namespace Db2Seeder
 
                                             int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocuments(request, document);
 
-                                           // //posting in testing
-                                           //  as400sicknessBenefit.As400_lib = "TT";                                           
-                                           //await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
-                                           // int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                            // //posting in testing
+                                            //  as400sicknessBenefit.As400_lib = "TT";                                           
+                                            //await as400sicknessBenefit.InsertSickness(document, document.ClaimNumber);
+                                            // int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
                                         }
@@ -1465,7 +1462,7 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded SEP", true);
 
-                                  
+
                                     document.ClaimNumber = await as400sicknessBenefit.InsertSicknessSEP(document, null);
                                     if (document.ClaimNumber == 0)
                                     {
@@ -1487,7 +1484,7 @@ namespace Db2Seeder
                                         try
                                         {
                                             AddTreeViewLogLevel2Info("Saving  Documents.");
-                                            
+
                                             int savedAt = await SicknessBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                             AddTreeViewLogLevel2(savedAt + " Document(s) Succesfully Saved.", true);
@@ -1753,13 +1750,13 @@ namespace Db2Seeder
                                     {
                                         SEP = await webPortalSQLDB.IsSelfEmployedPerson(document.NisNo.ToString());
                                     }
-                                    if (request.supportRequestTypeId==10 && document.Gender==2)
+                                    if (request.supportRequestTypeId == 10 && document.Gender == 2)
                                     {
                                         document.BenefitApply = "Grant & Allowance";
                                     }
                                     else
                                     {
-                                           document.BenefitApply ="Maternity Grant";
+                                        document.BenefitApply = "Maternity Grant";
                                     }
                                     document.ClaimNumber = await as400maternityBenefit.InsertMaternity(document, SEP);
                                     if (document.ClaimNumber == 0)
@@ -1869,8 +1866,8 @@ namespace Db2Seeder
                                     else
                                     {
                                         AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
-                                        
-                                        var responseA = await MaternityBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 1366); 
+
+                                        var responseA = await MaternityBenefit.UpdateWorkFlowStateSEP(3, request.supportRequestId, 1366);
 
                                         if (responseA.IsSuccess)
                                         {
@@ -1952,7 +1949,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document,false);
+                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document, false);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -2040,7 +2037,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document,true);
+                                    document.ClaimNumber = await as400EmploymentInjurBenefit.InsertEmpInjuryBenefit(document, true);
                                     if (document.ClaimNumber == 0)
                                     {
                                         AddTreeViewLogLevel1("Error inserting claim to the  DB2 database.", false);
@@ -3012,7 +3009,7 @@ namespace Db2Seeder
                 AddTreeViewLogLevel1Info("Getting Age Benefit Claims Completed");
                 try
                 {
-                    var requests = await AgeBenefit.GetPensionToTesting(6,16);
+                    var requests = await AgeBenefit.GetPensionToTesting(6, 124);
                     if (requests.Any())
                     {
                         AddTreeViewLogLevel1(requests.Count + " Claims Completed Found", true);
@@ -3028,7 +3025,7 @@ namespace Db2Seeder
                                 if (document != null)
                                 {
                                     AddTreeViewLogLevel1("Claim details successfully loaded", true);
-                                   
+
                                     document.ClaimNumber = await as400AgeBenefit.InsertAgePension(document);
 
 
@@ -3038,7 +3035,7 @@ namespace Db2Seeder
                                     }
                                     else
                                     {
-                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);                                       
+                                        AddTreeViewLogLevel1("Claim with number: " + document.ClaimNumber + " successfully saved to the DB2 database.", true);
                                     }
                                     //comentar si no se quieren salvar los documentos nuevamente
                                     try
@@ -3086,6 +3083,6 @@ namespace Db2Seeder
             }
         }
 
-       
+
     }
 }
