@@ -72,7 +72,7 @@ namespace Db2Seeder.Business
             {
                 string json = JsonConvert.SerializeObject(Document_Remittance);
                 var RemittanceCopy = JsonConvert.DeserializeObject<Document_Remittance>(json);
-                var periods = Document_Remittance.employeeContributionRecords.Select
+              var periods = Document_Remittance.employeeContributionRecords.Where(x=>x.contributionPeriodYear>0 && x.contributionPeriodMonth>0 && x.employeeNumber!= string.Empty).Select
                     (x => new { x.contributionPeriodYear, x.contributionPeriodMonth }).Distinct().ToList();
 
                 List<RequestHistory> requestHistory = new List<RequestHistory>();
@@ -82,7 +82,7 @@ namespace Db2Seeder.Business
                 {
                     //pasando un solo periodo a la vez
                     RemittanceCopy.employeeContributionRecords.Clear();
-                    RemittanceCopy.employeeContributionRecords = Document_Remittance.employeeContributionRecords.Where(x => x.contributionPeriodMonth == period.contributionPeriodMonth && x.contributionPeriodYear == period.contributionPeriodYear).ToList();
+                    RemittanceCopy.employeeContributionRecords = Document_Remittance.employeeContributionRecords.Where(x => x.contributionPeriodMonth == period.contributionPeriodMonth && x.contributionPeriodYear == period.contributionPeriodYear && x.employeeNumber!=string.Empty).ToList();
 
                     //copiando los earning para la ultima semana trabajada
                     foreach (var employee in RemittanceCopy.employeeContributionRecords.Where(x => x.frequency == "M"))
@@ -149,8 +149,8 @@ namespace Db2Seeder.Business
         }
         private async Task PostAS400(Document_Remittance Document_Remittance)
         {
-            //as400Remittance.As400_lib = "NI";
-            //await as400Remittance.PostRemittances(Document_Remittance);
+            as400Remittance.As400_lib = "NI";
+            await as400Remittance.PostRemittances(Document_Remittance);
             as400Remittance.As400_lib = "TT";
             await as400Remittance.PostRemittances(Document_Remittance);
         }
