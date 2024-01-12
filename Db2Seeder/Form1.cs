@@ -352,7 +352,7 @@ namespace Db2Seeder
                             {
                                 AddTreeViewLogLevel1("Employee details successfully loaded", true);
                                 document.EmployerNo = 0;
-                                if (document.registrationType == 1)
+                                if (document.registrationType == 0)
                                 {
                                     AddTreeViewLogLevel1("Posting Employee", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
