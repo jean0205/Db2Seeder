@@ -6,6 +6,7 @@ using Db2Seeder.Business;
 using Db2Seeder.Business.Benefit_Claims;
 using Db2Seeder.Controls;
 using Db2Seeder.NIS.SQL.Webportal.DataAccess;
+using Db2Seeder.SQL.Alphacard.DataAccess;
 using Db2Seeder.SQL.Logs.DataAccess;
 using Db2Seeder.SQL.Logs.Helpers;
 using Microsoft.AppCenter.Crashes;
@@ -43,6 +44,8 @@ namespace Db2Seeder
         readonly UnemploymentSEPBenefitDB2 as400UnemploymentSEPBenefit = new UnemploymentSEPBenefitDB2();
         readonly ElectRemittanceDB2 as400remittances = new ElectRemittanceDB2();
         readonly WebPortalSQLDB webPortalSQLDB = new WebPortalSQLDB();
+
+        AlphacardDB alphacardDB = new AlphacardDB();
 
 
         bool working = false;
@@ -353,6 +356,8 @@ namespace Db2Seeder
                                 {
                                     AddTreeViewLogLevel1("Posting Employee", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
+                                    //insert nixpert
+                                    await alphacardDB.InsertXportrecord(document, document.nisNo.ToString());
 
                                     if (document.nisNo != 0)
                                     {
@@ -363,10 +368,14 @@ namespace Db2Seeder
                                 }
                                 if (document.registrationType == 2)
                                 {
-                                    if (document.nisNo == null)
+                                    if (document.nisNo == 0)
                                     {
                                         AddTreeViewLogLevel1("Posting Self-Employee (Employee)", true);
                                         document.nisNo = await as400Empe.InsertEmployees(document);
+
+                                        //insert nixpert
+                                        await alphacardDB.InsertXportrecord(document, document.nisNo.ToString());
+
                                         if (document.nisNo != 0)
                                         {
                                             await MappAndAssingEmployeeRol(request, document);
