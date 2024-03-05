@@ -1,5 +1,6 @@
 ﻿Imports IBM.Data.DB2.iSeries
 Imports ShareModels.Models.Benefit_Claims
+Imports ShareModels.Models.Sickness_Claim
 Public Class AgePensionDB2
     Dim cn = DB2ConnectionS.as400
     Public As400_lib = DB2ConnectionS.As400_lib
@@ -217,11 +218,51 @@ Public Class AgePensionDB2
                 Await cmd.ExecuteNonQueryAsync()
                 cmd.Dispose()
 
+                If Agepension.bank = Nothing Or Agepension.accountNo = Nothing Or Agepension.accountType Is Nothing Then
+                Else
+                    Await InsertBankInformationEmpe(Agepension, Clmn)
+                End If
+
             End Using
         Catch ex As iDB2Exception
             Throw ex
         End Try
     End Function
 
+    Async Function InsertBankInformationEmpe(agePension As Document_AgeBenefit, Clmn As String) As Task
+
+        Try
+            Using connection As New iDB2Connection(cn)
+                connection.Open()
+                'insert in ni.xport for datacard
+                Dim cmd As New iDB2Command() With {
+                .CommandText = "INSERT INTO ""QS36F"".""" & As400_lib & ".ACCTYPE"" 
+                                                 (ACTV, EMPE, CLMN, BANK, ACCN, ACCTYP)
+                                          VALUES (@ACTV, @EMPE, @CLMN, @BANK, @ACCN, @ACCTYP)",
+                .Connection = connection,
+                .CommandTimeout = 0
+                }
+
+                cmd.DeriveParameters()
+                cmd.Parameters("@ACTV").Value = "A"
+                cmd.Parameters("@EMPE").Value = agePension.nisNo
+                cmd.Parameters("@CLMN").Value = Clmn
+                cmd.Parameters("@BANK").Value = agePension.bank
+                cmd.Parameters("@ACCN").Value = agePension.accountNo
+                If agePension.accountType = 1 Then
+                    cmd.Parameters("@ACCTYP").Value = "SAV"
+                Else
+                    cmd.Parameters("@ACCTYP").Value = "DDA"
+                End If
+
+                Await cmd.ExecuteNonQueryAsync()
+                cmd.Dispose()
+
+            End Using
+        Catch ex As iDB2Exception
+            Throw ex
+        End Try
+
+    End Function
 
 End Class

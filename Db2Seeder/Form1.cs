@@ -352,7 +352,7 @@ namespace Db2Seeder
                             {
                                 AddTreeViewLogLevel1("Employee details successfully loaded", true);
                                 document.EmployerNo = 0;
-                                if (document.registrationType == 0)
+                                if (document.registrationType == 1)
                                 {
                                     AddTreeViewLogLevel1("Posting Employee", true);
                                     document.nisNo = await as400Empe.InsertEmployees(document);
@@ -1030,7 +1030,7 @@ namespace Db2Seeder
                                         // //posting in testing
                                         //as400AgeBenefit.As400_lib = "TT";                                           
                                         //await as400AgeBenefit.InsertAgePension(document);
-                                       // int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
+                                       //int savedAt = await AgeBenefit.RequestAttachmentToScannedDocumentsTest(request, document);
 
                                         AddTreeViewLogLevel2(savedAtt + " Document(s) Succesfully Saved.", true);
                                     }

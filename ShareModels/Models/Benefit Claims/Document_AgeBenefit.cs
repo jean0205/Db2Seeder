@@ -29,7 +29,7 @@ namespace ShareModels.Models.Benefit_Claims
         public string bank { get; set; }
         public string accountNo { get; set; }
         public string accountName { get; set; }
-        public int accountType { get; set; }
+        public int? accountType { get; set; }
         public int? chkbxInvalidity { get; set; }
         public int? chkbxSurvivors { get; set; }
         public int? chkbxSickness { get; set; }
