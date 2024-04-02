@@ -44,6 +44,8 @@ namespace Db2Seeder.SQL.Alphacard.DataAccess
                 xport.Lastmod = Document_Employee.CompletedBy;
                 xport.Photo = string.Empty;
                 xport.Signature = string.Empty;
+                xport.PicUpdated = false;
+                xport.SigUpdated = false;
 
                 await InsertNixportAsync(xport);
                 return true;

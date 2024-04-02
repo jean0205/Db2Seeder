@@ -53,5 +53,7 @@ namespace Db2Seeder.SQL.Alphacard
         public byte[] Pic { get; set; }
         [Column("SIG")]
         public byte[] Sig { get; set; }
+        public bool? PicUpdated { get; set; }
+        public bool? SigUpdated { get; set; }
     }
 }
