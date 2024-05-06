@@ -45,7 +45,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     Document_AgeBenefit.SupportRequestId = Request.supportRequestId;
 
                     
-                    Document_AgeBenefit.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                    Document_AgeBenefit.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing.")).Last().dateModified.ToLocalTime();
 
 
                     return Document_AgeBenefit;

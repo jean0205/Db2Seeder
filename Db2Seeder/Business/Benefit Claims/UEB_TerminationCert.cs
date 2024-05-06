@@ -67,7 +67,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                         if (requestHistory.Any(x=>x.description.Contains("Pending Processing")))
                         {
                             //actualizar la fecha de creada a cuando esta lista 
-                            certificate.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                            certificate.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing.")).Last().dateModified.ToLocalTime();
                         }
                     }                 
 

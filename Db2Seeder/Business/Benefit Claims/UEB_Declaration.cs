@@ -53,7 +53,7 @@ namespace Db2Seeder.Business.Benefit_Claims
                     declaration.SupportRequestId = Request.supportRequestId;
 
                     //actualizar la fecha de creada a cuando esta lista 
-                    declaration.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                    declaration.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing.")).Last().dateModified.ToLocalTime();
 
                     return declaration;
                 }

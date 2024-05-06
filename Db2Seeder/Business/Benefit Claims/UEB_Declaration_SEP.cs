@@ -52,9 +52,9 @@ namespace Db2Seeder.Business
                         declaration.CompletedTime = requestHistory.Last().dateModifiedToLocalTime;
                         declaration.SupportRequestId = Request.supportRequestId;
 
-                        if (requestHistory.Any(x => x.description.Contains("Pending Processing")))
+                        if (requestHistory.Any(x => x.description.Contains("Pending Processing.")))
                         {
-                            declaration.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing")).Last().dateModified.ToLocalTime();
+                            declaration.createdOn = requestHistory.OrderBy(x => x.dateModified).Where(x => x.description.Contains("Pending Processing.")).Last().dateModified.ToLocalTime();
                         }
 
                             //actualizar la fecha de creada a cuando esta lista 
